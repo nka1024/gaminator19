@@ -9,6 +9,7 @@
 import { AssetsLoader } from "../AssetsLoader";
 import { PhaseDisplay } from "../board/PhaseDisplay";
 import { PlayerDisplay } from "../board/PlayerDisplay";
+import { CardDisplay } from "../board/CardDisplay";
 
 export class BoardScene extends Phaser.Scene {
 
@@ -66,6 +67,11 @@ export class BoardScene extends Phaser.Scene {
 
     let platforms = this.add.image(83, 100, "platforms");
     platforms.setOrigin(0, 0)
+
+    let card = new CardDisplay(this);
+    card.x = 328;
+    card.y = 145;
+    this.add.existing(card);
   
   }
 
