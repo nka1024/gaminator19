@@ -22,7 +22,7 @@ export class PlayerDisplay extends Phaser.GameObjects.Container {
     this.linkTxt.letterSpacing = -1
     this.add(this.linkTxt);
 
-    this.linkTxt = new Phaser.GameObjects.BitmapText(scene, 85, 10, 'coco-8-red', '52');
+    this.linkTxt = new Phaser.GameObjects.BitmapText(scene, 85, 10, 'coco-8-red', '15');
     this.linkTxt.letterSpacing = -1
     this.add(this.linkTxt);
   }

@@ -16,6 +16,9 @@ export class CardDisplay extends Phaser.GameObjects.Container {
   private heart: Phaser.GameObjects.Image;
   private sword: Phaser.GameObjects.Image;
 
+  private creature: Phaser.GameObjects.Image;
+  private cardMask: Phaser.GameObjects.Image;
+
   private linkTxt: Phaser.GameObjects.BitmapText;
   private atkTxt: Phaser.GameObjects.BitmapText;
   private hpTxt: Phaser.GameObjects.BitmapText;
@@ -44,6 +47,16 @@ export class CardDisplay extends Phaser.GameObjects.Container {
     this.hpTxt = new Phaser.GameObjects.BitmapText(scene, 12, 87, 'coco-8-red');
     this.hpTxt.letterSpacing = -1
     this.add(this.hpTxt);
+
+    this.creature = new Phaser.GameObjects.Image(scene, 0,0, 'creature_doogie')
+    this.cardMask = new Phaser.GameObjects.Image(scene, 0,0, 'card_mask')
+    this.cardMask.setOrigin(0,0)
+    this.creature.setOrigin(0.5,0)
+    this.creature.x = 9
+    this.creature.y = 22
+    this.cardMask.visible = false;
+    this.creature.mask = new Phaser.Display.Masks.BitmapMask(scene, this.cardMask);
+    this.add(this.creature)
   }
   
   public populate(card: CardData):CardDisplay {
@@ -53,5 +66,16 @@ export class CardDisplay extends Phaser.GameObjects.Container {
     this.hpTxt.text = card.hp.toString();
     this.atkTxt.text = card.attack.toString();
     return this;
+  }
+
+  update() {
+    this.cardMask.x = this.x
+    this.cardMask.y = this.y
+    let parent = this.parentContainer
+    while(parent) {
+      this.cardMask.x += parent.x;
+      this.cardMask.y += parent.y;
+      parent = parent.parentContainer
+    }
   }
 }

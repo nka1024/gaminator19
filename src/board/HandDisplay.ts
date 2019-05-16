@@ -20,4 +20,10 @@ export class HandDisplay extends Phaser.GameObjects.Container {
     this.cards.push(card);
     this.add(card);
   }
+
+  update() {
+    for (let card of this.cards) {
+      card.update();
+    }
+  }
 }

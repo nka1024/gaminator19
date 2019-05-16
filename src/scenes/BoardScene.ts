@@ -15,6 +15,7 @@ import { HandDisplay } from "../board/HandDisplay";
 
 export class BoardScene extends Phaser.Scene {
 
+  private hand: HandDisplay;
   constructor() {
     super({
       key: "BoardScene"
@@ -73,16 +74,16 @@ export class BoardScene extends Phaser.Scene {
     let card1: CardData = {
       type: CardType.MODULE,
       name: 'Doogie',
-      attack: 2,
-      hp: 2,
+      attack: 1,
+      hp: 1,
       link: 1
     }
   
     let card2: CardData = {
       type: CardType.MODULE,
       name: 'Snuk-chak',
-      attack: 2,
-      hp: 2,
+      attack: 1,
+      hp: 1,
       link: 1
     }
 
@@ -92,11 +93,12 @@ export class BoardScene extends Phaser.Scene {
     hand.y = 144;
     hand.addCard(new CardDisplay(this).populate(card1))
     hand.addCard(new CardDisplay(this).populate(card2))
+    this.hand = hand;
 
   }
 
   update(): void {
-    
+    this.hand.update();
   }
 
  
