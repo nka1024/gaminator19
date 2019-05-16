@@ -1,0 +1,9 @@
+node_modules
+.vscode
+*.pem
+.DS_Store
+/build/*
+
+deploy-all.sh
+deploy-server.sh
+ssh.sh

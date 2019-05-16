@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+
+<html class="no-js">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1.0, width=device-width, maximum-scale=1.0" />
+  <title>Технокочевники</title>
+
+  <link href="/assets_html/css/webfont.css" rel="stylesheet" type="text/css" />
+  <link href="/assets_html/css/style.min.1.css" rel="stylesheet" type="text/css" />
+  <script src="./build/bundle.js"></script>
+</head>
+
+<body id="loginbody" class="en">
+  <canvas id="canvas_main" class="canvas_game_main" style="position: absolute; z-index: -100;"></canvas>
+
+  <div class="window_manager">
+  </div>
+
+  <div class="debug_panel_prefab" hidden=true>
+      <div id="container" class="menu_container lefted" hidden=false style="display: block; position: absolute; width: 64px; top: 0">
+        <section id="main" style="padding: 5px; border-radius: 3px">
+          <form action="./" method="post">
+            <div id="loginForm">
+              <h2 class="text_title" style="text-align: center;font-size: 10px;"></h2>
+              <h2 class="text_volume" style="text-align: center;font-size: 10px;"></h2>
+              <!-- <div class="units_list" style="vertical-align: middle; text-align: center"> -->
+            </div>
+          </form>
+        </section>
+      </div>
+    </div>
+
+    
+  <div class="resources_panel_prefab" hidden=true>
+    <div id="container" class="menu_container righted" hidden=false style="display: block; position: absolute; width: 64px; top: 0">
+      <section id="main" style="padding: 5px; border-radius: 3px">
+        <form action="./" method="post">
+          <div id="loginForm">
+            <h2 class="text_title" style="text-align: center;font-size: 10px;">Ресурсы</h2>
+            <h2 class="text_volume" style="text-align: center;font-size: 10px;">0</h2>
+            <!-- <div class="units_list" style="vertical-align: middle; text-align: center"> -->
+          </div>
+        </form>
+      </section>
+    </div>
+  </div>
+
+  <!-- UNITS FORM -->
+  <div class="units_panel_prefab" hidden="true">
+    <div id="container" class="menu_container" hidden=false style="display: block; position: absolute;  bottom: 0;width: 100%; height: 83px; text-align: center">
+      <div style="height: 100%; display: inline-block">
+        <section id="main" style="padding: 5px; border-radius: 3px">
+          <form action="./" method="post">
+            <div id="loginForm">
+              <div class="unit_types_list" style="vertical-align: middle; text-align: center; display: flex">
+
+                <!-- First unit type -->
+                <div class="unit_type_item" style="outline: none; font-size: 0px; position: relative">
+                  <!-- Squad icon -->
+                  <input class="unit_type_item_icon" style="border-radius: 3px; image-rendering: pixelated; width: 48px; height: 48px; background: url('/assets/infantry_1_icon.png') center center no-repeat rgb(184, 176, 33);  outline: none;"
+                    type="button" />
+
+                  <!-- Name -->
+                  <h2 class="unit_type_item_name" style="font-size: 10px">Infantry</h2>
+
+
+
+                  <!-- Quantity -->
+                  <div style="position: relative">
+                    <h2 class="unit_type_item_quantity" style="font-size: 10px; background-color: rgba(0,0,0,0.5); padding-left: 5px; position: absolute; right: 0px; top: -63px">99</h2>
+                  </div>
+
+                  <!-- Health -->
+                  <div style="height: 1px; margin: 0 auto;"></div>
+                  <div class="unit_type_item_health" style=" height: 4px; width: 48px; margin: 0 auto;">
+                    <div style="background-color: #a6e13f; height: 4px; width: 30px; left: 0px; border-radius: 1px"></div>
+                  </div>
+                  <!-- Stamina -->
+                  <div style="height: 1px; margin: 0 auto;"></div>
+                  <div class="unit_type_item_energy" style=" height: 4px; width: 48px; margin: 0 auto;">
+                    <div style="background-color: #ffbb02; height: 4px; width: 20px; left: 0px; border-radius: 1px"></div>
+                  </div>
+
+
+                </div>
+              </div>
+            </div>
+          </form>
+        </section>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- TARGETS FORM -->
+  <div class="target_list_panel_prefab" hidden=true>
+    <div id="container" class="menu_container righted" hidden=false style="display: block; position: absolute; width: 64px; top: 0">
+      <section id="main" style="padding: 5px; border-radius: 3px">
+        <form action="./" method="post">
+          <div id="loginForm">
+            <h2 class="text_status" style="text-align: center;font-size: 10px;">Targets</h2>
+            <div class="units_list" style="vertical-align: middle; text-align: center">
+
+              <!-- First unit squad -->
+              <div class="unit_item" style="border-radius: 0px; border: 2px solid white; margin-top: 0px; font-size: 0px">
+                <!-- Icon -->
+                <input class="unit_item_icon" style="border-radius: 0px; image-rendering: pixelated; width: 48px; height: 48px; background: url(&quot;/assets/infantry_1_icon.png&quot;) center center no-repeat rgb(184, 176, 33); outline: none; margin-top: 1px;"
+                  type="button">
+                <!-- Quantity -->
+                <div style="position: relative">
+                  <h2 class="unit_item_quantity" style="font-size: 10px; background-color: rgba(0,0,0,0.5); padding-left: 5px; position: absolute; right: 1px; top: -48px">99</h2>
+                </div>
+                <!-- Health -->
+                <div style="height: 1px; margin: 0 auto;"></div>
+                <div class="unit_item_health" style=" height: 4px; width: 48px; margin: 0 auto;">
+                  <div style="background-color: #a6e13f; height: 4px; width: 30px; left: 0px; border-radius: 1px"></div>
+                </div>
+                <!-- Name -->
+                <h2 style="font-size: 10px">Rogues</h2>
+              </div>
+
+              <!-- Separator -->
+              <div style="height: 5px; margin: 0 auto;"></div>
+
+              <div style="border-radius: 3px; outline: none; font-size: 0px">
+                <input style="border-radius: 0px; image-rendering: pixelated; width: 48px; height: 48px; background: url('/assets/infantry_2_icon.png') center center no-repeat rgb(184, 176, 33);  outline: none;"
+                  type="button" />
+                <div style="height: 1px; margin: 0 auto;"></div>
+                <div style="background-color: #a6e13f; height: 4px; width: 48px; margin: 0 auto;"></div>
+                <h2 style="font-size: 10px">120k</h2>
+              </div>
+
+            </div>
+          </div>
+        </form>
+      </section>
+    </div>
+  </div>
+
+
+  <!-- ZOOM FORM -->
+  <div class="zoom_panel_prefab" hidden=true>
+    <div id="container" class="zoom_container lefted" hidden=false style="display: block; position: absolute; width: 70px; margin-top: 0px">
+      <section id="main" style="padding: 0px; padding-bottom: 5px">
+        <div id="loginForm">
+          <form action="./" method="post">
+            <h2 class="text_status" style="text-align: center;">Zoom</h2>
+            <div class="submit" style="text-align: center">
+              <input class="btn btn-blue zoom_out_button" style="height: 30px; width: 30px; padding: 0px; font-size: 16px;"
+                type="button" value="-" />
+              <input class="btn btn-blue zoom_in_button" style="height: 30px; width: 30px; padding: 0px; font-size: 16px;"
+                type="button" value="+" />
+            </div>
+            </fieldset>
+        </div>
+        </form>
+      </section>
+      <footer>
+      </footer>
+    </div>
+  </div>
+
+
+  <!-- CONTEXT OBJECT FORM -->
+  <div class="context_object_popup_prefab" hidden=true>
+    <div id="container" class="context_object_container lefted" hidden=false style="display: block; position: absolute; width: 100%; ">
+      <section id="main" class="button_container" style="border-radius:3px; padding: 0px; margin: 0px; vertical-align: middle; ">
+        <div id="loginForm" class="submit" style="text-align: center; padding:0px; display: flex">
+          <input class="btn btn-blue recon_button" style="margin: 5px; height: 30px; padding: 0px; padding-left:10px; padding-right:10px; font-size: 12px; vertical-align: middle;"
+            type="button" value="Recon" />
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- OBJECTS FORM -->
+  <div class="objects_list_window_prefab" hidden=true>
+    <div id="container" class="objects_container lefted" hidden=false style="display: block; position: absolute; width: 800px; left: 100px; ">
+      <section id="main" style="padding: 00px; margin: 0px; vertical-align: middle;">
+        <div id="loginForm" class="submit" style="text-align: left">
+          <input class="btn btn-blue trees_button" style="margin-left: 5px; margin-top: 5px; width: 50px;  font-size: 10px; vertical-align: middle; padding: 5px"
+            id="treesButton" type="button" value="Trees" />
+          <input class="btn btn-blue rocks_button" style="margin-left: 5px; margin-top: 5px; width: 50px;  font-size: 10px; vertical-align: middle; padding: 5px"
+            id="rocksButton" type="button" value="Rocks" />
+          <input class="btn btn-blue houses_button" style="margin-left: 5px; margin-top: 5px; width: 60px;  font-size: 10px; vertical-align: middle; padding: 5px"
+            id="housesButton" type="button" value="Houses" />
+        </div>
+      </section>
+      <section id="main" style="padding: 10px; padding-left:5px; vertical-align: middle ">
+        <div id="loginForm">
+          <div class="obj_list" style="vertical-align: middle">
+          </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- TOOLS FORM -->
+  <div class="tools_panel_prefab" hidden=true>
+    <div id="container" class="tools_container lefted" hidden=false style="display: block; position: absolute; width: 100px; margin-top: 283px">
+      <section id="main" style="padding: 5px;">
+        <div id="loginForm">
+          <form action="./" method="post">
+            <h2 class="text_cordinates" style="text-align: center;">0:0</h2>
+            <h2 class="text_status" style="text-align: center;">0:0 free</h2>
+            <div class="submit" style="text-align: center">
+              <input class="btn btn-blue objects_button" style="height: 30px; width: 40px; padding: 5px; font-size: 10px;"
+                type="button" value="Er" />
+              <input class="btn btn-blue objects_button" style="height: 30px; width: 40px; padding: 5px; font-size: 10px;"
+                type="button" value="Mv" />
+            </div>
+            <div class="submit" style="text-align: center">
+              <input class="btn btn-blue objects_button" style="height: 30px; width: 40px; padding: 5px; font-size: 10px;"
+                type="button" value="O" />
+              <input class="btn btn-blue objects_button" style="height: 30px; width: 40px; padding: 5px; font-size: 10px;"
+                type="button" value="A" />
+            </div>
+            <div class="submit" style="text-align: center">
+              <input class="btn btn-blue play_button" style="height: 30px; padding: 5px; font-size: 10px;" type="button"
+                value="Play" />
+            </div>
+            </fieldset>
+        </div>
+        </form>
+      </section>
+      <footer>
+      </footer>
+    </div>
+  </div>
+
+  <!-- MENU FORM -->
+  <div class="menu_panel_prefab" hidden=true>
+    <div id="container" class="menu_container lefted" hidden=false style="display: block; position: absolute; width: 100px;">
+      <section id="main" style="padding: 5px;">
+        <div id="loginForm">
+          <form action="./" method="post">
+            <div class="submit">
+              <input class="btn btn-blue terrain_button" id="terrainButton" type="button" value="LAND" />
+            </div>
+            <div class="submit">
+              <input class="btn btn-blue objects_button" id="objectsButton" type="button" value="OBJECTS" />
+            </div>
+            <div class="submit">
+              <input class="btn btn-blue grid_button" id="gridButton" type="button" value="GRID" />
+            </div>
+            <div class="submit">
+              <input class="btn btn-blue export_button" id="exportButton" type="button" value="EXPORT" />
+            </div>
+            </fieldset>
+        </div>
+        </form>
+      </section>
+      <footer>
+      </footer>
+    </div>
+  </div>
+
+  <!-- EXPORT FORM -->
+  <div class="export_window_prefab" hidden=true>
+    <div id="container" class="export_container centered" hidden=false style="display: block; position: absolute;">
+      <header>
+        <br><br>
+      </header>
+      <section id="main">
+        <div id="loginForm">
+          <h1 class="text_title"></h1>
+          <form action="./" method="post">
+            <input name="__RequestVerificationToken" type="hidden" value="" />
+            <div id="PasswordHidden" style="display: none;">
+            </div>
+            <div class="input" style="text-align:center">
+              <textarea id="wmd-input" class="data_input" style="width:98%; height:100px; padding:5px; color:#000" cols=10
+                rows=10 name="post-text"></textarea>
+            </div>
+
+            <div class="submit" style="text-align:center">
+              <input class="btn btn-blue export_button" id="exportButton" type="button" value="EXPORT" style="width:30%" />
+              <input class="btn btn-blue import_button" id="importButton" type="button" value="IMPORT" style="width:30%" />
+              <input class="btn btn-blue cancel_button" id="cancelButton" type="button" value="CANCEL" style="width:30%" />
+            </div>
+        </div>
+        </form>
+
+      </section>
+      <footer>
+      </footer>
+    </div>
+  </div>
+
+  <!-- MENU_WINDOW prefab-->
+  <div class="menu_window_prefab" hidden=true>
+      <div id="container" class="empty_container " style="
+        position: relative;
+          background-color: #151615e0; 
+          display: block;
+          width: 100%;
+          height: 100%;
+          margin: 0;
+          left: 0;
+          right: 0;
+          ">
+  
+        <div id="container" class="empty_container2 centered" style="
+          position: absolute;
+          margin: auto; 
+          overflow: auto; 
+          width: 320px; 
+          display: inline-table;
+          top:0; left: 0; right: 0; bottom: 0;">
+          <section id="main" style="padding: 10px; background-color: rgba(0, 0, 0, 0.79); border-radius: 4px">
+            <div id="loginForm" class="obj_list">
+                
+                <div class="submit" >
+                    <input class="btn btn-blue fullscreen_button" id="submitButton" type="button" value="Полный экран" >
+                </div>
+  
+                <div class="submit">
+                    <input class="btn btn-blue window_button" id="submitButton" type="button" value="В окне" >
+                </div>
+
+                <br><br>
+                <div class="submit" >
+                    <input class="btn btn-blue camera_button" id="submitButton" type="button" value="Сбросить камеру" >
+                </div>
+                <div class="submit" >
+                    <input class="btn btn-blue restart_button" id="submitButton" type="button" value="Начать заново" >
+                </div>
+                <div class="submit" >
+                    <input class="btn btn-blue exit_button" id="submitButton" type="button" value="Покинуть игру">
+                </div>
+
+            </div>
+            </form>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    
+
+  <!-- DIALOG_WINDOW prefab-->
+  <div class="dialog_window_prefab" hidden=true>
+      <div id="container" class="empty_container " style="
+          position: relative;
+          background-color: #151615e0; 
+          display: block;
+          width: 100%;
+          height: 100%;
+          margin: 0;
+          left: 0;
+          right: 0;
+          ">
+  
+        <div id="container" class="empty_container2 centered" style="
+          position: absolute;
+          margin: auto; 
+          overflow: auto; 
+          width: 320px; 
+          display: inline-table;
+          top:0; left: 0; right: 0; bottom: 0;">
+          <section id="main" style="padding: 10px; background-color: rgba(0, 0, 0, 0.79); border-radius: 4px">
+              <div style="float: left;">
+                  <input class="message_image" style="border-radius: 3px; image-rendering: pixelated; zoom: 0.5; width: 136px; height: 124px;  outline: none; border-width: 0px; border-style: none; border-color: white;
+                  background: url('/assets/portrait_migi.png') center center no-repeat rgb(49, 51, 53)" type="button">
+              </div>
+  
+            <div id="loginForm" class="obj_list" style="overflow: hidden; padding-left: 10px; ">
+              
+              <h2 class="text_title" style="text-align: left; font-family: Sans-Serif"></h1>
+              <h2 class="text_message" style="
+              text-align: left;
+              font-family: Sans-Serif;
+              font-size: smaller;
+              font-weight: lighter;
+              padding-bottom: 28px"></h2>
+              <br />
+              <div class="submit" style="bottom: 12px; width: 120px; right: 12px; position: absolute;">
+                <input class="btn btn-blue submit_button0" id="submitButton" type="button" value="Далее" style="padding: 5px;">
+              </div>
+  
+            </div>
+            </form>
+          </section>
+        </div>
+      </div>
+    </div>
+
+  <!-- MESSAGE_WINDOW prefab-->
+  <div class="message_window_prefab" hidden=true>
+    <div id="container" class="empty_container " style="
+      position: relative;
+        background-color: #151615e0; 
+        display: block;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        left: 0;
+        right: 0;
+        ">
+
+      <div id="container" class="empty_container2 centered" style="
+        position: absolute;
+        margin: auto; 
+        overflow: auto; 
+        width: 320px; 
+        display: inline-table;
+        top:0; left: 0; right: 0; bottom: 0;">
+        <section id="main" style="padding: 10px; background-color: rgba(0, 0, 0, 0.79); border-radius: 4px">
+          <div id="loginForm" class="obj_list">
+            <input class="message_image" style="border-radius: 3px; image-rendering: pixelated; width: 300px; height: 200px;  outline: none; border-width: 0px; border-style: none; border-color: white;"
+              type="button">
+
+              <h2 class="text_title" style="text-align: left; font-family: Sans-Serif; padding-top: 10px;
+              padding-bottom: 10px;"></h2>
+                <div id="message_full_text" class="text_message" style="
+                text-align: left;
+                font-family: Sans-Serif;
+                font-size: 10px;
+                font-weight: lighter;
+                padding-bottom: 10px"></div>
+
+          </div>
+          </form>
+        </section>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- OK_POPUP prefab-->
+  <div class="ok_popup_prefab" hidden=true>
+    <div id="container" class="empty_container centered" style="position: absolute; top: 150px;">
+      <section id="main">
+        <div id="loginForm">
+          <h1 class="text_title" style="text-align: center;"></h1>
+          <h2 class="text_message" style="text-align: center;"></h2>
+          <br />
+          <form>
+            <div class="submit">
+              <input class="btn btn-blue submit_button" id="submitButton" type="button" value="OK" />
+            </div>
+            </fieldset>
+        </div>
+        </form>
+      </section>
+    </div>
+  </div>
+</body>
+
+</html>
