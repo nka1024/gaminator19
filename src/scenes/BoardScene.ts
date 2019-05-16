@@ -7,6 +7,7 @@
 
 
 import { AssetsLoader } from "../AssetsLoader";
+import { PhaseDisplay } from "../board/TurnInfo";
 
 export class BoardScene extends Phaser.Scene {
 
@@ -43,10 +44,21 @@ export class BoardScene extends Phaser.Scene {
 
     this.add.image(0, 0, "battle_bg").setOrigin(0,0);;
     
-
+    this.addObjects()
     this.game.scale.on('resize', (size: Phaser.GameObjects.Components.Size) => this.onWindowResize(size.width, size.height));
     this.onWindowResize(window.innerWidth, window.innerHeight);
 
+  }
+
+  private addObjects() {
+    let phaseInfo = new PhaseDisplay(this)
+    phaseInfo.x = 60;
+    phaseInfo.y = 254;
+    this.add.existing(phaseInfo);
+
+    let instructions = this.add.image(136,284, "instructions");
+    instructions.setOrigin(0,0)
+  
   }
 
   update(): void {
