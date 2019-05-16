@@ -27,9 +27,9 @@ export enum CardEffectType  {
 
 export type CardData = {
   type: CardType
-  effect: CardEffectType
+  effect?: CardEffectType
   name: string
-  attack: number
-  hp: number
+  attack?: number
+  hp?: number
   link: number
 }

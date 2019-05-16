@@ -33,24 +33,25 @@ export class CardDisplay extends Phaser.GameObjects.Container {
       this.add(img);
     }
 
-    this.linkTxt = new Phaser.GameObjects.BitmapText(scene, 12, 5, 'coco-8-yellow', '2');
+    this.linkTxt = new Phaser.GameObjects.BitmapText(scene, 12, 5, 'coco-8-yellow');
     this.linkTxt.letterSpacing = -1
     this.add(this.linkTxt);
 
-    this.atkTxt = new Phaser.GameObjects.BitmapText(scene, 12, 70, 'coco-8-white', '4');
+    this.atkTxt = new Phaser.GameObjects.BitmapText(scene, 12, 70, 'coco-8-white');
     this.atkTxt.letterSpacing = -1
     this.add(this.atkTxt);
 
-    this.hpTxt = new Phaser.GameObjects.BitmapText(scene, 12, 87, 'coco-8-red', '2');
+    this.hpTxt = new Phaser.GameObjects.BitmapText(scene, 12, 87, 'coco-8-red');
     this.hpTxt.letterSpacing = -1
     this.add(this.hpTxt);
   }
   
-  public populate(card: CardData) {
+  public populate(card: CardData):CardDisplay {
     this.card = card;
 
     this.linkTxt.text = card.link.toString();
     this.hpTxt.text = card.hp.toString();
     this.atkTxt.text = card.attack.toString();
+    return this;
   }
 }

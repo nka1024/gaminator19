@@ -10,6 +10,8 @@ import { AssetsLoader } from "../AssetsLoader";
 import { PhaseDisplay } from "../board/PhaseDisplay";
 import { PlayerDisplay } from "../board/PlayerDisplay";
 import { CardDisplay } from "../board/CardDisplay";
+import { CardData, CardType, CardEffectType } from "../types/Types";
+import { HandDisplay } from "../board/HandDisplay";
 
 export class BoardScene extends Phaser.Scene {
 
@@ -68,11 +70,29 @@ export class BoardScene extends Phaser.Scene {
     let platforms = this.add.image(83, 100, "platforms");
     platforms.setOrigin(0, 0)
 
-    let card = new CardDisplay(this);
-    card.x = 328;
-    card.y = 145;
-    this.add.existing(card);
+    let card1: CardData = {
+      type: CardType.MODULE,
+      name: 'Doogie',
+      attack: 2,
+      hp: 2,
+      link: 1
+    }
   
+    let card2: CardData = {
+      type: CardType.MODULE,
+      name: 'Snuk-chak',
+      attack: 2,
+      hp: 2,
+      link: 1
+    }
+
+    let hand = new HandDisplay(this);
+    this.add.existing(hand);
+    hand.x = 328;
+    hand.y = 144;
+    hand.addCard(new CardDisplay(this).populate(card1))
+    hand.addCard(new CardDisplay(this).populate(card2))
+
   }
 
   update(): void {
