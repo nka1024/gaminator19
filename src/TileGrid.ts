@@ -1,16 +1,13 @@
 /**
 * @author       Kirill Nepomnyaschiy <nka1024e@gmail.com>
 * @copyright    nka1024
-* @description  nomads
+* @description  gaminator 19
 * @license      Apache 2.0
 */
 
 import { js as easystar } from "easystarjs";
 import { UI_DEPTH, CONST } from "./const/const";
 import { Point, Tile } from "./types/Position";
-import { BaseUnit } from "./actors/BaseUnit";
-import { SquadUnit } from "./actors/SquadUnit";
-import { UnitPerimeterModule } from "./modules/unit/UnitPerimeterModule";
 import { GameObjects } from "phaser";
 
 export declare type GrassData = {
@@ -26,8 +23,6 @@ export class TileGrid {
   private grid: Phaser.GameObjects.Image[];
   private tiles: Phaser.GameObjects.Image[][];
   private data: number[][];
-  private claims: BaseUnit[][][];
-  private dests: number[][];
   private fog: Phaser.GameObjects.Image[][];
   private grasses: any = {};
   public fogLayer: Phaser.Tilemaps.DynamicTilemapLayer;
@@ -38,20 +33,14 @@ export class TileGrid {
 
     this.data = [];
     this.tiles = [];
-    this.claims = [];
-    this.dests = [];
     this.fog = [];
     for (let i = 0; i < this.gridSize; i++) {
       this.data[i] = [];
       this.tiles[i] = [];
-      this.claims[i] = [];
-      this.dests[i] = [];
       this.fog[i] = [];
       for (let j = 0; j < this.gridSize; j++) {
         this.data[i][j] = 0;
         this.tiles[i][j] = null;
-        this.claims[i][j] = [];
-        this.dests[i][j] = 0;
         this.fog[i][j] = null;
       }
     }
@@ -119,7 +108,7 @@ export class TileGrid {
       }
     }
 
-    let config:TilemapConfig = {
+    let config:Phaser.Types.Tilemaps.TilemapConfig = {
       data: fog,
       tileWidth: 32,
       tileHeight: 32,
@@ -219,78 +208,13 @@ export class TileGrid {
 
   public isFree(tile: Tile): boolean {
     return this.legit(tile) &&
-      this.data[tile.i][tile.j] == 0 &&
-      this.claims[tile.i][tile.j].length == 0;
-  }
-
-  public isFreeDest(tile: Tile): boolean {
-    return this.legit(tile) && this.dests[tile.i][tile.j] == 0;
+      this.data[tile.i][tile.j] == 0 
   }
 
   public legit(tile: Tile): boolean {
     if (tile.i < 0 || tile.i >= this.data.length) return false;
     if (tile.j < 0 || tile.j >= this.data.length) return false;
     return true;
-  }
-
-  public claimDest(tile: Tile) {
-    this.dests[tile.i][tile.j] = 1;
-  }
-
-  public unclaimDest(tile: Tile) {
-    this.dests[tile.i][tile.j] = 0;
-  }
-
-  public claim(tile: Tile, unit: BaseUnit) {
-    let claims = this.claims[tile.i][tile.j];
-    if (!claims.includes(unit)) {
-      claims.push(unit);
-    }
-  }
-
-  public unclaim(tile: Tile, unit: BaseUnit) {
-    let claims = this.claims[tile.i][tile.j];
-    if (claims.includes(unit)) {
-      this.claims[tile.i][tile.j] = claims.filter((v,idx,arr) => {return v != unit});
-    }
-  }
-
-  public findClosestFreeTile(to: Tile, from: Tile): Tile {
-    let work = { i: 0, j: 0 }
-    let checkOrder = UnitPerimeterModule.spotCheckOrder(to, from);
-    for (let c of checkOrder) {
-      work.i = to.i + c.i;
-      work.j = to.j + c.j;
-
-      if (this.isFree(work) && this.isFreeDest(work)) {
-        return work;
-      }
-    }
-    return null;
-  }
-
-  public findClosestUnits(to: Tile, side: string, range: number): SquadUnit[] {
-    let result = [];
-    let work = { i: 0, j: 0 }
-    for (let radius = range; radius <= range; radius++) {
-      for (let i = -radius; i <= radius; i++) {
-        for (let j = -radius; j <= radius; j++) {
-          work.i = to.i + i;
-          work.j = to.j + j;
-          if (this.legit(work)) {
-            let claims = this.claims[work.i][work.j];
-            for (let unit of claims) {
-              let squad = unit as SquadUnit;
-              if (squad) {
-                if (squad.side == side)
-                  result.push(squad);
-              }
-            }
-          }
-        }
-      }
-    }
-    return result;
   }
 
   private createTile(tile: Tile, color: string, fog: boolean = false): Phaser.GameObjects.Image {

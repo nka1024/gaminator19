@@ -1,7 +1,7 @@
 /**
 * @author       Kirill Nepomnyaschiy <nka1024@gmail.com>
 * @copyright    nka1024
-* @description  nomads
+* @description  gaminator 19
 * @license      Apache 2.0
 */
 
@@ -10,29 +10,28 @@
 import "phaser";
 
 import { BootScene } from "./scenes/bootScene";
-import { EditorRootScene } from "./scenes/editorRootScene";
 import { GameplayRootScene } from "./scenes/GameplayRootScene";
-
+import { BoardScene } from "./scenes/BoardScene";
 
 var game = null;
 
 export class Game extends Phaser.Game {
-  constructor(config: GameConfig) {
+  constructor(config: Phaser.Types.Core.GameConfig) {
     super(config);
   }
 }
 
 window.onload = () => {
   var c = document.getElementById('canvas_main') as HTMLCanvasElement;
-  const config: GameConfig = {
+  const config: Phaser.Types.Core.GameConfig = {
     title: "nomads",
     url: "https://github.com/nka1024/subtile",
     version: "1.0",
     // type: Phaser.AUTO,
-    type: Phaser.CANVAS,
+    type: Phaser.WEBGL,
     // type: Phaser.WEBGL,
     parent: "game",
-    scene: [BootScene, EditorRootScene, GameplayRootScene],
+    scene: [new BootScene, new GameplayRootScene, new BoardScene],
     input: {
       keyboard: true,
       mouse: true,
@@ -85,6 +84,5 @@ function resize(width, height) {
   let evenW = Phaser.Math.FloorTo(width/2)*2;
   let evenH = Phaser.Math.FloorTo(height/2)*2;
   console.log("resize " + width + ' ' + height);
-  console.log("resize even " + evenW + ' ' + evenH);
-  game.resize(evenW, evenH);
+  game.scale.resize(evenW, evenH);
 }

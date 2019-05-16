@@ -1,7 +1,7 @@
 /**
 * @author       Kirill Nepomnyaschiy <nka1024@gmail.com>
 * @copyright    nka1024
-* @description  nomads
+* @description  gaminator 19
 * @license      Apache 2.0
 */
 
@@ -17,6 +17,28 @@ export class AssetsLoader {
   public static preload(scene: Phaser.Scene) {
     scene.load.json("map", "./assets/map.json");
  
+
+
+    scene.load.image("add_heart", "./assets/board/add_heart.png");
+    scene.load.image("add_sword", "./assets/board/add_sword.png");
+    scene.load.image("battle_bg", "./assets/board/battle_bg.png");
+    scene.load.image("card_frame", "./assets/board/card_frame.png");
+    scene.load.image("cursor_hand", "./assets/board/cursor_hand.png");
+    scene.load.image("icon_heart", "./assets/board/icon_heart.png");
+    scene.load.image("icon_link", "./assets/board/icon_link.png");
+    scene.load.image("icon_sword", "./assets/board/icon_sword.png");
+    scene.load.image("instructions", "./assets/board/instructions.png");
+    scene.load.image("platforms", "./assets/board/platforms.png");
+    scene.load.image("player_data", "./assets/board/player_data.png");
+    scene.load.image("trait_boost_atk_hp", "./assets/board/trait_boost_atk_hp.png");
+    scene.load.image("turn_current", "./assets/board/turn_current.png");
+    scene.load.image("turn_done", "./assets/board/turn_done.png");
+    scene.load.image("turn_name_commands", "./assets/board/turn_name_commands.png");
+    scene.load.image("turn_name_load", "./assets/board/turn_name_load.png");
+    scene.load.image("turn_name_opponent", "./assets/board/turn_name_opponent.png");
+    scene.load.image("turn_name_protect", "./assets/board/turn_name_protect.png");
+
+    
     scene.load.image("grid_128_50", "./assets/grid_128_a50.png");
     scene.load.image("grid_128_30", "./assets/grid_128_a50.png");
     scene.load.image("path_end_14x14", "./assets/path_end_14x14.png");
