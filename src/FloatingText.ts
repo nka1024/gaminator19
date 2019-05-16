@@ -54,8 +54,8 @@ export class FloatingText {
 
     if (!this.textShadow1 && !this.textShadow2) {
       let offset = color != 'red' ? 1 : 0
-      this.textShadow2 = this.scene.add.bitmapText(this.x + offset, this.y, 'pokemon-8-shadow', txt);
-      this.textShadow1 = this.scene.add.bitmapText(this.x, this.y + offset, 'pokemon-8-shadow', txt);
+      this.textShadow2 = this.scene.add.bitmapText(this.x + offset, this.y, 'coco-8-shadow', txt);
+      this.textShadow1 = this.scene.add.bitmapText(this.x, this.y + offset, 'coco-8-shadow', txt);
       this.textShadow2.letterSpacing = spacing;
       this.textShadow1.letterSpacing = spacing;
       this.textShadow1.depth = UI_DEPTH.FLOATING_TEXT;
@@ -63,7 +63,7 @@ export class FloatingText {
     }
 
     if (!this.textMain) {
-      let font = 'pokemon-8-' + color;
+      let font = 'coco-8-' + color;
       this.textMain = this.scene.add.bitmapText(this.x, this.y, font, txt);
       this.textMain.letterSpacing = spacing;
       this.textMain.depth = UI_DEPTH.FLOATING_TEXT;

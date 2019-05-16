@@ -69,23 +69,23 @@ export class AssetsLoader {
       './assets/fonts/hello-world/hello-world-16-shadow.png',
       './assets/fonts/hello-world/hello-world-16.fnt');
 
-    scene.load.bitmapFont('pokemon-8-white',
-      './assets/fonts/pokemon/pokemon-8-white.png',
-      './assets/fonts/pokemon/pokemon-8.fnt');
-    scene.load.bitmapFont('pokemon-8-shadow',
-      './assets/fonts/pokemon/pokemon-8-shadow.png',
-      './assets/fonts/pokemon/pokemon-8.fnt');
-    scene.load.bitmapFont('pokemon-8-red',
-      './assets/fonts/pokemon/pokemon-8-red.png',
-      './assets/fonts/pokemon/pokemon-8.fnt');
+    scene.load.bitmapFont('coco-8-white',
+      './assets/fonts/coco/coco-8-white.png',
+      './assets/fonts/coco/coco-8.fnt');
+    scene.load.bitmapFont('coco-8-shadow',
+      './assets/fonts/coco/coco-8-shadow.png',
+      './assets/fonts/coco/coco-8.fnt');
+    scene.load.bitmapFont('coco-8-red',
+      './assets/fonts/coco/coco-8-red.png',
+      './assets/fonts/coco/coco-8.fnt');
 
-    scene.load.bitmapFont('pokemon-8-yellow',
-      './assets/fonts/pokemon/pokemon-8-yellow.png',
-      './assets/fonts/pokemon/pokemon-8.fnt');
+    scene.load.bitmapFont('coco-8-yellow',
+      './assets/fonts/coco/coco-8-yellow.png',
+      './assets/fonts/coco/coco-8.fnt');
 
-      scene.load.bitmapFont('pokemon-8-green',
-      './assets/fonts/pokemon/pokemon-8-green.png',
-      './assets/fonts/pokemon/pokemon-8.fnt');
+      scene.load.bitmapFont('coco-8-green',
+      './assets/fonts/coco/coco-8-green.png',
+      './assets/fonts/coco/coco-8.fnt');
 
     scene.load.spritesheet('mothership_48x48', './assets/sprites/mothership_48x48.png', {
       frameWidth: 48,

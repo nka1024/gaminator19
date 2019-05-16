@@ -7,10 +7,10 @@
 
 
 import { AssetsLoader } from "../AssetsLoader";
-import { PhaseDisplay } from "../board/TurnInfo";
+import { PhaseDisplay } from "../board/PhaseDisplay";
+import { PlayerDisplay } from "../board/PlayerDisplay";
 
 export class BoardScene extends Phaser.Scene {
-
 
   constructor() {
     super({
@@ -42,7 +42,7 @@ export class BoardScene extends Phaser.Scene {
     console.log('create')
     this.cameras.main.setBackgroundColor(0x1f1f1f);
 
-    this.add.image(0, 0, "battle_bg").setOrigin(0,0);;
+    this.add.image(0, 0, "battle_bg").setOrigin(0,0);
     
     this.addObjects()
     this.game.scale.on('resize', (size: Phaser.GameObjects.Components.Size) => this.onWindowResize(size.width, size.height));
@@ -51,13 +51,21 @@ export class BoardScene extends Phaser.Scene {
   }
 
   private addObjects() {
-    let phaseInfo = new PhaseDisplay(this)
-    phaseInfo.x = 60;
-    phaseInfo.y = 254;
-    this.add.existing(phaseInfo);
+    let phaseDisplay = new PhaseDisplay(this)
+    phaseDisplay.x = 60;
+    phaseDisplay.y = 254;
+    this.add.existing(phaseDisplay);
+
+    let playerDisplay = new PlayerDisplay(this)
+    playerDisplay.x = 192;
+    playerDisplay.y = 194;
+    this.add.existing(playerDisplay);
 
     let instructions = this.add.image(136,284, "instructions");
-    instructions.setOrigin(0,0)
+    instructions.setOrigin(0, 0)
+
+    let platforms = this.add.image(83, 100, "platforms");
+    platforms.setOrigin(0, 0)
   
   }
 
