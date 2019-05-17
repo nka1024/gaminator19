@@ -23,6 +23,7 @@ export class AssetsLoader {
     scene.load.image("battle_bg", "./assets/board/battle_bg.png");
     scene.load.image("card_frame", "./assets/board/card_frame.png");
     scene.load.image("cursor_hand", "./assets/board/cursor_hand.png");
+    scene.load.image("cursor_spot", "./assets/board/cursor_spot.png");
     scene.load.image("icon_heart", "./assets/board/icon_heart.png");
     scene.load.image("icon_link", "./assets/board/icon_link.png");
     scene.load.image("icon_sword", "./assets/board/icon_sword.png");

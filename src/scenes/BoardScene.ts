@@ -14,9 +14,12 @@ import { CardData, CardType, CardEffectType, CardSkillType } from "../types/Type
 import { HandDisplay } from "../board/HandDisplay";
 import { Keybinds, KeybindType } from "../Keybinds";
 import { CardDetailsDisplay } from "../board/CardDetailsDisplay";
+import { BoardSpotsContainer } from "../board/BoardSpotsContainer";
+import { Scene } from "phaser";
 
 export class BoardScene extends Phaser.Scene {
 
+  private spots: BoardSpotsContainer;
   private hand: HandDisplay;
   private cardDetails: CardDetailsDisplay;
 
@@ -110,13 +113,20 @@ export class BoardScene extends Phaser.Scene {
       this.cardDetails.populate(card.card);
     })
     this.hand.putCursor(0);
+
+    this.spots = new BoardSpotsContainer(this);
+    this.add.existing(this.spots);
+    this.spots.select(1, 0);
   }
 
   private addKeybinds() {
     this.keybinds = new Keybinds(this);
     this.keybinds.events.on('keypress', (key: string, type: KeybindType) => {
       if (key == 'left') this.hand.moveCursor(-1) 
-      if (key == 'right') this.hand.moveCursor(1) 
+      if (key == 'right') this.hand.moveCursor(1)
+      
+      if (key == 'left') this.spots.moveCursor(-1) 
+      if (key == 'right') this.spots.moveCursor(1)
     });
   }
 
