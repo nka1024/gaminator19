@@ -24,6 +24,7 @@ export class AssetsLoader {
     scene.load.image("card_frame", "./assets/board/card_frame.png");
     scene.load.image("cursor_hand", "./assets/board/cursor_hand.png");
     scene.load.image("cursor_spot", "./assets/board/cursor_spot.png");
+    scene.load.image("spot_shadow", "./assets/board/spot_shadow.png");
     scene.load.image("icon_heart", "./assets/board/icon_heart.png");
     scene.load.image("icon_link", "./assets/board/icon_link.png");
     scene.load.image("icon_sword", "./assets/board/icon_sword.png");
@@ -37,7 +38,6 @@ export class AssetsLoader {
     scene.load.image("turn_name_load", "./assets/board/turn_name_load.png");
     scene.load.image("turn_name_opponent", "./assets/board/turn_name_opponent.png");
     scene.load.image("turn_name_protect", "./assets/board/turn_name_protect.png");
-
     
     scene.load.image("card_mask", "./assets/board/card_mask.png");
     scene.load.image("creature_snakey", "./assets/board/creatures/snakey.png");

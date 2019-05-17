@@ -116,7 +116,6 @@ export class BoardScene extends Phaser.Scene {
 
     this.spots = new BoardSpotsContainer(this);
     this.add.existing(this.spots);
-    this.spots.select(1, 0);
   }
 
   private addKeybinds() {

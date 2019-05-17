@@ -9,16 +9,15 @@ import { BoardSpot } from "./BoardSpot";
 import { CardData, Point } from "../types/Types";
 
 export class BoardSpotsContainer extends Phaser.GameObjects.Container {
-  private topRow: BoardSpot[] = [];
-  private bottomRow: BoardSpot[] = [];
+  private spots: BoardSpot[][] = [[], []];
 
   private cursorRow: number = 1;
   private cursorCol: number = 0;
 
   private cursor: Phaser.GameObjects.Image;
   private cords: Point[][] = [
-    [{ x: 112, y: 112 }, { x: 172, y: 112 }, { x: 227, y: 112 }],
-    [{ x: 115, y: 170 }, { x: 173, y: 170 }, { x: 231, y: 170 }]
+    [{ x: 113, y: 110 }, { x: 171, y: 112 }, { x: 228, y: 110 }],
+    [{ x: 117, y: 168 }, { x: 176, y: 168 }, { x: 233, y: 168 }]
   ];
 
   constructor(scene: Scene) {
@@ -27,6 +26,16 @@ export class BoardSpotsContainer extends Phaser.GameObjects.Container {
     this.cursor = new Phaser.GameObjects.Image(scene, 0, 0, 'cursor_spot');
     this.add(this.cursor);
     this.deselect();
+
+    for (let i = 0; i < this.cords.length; i++) {
+      for (let j = 0; j < this.cords[i].length; j++) {
+        let spot = new BoardSpot(scene);
+        spot.x = this.cords[i][j].x;
+        spot.y = this.cords[i][j].y + 10;
+        this.add(spot);
+        this.spots[i].push(spot);
+      }
+    }
   }
 
   public deselect() {
@@ -51,6 +60,6 @@ export class BoardSpotsContainer extends Phaser.GameObjects.Container {
   }
 
   public putCard(row: number, col: number, card: CardData) {
-
+    this.spots[row][col].populate(card);
   }
 }
