@@ -12,6 +12,7 @@ import "phaser";
 import { BootScene } from "./scenes/bootScene";
 import { GameplayRootScene } from "./scenes/GameplayRootScene";
 import { BoardScene } from "./scenes/BoardScene";
+import { WorldScene } from "./scenes/WorldScene";
 
 var game = null;
 
@@ -31,7 +32,7 @@ window.onload = () => {
     type: Phaser.WEBGL,
     // type: Phaser.WEBGL,
     parent: "game",
-    scene: [new BootScene, new GameplayRootScene, new BoardScene],
+    scene: [new BootScene, new GameplayRootScene, new BoardScene, new WorldScene],
     input: {
       keyboard: true,
       mouse: true,
