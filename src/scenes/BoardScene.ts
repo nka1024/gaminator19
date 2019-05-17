@@ -10,13 +10,15 @@ import { AssetsLoader } from "../AssetsLoader";
 import { PhaseDisplay } from "../board/PhaseDisplay";
 import { PlayerDisplay } from "../board/PlayerDisplay";
 import { CardDisplay } from "../board/CardDisplay";
-import { CardData, CardType, CardEffectType } from "../types/Types";
+import { CardData, CardType, CardEffectType, CardSkillType } from "../types/Types";
 import { HandDisplay } from "../board/HandDisplay";
 import { Keybinds, KeybindType } from "../Keybinds";
+import { CardDetailsDisplay } from "../board/CardDetailsDisplay";
 
 export class BoardScene extends Phaser.Scene {
 
   private hand: HandDisplay;
+  private cardDetails: CardDetailsDisplay;
 
   private keybinds: Keybinds;
 
@@ -76,29 +78,38 @@ export class BoardScene extends Phaser.Scene {
     platforms.setOrigin(0, 0)
 
     let card1: CardData = {
-      type: CardType.MODULE,
+      type: CardType.CREATURE,
       name: 'Doogie',
+      skill: CardSkillType.BUFF_ALLIES_1_1,
       attack: 1,
       hp: 1,
       link: 1
     }
   
     let card2: CardData = {
-      type: CardType.MODULE,
+      type: CardType.CREATURE,
       name: 'Snuk-chak',
       attack: 1,
       hp: 1,
       link: 1
     }
 
-    let hand = new HandDisplay(this);
-    this.add.existing(hand);
-    hand.x = 328;
-    hand.y = 144;
-    hand.addCard(new CardDisplay(this).populate(card1))
-    hand.addCard(new CardDisplay(this).populate(card2))
-    this.hand = hand;
+    this.cardDetails = new CardDetailsDisplay(this);
+    this.add.existing(this.cardDetails)
+    this.cardDetails.x = 330;
+    this.cardDetails.y = 78;
 
+    this.hand = new HandDisplay(this);
+    this.add.existing(this.hand);
+    this.hand.x = 328;
+    this.hand.y = 144;
+    this.hand.addCard(new CardDisplay(this).populate(card1))
+    this.hand.addCard(new CardDisplay(this).populate(card2))
+
+    this.hand.events.on('card_select', (card: CardDisplay) => {
+      this.cardDetails.populate(card.card);
+    })
+    this.hand.putCursor(0);
   }
 
   private addKeybinds() {
@@ -108,7 +119,7 @@ export class BoardScene extends Phaser.Scene {
       if (key == 'right') this.hand.moveCursor(1) 
     });
   }
-  
+
   update(): void {
     this.hand.update();
   }

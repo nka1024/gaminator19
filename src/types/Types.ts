@@ -1,3 +1,9 @@
+/**
+* @author       Kirill Nepomnyaschiy <nka1024@gmail.com>
+* @copyright    Kirill Nepomnyaschiy
+* @description  gaminator 19
+*/
+
 export type Tile = {
   i: number,
   j: number
@@ -16,8 +22,8 @@ export enum PhaseType  {
 }
 
 export enum CardType  {
-  MODULE,
-  EFFECT
+  CREATURE,
+  EFFECT,
 }
 
 export enum CardEffectType  {
@@ -25,9 +31,16 @@ export enum CardEffectType  {
   EMPOWER,
 }
 
+export enum CardSkillType  {
+  NONE,
+  BUFF_ALLIES_1_1,
+  ZERO_TURN,
+}
+
 export type CardData = {
   type: CardType
   effect?: CardEffectType
+  skill?: CardSkillType
   name: string
   attack?: number
   hp?: number

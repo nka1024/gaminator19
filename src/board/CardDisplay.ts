@@ -1,15 +1,16 @@
 /**
 * @author       Kirill Nepomnyaschiy <nka1024@gmail.com>
 * @copyright    Kirill Nepomnyaschiy
-* @description  Tecnho Nomads: gameplay prototype
+* @description  gaminator 19
 */
 
 import { Scene } from "phaser";
 import { CardData } from "../types/Types";
+import { CardDetailsDisplay } from "./CardDetailsDisplay";
 
 export class CardDisplay extends Phaser.GameObjects.Container {
 
-  private card: CardData;
+  public card: CardData;
 
   private frame: Phaser.GameObjects.Image;
   private link: Phaser.GameObjects.Image;
@@ -65,6 +66,8 @@ export class CardDisplay extends Phaser.GameObjects.Container {
     this.linkTxt.text = card.link.toString();
     this.hpTxt.text = card.hp.toString();
     this.atkTxt.text = card.attack.toString();
+
+    this.creature.setTexture(CardDetailsDisplay.creatureTextureByName(card.name));
     return this;
   }
 
