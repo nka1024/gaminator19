@@ -12,10 +12,14 @@ import { PlayerDisplay } from "../board/PlayerDisplay";
 import { CardDisplay } from "../board/CardDisplay";
 import { CardData, CardType, CardEffectType } from "../types/Types";
 import { HandDisplay } from "../board/HandDisplay";
+import { Keybinds, KeybindType } from "../Keybinds";
 
 export class BoardScene extends Phaser.Scene {
 
   private hand: HandDisplay;
+
+  private keybinds: Keybinds;
+
   constructor() {
     super({
       key: "BoardScene"
@@ -49,9 +53,9 @@ export class BoardScene extends Phaser.Scene {
     this.add.image(0, 0, "battle_bg").setOrigin(0,0);
     
     this.addObjects()
+    this.addKeybinds();
     this.game.scale.on('resize', (size: Phaser.GameObjects.Components.Size) => this.onWindowResize(size.width, size.height));
     this.onWindowResize(window.innerWidth, window.innerHeight);
-
   }
 
   private addObjects() {
@@ -97,9 +101,16 @@ export class BoardScene extends Phaser.Scene {
 
   }
 
+  private addKeybinds() {
+    this.keybinds = new Keybinds(this);
+    this.keybinds.events.on('keypress', (key: string, type: KeybindType) => {
+      if (key == 'left') this.hand.moveCursor(-1) 
+      if (key == 'right') this.hand.moveCursor(1) 
+    });
+  }
+  
   update(): void {
     this.hand.update();
   }
-
  
 }

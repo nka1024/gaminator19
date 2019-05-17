@@ -35,6 +35,12 @@ export class HandDisplay extends Phaser.GameObjects.Container {
   }
 
   public moveCursor(x: number) {
+    if (this.cursor.x == 0 && x == -1) {
+      return
+    }
+    if (this.cursor.x == (this.cards.length - 1) * 22 && x == 1) {
+      return
+    }
     this.cursor.x += x * 22;
   }
 
