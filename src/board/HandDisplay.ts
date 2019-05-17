@@ -10,15 +10,32 @@ import { CardDisplay } from "./CardDisplay";
 export class HandDisplay extends Phaser.GameObjects.Container {
 
   private cards: CardDisplay[] = []
+  private cursor: Phaser.GameObjects.Image;
 
   constructor(scene: Scene) {
     super(scene);
+    this.cursor = new Phaser.GameObjects.Image(scene, 0,0, 'cursor_hand');
+    this.cursor.setOrigin(0,0)
+    this.cursor.y = -11;
+    this.add(this.cursor);
+    
+    this.setCursorHidden(false)
   }
 
   public addCard(card: CardDisplay) {
     card.x = this.cards.length * 22;
     this.cards.push(card);
     this.add(card);
+    this.bringToTop(this.cursor)
+  }
+
+  public setCursorHidden(hidden: boolean) {
+    this.cursor.visible = !hidden;
+    this.cursor.x = 0;
+  }
+
+  public moveCursor(x: number) {
+    this.cursor.x += x * 22;
   }
 
   update() {
