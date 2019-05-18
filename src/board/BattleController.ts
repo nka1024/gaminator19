@@ -7,15 +7,21 @@
 import { Keybinds } from "../Keybinds";
 import { BoardSpotsContainer } from "./BoardSpotsContainer";
 import { HandDisplay } from "./HandDisplay";
-import { BoardData, BoardPhase, PhaseType } from "../types/Types";
+import { BoardData, BoardPhase, PhaseType, CardData } from "../types/Types";
 import { CardDetailsDisplay } from "./CardDetailsDisplay";
 import { CardDisplay } from "./CardDisplay";
+
+type TMPData = {
+  selectedCard?: CardData;
+  protectedCard?: CardData;
+}
 
 export class BattleController {
 
   private timers: Array<Phaser.Time.TimerEvent> = []
 
   private phase: BoardPhase = BoardPhase.PREPARE;
+  private tmp: TMPData = {};
 
   constructor(private scene: Phaser.Scene, private keybinds: Keybinds, private spots: BoardSpotsContainer, private hand: HandDisplay, private details: CardDetailsDisplay, private board: BoardData) {
 
@@ -62,7 +68,7 @@ export class BattleController {
   // PREPARE
   //
   private phasePrepare() {
-    if (this.started()) {
+    if (this.phaseStarted()) {
       console.log('press enter to begin');
     }
     if (this.keybinds.enterPressed) {
@@ -75,7 +81,7 @@ export class BattleController {
   // PLAYER DRAW
   //
   private phasePlayerDraw() {
-    if (this.started()) {
+    if (this.phaseStarted()) {
       console.log('Drawing player cards');
 
       for (let i = 0; i < 3; i++) {
@@ -96,36 +102,45 @@ export class BattleController {
   // PLAYER COMMAND
   //
   private phasePlayerCommand() {
-    if (this.started()) {
+    if (this.phaseStarted()) {
       console.log('Select card to command');
       this.hand.setCursorHidden(false)
       this.hand.putCursor(0);
       this.details.visible = true;
     }
 
-    if (this.board.selectedCard) {
-      
+    if (this.tmp.selectedCard) {
       if (this.keybinds.leftPressed) this.spots.moveCursor(-1)
       if (this.keybinds.rightPressed) this.spots.moveCursor(1)
       if (this.keybinds.enterPressed) {
-        let card = this.board.selectedCard
+        let card = this.tmp.selectedCard
         // put hard on board
         this.spots.putCardAtCursor(card);
         this.board.player.board[this.spots.getCursorCol()] = card;
-        this.board.selectedCard = null;
+        this.tmp.selectedCard = null;
         this.spots.setCursorHidden(true);
         // remove card from hand
         this.board.player.hand.splice(this.board.player.hand.indexOf(card), 1);
         this.hand.removeCardAtCursor();
       }
+      if (this.keybinds.escPressed) {
+        this.tmp.selectedCard = null;
+        this.spots.setCursorHidden(true);
+      }
     } else {
       if (this.keybinds.leftPressed) this.hand.moveCursor(-1)
       if (this.keybinds.rightPressed) this.hand.moveCursor(1)
       if (this.keybinds.enterPressed) { 
-        this.board.selectedCard = this.board.player.hand[this.hand.cursorPos];
-        this.spots.putCursor(1, 0);
+        // activate spot cursor for selected card
+        this.tmp.selectedCard = this.board.player.hand[this.hand.cursorPos];
+        this.spots.putCursor(1, 1);
         this.spots.setCursorHidden(false);
       }
+      if (this.keybinds.escPressed) {
+        this.hand.setCursorHidden(true);
+        this.details.visible = true;
+        this.nextPhase();
+      } 
     }
   }
 
@@ -133,6 +148,21 @@ export class BattleController {
   // PLAYER PROTECT
   //
   private phasePlayerProtect() {
+    if (this.phaseStarted()) {
+      console.log('select protected card');
+      this.spots.putCursor(1, 1);
+    }
+
+    if (this.keybinds.leftPressed) this.spots.moveCursor(-1)
+    if (this.keybinds.rightPressed) this.spots.moveCursor(1)
+    if (this.keybinds.enterPressed) {
+      if (this.tmp.protectedCard) {
+        this.tmp.protectedCard.protected = false;
+      }
+      this.spots.getCardAtCursor().protected = true;
+      this.tmp.protectedCard = this.spots.getCardAtCursor();
+      this.spots.refresh();
+    }
   }
 
   //
@@ -165,7 +195,7 @@ export class BattleController {
   private phaseOpponentCompile() {
   }
 
-  private started(): boolean {
+  private phaseStarted(): boolean {
     let isStart = this.phase != this.board.phase
     this.phase = this.board.phase;
     return isStart;
@@ -174,5 +204,6 @@ export class BattleController {
 
   private nextPhase() {
     this.board.phase++;
+    this.tmp = {};
   }
 }

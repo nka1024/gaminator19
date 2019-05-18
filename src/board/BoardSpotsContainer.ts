@@ -63,13 +63,24 @@ export class BoardSpotsContainer extends Phaser.GameObjects.Container {
     }
     this.putCursor(this.cursorRow, this.cursorCol + x);
   }
-
   
   public putCardAtCursor(card: CardData) {
-    this.spots[this.cursorRow][this.cursorCol].populate(card)
+    this.spots[this.cursorRow][this.cursorCol].populate(card);
+  }
+
+  public getCardAtCursor(): CardData {
+    return this.spots[this.cursorRow][this.cursorCol].card;
   }
 
   public putCard(row: number, col: number, card: CardData) {
     this.spots[row][col].populate(card);
+  }
+
+  public refresh() {
+    for (let i = 0; i < this.cords.length; i++) {
+      for (let j = 0; j < this.cords[i].length; j++) {
+        this.spots[i][j].repopulate();
+      }
+    }
   }
 }

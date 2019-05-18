@@ -31,6 +31,7 @@ export class AssetsLoader {
     scene.load.image("icon_heart", "./assets/board/icon_heart.png");
     scene.load.image("icon_link", "./assets/board/icon_link.png");
     scene.load.image("icon_sword", "./assets/board/icon_sword.png");
+    scene.load.image("protected", "./assets/board/protected.png");
     scene.load.image("instructions", "./assets/board/instructions.png");
     scene.load.image("platforms", "./assets/board/platforms.png");
     scene.load.image("player_data", "./assets/board/player_data.png");

@@ -45,6 +45,7 @@ export type CardData = {
   attack?: number
   hp?: number
   link: number
+  protected?: boolean
 }
 
 export enum BoardPhase {
@@ -64,7 +65,6 @@ export type BoardData = {
   opponent: PlayerBoardData
   player: PlayerBoardData
   phase: BoardPhase
-  selectedCard?: CardData
 }
 
 export type PlayerBoardData = {

@@ -13,6 +13,7 @@ export class BoardSpot extends Phaser.GameObjects.Container {
 
   private heart: Phaser.GameObjects.Image;
   private sword: Phaser.GameObjects.Image;
+  private protected: Phaser.GameObjects.Image;
   private atkTxt: Phaser.GameObjects.BitmapText;
   private hpTxt: Phaser.GameObjects.BitmapText;
   
@@ -47,6 +48,11 @@ export class BoardSpot extends Phaser.GameObjects.Container {
     this.hpTxt.letterSpacing = -1;
     this.add(this.hpTxt);
 
+    this.protected = new Phaser.GameObjects.Image(scene, 0, 0, 'protected')
+    this.protected.y = -34
+    this.protected.x = 10
+    this.add(this.protected);
+
     this.visible = false
   }
 
@@ -59,8 +65,13 @@ export class BoardSpot extends Phaser.GameObjects.Container {
       this.atkTxt.text = card.attack.toString();
 
       this.creature.setTexture(CardDetailsDisplay.creatureTextureByName(card.name));
+      this.protected.visible = this.card.protected;
     } else {
       this.visible = false;
     }
+  }
+
+  public repopulate() {
+    this.populate(this.card)
   }
 }
