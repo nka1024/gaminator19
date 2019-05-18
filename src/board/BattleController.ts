@@ -20,10 +20,7 @@ type TMPData = {
 }
 
 export class BattleController {
-
-  private timers: Array<Phaser.Time.TimerEvent> = []
-
-  private phase: BoardPhase = BoardPhase.PREPARE;
+  private phase: BoardPhase = BoardPhase.UNDEFINED;
   private tmp: TMPData = {};
 
   constructor(
@@ -35,25 +32,6 @@ export class BattleController {
     private hand: HandDisplay,
     private details: CardDetailsDisplay,
     private board: BoardData) {
-
-    // let timer = this.scene.time.addEvent({
-    //   delay: weaponData.chargeInterval,
-    //   callback: () => this.onWeaponChargeComplete(weaponData),
-    //   callbackScope: this,
-    //   loop: true,
-    //   paused: false
-    // });
-    // this.timers.push(timer);
-
-    // this.keybinds.events.on('keypress', (key: string, type: KeybindType) => {
-    //   if (this.hand.inputEnabled) {
-    //     if (key == 'left') this.hand.moveCursor(-1) 
-    //     if (key == 'right') this.hand.moveCursor(1)
-    //     if (key == 'enter') this.hand.
-    //   }
-    //   if (key == 'left') this.spots.moveCursor(-1) 
-    //   if (key == 'right') this.spots.moveCursor(1)
-    // });
   }
 
 
@@ -80,11 +58,10 @@ export class BattleController {
   //
   private phasePrepare() {
     if (this.phaseStarted()) {
-      console.log('battle begins');
+      console.log('battle begins. press enter to start');
+      this.player.populate(this.board.player.hp, this.board.player.link, this.board.player.linkMax);
     }
-    if (this.keybinds.enterPressed) {
-      this.nextPhase();
-    }
+    this.nextPhase();
   }
 
   //
@@ -94,8 +71,11 @@ export class BattleController {
     if (this.phaseStarted()) {
       console.log('вrawing player cards');
 
+      // turn 
+      this.board.turn++;
+
       // draw card
-      for (let i = 0; i < 3; i++) {
+      for (let i = 0; i < (this.board.turn == 1 ? 3 : 1); i++) {
         let card = this.board.player.deck.shift()
         this.board.player.hand.push(card);
         this.hand.addCard(new CardDisplay(this.scene).populate(card))
@@ -103,8 +83,14 @@ export class BattleController {
       // increase & refill mana
       this.board.player.linkMax++
       this.board.player.link = this.board.player.linkMax
+      this.player.addLink(this.board.player.link, this.board.player.linkMax);
 
-      console.log('press enter to confirm your initial hand');
+      if (this.board.turn == 1) {
+        console.log('press enter to confirm your initial hand');
+      } else {
+        this.nextPhase();
+        return;
+      }
     }
 
     if (this.keybinds.enterPressed) {
@@ -225,24 +211,37 @@ export class BattleController {
     if (this.phaseStarted()) {
       console.log('opponent draw')
     }
+    this.nextPhase();
   }
 
   //
   // OPPONENT COMMAND
   //
   private phaseOpponentCommand() {
+    if (this.phaseStarted()) {
+      console.log('opponent draw')
+    }
+    this.nextPhase();
   }
 
   //
   // OPPONENT PROTECT
   //
   private phaseOpponentProtect() {
+    if (this.phaseStarted()) {
+      console.log('opponent draw')
+    }
+    this.nextPhase();
   }
 
   //
   // OPPONENT COMPILE
   //
   private phaseOpponentCompile() {
+    if (this.phaseStarted()) {
+      console.log('opponent draw')
+    }
+    this.nextPhase();
   }
 
   private phaseStarted(): boolean {
@@ -253,7 +252,11 @@ export class BattleController {
 
 
   private nextPhase() {
-    this.board.phase++;
+    if (this.board.phase == BoardPhase.OPPONENT_COMPILE) {
+      this.board.phase = BoardPhase.PLAYER_DRAW
+    } else {
+      this.board.phase++;
+    }
     this.tmp = {};
   }
 }

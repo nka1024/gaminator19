@@ -65,6 +65,7 @@ export type BoardData = {
   opponent: PlayerBoardData
   player: PlayerBoardData
   phase: BoardPhase
+  turn: number
 }
 
 export type PlayerBoardData = {

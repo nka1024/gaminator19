@@ -26,6 +26,7 @@ export class AssetsLoader {
     scene.load.spritesheet('spawn_64x64', './assets/board/spawn2_64x64.png', {frameWidth: 64, frameHeight: 64});
     scene.load.spritesheet('cursor_hand_18x124', './assets/board/cursor_hand.png', {frameWidth: 18, frameHeight: 124});
     scene.load.spritesheet('turn_current_8x8', './assets/board/turn_current_8x8.png', {frameWidth: 8, frameHeight: 8});
+    scene.load.spritesheet('link_up_64x64', './assets/board/link_up_64x64.png', {frameWidth: 64, frameHeight: 64});
 
     scene.load.image("cursor_hand", "./assets/board/cursor_hand.png");
 

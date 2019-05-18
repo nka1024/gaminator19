@@ -13,6 +13,7 @@ export class BattleService {
       opponent: this.makeOpponentData(),
       player: this.makePlayerData(),
       phase: BoardPhase.UNDEFINED,
+      turn: 0
     }
     return result;
   }

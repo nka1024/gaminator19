@@ -41,6 +41,14 @@ export class AnimationRegistry {
       repeatDelay: 0,
       hideOnComplete: true
     });
+    scene.anims.create({
+      key: 'link_up_anim',
+      frames: scene.anims.generateFrameNumbers('link_up_64x64', { start: 0, end: 17 }),
+      frameRate: 12,
+      repeat: 0,
+      repeatDelay: 0,
+      hideOnComplete: true
+    });
   }
 
   private registerBoardUIAnimations(scene: Scene) {
