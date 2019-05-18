@@ -16,13 +16,16 @@ import { Keybinds, KeybindType } from "../Keybinds";
 import { CardDetailsDisplay } from "../board/CardDetailsDisplay";
 import { BoardSpotsContainer } from "../board/BoardSpotsContainer";
 import { Scene } from "phaser";
+import { BattleService } from "../board/BattleService";
+import { BattleController } from "../board/BattleController";
 
 export class BoardScene extends Phaser.Scene {
 
   private spots: BoardSpotsContainer;
   private hand: HandDisplay;
   private cardDetails: CardDetailsDisplay;
-
+  private battleService: BattleService;
+  private battleController: BattleController;
   private keybinds: Keybinds;
 
   constructor() {
@@ -57,13 +60,18 @@ export class BoardScene extends Phaser.Scene {
 
     this.add.image(0, 0, "battle_bg").setOrigin(0,0);
     
-    this.addObjects()
+    this.addDisplays()
     this.addKeybinds();
+
+    this.battleService = new BattleService();
+    this.battleController = new BattleController(this, this.keybinds, this.spots, this.hand, this.cardDetails, this.battleService.makeBoardData());
+    this.battleController.start();
+
     this.game.scale.on('resize', (size: Phaser.GameObjects.Components.Size) => this.onWindowResize(size.width, size.height));
     this.onWindowResize(window.innerWidth, window.innerHeight);
   }
 
-  private addObjects() {
+  private addDisplays() {
     let phaseDisplay = new PhaseDisplay(this)
     phaseDisplay.x = 60;
     phaseDisplay.y = 254;
@@ -80,37 +88,23 @@ export class BoardScene extends Phaser.Scene {
     let platforms = this.add.image(83, 100, "platforms");
     platforms.setOrigin(0, 0)
 
-    let card1: CardData = {
-      type: CardType.CREATURE,
-      name: 'Doogie',
-      skill: CardSkillType.BUFF_ALLIES_1_1,
-      attack: 1,
-      hp: 1,
-      link: 1
-    }
-  
-    let card2: CardData = {
-      type: CardType.CREATURE,
-      name: 'Snuk-chak',
-      attack: 1,
-      hp: 1,
-      link: 1
-    }
-
     this.cardDetails = new CardDetailsDisplay(this);
     this.add.existing(this.cardDetails)
     this.cardDetails.x = 330;
     this.cardDetails.y = 78;
+    this.cardDetails.visible = false;
 
     this.hand = new HandDisplay(this);
     this.add.existing(this.hand);
     this.hand.x = 328;
     this.hand.y = 144;
-    this.hand.addCard(new CardDisplay(this).populate(card1))
-    this.hand.addCard(new CardDisplay(this).populate(card2))
 
     this.hand.events.on('card_select', (card: CardDisplay) => {
-      this.cardDetails.populate(card.card);
+      if (card) {
+        this.cardDetails.populate(card.card);
+      } else {
+        this.cardDetails.visible = false;
+      }
     })
     this.hand.putCursor(0);
 
@@ -120,17 +114,11 @@ export class BoardScene extends Phaser.Scene {
 
   private addKeybinds() {
     this.keybinds = new Keybinds(this);
-    this.keybinds.events.on('keypress', (key: string, type: KeybindType) => {
-      if (key == 'left') this.hand.moveCursor(-1) 
-      if (key == 'right') this.hand.moveCursor(1)
-      
-      if (key == 'left') this.spots.moveCursor(-1) 
-      if (key == 'right') this.spots.moveCursor(1)
-    });
   }
 
   update(): void {
     this.hand.update();
+    this.battleController.update();
   }
  
 }

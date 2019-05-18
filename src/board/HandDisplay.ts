@@ -11,9 +11,10 @@ export class HandDisplay extends Phaser.GameObjects.Container {
 
   private cards: CardDisplay[] = []
   private cursor: Phaser.GameObjects.Image;
-  private cursorPos: number = 0;
+  public cursorPos: number = 0;
   public events: Phaser.Events.EventEmitter;
 
+  public inputEnabled: boolean = false;
   constructor(scene: Scene) {
     super(scene);
 
@@ -23,7 +24,7 @@ export class HandDisplay extends Phaser.GameObjects.Container {
     this.cursor.setOrigin(0,0)
     this.cursor.y = -11;
     this.add(this.cursor);
-    this.setCursorHidden(false)
+    this.setCursorHidden(true)
   }
 
   public addCard(card: CardDisplay) {
@@ -31,6 +32,28 @@ export class HandDisplay extends Phaser.GameObjects.Container {
     this.cards.push(card);
     this.add(card);
     this.bringToTop(this.cursor)
+  }
+
+  public removeCardAtCursor() {
+    let card = this.cards[this.cursorPos];
+    this.cards.splice(this.cards.indexOf(card), 1);
+    this.remove(card);
+    card.destroy();
+    this.putCursor(0);
+
+    if (this.cards.length == 0) {
+      this.setCursorHidden(true);
+      this.events.emit('card_select', null);
+    }
+    this.shiftRemainingCards();
+  }
+
+  private shiftRemainingCards() {
+    let i = 0
+    for (let card of this.cards) {
+      card.x = i * 22;
+      i++
+    }
   }
 
   public setCursorHidden(hidden: boolean) {
@@ -43,7 +66,9 @@ export class HandDisplay extends Phaser.GameObjects.Container {
     this.cursorPos = pos;
     this.cursor.x = pos * 22;
 
-    this.events.emit('card_select', this.cards[this.cursorPos]);
+    if (this.cards.length > 0){
+      this.events.emit('card_select', this.cards[this.cursorPos]);
+    }
   }
   public moveCursor(x: number) {
     if (this.cursorPos == 0 && x == -1) {

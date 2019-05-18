@@ -17,6 +17,13 @@ export class Keybinds {
   private cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
   public events: Phaser.Events.EventEmitter;
 
+  public escPressed: boolean
+  public enterPressed: boolean
+  public upPressed: boolean
+  public downPressed: boolean
+  public leftPressed: boolean
+  public rightPressed: boolean
+
   constructor (scene: Scene) {
     this.events = new Phaser.Events.EventEmitter();
 
@@ -28,12 +35,19 @@ export class Keybinds {
   }
 
   private update() {
-    if (this.escapeKey.isDown) { this.escapeKey.isDown = false; this.dispatchKeypress('esc', KeybindType.UI) }
-    if (this.enter.isDown) { this.enter.isDown = false; this.dispatchKeypress('enter', KeybindType.UI) }
-    if (this.cursorKeys.down.isDown) { this.cursorKeys.down.isDown = false; this.dispatchKeypress('down', KeybindType.Cursor) }
-    if (this.cursorKeys.up.isDown) { this.cursorKeys.up.isDown = false; this.dispatchKeypress('up', KeybindType.Cursor) }
-    if (this.cursorKeys.left.isDown) { this.cursorKeys.left.isDown = false; this.dispatchKeypress('left', KeybindType.Cursor) }
-    if (this.cursorKeys.right.isDown) { this.cursorKeys.right.isDown = false; this.dispatchKeypress('right', KeybindType.Cursor) }
+    this.escPressed = false;
+    this.enterPressed = false;
+    this.upPressed = false;
+    this.downPressed = false;
+    this.leftPressed = false;
+    this.rightPressed = false;
+    
+    if (this.escapeKey.isDown)        { this.escapeKey.isDown = false; this.escPressed = true; this.dispatchKeypress('esc', KeybindType.UI) }
+    if (this.enter.isDown)            { this.enter.isDown = false; this.enterPressed = true; this.dispatchKeypress('enter', KeybindType.UI) }
+    if (this.cursorKeys.down.isDown)  { this.cursorKeys.down.isDown = false; this.downPressed = true; this.dispatchKeypress('down', KeybindType.Cursor) }
+    if (this.cursorKeys.up.isDown)    { this.cursorKeys.up.isDown = false; this.upPressed = true; this.dispatchKeypress('up', KeybindType.Cursor) }
+    if (this.cursorKeys.left.isDown)  { this.cursorKeys.left.isDown = false; this.leftPressed = true; this.dispatchKeypress('left', KeybindType.Cursor) }
+    if (this.cursorKeys.right.isDown) { this.cursorKeys.right.isDown = false; this.rightPressed = true; this.dispatchKeypress('right', KeybindType.Cursor) }
   }
 
   private dispatchKeypress(keypress: string, type: KeybindType) {

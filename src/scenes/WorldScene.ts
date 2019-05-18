@@ -5,6 +5,7 @@
 */
 
 import { AssetsLoader } from "../AssetsLoader";
+import { Keybinds } from "../Keybinds";
 
 export class WorldScene extends Phaser.Scene {
   constructor() {
@@ -27,6 +28,21 @@ export class WorldScene extends Phaser.Scene {
     
     this.onWindowResize(window.innerWidth, window.innerHeight);
     
+    let keybinds: Keybinds = new Keybinds(this);
+    keybinds.events.on('keypress', (key, keytype) => {
+      if (key == 'right') {
+        this.cameras.main.scrollX+=1
+      }
+      if (key == 'left') {
+        this.cameras.main.scrollX-=1
+      }
+      if (key == 'up') {
+        this.cameras.main.scrollY-=1
+      }
+      if (key == 'down') {
+        this.cameras.main.scrollY+=1
+      }
+    })
   }
 
   update(): void {

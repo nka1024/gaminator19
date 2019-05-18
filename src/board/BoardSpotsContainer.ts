@@ -20,12 +20,16 @@ export class BoardSpotsContainer extends Phaser.GameObjects.Container {
     [{ x: 117, y: 168 }, { x: 176, y: 168 }, { x: 233, y: 168 }]
   ];
 
+  public getCursorCol(): number {
+    return this.cursorCol;
+  }
+
   constructor(scene: Scene) {
     super(scene);
 
     this.cursor = new Phaser.GameObjects.Image(scene, 0, 0, 'cursor_spot');
     this.add(this.cursor);
-    this.deselect();
+    this.setCursorHidden(true);
 
     for (let i = 0; i < this.cords.length; i++) {
       for (let j = 0; j < this.cords[i].length; j++) {
@@ -38,10 +42,11 @@ export class BoardSpotsContainer extends Phaser.GameObjects.Container {
     }
   }
 
-  public deselect() {
-    this.cursor.visible = false;
+  public setCursorHidden(hidden: boolean) {
+    this.cursor.visible = !hidden;
   }
-  public select(row: number, col: number) {
+
+  public putCursor(row: number, col: number) {
     this.cursorRow = row;
     this.cursorCol = col;
     this.cursor.visible = true;
@@ -56,7 +61,12 @@ export class BoardSpotsContainer extends Phaser.GameObjects.Container {
     if (this.cursorCol == this.cords[0].length - 1 && x == 1) {
       return
     }
-    this.select(this.cursorRow, this.cursorCol + x);
+    this.putCursor(this.cursorRow, this.cursorCol + x);
+  }
+
+  
+  public putCardAtCursor(card: CardData) {
+    this.spots[this.cursorRow][this.cursorCol].populate(card)
   }
 
   public putCard(row: number, col: number, card: CardData) {

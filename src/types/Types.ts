@@ -46,3 +46,33 @@ export type CardData = {
   hp?: number
   link: number
 }
+
+export enum BoardPhase {
+  UNDEFINED,
+  PREPARE,
+  PLAYER_DRAW,
+  PLAYER_COMMAND,
+  PLAYER_PROTECT,
+  PLAYER_COMPILE,
+  OPPONENT_DRAW,
+  OPPONENT_COMMAND,
+  OPPONENT_PROTECT,
+  OPPONENT_COMPILE
+}
+
+export type BoardData = {
+  opponent: PlayerBoardData
+  player: PlayerBoardData
+  phase: BoardPhase
+  selectedCard?: CardData
+}
+
+export type PlayerBoardData = {
+  name: string
+  deck: CardData[]
+  hand: CardData[]
+  board: CardData[]
+  link: number
+  linkMax: number
+  hp: number
+}

@@ -3,7 +3,7 @@ name: chelnoque-water
 type: fragment
 uniform.origin: { "type": "1f", "value": 2.0 }
 uniform.iChannel0: { "type": "sampler2D", "value": null, "textureData": { "repeat": true} }
-uniform.waveDistortion: { "type": "2f", "value": {"x":0.1, "y":0.05 } }
+uniform.waveDistortion: { "type": "2f", "value": {"x":0.2, "y":0.05 } }
 uniform.waveLength: { "type": "2f", "value": { "x": 0.2, "y":1.2 } }
 ---
 precision mediump float;
