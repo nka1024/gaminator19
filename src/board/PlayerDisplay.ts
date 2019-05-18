@@ -10,6 +10,7 @@ export class PlayerDisplay extends Phaser.GameObjects.Container {
   private linkTxt: Phaser.GameObjects.BitmapText;
   private hpTxt: Phaser.GameObjects.BitmapText;
 
+  private hero: Phaser.GameObjects.Sprite;
   constructor(scene: Phaser.Scene) {
     super (scene);
 
@@ -17,6 +18,13 @@ export class PlayerDisplay extends Phaser.GameObjects.Container {
     this.image.setOrigin(0, 0);
     this.add(this.image);
 
+    this.hero = new Phaser.GameObjects.Sprite(scene, 0, 0, '');
+    this.hero.setOrigin(0,0)
+    this.hero.play('player_idle_back_anim')
+    this.hero.y = -36;
+    this.hero.x = 10;
+    scene.add.existing(this.hero);
+    this.add(this.hero);
 
     this.linkTxt = new Phaser.GameObjects.BitmapText(scene, 40, 27, 'coco-8-yellow', '7/7');
     this.linkTxt.letterSpacing = -1

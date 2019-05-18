@@ -14,7 +14,7 @@ export class PhaseDisplay extends Phaser.GameObjects.Container {
 
   private phaseNames: Phaser.GameObjects.Image[] = [];
   private phaseDone: Phaser.GameObjects.Image[] = [];
-  private phaseCurrent: Phaser.GameObjects.Image[] = [];
+  private phaseCurrent: Phaser.GameObjects.Sprite[] = [];
   
   constructor(scene: Scene) {
     super(scene, 0, 0);
@@ -23,6 +23,7 @@ export class PhaseDisplay extends Phaser.GameObjects.Container {
     this.phaseNames.push(new Phaser.GameObjects.Image(scene, 0, 0, "turn_name_commands"))
     this.phaseNames.push(new Phaser.GameObjects.Image(scene, 0, 0, "turn_name_protect"))
     this.phaseNames.push(new Phaser.GameObjects.Image(scene, 0, 0, "turn_name_opponent"))
+    this.phaseNames.push(new Phaser.GameObjects.Image(scene, 0, 0, "turn_name_compile"))
 
     for (let i = 0; i < 4; i++) {
       let name = this.phaseNames[i];
@@ -31,10 +32,12 @@ export class PhaseDisplay extends Phaser.GameObjects.Container {
       name.x = 0
       name.y = i * 10;
 
-      let current = new Phaser.GameObjects.Image(scene, 0, 0, "turn_current");
+      let current = new Phaser.GameObjects.Sprite(scene, -1, 0, '');
       this.phaseCurrent.push(current)
       current.setOrigin(0, 0);
-      current.y = i * 10 + 2
+      current.y = i * 10 + 2 - 1
+      current.play('turn_current_anim');
+      scene.add.existing(current);
       this.add(current);
 
       let done = new Phaser.GameObjects.Image(scene, 0, 0, "turn_done");

@@ -21,11 +21,18 @@ export class AssetsLoader {
     scene.load.image("water", "./assets/gaminator/water.png");
     scene.load.image("ground", "./assets/gaminator/ground.png");
 
+    scene.load.spritesheet('idle_back_128x128', './assets/board/idle_back_128x128.png', {frameWidth: 128, frameHeight: 128});
+    scene.load.spritesheet('attack_anim_128x32', './assets/board/attack_anim_128x32.png', {frameWidth: 128, frameHeight: 32});
+    scene.load.spritesheet('spawn_64x64', './assets/board/spawn2_64x64.png', {frameWidth: 64, frameHeight: 64});
+    scene.load.spritesheet('cursor_hand_18x124', './assets/board/cursor_hand.png', {frameWidth: 18, frameHeight: 124});
+    scene.load.spritesheet('turn_current_8x8', './assets/board/turn_current_8x8.png', {frameWidth: 8, frameHeight: 8});
+
+    scene.load.image("cursor_hand", "./assets/board/cursor_hand.png");
+
     scene.load.image("add_heart", "./assets/board/add_heart.png");
     scene.load.image("add_sword", "./assets/board/add_sword.png");
     scene.load.image("battle_bg", "./assets/board/battle_bg.png");
     scene.load.image("card_frame", "./assets/board/card_frame.png");
-    scene.load.image("cursor_hand", "./assets/board/cursor_hand.png");
     scene.load.image("cursor_spot", "./assets/board/cursor_spot.png");
     scene.load.image("spot_shadow", "./assets/board/spot_shadow.png");
     scene.load.image("icon_heart", "./assets/board/icon_heart.png");
@@ -36,9 +43,9 @@ export class AssetsLoader {
     scene.load.image("platforms", "./assets/board/platforms.png");
     scene.load.image("player_data", "./assets/board/player_data.png");
     scene.load.image("trait_boost_atk_hp", "./assets/board/trait_boost_atk_hp.png");
-    scene.load.image("turn_current", "./assets/board/turn_current.png");
     scene.load.image("turn_done", "./assets/board/turn_done.png");
     scene.load.image("turn_name_commands", "./assets/board/turn_name_commands.png");
+    scene.load.image("turn_name_compile", "./assets/board/turn_name_compile.png");
     scene.load.image("turn_name_load", "./assets/board/turn_name_load.png");
     scene.load.image("turn_name_opponent", "./assets/board/turn_name_opponent.png");
     scene.load.image("turn_name_protect", "./assets/board/turn_name_protect.png");

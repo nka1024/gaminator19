@@ -13,7 +13,6 @@ export class BattleService {
       opponent: this.makeOpponentData(),
       player: this.makePlayerData(),
       phase: BoardPhase.UNDEFINED,
-      
     }
     return result;
   }
@@ -24,8 +23,8 @@ export class BattleService {
       deck: [this.makeCard1(0), this.makeCard1(1), this.makeCard1(2), this.makeCard1(3), this.makeCard1(4), this.makeCard1(5), this.makeCard1(6)],
       hand: [],
       board: [],
-      link: 1,
-      linkMax: 1,
+      link: 0,
+      linkMax: 0,
       hp: 15
     }
     return result;
@@ -37,8 +36,8 @@ export class BattleService {
       deck: [this.makeCard2(0), this.makeCard2(1), this.makeCard2(2), this.makeCard2(3), this.makeCard2(4), this.makeCard2(5), this.makeCard2(6)],
       hand: [],
       board: [],
-      link: 1,
-      linkMax: 1,
+      link: 0,
+      linkMax: 0,
       hp: 15
     }
     return result;

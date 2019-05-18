@@ -10,7 +10,7 @@ import { CardDisplay } from "./CardDisplay";
 export class HandDisplay extends Phaser.GameObjects.Container {
 
   private cards: CardDisplay[] = []
-  private cursor: Phaser.GameObjects.Image;
+  private cursor: Phaser.GameObjects.Sprite;
   public cursorPos: number = 0;
   public events: Phaser.Events.EventEmitter;
 
@@ -20,9 +20,11 @@ export class HandDisplay extends Phaser.GameObjects.Container {
 
     this.events = new Phaser.Events.EventEmitter();
 
-    this.cursor = new Phaser.GameObjects.Image(scene, 0,0, 'cursor_hand');
+    this.cursor = new Phaser.GameObjects.Sprite(scene, 0, 0, '');
     this.cursor.setOrigin(0,0)
-    this.cursor.y = -11;
+    this.cursor.play('cursor_hand_anim')
+    this.cursor.y = -18;
+    scene.add.existing(this.cursor);
     this.add(this.cursor);
     this.setCursorHidden(true)
   }

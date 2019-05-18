@@ -18,15 +18,20 @@ import { BoardSpotsContainer } from "../board/BoardSpotsContainer";
 import { Scene } from "phaser";
 import { BattleService } from "../board/BattleService";
 import { BattleController } from "../board/BattleController";
+import { AnimationRegistry } from "../AnimationRegistry";
 
 export class BoardScene extends Phaser.Scene {
 
   private spots: BoardSpotsContainer;
   private hand: HandDisplay;
+  private playerDisplay: PlayerDisplay;
+  private phaseDisplay: PhaseDisplay;
   private cardDetails: CardDetailsDisplay;
   private battleService: BattleService;
   private battleController: BattleController;
   private keybinds: Keybinds;
+
+  private animationRegistry: AnimationRegistry;
 
   constructor() {
     super({
@@ -56,6 +61,7 @@ export class BoardScene extends Phaser.Scene {
 
   create(data): void {
     console.log('create')
+    this.animationRegistry = new AnimationRegistry(this);
     this.cameras.main.setBackgroundColor(0x1f1f1f);
 
     this.add.image(0, 0, "battle_bg").setOrigin(0,0);
@@ -64,7 +70,7 @@ export class BoardScene extends Phaser.Scene {
     this.addKeybinds();
 
     this.battleService = new BattleService();
-    this.battleController = new BattleController(this, this.keybinds, this.spots, this.hand, this.cardDetails, this.battleService.makeBoardData());
+    this.battleController = new BattleController(this, this.keybinds, this.playerDisplay, this.phaseDisplay, this.spots, this.hand, this.cardDetails, this.battleService.makeBoardData());
     this.battleController.start();
 
     this.game.scale.on('resize', (size: Phaser.GameObjects.Components.Size) => this.onWindowResize(size.width, size.height));
@@ -72,15 +78,15 @@ export class BoardScene extends Phaser.Scene {
   }
 
   private addDisplays() {
-    let phaseDisplay = new PhaseDisplay(this)
-    phaseDisplay.x = 60;
-    phaseDisplay.y = 254;
-    this.add.existing(phaseDisplay);
+    this.phaseDisplay = new PhaseDisplay(this)
+    this.phaseDisplay.x = 60;
+    this.phaseDisplay.y = 254;
+    this.add.existing(this.phaseDisplay);
 
-    let playerDisplay = new PlayerDisplay(this)
-    playerDisplay.x = 192;
-    playerDisplay.y = 194;
-    this.add.existing(playerDisplay);
+    this.playerDisplay = new PlayerDisplay(this)
+    this.playerDisplay.x = 192;
+    this.playerDisplay.y = 194;
+    this.add.existing(this.playerDisplay);
 
     let instructions = this.add.image(136,284, "instructions");
     instructions.setOrigin(0, 0)

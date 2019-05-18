@@ -4,7 +4,7 @@
 * @description  gaminator 19
 */
 
-import { Scene } from "phaser";
+import { Scene, Animations } from "phaser";
 import { CardData } from "../types/Types";
 import { CardDetailsDisplay } from "./CardDetailsDisplay";
 
@@ -57,6 +57,11 @@ export class BoardSpot extends Phaser.GameObjects.Container {
   }
 
   public populate(card: CardData) {
+    let playSpawnAnim = false;
+    if (card != null && this.card != card) {
+      playSpawnAnim = true
+    }
+
     if (card != null) {
       this.visible = true;
       this.card = card;
@@ -68,6 +73,31 @@ export class BoardSpot extends Phaser.GameObjects.Container {
       this.protected.visible = this.card.protected;
     } else {
       this.visible = false;
+    }
+
+    if (playSpawnAnim) {
+      this.creature.alpha = 0;
+      let spawnAnim = new Phaser.GameObjects.Sprite(this.scene, 0, 0, '');
+      spawnAnim.play('board_spawn_anim')
+      spawnAnim.y = -20;
+      spawnAnim.x = 0;
+      this.scene.add.existing(spawnAnim);
+      this.add(spawnAnim);
+      spawnAnim.on('animationcomplete', (anim: Animations.Animation, frame: Animations.AnimationFrame) => {
+        spawnAnim.destroy();
+        let timer = this.scene.time.addEvent({
+          delay: 10,
+          callback: () => {
+            this.creature.alpha += 0.04
+            if (this.creature.alpha >= 1) {
+              timer.destroy();
+            }
+          },
+          callbackScope: this,
+          loop: true,
+          paused: false
+        });
+      });
     }
   }
 

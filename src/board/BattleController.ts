@@ -10,10 +10,13 @@ import { HandDisplay } from "./HandDisplay";
 import { BoardData, BoardPhase, PhaseType, CardData } from "../types/Types";
 import { CardDetailsDisplay } from "./CardDetailsDisplay";
 import { CardDisplay } from "./CardDisplay";
+import { PlayerDisplay } from "./PlayerDisplay";
+import { PhaseDisplay } from "./PhaseDisplay";
 
 type TMPData = {
   selectedCard?: CardData;
   protectedCard?: CardData;
+  compileFinished?: boolean;
 }
 
 export class BattleController {
@@ -23,7 +26,15 @@ export class BattleController {
   private phase: BoardPhase = BoardPhase.PREPARE;
   private tmp: TMPData = {};
 
-  constructor(private scene: Phaser.Scene, private keybinds: Keybinds, private spots: BoardSpotsContainer, private hand: HandDisplay, private details: CardDetailsDisplay, private board: BoardData) {
+  constructor(
+    private scene: Phaser.Scene,
+    private keybinds: Keybinds,
+    private player: PlayerDisplay,
+    private turn: PhaseDisplay,
+    private spots: BoardSpotsContainer,
+    private hand: HandDisplay,
+    private details: CardDetailsDisplay,
+    private board: BoardData) {
 
     // let timer = this.scene.time.addEvent({
     //   delay: weaponData.chargeInterval,
@@ -69,10 +80,9 @@ export class BattleController {
   //
   private phasePrepare() {
     if (this.phaseStarted()) {
-      console.log('press enter to begin');
+      console.log('battle begins');
     }
     if (this.keybinds.enterPressed) {
-      console.log('player is go');
       this.nextPhase();
     }
   }
@@ -82,13 +92,18 @@ export class BattleController {
   //
   private phasePlayerDraw() {
     if (this.phaseStarted()) {
-      console.log('Drawing player cards');
+      console.log('вrawing player cards');
 
+      // draw card
       for (let i = 0; i < 3; i++) {
         let card = this.board.player.deck.shift()
         this.board.player.hand.push(card);
         this.hand.addCard(new CardDisplay(this.scene).populate(card))
       }
+      // increase & refill mana
+      this.board.player.linkMax++
+      this.board.player.link = this.board.player.linkMax
+
       console.log('press enter to confirm your initial hand');
     }
 
@@ -130,7 +145,7 @@ export class BattleController {
     } else {
       if (this.keybinds.leftPressed) this.hand.moveCursor(-1)
       if (this.keybinds.rightPressed) this.hand.moveCursor(1)
-      if (this.keybinds.enterPressed) { 
+      if (this.keybinds.enterPressed) {
         // activate spot cursor for selected card
         this.tmp.selectedCard = this.board.player.hand[this.hand.cursorPos];
         this.spots.putCursor(1, 1);
@@ -140,7 +155,7 @@ export class BattleController {
         this.hand.setCursorHidden(true);
         this.details.visible = true;
         this.nextPhase();
-      } 
+      }
     }
   }
 
@@ -156,12 +171,22 @@ export class BattleController {
     if (this.keybinds.leftPressed) this.spots.moveCursor(-1)
     if (this.keybinds.rightPressed) this.spots.moveCursor(1)
     if (this.keybinds.enterPressed) {
+      let card = this.spots.getCardAtCursor() ;
+
       if (this.tmp.protectedCard) {
-        this.tmp.protectedCard.protected = false;
+        if (this.tmp.protectedCard != card) {
+          this.tmp.protectedCard.protected = false;
+        }
       }
-      this.spots.getCardAtCursor().protected = true;
+      if (card) {
+        card.protected = !card.protected;
+      }
       this.tmp.protectedCard = this.spots.getCardAtCursor();
       this.spots.refresh();
+    }
+    if (this.keybinds.escPressed) {
+      this.spots.setCursorHidden(true);
+      this.nextPhase();
     }
   }
 
@@ -169,12 +194,37 @@ export class BattleController {
   // PLAYER COMPILE
   //
   private phasePlayerCompile() {
+    if (this.phaseStarted()) {
+      console.log('compiling...');
+      this.tmp.compileFinished = false;
+
+      let timer = this.scene.time.addEvent({
+        delay: 1000,
+        callback: () => {
+          this.tmp.compileFinished = true;
+          timer.destroy();
+        },
+        callbackScope: this,
+        loop: false,
+        paused: false
+      });
+    }
+
+    if (this.tmp.compileFinished) {
+      console.log('compilation finished')
+      this.nextPhase();
+    }
+
+    // this.timers.push(timer);
   }
 
   //
   // OPPONENT DRAW
   //
   private phaseOpponentDraw() {
+    if (this.phaseStarted()) {
+      console.log('opponent draw')
+    }
   }
 
   //
