@@ -20,10 +20,8 @@ export class WorldScene extends Phaser.Scene {
     console.log('create')
     this.cameras.main.setBackgroundColor(0x1f1f1f);
 
-    var shader = this.add.shader('helloworld', 0, 0, 1024, 1024, [ 'water' ]);
+    var shader = this.add.shader('chelnoque-water', 0, 0, 1024, 1024, [ 'water' ]);
     shader.setChannel0('water', {'magFilter': 'nearest', 'minFilter': 'nearest'});
-    // shader.scaleX = 2;
-    // shader.scaleY = 2;
     this.add.image(0, 0, "ground").setOrigin(0,0);
     this.game.scale.on('resize', (size: Phaser.GameObjects.Components.Size) => this.onWindowResize(size.width, size.height));
     

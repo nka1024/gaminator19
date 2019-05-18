@@ -1,5 +1,5 @@
 ﻿---
-name: Chelnoque-water
+name: chelnoque-water
 type: fragment
 uniform.origin: { "type": "1f", "value": 2.0 }
 uniform.iChannel0: { "type": "sampler2D", "value": null, "textureData": { "repeat": true} }

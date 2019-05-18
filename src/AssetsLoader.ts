@@ -17,9 +17,9 @@ export class AssetsLoader {
   public static preload(scene: Phaser.Scene) {
     scene.load.json("map", "./assets/map.json");
  
-    scene.load.glsl('bundle', 'assets/world/assets_shaders_shader0.glsl');
-    scene.load.image("water", "./assets/world/water.png");
-    scene.load.image("ground", "./assets/world/ground.png");
+    scene.load.glsl('bundle', 'assets/shaders/chelnoque-water.glsl');
+    scene.load.image("water", "./assets/gaminator/water.png");
+    scene.load.image("ground", "./assets/gaminator/ground.png");
 
     scene.load.image("add_heart", "./assets/board/add_heart.png");
     scene.load.image("add_sword", "./assets/board/add_sword.png");
