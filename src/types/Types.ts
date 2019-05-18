@@ -18,6 +18,7 @@ export enum PhaseType  {
   LOAD = 0,
   COMMANDS,
   PROTECT,
+  COMPILE,
   OPPONENT,
 }
 

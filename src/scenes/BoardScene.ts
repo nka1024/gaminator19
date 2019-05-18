@@ -80,7 +80,7 @@ export class BoardScene extends Phaser.Scene {
   private addDisplays() {
     this.phaseDisplay = new PhaseDisplay(this)
     this.phaseDisplay.x = 60;
-    this.phaseDisplay.y = 254;
+    this.phaseDisplay.y = 244;
     this.add.existing(this.phaseDisplay);
 
     this.playerDisplay = new PlayerDisplay(this)

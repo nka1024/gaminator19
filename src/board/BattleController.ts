@@ -60,6 +60,7 @@ export class BattleController {
     if (this.phaseStarted()) {
       console.log('battle begins. press enter to start');
       this.player.populate(this.board.player.hp, this.board.player.link, this.board.player.linkMax);
+      this.turn.setPhase(PhaseType.LOAD);
     }
     this.nextPhase();
   }
@@ -73,16 +74,17 @@ export class BattleController {
 
       // turn 
       this.board.turn++;
+      this.turn.setPhase(PhaseType.OPPONENT);
 
       // draw card
       for (let i = 0; i < (this.board.turn == 1 ? 3 : 1); i++) {
-        let card = this.board.player.deck.shift()
+        let card = this.board.player.deck.shift();
         this.board.player.hand.push(card);
-        this.hand.addCard(new CardDisplay(this.scene).populate(card))
+        this.hand.addCard(new CardDisplay(this.scene).populate(card));
       }
       // increase & refill mana
-      this.board.player.linkMax++
-      this.board.player.link = this.board.player.linkMax
+      this.board.player.linkMax++;
+      this.board.player.link = this.board.player.linkMax;
       this.player.addLink(this.board.player.link, this.board.player.linkMax);
 
       if (this.board.turn == 1) {
@@ -104,6 +106,7 @@ export class BattleController {
   //
   private phasePlayerCommand() {
     if (this.phaseStarted()) {
+      this.turn.setPhase(PhaseType.COMMANDS)
       console.log('Select card to command');
       this.hand.setCursorHidden(false)
       this.hand.putCursor(0);
@@ -150,6 +153,7 @@ export class BattleController {
   //
   private phasePlayerProtect() {
     if (this.phaseStarted()) {
+      this.turn.setPhase(PhaseType.PROTECT);
       console.log('select protected card');
       this.spots.putCursor(1, 1);
     }
@@ -181,6 +185,7 @@ export class BattleController {
   //
   private phasePlayerCompile() {
     if (this.phaseStarted()) {
+      this.turn.setPhase(PhaseType.COMPILE);
       console.log('compiling...');
       this.tmp.compileFinished = false;
 
@@ -208,6 +213,7 @@ export class BattleController {
   // OPPONENT DRAW
   //
   private phaseOpponentDraw() {
+    this.turn.setPhase(PhaseType.OPPONENT)
     if (this.phaseStarted()) {
       console.log('opponent draw')
     }

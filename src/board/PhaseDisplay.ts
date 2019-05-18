@@ -10,7 +10,8 @@ import { PhaseType } from "../types/Types";
 
 export class PhaseDisplay extends Phaser.GameObjects.Container {
 
-  private static phaseOrder = [PhaseType.LOAD, PhaseType.COMMANDS, PhaseType.PROTECT, PhaseType.OPPONENT];
+  private static phaseOrder = [
+    PhaseType.LOAD, PhaseType.COMMANDS, PhaseType.PROTECT, PhaseType.COMPILE, PhaseType.OPPONENT];
 
   private phaseNames: Phaser.GameObjects.Image[] = [];
   private phaseDone: Phaser.GameObjects.Image[] = [];
@@ -22,10 +23,10 @@ export class PhaseDisplay extends Phaser.GameObjects.Container {
     this.phaseNames.push(new Phaser.GameObjects.Image(scene, 0, 0, "turn_name_load"))
     this.phaseNames.push(new Phaser.GameObjects.Image(scene, 0, 0, "turn_name_commands"))
     this.phaseNames.push(new Phaser.GameObjects.Image(scene, 0, 0, "turn_name_protect"))
-    this.phaseNames.push(new Phaser.GameObjects.Image(scene, 0, 0, "turn_name_opponent"))
     this.phaseNames.push(new Phaser.GameObjects.Image(scene, 0, 0, "turn_name_compile"))
+    this.phaseNames.push(new Phaser.GameObjects.Image(scene, 0, 0, "turn_name_opponent"))
 
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < this.phaseNames.length; i++) {
       let name = this.phaseNames[i];
       name.setOrigin(0,0)
       this.add(name);
@@ -47,13 +48,12 @@ export class PhaseDisplay extends Phaser.GameObjects.Container {
       this.add(done);
     }
 
-    this.setPhase(PhaseType.PROTECT);
+    this.setPhase(PhaseType.LOAD);
   }
 
   public setPhase(phase: PhaseType) {
     let idx = PhaseDisplay.phaseOrder.indexOf(phase);
-    console.log('idx: ' + idx)
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < this.phaseNames.length; i++) {
       this.phaseNames[i].alpha = i <= idx ? 1 : 0.35;
       this.phaseDone[i].visible = i < idx;
       this.phaseCurrent[i].visible = i == idx;
