@@ -42,7 +42,6 @@ export class CardDetailsDisplay extends Phaser.GameObjects.Container {
     this.add(this.hpTxt);
 
     this.creature = new Phaser.GameObjects.Image(scene, 0,0, 'creature_doogie')
-    // this.creature.setOrigin(0.5, 0)
     this.creature.x = 33
     this.creature.y = 30
     this.add(this.creature)

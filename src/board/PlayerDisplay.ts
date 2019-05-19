@@ -44,7 +44,6 @@ export class PlayerDisplay extends Phaser.GameObjects.Container {
 
   public addLink(link: number, linkMax: number) {
     this.linkTxt.text = link + '/' + linkMax;
-    // this.linkTxt.text = 'dfdf';
 
     let linkUp = new Phaser.GameObjects.Sprite(this.scene, 0, 0, '');
     linkUp.setOrigin(0,0)

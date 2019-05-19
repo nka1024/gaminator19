@@ -1,7 +1,7 @@
 /**
 * @author       Kirill Nepomnyaschiy <nka1024@gmail.com>
 * @copyright    Kirill Nepomnyaschiy
-* @description  Tecnho Nomads: gameplay prototype
+* @description  gaminator 19
 */
 
 import { Animations } from "phaser";

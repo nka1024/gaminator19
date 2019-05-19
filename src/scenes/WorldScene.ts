@@ -1,11 +1,10 @@
 /**
 * @author       Kirill Nepomnyaschiy <nka1024@gmail.com>
 * @copyright    Kirill Nepomnyaschiy
-* @description  Tecnho Nomads: gameplay prototype
+* @description  gaminator 19
 */
 
 import { AssetsLoader } from "../AssetsLoader";
-import { Keybinds } from "../Keybinds";
 import { AnimationRegistry } from "../AnimationRegistry";
 import { WorldPlayer } from "../world/WorldPlayer";
 import { WorldAmbientObject } from "../world/WorldAmbientObject";
@@ -48,20 +47,6 @@ export class WorldScene extends Phaser.Scene {
 
     this.pool = this.add.group();
     this.pool.runChildUpdate = true;
-
-    // for (let i = 0; i < 1; i++) {
-    //   for (let j = 0; j < 1; j++) {
-    //     let x = this.MAP_W * j;
-    //     let y = this.MAP_W * i;
-    //     var shader = this.add.shader('chelnoque-water', x, y, this.MAP_W * 2, this.MAP_W * 2, ['water1']);
-    //     shader.scaleX = 0.5;
-    //     shader.scaleY = 0.5;
-    //     shader.setChannel0(this.waters[i][j], { 'magFilter': 'nearest', 'minFilter': 'nearest' });
-    //     shader.setOrigin(0, 0)
-    //     this.add.image(x, y, this.grounds[i][j]).setOrigin(0, 0);
-    //     console.log('place at ' + x + ':' + y);
-    //   }
-    // }
 
     let xs = [{ x: 200, y: 200 },
     { x: 324, y: 245 },

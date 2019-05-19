@@ -58,7 +58,5 @@ export class PhaseDisplay extends Phaser.GameObjects.Container {
       this.phaseDone[i].visible = i < idx;
       this.phaseCurrent[i].visible = i == idx;
     }
-
   }
-
 }

@@ -1,7 +1,7 @@
 /**
 * @author       Kirill Nepomnyaschiy <nka1024@gmail.com>
 * @copyright    Kirill Nepomnyaschiy
-* @description  gaminator
+* @description  gaminator 19
 */
 
 import { Keybinds } from "../Keybinds";
