@@ -76,7 +76,7 @@ export class BattleController {
 
       // turn 
       this.board.turn++;
-      this.turn.setPhase(PhaseType.OPPONENT);
+      this.turn.setPhase(PhaseType.LOAD);
 
       // draw card
       for (let i = 0; i < (this.board.turn == 1 ? 3 : 1); i++) {
@@ -316,7 +316,7 @@ export class BattleController {
             let card = this.board.opponent.deck.shift();
             if (card) {
               this.board.opponent.hand.push(card);
-              this.hand.addCard(new CardDisplay(this.scene).populate(card));
+              // this.hand.addCard(new CardDisplay(this.scene).populate(card));
             }
             timer.destroy();
           },
