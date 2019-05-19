@@ -69,6 +69,13 @@ export class WorldScene extends Phaser.Scene {
       this.add.existing(ambient);
     }
 
+    let ambient = new WorldAmbientObject(this, 289, 204);
+    ambient.playFireAnim();
+    ambient.scaleX = 0.5
+    ambient.scaleY = 0.5
+    this.pool.add(ambient);
+    this.add.existing(ambient);
+
 
     this.player = new WorldPlayer(this, 326, 156);
     this.pool.add(this.player);

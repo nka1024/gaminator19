@@ -25,4 +25,10 @@ export class WorldAmbientObject extends Phaser.GameObjects.Sprite {
       this.visible = true;
     }
   }
+
+  public playFireAnim() {
+    this.play('fire_anim');
+    this.animPlaying = true;
+    this.visible = true;
+  }
 }
