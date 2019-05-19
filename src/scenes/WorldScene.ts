@@ -89,14 +89,17 @@ export class WorldScene extends Phaser.Scene {
   }
 
   update(): void {
+    let wOffsetX = Math.floor(this.player.x/this.MAP_W);
+    let wOffsetY = Math.floor(this.player.y/this.MAP_W);
+
     this.cameras.main.scrollX = this.player.x - this.cameras.main.displayWidth/2;
     this.cameras.main.scrollY = this.player.y - this.cameras.main.displayHeight/2;
 
-    if (this.cameras.main.scrollX < 0) this.cameras.main.scrollX = 0
-    if (this.cameras.main.scrollY < 0) this.cameras.main.scrollY = 0
+    if (this.cameras.main.scrollX < wOffsetX * this.MAP_W) this.cameras.main.scrollX = wOffsetX * this.MAP_W
+    if (this.cameras.main.scrollY < wOffsetY * this.MAP_W) this.cameras.main.scrollY = wOffsetY * this.MAP_W
 
-    let cameraMaxX = this.MAP_W - this.cameras.main.displayWidth;
-    let cameraMaxY = this.MAP_W - this.cameras.main.displayHeight;
+    let cameraMaxX = (wOffsetX + 1) * this.MAP_W - this.cameras.main.displayWidth;
+    let cameraMaxY = (wOffsetY + 1) * this.MAP_W - this.cameras.main.displayHeight;
     if (this.cameras.main.scrollX > cameraMaxX) this.cameras.main.scrollX = cameraMaxX
     if (this.cameras.main.scrollY > cameraMaxY) this.cameras.main.scrollY = cameraMaxY
   }
