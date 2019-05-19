@@ -180,6 +180,9 @@ export class BattleController {
     if (this.keybinds.leftPressed) this.spots.moveCursor(-1)
     if (this.keybinds.rightPressed) this.spots.moveCursor(1)
     if (this.keybinds.enterPressed) {
+      // let col = this.spots.getCursorCol();
+      // let short = this.board.opponent.board[col] != null
+      // this.spots.attack(1, col, -1, short);
       if (!this.spots.isCursorNextPhase()) {
         // toggle card protection
         let card = this.spots.getCardAtCursor();

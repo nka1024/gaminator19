@@ -49,6 +49,14 @@ export class AnimationRegistry {
       repeatDelay: 0,
       hideOnComplete: true
     });
+    scene.anims.create({
+      key: 'attack_anim',
+      frames: scene.anims.generateFrameNumbers('attack_anim_128x32', { start: 0, end: 6 }),
+      frameRate: 20,
+      repeat: 0,
+      repeatDelay: 0,
+      hideOnComplete: true
+    });
   }
 
   private registerBoardUIAnimations(scene: Scene) {
