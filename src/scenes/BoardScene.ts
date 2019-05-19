@@ -63,6 +63,8 @@ export class BoardScene extends Phaser.Scene {
   create(data): void {
     console.log('create')
     this.animationRegistry = new AnimationRegistry(this);
+    this.animationRegistry.initBoardAnimations();
+    
     this.cameras.main.setBackgroundColor(0x1f1f1f);
 
     this.add.image(0, 0, "battle_bg").setOrigin(0,0);

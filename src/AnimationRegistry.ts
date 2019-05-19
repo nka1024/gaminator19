@@ -7,17 +7,87 @@
 import { Scene } from "phaser";
 
 export class AnimationRegistry {
-  constructor(scene: Scene) {
-    this.registerPlayerAnimations(scene);
-    this.registerFxAnimations(scene);
-    this.registerBoardUIAnimations(scene);
+  constructor(private scene: Scene) {
+  }
+
+  public initBoardAnimations() {
+    this.registerPlayerAnimations(this.scene);
+    this.registerFxAnimations(this.scene);
+    this.registerBoardUIAnimations(this.scene);
+  }
+
+  public initWorldAnimations() {
+    this.registerPlayerAnimations(this.scene);
+    this.registerAmbientAnimations(this.scene);
+  }
+
+  private registerAmbientAnimations(scene: Scene) {
+    // bubbl1 = 35
+    // bubbl2 = 25
+    // bubbl3 = 33
+    // fire = 5
   }
 
   private registerPlayerAnimations(scene: Scene) {
     scene.anims.create({
       key: 'player_idle_back_anim',
-      frames: scene.anims.generateFrameNumbers('idle_back_128x128', { start: 0, end: 4 }),
+      frames: scene.anims.generateFrameNumbers('player_idle_back_128x128', { start: 0, end: 4 }),
       frameRate: 5,
+      repeat: -1,
+      repeatDelay: 0,
+    });
+    scene.anims.create({
+      key: 'player_idle_front_anim',
+      frames: scene.anims.generateFrameNumbers('player_idle_front_128x128', { start: 0, end: 4 }),
+      frameRate: 5,
+      repeat: -1,
+      repeatDelay: 0,
+      hideOnComplete: false
+    });
+    scene.anims.create({
+      key: 'player_idle_left_anim',
+      frames: scene.anims.generateFrameNumbers('player_idle_left_128x128', { start: 0, end: 4 }),
+      frameRate: 5,
+      repeat: -1,
+      repeatDelay: 0,
+      hideOnComplete: false
+    });
+    scene.anims.create({
+      key: 'player_idle_right_anim',
+      frames: scene.anims.generateFrameNumbers('player_idle_right_128x128', { start: 0, end: 4 }),
+      frameRate: 5,
+      repeat: -1,
+      repeatDelay: 0,
+      hideOnComplete: false
+    });
+    scene.anims.create({
+      key: 'player_walk_back_anim',
+      frames: scene.anims.generateFrameNumbers('player_walk_back_128x128', { start: 0, end: 5 }),
+      frameRate: 5,
+      repeat: -1,
+      repeatDelay: 0,
+      hideOnComplete: false
+    });
+    scene.anims.create({
+      key: 'player_walk_front_anim',
+      frames: scene.anims.generateFrameNumbers('player_walk_front_128x128', { start: 0, end: 5 }),
+      frameRate: 5,
+      repeat: -1,
+      repeatDelay: 0,
+      hideOnComplete: false
+    });
+    scene.anims.create({
+      key: 'player_walk_left_anim',
+      frames: scene.anims.generateFrameNumbers('player_walk_left_128x128', { start: 0, end: 7 }),
+      frameRate: 7,
+      repeat: -1,
+      repeatDelay: 0,
+      hideOnComplete: false
+    });
+    scene.anims.create({
+      key: 'player_walk_right_anim',
+      frames: scene.anims.generateFrameNumbers('player_walk_right_128x128', { start: 0, end: 7 }),
+      frameRate: 7,
       repeat: -1,
       repeatDelay: 0,
       hideOnComplete: false

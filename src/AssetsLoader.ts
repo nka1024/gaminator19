@@ -18,10 +18,24 @@ export class AssetsLoader {
     scene.load.json("map", "./assets/map.json");
  
     scene.load.glsl('bundle', 'assets/shaders/chelnoque-water.glsl');
-    scene.load.image("water", "./assets/gaminator/water.png");
-    scene.load.image("ground", "./assets/gaminator/ground.png");
+    scene.load.image("water1", "./assets/gaminator/water1.png");
+    scene.load.image("water2", "./assets/gaminator/water2.png");
+    scene.load.image("water3", "./assets/gaminator/water3.png");
+    scene.load.image("water4", "./assets/gaminator/water4.png");
+    scene.load.image("ground1", "./assets/gaminator/ground1.png");
+    scene.load.image("ground2", "./assets/gaminator/ground2.png");
+    scene.load.image("ground3", "./assets/gaminator/ground3.png");
+    scene.load.image("ground4", "./assets/gaminator/ground4.png");
 
-    scene.load.spritesheet('idle_back_128x128', './assets/board/idle_back_128x128.png', {frameWidth: 128, frameHeight: 128});
+    scene.load.spritesheet('player_idle_back_128x128', './assets/gaminator/player/idle_back_128x128.png', {frameWidth: 128, frameHeight: 128});
+    scene.load.spritesheet('player_idle_front_128x128', './assets/gaminator/player/idle_front_128x128.png', {frameWidth: 128, frameHeight: 128});
+    scene.load.spritesheet('player_idle_left_128x128', './assets/gaminator/player/idle_left_128x128.png', {frameWidth: 128, frameHeight: 128});
+    scene.load.spritesheet('player_idle_right_128x128', './assets/gaminator/player/idle_right_128x128.png', {frameWidth: 128, frameHeight: 128});
+    scene.load.spritesheet('player_walk_back_128x128', './assets/gaminator/player/walk_back_128x128.png', {frameWidth: 128, frameHeight: 128});
+    scene.load.spritesheet('player_walk_front_128x128', './assets/gaminator/player/walk_front_128x128.png', {frameWidth: 128, frameHeight: 128});
+    scene.load.spritesheet('player_walk_left_128x128', './assets/gaminator/player/walk_left_128x128.png', {frameWidth: 128, frameHeight: 128});
+    scene.load.spritesheet('player_walk_right_128x128', './assets/gaminator/player/walk_right_128x128.png', {frameWidth: 128, frameHeight: 128});
+
     scene.load.spritesheet('attack_anim_128x32', './assets/board/attack_anim_128x32.png', {frameWidth: 128, frameHeight: 32});
     scene.load.spritesheet('spawn_64x64', './assets/board/spawn2_64x64.png', {frameWidth: 64, frameHeight: 64});
     scene.load.spritesheet('cursor_hand_18x124', './assets/board/cursor_hand.png', {frameWidth: 18, frameHeight: 124});

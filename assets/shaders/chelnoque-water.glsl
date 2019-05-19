@@ -1,8 +1,8 @@
 ﻿---
 name: chelnoque-water
 type: fragment
-uniform.origin: { "type": "1f", "value": 2.0 }
-uniform.iChannel0: { "type": "sampler2D", "value": null, "textureData": { "repeat": true} }
+uniform.origin: { "type": "1f", "value": 1.0 }
+uniform.iChannel0: { "type": "sampler2D", "value": null, "textureData": { "repeat": false} }
 uniform.waveDistortion: { "type": "2f", "value": {"x":0.2, "y":0.05 } }
 uniform.waveLength: { "type": "2f", "value": { "x": 0.2, "y":1.2 } }
 ---
