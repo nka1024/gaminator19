@@ -13,6 +13,7 @@ export class BoardSpot extends Phaser.GameObjects.Container {
 
   private heart: Phaser.GameObjects.Image;
   private sword: Phaser.GameObjects.Image;
+  private sandclock: Phaser.GameObjects.Image;
   private protected: Phaser.GameObjects.Image;
   private atkTxt: Phaser.GameObjects.BitmapText;
   private hpTxt: Phaser.GameObjects.BitmapText;
@@ -40,6 +41,9 @@ export class BoardSpot extends Phaser.GameObjects.Container {
     this.heart = new Phaser.GameObjects.Image(scene, 15, 0, "icon_heart");
     this.add(this.heart);
 
+    this.sandclock = new Phaser.GameObjects.Image(scene, -15, -25, "sandclock");
+    this.add(this.sandclock);
+
     this.atkTxt = new Phaser.GameObjects.BitmapText(scene, -14, 0, 'coco-8-white');
     this.atkTxt.letterSpacing = -1;
     this.add(this.atkTxt);
@@ -63,7 +67,7 @@ export class BoardSpot extends Phaser.GameObjects.Container {
     body.on('animationcomplete', (anim: Animations.Animation, frame: Animations.AnimationFrame) => {
       body.destroy();
     });
-    body.angle = direction ? -90 : 90;
+    body.angle = direction < 0 ? -90 : 90;
     body.displayOriginX = 0;
     body.scaleX = short ? 0.5 : 1; 
     this.scene.add.existing(body);
@@ -80,6 +84,7 @@ export class BoardSpot extends Phaser.GameObjects.Container {
       this.visible = true;
       this.card = card;
 
+      this.sandclock.visible = card.turned;
       this.hpTxt.text = card.hp.toString();
       this.atkTxt.text = card.attack.toString();
 

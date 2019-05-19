@@ -47,6 +47,7 @@ export type CardData = {
   hp?: number
   link: number
   protected?: boolean
+  turned: boolean
 }
 
 export enum BoardPhase {

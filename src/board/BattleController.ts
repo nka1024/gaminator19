@@ -27,6 +27,7 @@ export class BattleController {
     private scene: Phaser.Scene,
     private keybinds: Keybinds,
     private player: PlayerDisplay,
+    private opponent: PlayerDisplay,
     private turn: PhaseDisplay,
     private spots: BoardSpotsContainer,
     private hand: HandDisplay,
@@ -60,6 +61,7 @@ export class BattleController {
     if (this.phaseStarted()) {
       console.log('battle begins. press enter to start');
       this.player.populate(this.board.player.hp, this.board.player.link, this.board.player.linkMax);
+      this.opponent.populate(this.board.opponent.hp, this.board.opponent.link, this.board.opponent.linkMax);
       this.turn.setPhase(PhaseType.LOAD);
     }
     this.nextPhase();
@@ -79,13 +81,22 @@ export class BattleController {
       // draw card
       for (let i = 0; i < (this.board.turn == 1 ? 3 : 1); i++) {
         let card = this.board.player.deck.shift();
-        this.board.player.hand.push(card);
-        this.hand.addCard(new CardDisplay(this.scene).populate(card));
+        if (card) {
+          this.board.player.hand.push(card);
+          this.hand.addCard(new CardDisplay(this.scene).populate(card));
+        }
       }
       // increase & refill mana
       this.board.player.linkMax++;
       this.board.player.link = this.board.player.linkMax;
       this.player.addLink(this.board.player.link, this.board.player.linkMax);
+
+      // unturn turned cards 
+      for (let i = 0; i < 3; i++) {
+        if (this.board.player.board[i])
+          this.board.player.board[i].turned = false;
+        this.spots.refresh();
+      }
 
       if (this.board.turn == 1) {
         console.log('press enter to confirm your initial hand');
@@ -187,11 +198,12 @@ export class BattleController {
         // toggle card protection
         let card = this.spots.getCardAtCursor();
 
-        if (this.tmp.protectedCard) {
-          if (this.tmp.protectedCard != card) {
-            this.tmp.protectedCard.protected = false;
+        for (let bcard of this.board.player.board) {
+          if (bcard && bcard != card) {
+            bcard.protected = false;
           }
         }
+
         if (card) {
           card.protected = !card.protected;
         }
@@ -222,20 +234,28 @@ export class BattleController {
           delay: i * 500,
           callback: () => {
             let card = this.board.player.board[i];
-            if (card) {
+            if (card && !card.turned) {
               let opponentCard = this.board.opponent.board[i];
               let short = opponentCard != null
               this.spots.attack(1, i, -1, short);
               // deal damage
               if (opponentCard) {
-                opponentCard.hp -= card.attack;
+                if (card.protected) {
+                  opponentCard.hp -= card.attack;
+                  this.spots.refresh();
+                } else {
+                  this.board.opponent.hp -= card.attack;
+                  this.spots.refresh();
+                  this.opponent.populate(this.board.opponent.hp, this.board.opponent.link, this.board.opponent.linkMax);
+                }
                 if (opponentCard.hp <= 0) {
-                  this.board.opponent.deck.slice(this.board.opponent.deck.indexOf(opponentCard), 1);
+                  this.board.opponent.board[i] = null;
                   this.spots.putCard(0, i, null);
                 }
               } else {
                 this.board.opponent.hp -= card.attack;
                 this.spots.refresh();
+                this.opponent.populate(this.board.opponent.hp, this.board.opponent.link, this.board.opponent.linkMax);
               }
             }
             t.destroy();
@@ -245,7 +265,6 @@ export class BattleController {
           paused: false
         });
       }
-
 
 
       let timer = this.scene.time.addEvent({
@@ -280,7 +299,14 @@ export class BattleController {
       // increase & refill mana
       this.board.opponent.linkMax++;
       this.board.opponent.link = this.board.opponent.linkMax;
-      // this.player.addLink(this.board.player.link, this.board.player.linkMax);
+      this.opponent.addLink(this.board.opponent.link, this.board.opponent.linkMax);
+
+      // unturn turned cards 
+      for (let i = 0; i < 3; i++) {
+        if (this.board.opponent.board[i])
+          this.board.opponent.board[i].turned = false;
+        this.spots.refresh();
+      }
 
       // draw card
       for (let i = 0; i < (this.board.turn == 1 ? 3 : 1); i++) {
@@ -288,8 +314,10 @@ export class BattleController {
           delay: i * 250,
           callback: () => {
             let card = this.board.opponent.deck.shift();
-            this.board.opponent.hand.push(card);
-            // this.hand.addCard(new CardDisplay(this.scene).populate(card));
+            if (card) {
+              this.board.opponent.hand.push(card);
+              this.hand.addCard(new CardDisplay(this.scene).populate(card));
+            }
             timer.destroy();
           },
           callbackScope: this,
@@ -356,9 +384,58 @@ export class BattleController {
   //
   private phaseOpponentCompile() {
     if (this.phaseStarted()) {
-      console.log('opponent draw')
+      this.turn.setPhase(PhaseType.OPPONENT);
+      this.tmp.compileFinished = false;
+
+      for (let i = 0; i < 3; i++) {
+        let t = this.scene.time.addEvent({
+          delay: i * 500,
+          callback: () => {
+            let card = this.board.opponent.board[i];
+            if (card && !card.turned) {
+              let playerCard = this.board.player.board[i];
+              let short = playerCard != null
+              this.spots.attack(0, i, 1, short);
+              // deal damage
+              if (playerCard) {
+                if (!playerCard.protected) {
+                  playerCard.hp -= card.attack;
+                  this.spots.refresh();
+                } else {
+                  this.board.player.hp -= card.attack;
+                  this.spots.refresh();
+                  this.player.populate(this.board.player.hp, this.board.player.link, this.board.player.linkMax);
+                }
+                if (playerCard.hp <= 0) {
+                  this.board.player.board[i] = null
+                  this.spots.putCard(1, i, null);
+                }
+              } else {
+                this.board.player.hp -= card.attack;
+                this.spots.refresh();
+                this.player.populate(this.board.player.hp, this.board.player.link, this.board.player.linkMax);
+              }
+            }
+            t.destroy();
+          },
+          callbackScope: this,
+          loop: false,
+          paused: false
+        });
+      }
+
+      let timer = this.scene.time.addEvent({
+        delay: 2000,
+        callback: () => {
+          this.tmp.compileFinished = true;
+          timer.destroy();
+          this.nextPhase();
+        },
+        callbackScope: this,
+        loop: false,
+        paused: false
+      });
     }
-    this.nextPhase();
   }
 
   private phaseStarted(): boolean {

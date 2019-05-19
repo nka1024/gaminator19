@@ -51,7 +51,8 @@ export class BattleService {
       skill: CardSkillType.BUFF_ALLIES_1_1,
       attack: 1 + power,
       hp: 1 + power,
-      link: 1 + power
+      link: 1 + power,
+      turned: true
     }
   }
 
@@ -61,7 +62,8 @@ export class BattleService {
       name: 'Snuk-chak',
       attack: 1 + power,
       hp: 1 + power,
-      link: 1 + power
+      link: 1 + power,
+      turned: true
     }
   }
 }

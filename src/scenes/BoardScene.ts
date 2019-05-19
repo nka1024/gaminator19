@@ -25,6 +25,7 @@ export class BoardScene extends Phaser.Scene {
   private spots: BoardSpotsContainer;
   private hand: HandDisplay;
   private playerDisplay: PlayerDisplay;
+  private opponentDisplay: PlayerDisplay;
   private phaseDisplay: PhaseDisplay;
   private cardDetails: CardDetailsDisplay;
   private battleService: BattleService;
@@ -70,7 +71,7 @@ export class BoardScene extends Phaser.Scene {
     this.addKeybinds();
 
     this.battleService = new BattleService();
-    this.battleController = new BattleController(this, this.keybinds, this.playerDisplay, this.phaseDisplay, this.spots, this.hand, this.cardDetails, this.battleService.makeBoardData());
+    this.battleController = new BattleController(this, this.keybinds, this.playerDisplay, this.opponentDisplay, this.phaseDisplay, this.spots, this.hand, this.cardDetails, this.battleService.makeBoardData());
     this.battleController.start();
 
     this.game.scale.on('resize', (size: Phaser.GameObjects.Components.Size) => this.onWindowResize(size.width, size.height));
@@ -87,6 +88,11 @@ export class BoardScene extends Phaser.Scene {
     this.playerDisplay.x = 192;
     this.playerDisplay.y = 194;
     this.add.existing(this.playerDisplay);
+
+    this.opponentDisplay = new PlayerDisplay(this)
+    this.opponentDisplay.x = 194;
+    this.opponentDisplay.y = 7;
+    this.add.existing(this.opponentDisplay);
 
     let instructions = this.add.image(136,284, "instructions");
     instructions.setOrigin(0, 0)

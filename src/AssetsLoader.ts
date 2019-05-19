@@ -28,8 +28,7 @@ export class AssetsLoader {
     scene.load.spritesheet('turn_current_8x8', './assets/board/turn_current_8x8.png', {frameWidth: 8, frameHeight: 8});
     scene.load.spritesheet('link_up_64x64', './assets/board/link_up_64x64.png', {frameWidth: 64, frameHeight: 64});
 
-    scene.load.image("cursor_hand", "./assets/board/cursor_hand.png");
-
+    scene.load.image("sandclock", "./assets/board/sandclock.png");
     scene.load.image("next_phase", "./assets/board/next_phase.png");
     scene.load.image("add_heart", "./assets/board/add_heart.png");
     scene.load.image("add_sword", "./assets/board/add_sword.png");
