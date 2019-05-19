@@ -49,7 +49,7 @@ export class BattleController {
       case BoardPhase.OPPONENT_DRAW: this.phaseOpponentDraw(); return
       case BoardPhase.OPPONENT_COMMAND: this.phaseOpponentCommand(); return
       case BoardPhase.OPPONENT_PROTECT: this.phaseOpponentProtect(); return
-      case BoardPhase.OPPONENT_COMPILE: this.phasePlayerCompile(); return
+      case BoardPhase.OPPONENT_COMPILE: this.phaseOpponentCompile(); return
     }
   }
 
@@ -217,8 +217,39 @@ export class BattleController {
       console.log('compiling...');
       this.tmp.compileFinished = false;
 
+      for (let i = 0; i < 3; i++) {
+        let t = this.scene.time.addEvent({
+          delay: i * 500,
+          callback: () => {
+            let card = this.board.player.board[i];
+            if (card) {
+              let opponentCard = this.board.opponent.board[i];
+              let short = opponentCard != null
+              this.spots.attack(1, i, -1, short);
+              // deal damage
+              if (opponentCard) {
+                opponentCard.hp -= card.attack;
+                if (opponentCard.hp <= 0) {
+                  this.board.opponent.deck.slice(this.board.opponent.deck.indexOf(opponentCard), 1);
+                  this.spots.putCard(0, i, null);
+                }
+              } else {
+                this.board.opponent.hp -= card.attack;
+                this.spots.refresh();
+              }
+            }
+            t.destroy();
+          },
+          callbackScope: this,
+          loop: false,
+          paused: false
+        });
+      }
+
+
+
       let timer = this.scene.time.addEvent({
-        delay: 1000,
+        delay: 2000,
         callback: () => {
           this.tmp.compileFinished = true;
           timer.destroy();
@@ -233,8 +264,6 @@ export class BattleController {
       console.log('compilation finished')
       this.nextPhase();
     }
-
-    // this.timers.push(timer);
   }
 
   //
@@ -293,15 +322,15 @@ export class BattleController {
       for (let card of this.board.opponent.hand) {
         if (card.link <= this.board.opponent.link) {
           let idxes = [];
-          if (Math.random() > 0.66) idxes = [0,2,1]
-          else if (Math.random() > 0.5) idxes = [1,0,2]
-          else idxes = [2,1,0]
+          if (Math.random() > 0.66) idxes = [0, 2, 1]
+          else if (Math.random() > 0.5) idxes = [1, 0, 2]
+          else idxes = [2, 1, 0]
 
           for (let idx of idxes) {
             if (this.board.opponent.board[idx] == null) {
               this.board.opponent.board[idx] = card;
               this.spots.putCard(0, idx, card);
-              this.board.opponent.link -= card.link; 
+              this.board.opponent.link -= card.link;
               this.board.opponent.hand.splice(this.board.player.hand.indexOf(card), 1);
               break;
             }

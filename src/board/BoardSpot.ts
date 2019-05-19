@@ -86,6 +86,7 @@ export class BoardSpot extends Phaser.GameObjects.Container {
       this.creature.setTexture(CardDetailsDisplay.creatureTextureByName(card.name));
       this.protected.visible = this.card.protected;
     } else {
+      this.card = null;
       this.visible = false;
     }
 

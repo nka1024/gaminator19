@@ -110,8 +110,8 @@ export class BoardSpotsContainer extends Phaser.GameObjects.Container {
   }
 
   public attack(row: number, col: number, directon: number, short: boolean) {
-    if (this.cursorRow < this.spots.length && this.cursorCol < this.spots[this.cursorRow].length) {
-      this.spots[this.cursorRow][this.cursorCol].attack(directon, short);
+    if (row < this.spots.length && col < this.spots[row].length) {
+      this.spots[row][col].attack(directon, short);
     }
   }
 
