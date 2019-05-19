@@ -13,24 +13,18 @@
 </head>
 
 <body id="loginbody" class="en">
+    
   <canvas id="canvas_main" class="canvas_game_main" style="position: absolute; z-index: -100;"></canvas>
 
   <div class="window_manager">
+      <div class="debug_panel_prefab" style="display: block;" hidden=false>
+          <div id="container" class="menu_container lefted" hidden=false style="display: block; position: absolute; width: 100%; top: 0px; pointer-events: none;"  >
+            <img src='/assets_html/box_shadow_1010x600.png'>
+          </div>
+        </div>
   </div>
 
-  <div class="debug_panel_prefab" hidden=true>
-      <div id="container" class="menu_container lefted" hidden=false style="display: block; position: absolute; width: 64px; top: 0">
-        <section id="main" style="padding: 5px; border-radius: 3px">
-          <form action="./" method="post">
-            <div id="loginForm">
-              <h2 class="text_title" style="text-align: center;font-size: 10px;"></h2>
-              <h2 class="text_volume" style="text-align: center;font-size: 10px;"></h2>
-              <!-- <div class="units_list" style="vertical-align: middle; text-align: center"> -->
-            </div>
-          </form>
-        </section>
-      </div>
-    </div>
+  
 
     
   <div class="resources_panel_prefab" hidden=true>
