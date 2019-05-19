@@ -240,7 +240,7 @@ export class BattleController {
               this.spots.attack(1, i, -1, short);
               // deal damage
               if (opponentCard) {
-                if (card.protected) {
+                if (!card.protected) {
                   opponentCard.hp -= card.attack;
                   this.spots.refresh();
                 } else {
