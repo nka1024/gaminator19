@@ -60,9 +60,6 @@ export class WorldPlayer extends Phaser.GameObjects.Sprite {
     this.x += this.speed.x;
     this.y += this.speed.y;
 
-    this.scene.cameras.main.scrollX = this.x - this.scene.cameras.main.displayWidth/2;
-    this.scene.cameras.main.scrollY = this.y - this.scene.cameras.main.displayHeight/2;
-
 
     if (this.enterKey.isDown) {
       console.log('x: ' + this.x + ' y: ' + this.y);

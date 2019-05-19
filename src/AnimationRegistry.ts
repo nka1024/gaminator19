@@ -22,11 +22,6 @@ export class AnimationRegistry {
   }
 
   private registerAmbientAnimations(scene: Scene) {
-    // bubbl1 = 35
-    // bubbl2 = 25
-    // bubbl3 = 33
-    // fire = 5
-
     scene.anims.create({
       key: 'bubble1_anim',
       frames: scene.anims.generateFrameNumbers('bubble1_128x128', { start: 0, end: 34 }),

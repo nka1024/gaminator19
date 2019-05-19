@@ -12,6 +12,8 @@ import { WorldAmbientObject } from "../world/WorldAmbientObject";
 
 export class WorldScene extends Phaser.Scene {
 
+  private MAP_W: number = 512;
+
   private player: WorldPlayer;
   private animationRegistry: AnimationRegistry;
 
@@ -44,9 +46,9 @@ export class WorldScene extends Phaser.Scene {
 
     for (let i = 0; i < 1; i++) {
       for (let j = 0; j < 1; j++) {
-        let x = 512 * j;
-        let y = 512 * i;
-        var shader = this.add.shader('chelnoque-water', x, y, 1024, 1024, ['water1']);
+        let x = this.MAP_W * j;
+        let y = this.MAP_W * i;
+        var shader = this.add.shader('chelnoque-water', x, y, this.MAP_W * 2, this.MAP_W * 2, ['water1']);
         shader.scaleX = 0.5;
         shader.scaleY = 0.5;
         shader.setChannel0(this.waters[i][j], { 'magFilter': 'nearest', 'minFilter': 'nearest' });
@@ -87,6 +89,16 @@ export class WorldScene extends Phaser.Scene {
   }
 
   update(): void {
+    this.cameras.main.scrollX = this.player.x - this.cameras.main.displayWidth/2;
+    this.cameras.main.scrollY = this.player.y - this.cameras.main.displayHeight/2;
+
+    if (this.cameras.main.scrollX < 0) this.cameras.main.scrollX = 0
+    if (this.cameras.main.scrollY < 0) this.cameras.main.scrollY = 0
+
+    let cameraMaxX = this.MAP_W - this.cameras.main.displayWidth;
+    let cameraMaxY = this.MAP_W - this.cameras.main.displayHeight;
+    if (this.cameras.main.scrollX > cameraMaxX) this.cameras.main.scrollX = cameraMaxX
+    if (this.cameras.main.scrollY > cameraMaxY) this.cameras.main.scrollY = cameraMaxY
   }
 
   private onWindowResize(w: number, h: number) {
