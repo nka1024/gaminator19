@@ -119,15 +119,22 @@ export class BattleController {
       if (this.keybinds.rightPressed) this.spots.moveCursor(1)
       if (this.keybinds.enterPressed) {
         let card = this.tmp.selectedCard
-        // put hard on board
-        this.spots.putCardAtCursor(card);
-        this.board.player.board[this.spots.getCursorCol()] = card;
-        this.tmp.selectedCard = null;
-        this.spots.setCursorHidden(true);
-        this.spots.setNextPhaseHidden(true);
-        // remove card from hand
-        this.board.player.hand.splice(this.board.player.hand.indexOf(card), 1);
-        this.hand.removeCardAtCursor();
+        if (card.link <= this.board.player.link) {
+          // reduce link
+          this.board.player.link -= card.link;
+          this.player.populate(this.board.player.hp, this.board.player.link, this.board.player.linkMax);
+          // put hard on board
+          this.spots.putCardAtCursor(card);
+          this.board.player.board[this.spots.getCursorCol()] = card;
+          this.tmp.selectedCard = null;
+          this.spots.setCursorHidden(true);
+          this.spots.setNextPhaseHidden(true);
+          // remove card from hand
+          this.board.player.hand.splice(this.board.player.hand.indexOf(card), 1);
+          this.hand.removeCardAtCursor();
+        } else {
+          console.log('not enough link');
+        }
       }
       if (this.keybinds.escPressed) {
         this.tmp.selectedCard = null;
@@ -140,10 +147,15 @@ export class BattleController {
       if (this.keybinds.enterPressed) {
         if (this.hand.cursorPos < this.board.player.hand.length) {
           // activate spot cursor for selected card
-          this.tmp.selectedCard = this.board.player.hand[this.hand.cursorPos];
-          this.spots.putCursor(1, 1);
-          this.spots.setCursorHidden(false);
-          this.spots.setNextPhaseHidden(true);
+          let card = this.board.player.hand[this.hand.cursorPos];
+          if (card.link <= this.board.player.link) {
+            this.tmp.selectedCard = card
+            this.spots.putCursor(1, 1);
+            this.spots.setCursorHidden(false);
+            this.spots.setNextPhaseHidden(true);
+          } else {
+            console.log('not enough link');
+          }
         } else {
           // next phase
           this.hand.setCursorHidden(true);
@@ -226,11 +238,45 @@ export class BattleController {
   // OPPONENT DRAW
   //
   private phaseOpponentDraw() {
-    this.turn.setPhase(PhaseType.OPPONENT)
     if (this.phaseStarted()) {
-      console.log('opponent draw')
+      console.log('вrawing player cards');
+
+      // turn 
+      this.board.turn++;
+      this.turn.setPhase(PhaseType.OPPONENT);
+
+      // increase & refill mana
+      this.board.opponent.linkMax++;
+      this.board.opponent.link = this.board.opponent.linkMax;
+      // this.player.addLink(this.board.player.link, this.board.player.linkMax);
+
+      // draw card
+      for (let i = 0; i < (this.board.turn == 1 ? 3 : 1); i++) {
+        let timer = this.scene.time.addEvent({
+          delay: i * 250,
+          callback: () => {
+            let card = this.board.opponent.deck.shift();
+            this.board.opponent.hand.push(card);
+            // this.hand.addCard(new CardDisplay(this.scene).populate(card));
+            timer.destroy();
+          },
+          callbackScope: this,
+          loop: false,
+          paused: false
+        });
+      }
+
+      let timer = this.scene.time.addEvent({
+        delay: 1000,
+        callback: () => {
+          this.nextPhase();
+          timer.destroy();
+        },
+        callbackScope: this,
+        loop: false,
+        paused: false
+      });
     }
-    this.nextPhase();
   }
 
   //
@@ -238,7 +284,27 @@ export class BattleController {
   //
   private phaseOpponentCommand() {
     if (this.phaseStarted()) {
-      console.log('opponent draw')
+      console.log('opponent command')
+
+      // select card and put it on board
+      for (let card of this.board.opponent.hand) {
+        if (card.link <= this.board.opponent.link) {
+          let idxes = [];
+          if (Math.random() > 0.66) idxes = [0,2,1]
+          else if (Math.random() > 0.5) idxes = [1,0,2]
+          else idxes = [2,1,0]
+
+          for (let idx of idxes) {
+            if (this.board.opponent.board[idx] == null) {
+              this.board.opponent.board[idx] = card;
+              this.spots.putCard(0, idx, card);
+              this.board.opponent.link -= card.link; 
+              this.board.opponent.hand.splice(this.board.player.hand.indexOf(card), 1);
+              break;
+            }
+          }
+        }
+      }
     }
     this.nextPhase();
   }
@@ -248,7 +314,7 @@ export class BattleController {
   //
   private phaseOpponentProtect() {
     if (this.phaseStarted()) {
-      console.log('opponent draw')
+      console.log('opponent protect')
     }
     this.nextPhase();
   }

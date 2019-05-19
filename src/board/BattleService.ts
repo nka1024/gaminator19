@@ -50,8 +50,8 @@ export class BattleService {
       name: 'Doogie',
       skill: CardSkillType.BUFF_ALLIES_1_1,
       attack: 1 + power,
-      hp: 1,
-      link: 1
+      hp: 1 + power,
+      link: 1 + power
     }
   }
 
@@ -60,8 +60,8 @@ export class BattleService {
       type: CardType.CREATURE,
       name: 'Snuk-chak',
       attack: 1 + power,
-      hp: 1,
-      link: 1
+      hp: 1 + power,
+      link: 1 + power
     }
   }
 }
