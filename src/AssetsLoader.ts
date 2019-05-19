@@ -30,6 +30,7 @@ export class AssetsLoader {
 
     scene.load.image("cursor_hand", "./assets/board/cursor_hand.png");
 
+    scene.load.image("next_phase", "./assets/board/next_phase.png");
     scene.load.image("add_heart", "./assets/board/add_heart.png");
     scene.load.image("add_sword", "./assets/board/add_sword.png");
     scene.load.image("battle_bg", "./assets/board/battle_bg.png");

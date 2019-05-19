@@ -15,6 +15,7 @@ export class BoardSpotsContainer extends Phaser.GameObjects.Container {
   private cursorCol: number = 0;
 
   private cursor: Phaser.GameObjects.Image;
+  private nextPhase: Phaser.GameObjects.Image;
   private cords: Point[][] = [
     [{ x: 113, y: 110 }, { x: 171, y: 112 }, { x: 228, y: 110 }],
     [{ x: 117, y: 168 }, { x: 176, y: 168 }, { x: 233, y: 168 }]
@@ -29,7 +30,15 @@ export class BoardSpotsContainer extends Phaser.GameObjects.Container {
 
     this.cursor = new Phaser.GameObjects.Image(scene, 0, 0, 'cursor_spot');
     this.add(this.cursor);
+
+    this.nextPhase = new Phaser.GameObjects.Image(scene, 0, 0, 'next_phase');
+    this.nextPhase.setOrigin(0,0)
+    this.nextPhase.x = 264;
+    this.nextPhase.y = 130;
+    this.add(this.nextPhase);
+
     this.setCursorHidden(true);
+    this.setNextPhaseHidden(true);
 
     for (let i = 0; i < this.cords.length; i++) {
       for (let j = 0; j < this.cords[i].length; j++) {
@@ -46,34 +55,64 @@ export class BoardSpotsContainer extends Phaser.GameObjects.Container {
     this.cursor.visible = !hidden;
   }
 
+  public setNextPhaseHidden(hidden: boolean) {
+    this.nextPhase.visible = !hidden;
+  }
+
   public putCursor(row: number, col: number) {
     this.cursorRow = row;
     this.cursorCol = col;
-    this.cursor.visible = true;
-    this.cursor.x = this.cords[row][col].x
-    this.cursor.y = this.cords[row][col].y
+
+    if (col < this.cords[row].length) {
+      this.cursor.visible = true;
+      this.cursor.x = this.cords[row][col].x
+      this.cursor.y = this.cords[row][col].y
+    } else {
+      this.cursor.visible = true;
+      this.cursor.x = 277
+      this.cursor.y = 155
+    }
   }
 
   public moveCursor(x: number, y: number = 0) {
     if (this.cursorCol == 0 && x == -1) {
       return
     }
+
     if (this.cursorCol == this.cords[0].length - 1 && x == 1) {
+      if (!this.nextPhase.visible)
+        return;
+      
+    }
+    if (this.cursorCol == this.cords[0].length && x == 1) {
       return
     }
     this.putCursor(this.cursorRow, this.cursorCol + x);
   }
   
   public putCardAtCursor(card: CardData) {
-    this.spots[this.cursorRow][this.cursorCol].populate(card);
+    if (this.cursorRow < this.spots.length && this.cursorCol < this.spots[this.cursorRow].length) {
+      this.spots[this.cursorRow][this.cursorCol].populate(card);
+    } else {
+      return ;
+    }
   }
 
+  public isCursorNextPhase() {
+    return this.cursorCol == 3;
+  }
   public getCardAtCursor(): CardData {
-    return this.spots[this.cursorRow][this.cursorCol].card;
+    if (this.cursorRow < this.spots.length && this.cursorCol < this.spots[this.cursorRow].length) {
+      return this.spots[this.cursorRow][this.cursorCol].card;
+    } else {
+      return null;
+    }
   }
 
   public putCard(row: number, col: number, card: CardData) {
-    this.spots[row][col].populate(card);
+    if (row < this.spots.length && col < this.spots[row].length) {
+      this.spots[row][col].populate(card);
+    }
   }
 
   public refresh() {

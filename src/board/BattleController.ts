@@ -114,6 +114,7 @@ export class BattleController {
     }
 
     if (this.tmp.selectedCard) {
+      // select spot for card
       if (this.keybinds.leftPressed) this.spots.moveCursor(-1)
       if (this.keybinds.rightPressed) this.spots.moveCursor(1)
       if (this.keybinds.enterPressed) {
@@ -123,6 +124,7 @@ export class BattleController {
         this.board.player.board[this.spots.getCursorCol()] = card;
         this.tmp.selectedCard = null;
         this.spots.setCursorHidden(true);
+        this.spots.setNextPhaseHidden(true);
         // remove card from hand
         this.board.player.hand.splice(this.board.player.hand.indexOf(card), 1);
         this.hand.removeCardAtCursor();
@@ -132,18 +134,22 @@ export class BattleController {
         this.spots.setCursorHidden(true);
       }
     } else {
+      // select card from hand
       if (this.keybinds.leftPressed) this.hand.moveCursor(-1)
       if (this.keybinds.rightPressed) this.hand.moveCursor(1)
       if (this.keybinds.enterPressed) {
-        // activate spot cursor for selected card
-        this.tmp.selectedCard = this.board.player.hand[this.hand.cursorPos];
-        this.spots.putCursor(1, 1);
-        this.spots.setCursorHidden(false);
-      }
-      if (this.keybinds.escPressed) {
-        this.hand.setCursorHidden(true);
-        this.details.visible = true;
-        this.nextPhase();
+        if (this.hand.cursorPos < this.board.player.hand.length) {
+          // activate spot cursor for selected card
+          this.tmp.selectedCard = this.board.player.hand[this.hand.cursorPos];
+          this.spots.putCursor(1, 1);
+          this.spots.setCursorHidden(false);
+          this.spots.setNextPhaseHidden(true);
+        } else {
+          // next phase
+          this.hand.setCursorHidden(true);
+          this.details.visible = false;
+          this.nextPhase();
+        }
       }
     }
   }
@@ -156,27 +162,34 @@ export class BattleController {
       this.turn.setPhase(PhaseType.PROTECT);
       console.log('select protected card');
       this.spots.putCursor(1, 1);
+      this.spots.setNextPhaseHidden(false);
     }
 
     if (this.keybinds.leftPressed) this.spots.moveCursor(-1)
     if (this.keybinds.rightPressed) this.spots.moveCursor(1)
     if (this.keybinds.enterPressed) {
-      let card = this.spots.getCardAtCursor() ;
+      if (!this.spots.isCursorNextPhase()) {
+        // toggle card protection
+        let card = this.spots.getCardAtCursor();
 
-      if (this.tmp.protectedCard) {
-        if (this.tmp.protectedCard != card) {
-          this.tmp.protectedCard.protected = false;
+        if (this.tmp.protectedCard) {
+          if (this.tmp.protectedCard != card) {
+            this.tmp.protectedCard.protected = false;
+          }
+        }
+        if (card) {
+          card.protected = !card.protected;
+        }
+        this.tmp.protectedCard = this.spots.getCardAtCursor();
+        this.spots.refresh();
+      } else {
+        // go to compile phase
+        if (this.keybinds.enterPressed) {
+          this.spots.setCursorHidden(true);
+          this.spots.setNextPhaseHidden(true);
+          this.nextPhase();
         }
       }
-      if (card) {
-        card.protected = !card.protected;
-      }
-      this.tmp.protectedCard = this.spots.getCardAtCursor();
-      this.spots.refresh();
-    }
-    if (this.keybinds.escPressed) {
-      this.spots.setCursorHidden(true);
-      this.nextPhase();
     }
   }
 

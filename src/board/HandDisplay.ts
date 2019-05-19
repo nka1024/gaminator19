@@ -11,6 +11,7 @@ export class HandDisplay extends Phaser.GameObjects.Container {
 
   private cards: CardDisplay[] = []
   private cursor: Phaser.GameObjects.Sprite;
+  private nextPhase: Phaser.GameObjects.Image;
   public cursorPos: number = 0;
   public events: Phaser.Events.EventEmitter;
 
@@ -26,7 +27,13 @@ export class HandDisplay extends Phaser.GameObjects.Container {
     this.cursor.y = -18;
     scene.add.existing(this.cursor);
     this.add(this.cursor);
-    this.setCursorHidden(true)
+
+    this.nextPhase = new Phaser.GameObjects.Image(scene, 0, 0, 'next_phase');
+    this.nextPhase.setOrigin(0,0)
+    this.nextPhase.y = 32;
+    this.add(this.nextPhase);
+
+    this.setCursorHidden(true);
   }
 
   public addCard(card: CardDisplay) {
@@ -34,6 +41,8 @@ export class HandDisplay extends Phaser.GameObjects.Container {
     this.cards.push(card);
     this.add(card);
     this.bringToTop(this.cursor)
+
+    this.shiftNextPhase();
   }
 
   public removeCardAtCursor() {
@@ -56,27 +65,37 @@ export class HandDisplay extends Phaser.GameObjects.Container {
       card.x = i * 22;
       i++
     }
+    this.shiftNextPhase();
+  }
+
+  private shiftNextPhase() {
+    this.nextPhase.x = this.cards.length * 22 - 2;
   }
 
   public setCursorHidden(hidden: boolean) {
     this.cursor.visible = !hidden;
     this.cursor.x = 0;
     this.cursorPos = 0;
+
+    this.nextPhase.visible = !hidden;
   }
 
   public putCursor(pos: number) {
     this.cursorPos = pos;
     this.cursor.x = pos * 22;
 
-    if (this.cards.length > 0){
-      this.events.emit('card_select', this.cards[this.cursorPos]);
+    let selected = null
+    if (pos < this.cards.length) {
+      selected = this.cards[this.cursorPos]
     }
+    this.events.emit('card_select', selected);
   }
+
   public moveCursor(x: number) {
     if (this.cursorPos == 0 && x == -1) {
       return
     }
-    if (this.cursorPos == this.cards.length - 1 && x == 1) {
+    if (this.cursorPos >= this.cards.length && x == 1) {
       return
     }
     this.putCursor(this.cursorPos + x);
