@@ -9,10 +9,15 @@ import { Keybinds } from "../Keybinds";
 import { AnimationRegistry } from "../AnimationRegistry";
 import { WorldPlayer } from "../world/WorldPlayer";
 import { WorldAmbientObject } from "../world/WorldAmbientObject";
+import { Point } from "../types/Types";
 
 export class WorldScene extends Phaser.Scene {
 
+  private prevWorldOffset: Point = null;
   private MAP_W: number = 512;
+
+  private groundImg: Phaser.GameObjects.Image;
+  private waterShader: Phaser.GameObjects.Shader;
 
   private player: WorldPlayer;
   private animationRegistry: AnimationRegistry;
@@ -44,19 +49,19 @@ export class WorldScene extends Phaser.Scene {
     this.pool = this.add.group();
     this.pool.runChildUpdate = true;
 
-    for (let i = 0; i < 1; i++) {
-      for (let j = 0; j < 1; j++) {
-        let x = this.MAP_W * j;
-        let y = this.MAP_W * i;
-        var shader = this.add.shader('chelnoque-water', x, y, this.MAP_W * 2, this.MAP_W * 2, ['water1']);
-        shader.scaleX = 0.5;
-        shader.scaleY = 0.5;
-        shader.setChannel0(this.waters[i][j], { 'magFilter': 'nearest', 'minFilter': 'nearest' });
-        shader.setOrigin(0, 0)
-        this.add.image(x, y, this.grounds[i][j]).setOrigin(0, 0);
-        console.log('place at ' + x + ':' + y);
-      }
-    }
+    // for (let i = 0; i < 1; i++) {
+    //   for (let j = 0; j < 1; j++) {
+    //     let x = this.MAP_W * j;
+    //     let y = this.MAP_W * i;
+    //     var shader = this.add.shader('chelnoque-water', x, y, this.MAP_W * 2, this.MAP_W * 2, ['water1']);
+    //     shader.scaleX = 0.5;
+    //     shader.scaleY = 0.5;
+    //     shader.setChannel0(this.waters[i][j], { 'magFilter': 'nearest', 'minFilter': 'nearest' });
+    //     shader.setOrigin(0, 0)
+    //     this.add.image(x, y, this.grounds[i][j]).setOrigin(0, 0);
+    //     console.log('place at ' + x + ':' + y);
+    //   }
+    // }
 
     let xs = [{ x: 200, y: 200 },
     { x: 324, y: 245 },
@@ -92,6 +97,7 @@ export class WorldScene extends Phaser.Scene {
     let wOffsetX = Math.floor(this.player.x/this.MAP_W);
     let wOffsetY = Math.floor(this.player.y/this.MAP_W);
 
+    // camera management
     this.cameras.main.scrollX = this.player.x - this.cameras.main.displayWidth/2;
     this.cameras.main.scrollY = this.player.y - this.cameras.main.displayHeight/2;
 
@@ -102,6 +108,39 @@ export class WorldScene extends Phaser.Scene {
     let cameraMaxY = (wOffsetY + 1) * this.MAP_W - this.cameras.main.displayHeight;
     if (this.cameras.main.scrollX > cameraMaxX) this.cameras.main.scrollX = cameraMaxX
     if (this.cameras.main.scrollY > cameraMaxY) this.cameras.main.scrollY = cameraMaxY
+
+
+    // ground and water management
+    if (!this.prevWorldOffset || (this.prevWorldOffset.x != wOffsetX || this.prevWorldOffset.y != wOffsetY)) {
+      this.prevWorldOffset = {x: wOffsetX, y: wOffsetY};
+
+      let x = this.MAP_W * wOffsetX;
+      let y = this.MAP_W * wOffsetY;
+
+      // create water
+      if (this.waterShader) { 
+        // this.waterShader.destroy()
+        this.waterShader.setChannel0(this.waters[wOffsetY][wOffsetX], { 'magFilter': 'nearest', 'minFilter': 'nearest' });
+        this.waterShader.x = x;
+        this.waterShader.y = y;
+      } else {
+        this.waterShader = this.add.shader('chelnoque-water', x, y, this.MAP_W * 2, this.MAP_W * 2, ['water1']);
+        this.waterShader.setChannel0(this.waters[wOffsetY][wOffsetX], { 'magFilter': 'nearest', 'minFilter': 'nearest' });
+        this.waterShader.scaleX = 0.5;
+        this.waterShader.scaleY = 0.5;
+        this.waterShader.setOrigin(0, 0)
+      }
+      // create ground
+      if (this.groundImg) {
+        this.groundImg.setTexture(this.grounds[wOffsetY][wOffsetX]);
+        this.groundImg.x = x;
+        this.groundImg.y = y;
+      } else {
+        this.groundImg = this.add.image(x, y, this.grounds[wOffsetY][wOffsetX]).setOrigin(0, 0);
+      }
+      this.groundImg.depth = -1000;
+      this.waterShader.depth = -1000;
+    }
   }
 
   private onWindowResize(w: number, h: number) {
