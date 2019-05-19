@@ -54,5 +54,4 @@ export class Keybinds {
     this.events.emit('keypress', keypress, type);
   }
 
-
 }

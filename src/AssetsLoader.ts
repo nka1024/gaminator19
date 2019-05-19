@@ -27,6 +27,11 @@ export class AssetsLoader {
     scene.load.image("ground3", "./assets/gaminator/ground3.png");
     scene.load.image("ground4", "./assets/gaminator/ground4.png");
 
+    scene.load.spritesheet('bubble1_128x128', './assets/gaminator/fx/bubble1_128x128.png', {frameWidth: 128, frameHeight: 128});
+    scene.load.spritesheet('bubble2_128x128', './assets/gaminator/fx/bubble2_128x128.png', {frameWidth: 128, frameHeight: 128});
+    scene.load.spritesheet('bubble3_128x128', './assets/gaminator/fx/bubble3_128x128.png', {frameWidth: 128, frameHeight: 128});
+    scene.load.spritesheet('fire_128x128', './assets/gaminator/fx/fire_128x128.png', {frameWidth: 128, frameHeight: 128});
+
     scene.load.spritesheet('player_idle_back_128x128', './assets/gaminator/player/idle_back_128x128.png', {frameWidth: 128, frameHeight: 128});
     scene.load.spritesheet('player_idle_front_128x128', './assets/gaminator/player/idle_front_128x128.png', {frameWidth: 128, frameHeight: 128});
     scene.load.spritesheet('player_idle_left_128x128', './assets/gaminator/player/idle_left_128x128.png', {frameWidth: 128, frameHeight: 128});

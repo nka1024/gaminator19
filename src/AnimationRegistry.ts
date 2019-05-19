@@ -26,6 +26,32 @@ export class AnimationRegistry {
     // bubbl2 = 25
     // bubbl3 = 33
     // fire = 5
+
+    scene.anims.create({
+      key: 'bubble1_anim',
+      frames: scene.anims.generateFrameNumbers('bubble1_128x128', { start: 0, end: 35 }),
+      frameRate: 7,
+      repeat: 0,
+      repeatDelay: 0,
+      hideOnComplete: true
+    });
+    scene.anims.create({
+      key: 'bubble2_anim',
+      frames: scene.anims.generateFrameNumbers('bubble2_128x128', { start: 0, end: 25 }),
+      frameRate: 7,
+      repeat: 0,
+      repeatDelay: 0,
+      hideOnComplete: true
+    });
+    scene.anims.create({
+      key: 'bubble3_anim',
+      frames: scene.anims.generateFrameNumbers('bubble3_128x128', { start: 0, end: 33 }),
+      frameRate: 7,
+      repeat: 0,
+      repeatDelay: 0,
+      hideOnComplete: true
+    });
+    
   }
 
   private registerPlayerAnimations(scene: Scene) {

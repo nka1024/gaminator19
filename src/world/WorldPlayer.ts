@@ -8,6 +8,7 @@ import { Point } from "../types/Types";
 
 export class WorldPlayer extends Phaser.GameObjects.Sprite {
   private cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
+  private enterKey: Phaser.Input.Keyboard.Key;
 
   private facing: string = 'back';
 
@@ -20,6 +21,7 @@ export class WorldPlayer extends Phaser.GameObjects.Sprite {
     this.play('player_idle_back_anim')
 
     this.cursorKeys = scene.input.keyboard.createCursorKeys();
+    this.enterKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
   }
 
   public update() {
@@ -60,5 +62,10 @@ export class WorldPlayer extends Phaser.GameObjects.Sprite {
 
     this.scene.cameras.main.scrollX = this.x - this.scene.cameras.main.displayWidth/2;
     this.scene.cameras.main.scrollY = this.y - this.scene.cameras.main.displayHeight/2;
+
+
+    if (this.enterKey.isDown) {
+      console.log('x: ' + this.x + ' y: ' + this.y);
+    }
   }
 }

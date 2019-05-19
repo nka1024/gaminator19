@@ -8,6 +8,7 @@ import { AssetsLoader } from "../AssetsLoader";
 import { Keybinds } from "../Keybinds";
 import { AnimationRegistry } from "../AnimationRegistry";
 import { WorldPlayer } from "../world/WorldPlayer";
+import { WorldAmbientObject } from "../world/WorldAmbientObject";
 
 export class WorldScene extends Phaser.Scene {
 
@@ -21,8 +22,8 @@ export class WorldScene extends Phaser.Scene {
   private grounds = [
     ["ground1", "ground2"],
     ["ground3", "ground4"]];
-  
-    constructor() {
+
+  constructor() {
     super({
       key: "WorldScene"
     });
@@ -33,31 +34,43 @@ export class WorldScene extends Phaser.Scene {
   }
 
   create(data): void {
-    
+
     this.cameras.main.setBackgroundColor(0x1f1f1f);
     this.animationRegistry = new AnimationRegistry(this);
     this.animationRegistry.initWorldAnimations();
 
     this.pool = this.add.group();
     this.pool.runChildUpdate = true;
-    
 
     for (let i = 0; i < 1; i++) {
       for (let j = 0; j < 1; j++) {
         let x = 512 * j;
         let y = 512 * i;
-        var shader = this.add.shader('chelnoque-water', x, y, 1024, 1024, ['water1'] );
-        // shader.setUniform('size', '8.0')
+        var shader = this.add.shader('chelnoque-water', x, y, 1024, 1024, ['water1']);
         shader.scaleX = 0.5;
         shader.scaleY = 0.5;
         shader.setChannel0(this.waters[i][j], { 'magFilter': 'nearest', 'minFilter': 'nearest' });
-        shader.setOrigin(0,0)
+        shader.setOrigin(0, 0)
         this.add.image(x, y, this.grounds[i][j]).setOrigin(0, 0);
         console.log('place at ' + x + ':' + y);
       }
     }
 
-    this.player = new WorldPlayer(this, 200, 200);
+    let xs = [{ x: 200, y: 200 },
+    { x: 324, y: 245 },
+    { x: 364, y: 209 },
+    { x: 340, y: 72 },
+    { x: 274, y: 93 },
+    { x: 211, y: 147 }];
+
+    for (let cords of xs) {
+      let ambient = new WorldAmbientObject(this, cords.x, cords.y);
+      this.pool.add(ambient);
+      this.add.existing(ambient);
+    }
+
+
+    this.player = new WorldPlayer(this, 326, 156);
     this.pool.add(this.player);
     this.add.existing(this.player);
 
