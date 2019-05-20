@@ -29,6 +29,7 @@ export class EditorRootScene extends Phaser.Scene {
   private tool: string = 'brush';
   private cachedCanvas: HTMLElement;
 
+  private lineToolStart: Point;
   constructor() {
     super({
       key: "EditorRootScene"
@@ -228,7 +229,34 @@ export class EditorRootScene extends Phaser.Scene {
             }
           }
         }
+      } else if (this.tool == 'line') {
+        if (!this.lineToolStart) {
+          points.push(cursor);
+          this.lineToolStart = {x: cursor.x, y: cursor.y};
+        } else {
+          let a = this.grid.worldToGrid(this.lineToolStart) ;
+          this.lineToolStart = null;
+          let b = this.grid.worldToGrid(cursor);
+          let di = 0;
+          let dj = 0
+          if (a.i == b.i) {
+            dj = (b.j < a.j) ? -1 : 1
+          }
+          else if (a.j == b.j) {
+            di = (b.i < a.i) ? -1 : 1
+          }
+
+          for (let i = 0; i < 100; i++) {
+            a.i += di;
+            a.j += dj;
+            points.push(this.grid.gridToWorld(a));
+            if (b.i == a.i && b.j == a.j) {
+              break
+            }
+          }
+        }
       }
+
       for (let point of points) {
         this.grid.editTile(point, walkable ? 'red' : 'green');
       }
