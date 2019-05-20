@@ -18,7 +18,7 @@ export declare type GrassData = {
 export class TileGrid {
 
   public gridSize: number = 90;
-  public tileSize: number = 32;
+  public tileSize: number = 16;
   
   private grid: Phaser.GameObjects.Image[];
   private tiles: Phaser.GameObjects.Image[][];
@@ -224,8 +224,8 @@ export class TileGrid {
     img.setTexture(fog ? 'fog_tile_16_a70' : 'grid_tile_' + color + '_16_a50');
     img.depth = UI_DEPTH.EDITOR_GRID_TILE;
     var wc = this.gridToWorld(tile)
-    img.x = wc.x + 16;
-    img.y = wc.y + 16;
+    img.x = wc.x + this.gridSize/2;
+    img.y = wc.y + this.gridSize/2;
     this.scene.add.existing(img);
     return img;
   }
@@ -251,8 +251,8 @@ export class TileGrid {
     let worldPosY = screenPosY + this.scene.cameras.main.scrollY;
 
     let snapPos = this.snapToGrid({ x: worldPosX, y: worldPosY })
-    cursor.x = snapPos.x + 16;
-    cursor.y = snapPos.y + 16;
+    cursor.x = snapPos.x + this.gridSize/2;
+    cursor.y = snapPos.y + this.gridSize/2;
   }
 
   public export(): any {
