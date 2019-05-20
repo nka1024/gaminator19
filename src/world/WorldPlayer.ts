@@ -23,7 +23,7 @@ export class WorldPlayer extends Phaser.GameObjects.Sprite {
 
     this.cursorKeys = scene.input.keyboard.createCursorKeys();
     this.enterKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-    this.originY = 0.75;
+    this.originY = 0.65;
   }
 
   public update() {
@@ -61,9 +61,11 @@ export class WorldPlayer extends Phaser.GameObjects.Sprite {
       console.log(Math.floor(this.x) + ' : ' + Math.floor(this.y) + ': ' + this.grid.isWalkable(this.grid.worldToGrid({x: this.x, y: this.y})))
     }
 
-    this.x += this.speed.x;
-    this.y += this.speed.y;
+    if (this.grid.isWalkable(this.grid.worldToGrid({x: this.x + this.speed.x, y: this.y}))) 
+      this.x += this.speed.x;
 
+    if (this.grid.isWalkable(this.grid.worldToGrid({x: this.x, y: this.y + this.speed.y}))) 
+      this.y += this.speed.y;
 
     if (this.enterKey.isDown) {
       console.log('x: ' + this.x + ' y: ' + this.y);
