@@ -9,6 +9,8 @@ import { AnimationRegistry } from "../AnimationRegistry";
 import { WorldPlayer } from "../world/WorldPlayer";
 import { WorldAmbientObject } from "../world/WorldAmbientObject";
 import { Point } from "../types/Types";
+import { TileGrid } from "../TileGrid";
+import { MapImporterModule } from "../modules/scene/MapImporterModule";
 
 export class WorldScene extends Phaser.Scene {
 
@@ -17,6 +19,9 @@ export class WorldScene extends Phaser.Scene {
 
   private groundImg: Phaser.GameObjects.Image;
   private waterShader: Phaser.GameObjects.Shader;
+
+  private grid: TileGrid;
+  private mapImporter: MapImporterModule;
 
   private player: WorldPlayer;
   private animationRegistry: AnimationRegistry;
@@ -41,6 +46,8 @@ export class WorldScene extends Phaser.Scene {
 
   create(data): void {
 
+    this.grid = new TileGrid(this);
+    this.loadMap();
     this.cameras.main.setBackgroundColor(0x1f1f1f);
     this.animationRegistry = new AnimationRegistry(this);
     this.animationRegistry.initWorldAnimations();
@@ -68,8 +75,7 @@ export class WorldScene extends Phaser.Scene {
     this.pool.add(ambient);
     this.add.existing(ambient);
 
-
-    this.player = new WorldPlayer(this, 326, 156);
+    this.player = new WorldPlayer(this, 326, 156, this.grid);
     this.pool.add(this.player);
     this.add.existing(this.player);
 
@@ -140,5 +146,21 @@ export class WorldScene extends Phaser.Scene {
       this.cameras.main.zoom = 2;
     }
     this.cameras.main.setOrigin(0, 0);
+  }
+
+  private loadMap() {
+    this.mapImporter = new MapImporterModule(this, this.grid);
+    // this.mapImporter.grassHandler = (o: Phaser.GameObjects.Image, item: any) => {
+    //   let tile = this.grid.worldToGrid({ x: o.x, y: o.y - o.height / 2 });
+    //   this.grid.addGrass(o, tile, 100);
+    //   o.depth = o.y - 24;
+    // };
+
+    // this.mapImporter.enemyHandler = (p: Point, type: string) => {
+    //   let tile = this.grid.worldToGrid(p)
+    //   this.createEnemy(tile.i, tile.j, type);
+    // }
+    this.mapImporter.importMap(this.cache.json.get('map'));
+    
   }
 }

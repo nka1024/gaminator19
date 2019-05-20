@@ -8,7 +8,7 @@
 import { TileGrid } from "../../TileGrid";
 import { UI_DEPTH } from "../../const/const";
 import { GameObjects } from "phaser";
-import { Point } from "../../types/Position"
+import { Point } from "../../types/Types";
 
 export class MapImporterModule {
   private scene: Phaser.Scene;

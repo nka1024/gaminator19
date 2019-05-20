@@ -17,15 +17,15 @@ export class AssetsLoader {
   public static preload(scene: Phaser.Scene) {
     scene.load.json("map", "./assets/map.json");
  
-    scene.load.glsl('bundle', 'assets/shaders/chelnoque-water.glsl');
-    scene.load.image("water1", "./assets/gaminator/water1.png");
-    scene.load.image("water2", "./assets/gaminator/water2.png");
-    scene.load.image("water3", "./assets/gaminator/water3.png");
-    scene.load.image("water4", "./assets/gaminator/water4.png");
-    scene.load.image("ground1", "./assets/gaminator/ground1.png");
-    scene.load.image("ground2", "./assets/gaminator/ground2.png");
-    scene.load.image("ground3", "./assets/gaminator/ground3.png");
-    scene.load.image("ground4", "./assets/gaminator/ground4.png");
+    scene.load.glsl('bundle', './assets/shaders/chelnoque-water.glsl');
+    scene.load.image("water1", "./assets/gaminator/terrain/water1.png");
+    scene.load.image("water2", "./assets/gaminator/terrain/water2.png");
+    scene.load.image("water3", "./assets/gaminator/terrain/water3.png");
+    scene.load.image("water4", "./assets/gaminator/terrain/water4.png");
+    scene.load.image("ground1", "./assets/gaminator/terrain/ground1.png");
+    scene.load.image("ground2", "./assets/gaminator/terrain/ground2.png");
+    scene.load.image("ground3", "./assets/gaminator/terrain/ground3.png");
+    scene.load.image("ground4", "./assets/gaminator/terrain/ground4.png");
 
     scene.load.spritesheet('bubble1_128x128', './assets/gaminator/fx/bubble1_128x128.png', {frameWidth: 128, frameHeight: 128});
     scene.load.spritesheet('bubble2_128x128', './assets/gaminator/fx/bubble2_128x128.png', {frameWidth: 128, frameHeight: 128});

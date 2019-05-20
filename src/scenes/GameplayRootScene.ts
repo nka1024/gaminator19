@@ -13,7 +13,6 @@ import { TileGrid } from "../TileGrid";
 import { Hero, UnitData } from "../Hero";
 import { GameObjects } from "phaser";
 
-import { Point } from "../types/Position";
 import { CONST } from "../const/const";
 
 

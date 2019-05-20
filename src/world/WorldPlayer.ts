@@ -5,6 +5,7 @@
 */
 
 import { Point } from "../types/Types";
+import { TileGrid } from "../TileGrid";
 
 export class WorldPlayer extends Phaser.GameObjects.Sprite {
   private cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -15,13 +16,14 @@ export class WorldPlayer extends Phaser.GameObjects.Sprite {
   private speed: Point = {x: 0, y: 0}
   private maxSpeed: Point = {x: 1.5, y: 1}
   
-  constructor(scene: Phaser.Scene, x: number, y: number) {
+  constructor(scene: Phaser.Scene, x: number, y: number, private grid: TileGrid) {
     super(scene, x, y, '');
 
     this.play('player_idle_back_anim')
 
     this.cursorKeys = scene.input.keyboard.createCursorKeys();
     this.enterKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+    this.originY = 0.75;
   }
 
   public update() {
@@ -55,6 +57,8 @@ export class WorldPlayer extends Phaser.GameObjects.Sprite {
       this.anims.play('player_idle_' + this.facing + '_anim', true);
     } else {
       this.anims.play('player_walk_' + this.facing + '_anim', true);
+      
+      console.log(Math.floor(this.x) + ' : ' + Math.floor(this.y) + ': ' + this.grid.isWalkable(this.grid.worldToGrid({x: this.x, y: this.y})))
     }
 
     this.x += this.speed.x;

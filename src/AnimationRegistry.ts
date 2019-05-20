@@ -19,6 +19,9 @@ export class AnimationRegistry {
   public initWorldAnimations() {
     this.registerPlayerAnimations(this.scene);
     this.registerAmbientAnimations(this.scene);
+    // 4 13
+    // 3 13
+    // 2 9
   }
 
   private registerAmbientAnimations(scene: Scene) {

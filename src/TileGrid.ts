@@ -7,8 +7,8 @@
 
 import { js as easystar } from "easystarjs";
 import { UI_DEPTH, CONST } from "./const/const";
-import { Point, Tile } from "./types/Position";
 import { GameObjects } from "phaser";
+import { Tile, Point } from "./types/Types";
 
 export declare type GrassData = {
   object: GameObjects.Image;
@@ -17,7 +17,7 @@ export declare type GrassData = {
 
 export class TileGrid {
 
-  public gridSize: number = 200;
+  public gridSize: number = 90;
   public tileSize: number = 32;
   
   private grid: Phaser.GameObjects.Image[];
