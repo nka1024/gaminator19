@@ -13,6 +13,7 @@ import { BootScene } from "./scenes/bootScene";
 import { GameplayRootScene } from "./scenes/GameplayRootScene";
 import { BoardScene } from "./scenes/BoardScene";
 import { WorldScene } from "./scenes/WorldScene";
+import { EditorRootScene } from "./scenes/editorRootScene";
 
 var game = null;
 
@@ -25,14 +26,14 @@ export class Game extends Phaser.Game {
 window.onload = () => {
   var c = document.getElementById('canvas_main') as HTMLCanvasElement;
   const config: Phaser.Types.Core.GameConfig = {
-    title: "nomads",
-    url: "https://github.com/nka1024/subtile",
+    title: "gaminator 19",
+    url: "https://github.com/nka1024/gaminator19",
     version: "1.0",
     // type: Phaser.AUTO,
     type: Phaser.WEBGL,
     // type: Phaser.WEBGL,
     parent: "game",
-    scene: [new BootScene, new GameplayRootScene, new BoardScene, new WorldScene],
+    scene: [new BootScene, new GameplayRootScene, new BoardScene, new WorldScene, new EditorRootScene],
     input: {
       keyboard: true,
       mouse: true,

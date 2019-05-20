@@ -15,7 +15,7 @@ import { MapImporterModule } from "../modules/scene/MapImporterModule";
 export class WorldScene extends Phaser.Scene {
 
   private prevWorldOffset: Point = null;
-  private MAP_W: number = 512;
+  private MAP_W: number = 1024;
 
   private groundImg: Phaser.GameObjects.Image;
   private waterShader: Phaser.GameObjects.Shader;
@@ -27,12 +27,12 @@ export class WorldScene extends Phaser.Scene {
   private animationRegistry: AnimationRegistry;
 
   private pool: Phaser.GameObjects.Group;
-  private waters = [
-    ["water1", "water2"],
-    ["water3", "water4"]];
-  private grounds = [
-    ["ground1", "ground2"],
-    ["ground3", "ground4"]];
+  private terrains = [
+    ["water_01", "water_02", "water_03", "water_04"],
+    ["water_05", "water_06", "water_07", "water_08"],
+    ["water_09", "water_10", "water_11", "water_12"],
+    ["water_13", "water_14", "water_15", "water_16"]];
+    
 
   constructor() {
     super({
@@ -111,26 +111,27 @@ export class WorldScene extends Phaser.Scene {
       // create water
       if (this.waterShader) { 
         // this.waterShader.destroy()
-        this.waterShader.setChannel0(this.waters[wOffsetY][wOffsetX], { 'magFilter': 'nearest', 'minFilter': 'nearest' });
+        this.waterShader.setChannel0(this.terrains[wOffsetY][wOffsetX], { 'magFilter': 'nearest', 'minFilter': 'nearest' });
         this.waterShader.x = x;
         this.waterShader.y = y;
       } else {
         this.waterShader = this.add.shader('chelnoque-water', x, y, this.MAP_W * 2, this.MAP_W * 2, ['water1']);
-        this.waterShader.setChannel0(this.waters[wOffsetY][wOffsetX], { 'magFilter': 'nearest', 'minFilter': 'nearest' });
+        this.waterShader.setChannel0(this.terrains[wOffsetY][wOffsetX], { 'magFilter': 'nearest', 'minFilter': 'nearest' });
         this.waterShader.scaleX = 0.5;
         this.waterShader.scaleY = 0.5;
         this.waterShader.setOrigin(0, 0)
       }
+      let groundTexture = this.terrains[wOffsetY][wOffsetX].replace('water', 'terrain');
       // create ground
       if (this.groundImg) {
-        this.groundImg.setTexture(this.grounds[wOffsetY][wOffsetX]);
+        this.groundImg.setTexture(groundTexture);
         this.groundImg.x = x;
         this.groundImg.y = y;
       } else {
-        this.groundImg = this.add.image(x, y, this.grounds[wOffsetY][wOffsetX]).setOrigin(0, 0);
+        this.groundImg = this.add.image(x, y, groundTexture).setOrigin(0, 0);
       }
-      this.groundImg.depth = -1000;
-      this.waterShader.depth = -1000;
+      this.groundImg.depth = -Number.MAX_VALUE;
+      this.waterShader.depth = -Number.MAX_VALUE;
     }
   }
 
@@ -161,6 +162,5 @@ export class WorldScene extends Phaser.Scene {
     //   this.createEnemy(tile.i, tile.j, type);
     // }
     this.mapImporter.importMap(this.cache.json.get('map'));
-    
   }
 }

@@ -8,7 +8,7 @@
 import { CONST } from "./const/const";
 
 export let ASSETS = {
-  TERRAIN_MAX: 11,
+  TERRAIN_MAX: 16,
   GRASS_MAX: 6,
   HOUSE_MAX: 8,
   DEVICES_MAX: 3,
@@ -17,39 +17,39 @@ export let ASSETS = {
 export class AssetsLoader {
   public static preload(scene: Phaser.Scene) {
     scene.load.json("map", "./assets/map.json");
- 
+
     scene.load.glsl('bundle', './assets/shaders/chelnoque-water.glsl');
-    scene.load.image("water1", "./assets/gaminator/terrain/water1.png");
-    scene.load.image("water2", "./assets/gaminator/terrain/water2.png");
-    scene.load.image("water3", "./assets/gaminator/terrain/water3.png");
-    scene.load.image("water4", "./assets/gaminator/terrain/water4.png");
-    scene.load.image("ground1", "./assets/gaminator/terrain/ground1.png");
-    scene.load.image("ground2", "./assets/gaminator/terrain/ground2.png");
-    scene.load.image("ground3", "./assets/gaminator/terrain/ground3.png");
-    scene.load.image("ground4", "./assets/gaminator/terrain/ground4.png");
+
+    for (let idx = 1; idx <= ASSETS.TERRAIN_MAX; idx++) {
+      scene.load.image("terrain_" + (idx < 10 ? '0':'') + idx, "./assets/gaminator/terrain/terrain_" + (idx < 10 ? '0':'') + idx + ".png");
+    }
+
+    for (let idx = 1; idx <= ASSETS.TERRAIN_MAX; idx++) {
+      scene.load.image("water_" + (idx < 10 ? '0':'') + idx, "./assets/gaminator/terrain/water_" + (idx < 10 ? '0':'') + idx + ".png");
+    }
 
     scene.load.image("grass_1", "./assets/gaminator/grass_1.png");
     scene.load.image("grass_2", "./assets/gaminator/grass_2.png");
 
-    scene.load.spritesheet('bubble1_128x128', './assets/gaminator/fx/bubble1_128x128.png', {frameWidth: 128, frameHeight: 128});
-    scene.load.spritesheet('bubble2_128x128', './assets/gaminator/fx/bubble2_128x128.png', {frameWidth: 128, frameHeight: 128});
-    scene.load.spritesheet('bubble3_128x128', './assets/gaminator/fx/bubble3_128x128.png', {frameWidth: 128, frameHeight: 128});
-    scene.load.spritesheet('fire_128x128', './assets/gaminator/fx/fire_128x128.png', {frameWidth: 128, frameHeight: 128});
+    scene.load.spritesheet('bubble1_128x128', './assets/gaminator/fx/bubble1_128x128.png', { frameWidth: 128, frameHeight: 128 });
+    scene.load.spritesheet('bubble2_128x128', './assets/gaminator/fx/bubble2_128x128.png', { frameWidth: 128, frameHeight: 128 });
+    scene.load.spritesheet('bubble3_128x128', './assets/gaminator/fx/bubble3_128x128.png', { frameWidth: 128, frameHeight: 128 });
+    scene.load.spritesheet('fire_128x128', './assets/gaminator/fx/fire_128x128.png', { frameWidth: 128, frameHeight: 128 });
 
-    scene.load.spritesheet('player_idle_back_128x128', './assets/gaminator/player/idle_back_128x128.png', {frameWidth: 128, frameHeight: 128});
-    scene.load.spritesheet('player_idle_front_128x128', './assets/gaminator/player/idle_front_128x128.png', {frameWidth: 128, frameHeight: 128});
-    scene.load.spritesheet('player_idle_left_128x128', './assets/gaminator/player/idle_left_128x128.png', {frameWidth: 128, frameHeight: 128});
-    scene.load.spritesheet('player_idle_right_128x128', './assets/gaminator/player/idle_right_128x128.png', {frameWidth: 128, frameHeight: 128});
-    scene.load.spritesheet('player_walk_back_128x128', './assets/gaminator/player/walk_back_128x128.png', {frameWidth: 128, frameHeight: 128});
-    scene.load.spritesheet('player_walk_front_128x128', './assets/gaminator/player/walk_front_128x128.png', {frameWidth: 128, frameHeight: 128});
-    scene.load.spritesheet('player_walk_left_128x128', './assets/gaminator/player/walk_left_128x128.png', {frameWidth: 128, frameHeight: 128});
-    scene.load.spritesheet('player_walk_right_128x128', './assets/gaminator/player/walk_right_128x128.png', {frameWidth: 128, frameHeight: 128});
+    scene.load.spritesheet('player_idle_back_128x128', './assets/gaminator/player/idle_back_128x128.png', { frameWidth: 128, frameHeight: 128 });
+    scene.load.spritesheet('player_idle_front_128x128', './assets/gaminator/player/idle_front_128x128.png', { frameWidth: 128, frameHeight: 128 });
+    scene.load.spritesheet('player_idle_left_128x128', './assets/gaminator/player/idle_left_128x128.png', { frameWidth: 128, frameHeight: 128 });
+    scene.load.spritesheet('player_idle_right_128x128', './assets/gaminator/player/idle_right_128x128.png', { frameWidth: 128, frameHeight: 128 });
+    scene.load.spritesheet('player_walk_back_128x128', './assets/gaminator/player/walk_back_128x128.png', { frameWidth: 128, frameHeight: 128 });
+    scene.load.spritesheet('player_walk_front_128x128', './assets/gaminator/player/walk_front_128x128.png', { frameWidth: 128, frameHeight: 128 });
+    scene.load.spritesheet('player_walk_left_128x128', './assets/gaminator/player/walk_left_128x128.png', { frameWidth: 128, frameHeight: 128 });
+    scene.load.spritesheet('player_walk_right_128x128', './assets/gaminator/player/walk_right_128x128.png', { frameWidth: 128, frameHeight: 128 });
 
-    scene.load.spritesheet('attack_anim_128x32', './assets/board/attack_anim_128x32.png', {frameWidth: 128, frameHeight: 32});
-    scene.load.spritesheet('spawn_64x64', './assets/board/spawn2_64x64.png', {frameWidth: 64, frameHeight: 64});
-    scene.load.spritesheet('cursor_hand_18x124', './assets/board/cursor_hand.png', {frameWidth: 18, frameHeight: 124});
-    scene.load.spritesheet('turn_current_8x8', './assets/board/turn_current_8x8.png', {frameWidth: 8, frameHeight: 8});
-    scene.load.spritesheet('link_up_64x64', './assets/board/link_up_64x64.png', {frameWidth: 64, frameHeight: 64});
+    scene.load.spritesheet('attack_anim_128x32', './assets/board/attack_anim_128x32.png', { frameWidth: 128, frameHeight: 32 });
+    scene.load.spritesheet('spawn_64x64', './assets/board/spawn2_64x64.png', { frameWidth: 64, frameHeight: 64 });
+    scene.load.spritesheet('cursor_hand_18x124', './assets/board/cursor_hand.png', { frameWidth: 18, frameHeight: 124 });
+    scene.load.spritesheet('turn_current_8x8', './assets/board/turn_current_8x8.png', { frameWidth: 8, frameHeight: 8 });
+    scene.load.spritesheet('link_up_64x64', './assets/board/link_up_64x64.png', { frameWidth: 64, frameHeight: 64 });
 
     scene.load.image("sandclock", "./assets/board/sandclock.png");
     scene.load.image("next_phase", "./assets/board/next_phase.png");
@@ -73,7 +73,7 @@ export class AssetsLoader {
     scene.load.image("turn_name_load", "./assets/board/turn_name_load.png");
     scene.load.image("turn_name_opponent", "./assets/board/turn_name_opponent.png");
     scene.load.image("turn_name_protect", "./assets/board/turn_name_protect.png");
-    
+
     scene.load.image("card_mask", "./assets/board/card_mask.png");
     scene.load.image("creature_snakey", "./assets/board/creatures/snakey.png");
     scene.load.image("creature_doogie", "./assets/board/creatures/doogie.png");
@@ -82,7 +82,7 @@ export class AssetsLoader {
     scene.load.image("grid_128_30", "./assets/grid_128_a50.png");
     scene.load.image("path_end_14x14", "./assets/path_end_14x14.png");
     scene.load.image("path_mid_14x14", "./assets/path_mid_14x14.png");
-    scene.load.spritesheet('fog_tilemap', './assets/fog_tile_32_a70.png', {frameWidth: 32, frameHeight: 32});
+    scene.load.spritesheet('fog_tilemap', './assets/fog_tile_32_a70.png', { frameWidth: 32, frameHeight: 32 });
     scene.load.image("grid_tile_green_16_a50", "./assets/grid_tile_green_16_a50.png");
     scene.load.image("grid_tile_yellow_16_a50", "./assets/grid_tile_yellow_16_a50.png");
     scene.load.image("grid_tile_red_16_a50", "./assets/grid_tile_red_16_a50.png");
@@ -122,7 +122,7 @@ export class AssetsLoader {
       './assets/fonts/coco/coco-8-yellow.png',
       './assets/fonts/coco/coco-8.fnt');
 
-      scene.load.bitmapFont('coco-8-green',
+    scene.load.bitmapFont('coco-8-green',
       './assets/fonts/coco/coco-8-green.png',
       './assets/fonts/coco/coco-8.fnt');
 
@@ -131,7 +131,7 @@ export class AssetsLoader {
       frameHeight: 48,
       endFrame: 7
     });
-    
+
     scene.load.spritesheet('mothership_128x128', './assets/sprites/mothership_128x128.png', {
       frameWidth: 128,
       frameHeight: 128,
@@ -191,7 +191,7 @@ export class AssetsLoader {
       frameHeight: 48,
       endFrame: 5
     });
-    
+
     scene.load.spritesheet('builder_build_anim_48x48', './assets/sprites/builder_build_anim_48x48.png', {
       frameWidth: 48,
       frameHeight: 48,
@@ -201,7 +201,7 @@ export class AssetsLoader {
     scene.load.spritesheet('sentry_idle_anim_48x48', './assets/sprites/sentry_idle_anim_48x48.png', {
       frameWidth: 48,
       frameHeight: 48,
-      endFrame: 8 
+      endFrame: 8
     });
 
     scene.load.spritesheet('guardian_anim_48x48', './assets/sprites/guardian_anim_48x48.png', {
@@ -227,7 +227,7 @@ export class AssetsLoader {
       endFrame: 4
     });
 
-    scene.load.image("terrain_12", "./assets/tilemap/terrain_12.png");
+    // scene.load.image("terrain_12", "./assets/tilemap/terrain_12.png");
     // for (let idx = 0; idx <= ASSETS.TERRAIN_MAX; idx++) {
     //   scene.load.image("terrain_" + idx, "./assets/tilemap/terrain_" + idx + ".png");
     // }

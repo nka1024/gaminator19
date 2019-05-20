@@ -68,16 +68,16 @@ export class TileGrid {
 
     var grid = [];
     // grid image
-    for (let i = 0; i < 3; i++) {
-      for (let j = 0; j < 3; j++) {
+    for (let i = 0; i < 20; i++) {
+      for (let j = 0; j < 20; j++) {
         let img = new Phaser.GameObjects.Image(this.scene, 0, 0, null);
-        img.scaleX = 2;
-        img.scaleY = 2;
+        img.scaleX = 1;
+        img.scaleY = 1;
         img.originX = 0;
         img.originY = 0;
         img.setTexture("grid_128_30");
-        img.x = 256 * i;
-        img.y = 256 * j;
+        img.x = 128 * i;
+        img.y = 128 * j;
         img.depth = UI_DEPTH.EDITOR_GRID_FRAME;
         this.scene.add.existing(img);
         grid.push(img);
@@ -187,13 +187,13 @@ export class TileGrid {
 
   private createTile(tile: Tile, color: string, fog: boolean = false): Phaser.GameObjects.Image {
     let img = new Phaser.GameObjects.Image(this.scene, 0, 0, null);
-    img.scaleX = 2;
-    img.scaleY = 2;
+    // img.scaleX = 2;
+    // img.scaleY = 2;
     img.setTexture(fog ? 'fog_tile_16_a70' : 'grid_tile_' + color + '_16_a50');
     img.depth = UI_DEPTH.EDITOR_GRID_TILE;
     var wc = this.gridToWorld(tile)
-    img.x = wc.x + this.gridSize/2;
-    img.y = wc.y + this.gridSize/2;
+    img.x = wc.x + 8;
+    img.y = wc.y + 8;
     this.scene.add.existing(img);
     return img;
   }
