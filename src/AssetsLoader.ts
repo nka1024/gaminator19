@@ -9,7 +9,7 @@ import { CONST } from "./const/const";
 
 export let ASSETS = {
   TERRAIN_MAX: 16,
-  GRASS_MAX: 6,
+  GRASS_MAX: 2,
   HOUSE_MAX: 8,
   DEVICES_MAX: 3,
 }
@@ -28,8 +28,18 @@ export class AssetsLoader {
       scene.load.image("water_" + (idx < 10 ? '0':'') + idx, "./assets/gaminator/terrain/water_" + (idx < 10 ? '0':'') + idx + ".png");
     }
 
-    scene.load.image("grass_1", "./assets/gaminator/grass_1.png");
-    scene.load.image("grass_2", "./assets/gaminator/grass_2.png");
+    for (let idx = 1; idx <= ASSETS.GRASS_MAX; idx++) {
+      scene.load.image("grass_" + idx, "./assets/gaminator/map_objects/grass_" + idx + ".png");
+    }
+    // for (let idx = 1; idx <= 4; idx++) {
+    //   scene.load.image("actor_" + idx, "./assets/tilemap/actor_" + idx + ".png");
+    // }
+    for (let idx = 1; idx <= ASSETS.DEVICES_MAX; idx++) {
+      scene.load.image("device_" + idx, "./assets/gaminator/map_objects/device_" + idx + ".png");
+    }
+
+    // scene.load.image("grass_1", "./assets/gaminator/grass_1.png");
+    // scene.load.image("grass_2", "./assets/gaminator/grass_2.png");
 
     scene.load.spritesheet('bubble1_128x128', './assets/gaminator/fx/bubble1_128x128.png', { frameWidth: 128, frameHeight: 128 });
     scene.load.spritesheet('bubble2_128x128', './assets/gaminator/fx/bubble2_128x128.png', { frameWidth: 128, frameHeight: 128 });
@@ -231,14 +241,6 @@ export class AssetsLoader {
     // for (let idx = 0; idx <= ASSETS.TERRAIN_MAX; idx++) {
     //   scene.load.image("terrain_" + idx, "./assets/tilemap/terrain_" + idx + ".png");
     // }
-    for (let idx = 1; idx <= ASSETS.GRASS_MAX; idx++) {
-      scene.load.image("grass_" + idx, "./assets/tilemap/grass_" + idx + ".png");
-    }
-    for (let idx = 1; idx <= 4; idx++) {
-      scene.load.image("actor_" + idx, "./assets/tilemap/actor_" + idx + ".png");
-    }
-    for (let idx = 1; idx <= ASSETS.DEVICES_MAX; idx++) {
-      scene.load.image("device_" + idx, "./assets/gaminator/device_" + idx + ".png");
-    }
+    
   }
 }

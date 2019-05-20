@@ -75,7 +75,7 @@ export class WorldScene extends Phaser.Scene {
     this.pool.add(ambient);
     this.add.existing(ambient);
 
-    this.player = new WorldPlayer(this, 304, 208, this.grid);
+    this.player = new WorldPlayer(this, 428, 320, this.grid);
     this.pool.add(this.player);
     this.add.existing(this.player);
 

@@ -16,8 +16,8 @@ export class ObjectsListPanel extends BaseWindow {
     public onObjectClick:Function;
     public filenamePrefix:string;
 
-    public treesButton:HTMLInputElement;
-    public actorsButton:HTMLInputElement;
+    public ambientButton:HTMLInputElement;
+    public floraButton:HTMLInputElement;
     public devicesButton:HTMLInputElement;
 
     // private 
@@ -38,15 +38,15 @@ export class ObjectsListPanel extends BaseWindow {
         this.maxIdx = maxIdx;
 
         this.objContainer = this.element.querySelector(".obj_list");
-        this.treesButton = this.element.querySelector(".trees_button");
-        this.actorsButton = this.element.querySelector(".actors_button");
-        this.devicesButton = this.element.querySelector(".houses_button");
+        this.ambientButton = this.element.querySelector(".ambient_button");
+        this.floraButton = this.element.querySelector(".flora_button");
+        this.devicesButton = this.element.querySelector(".devices_button");
         this.populate()
         // this.removeAll();
     
-        this.treesButton.addEventListener('click', () => {
-            this.filenamePrefix = 'tree';
-            this.maxIdx = ASSETS.GRASS_MAX;
+        this.ambientButton.addEventListener('click', () => {
+            this.filenamePrefix = 'actor';
+            this.maxIdx = 4;
             this.repopulate();
         });
         this.devicesButton.addEventListener('click', () => {
@@ -54,9 +54,9 @@ export class ObjectsListPanel extends BaseWindow {
             this.maxIdx = ASSETS.DEVICES_MAX;
             this.repopulate();
         });
-        this.actorsButton.addEventListener('click', () => {
-            this.filenamePrefix = 'actor';
-            this.maxIdx = 4;
+        this.floraButton.addEventListener('click', () => {
+            this.filenamePrefix = 'grass';
+            this.maxIdx = ASSETS.GRASS_MAX;
             this.repopulate();
         });
     }
@@ -82,7 +82,7 @@ export class ObjectsListPanel extends BaseWindow {
             element.style.height = this.itemHeight + 'px';
             element.style.verticalAlign = "middle";
             element.type = "button";
-            element.style.background = 'rgba(184,176,33,1) url(/assets/tilemap/'+filename+') no-repeat center';
+            element.style.background = 'rgba(184,176,33,1) url(/assets/gaminator/map_objects/'+filename+') no-repeat center';
             element.style.marginRight = '5px';
             element.addEventListener('click', ()=>{
                 if (this.onObjectClick) {
