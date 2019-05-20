@@ -150,11 +150,11 @@ export class WorldScene extends Phaser.Scene {
 
   private loadMap() {
     this.mapImporter = new MapImporterModule(this, this.grid);
-    // this.mapImporter.grassHandler = (o: Phaser.GameObjects.Image, item: any) => {
-    //   let tile = this.grid.worldToGrid({ x: o.x, y: o.y - o.height / 2 });
-    //   this.grid.addGrass(o, tile, 100);
-    //   o.depth = o.y - 24;
-    // };
+    this.mapImporter.grassHandler = (o: Phaser.GameObjects.Image, item: any) => {
+      // let tile = this.grid.worldToGrid({ x: o.x, y: o.y - o.height / 2 });
+      // o.depth = o.y - 24;
+      
+    };
 
     // this.mapImporter.enemyHandler = (p: Point, type: string) => {
     //   let tile = this.grid.worldToGrid(p)

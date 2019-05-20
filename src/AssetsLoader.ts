@@ -11,6 +11,7 @@ export let ASSETS = {
   TERRAIN_MAX: 11,
   GRASS_MAX: 6,
   HOUSE_MAX: 8,
+  DEVICES_MAX: 3,
 }
 
 export class AssetsLoader {
@@ -26,6 +27,9 @@ export class AssetsLoader {
     scene.load.image("ground2", "./assets/gaminator/terrain/ground2.png");
     scene.load.image("ground3", "./assets/gaminator/terrain/ground3.png");
     scene.load.image("ground4", "./assets/gaminator/terrain/ground4.png");
+
+    scene.load.image("grass_1", "./assets/gaminator/grass_1.png");
+    scene.load.image("grass_2", "./assets/gaminator/grass_2.png");
 
     scene.load.spritesheet('bubble1_128x128', './assets/gaminator/fx/bubble1_128x128.png', {frameWidth: 128, frameHeight: 128});
     scene.load.spritesheet('bubble2_128x128', './assets/gaminator/fx/bubble2_128x128.png', {frameWidth: 128, frameHeight: 128});
@@ -230,11 +234,11 @@ export class AssetsLoader {
     for (let idx = 1; idx <= ASSETS.GRASS_MAX; idx++) {
       scene.load.image("grass_" + idx, "./assets/tilemap/grass_" + idx + ".png");
     }
-    for (let idx = 1; idx <= ASSETS.HOUSE_MAX; idx++) {
-      scene.load.image("house_" + idx, "./assets/tilemap/house_" + idx + ".png");
-    }
     for (let idx = 1; idx <= 4; idx++) {
       scene.load.image("actor_" + idx, "./assets/tilemap/actor_" + idx + ".png");
+    }
+    for (let idx = 1; idx <= ASSETS.DEVICES_MAX; idx++) {
+      scene.load.image("device_" + idx, "./assets/gaminator/device_" + idx + ".png");
     }
   }
 }

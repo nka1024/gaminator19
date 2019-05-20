@@ -24,7 +24,6 @@ export class TileGrid {
   private tiles: Phaser.GameObjects.Image[][];
   private data: number[][];
   private fog: Phaser.GameObjects.Image[][];
-  private grasses: any = {};
   public fogLayer: Phaser.Tilemaps.DynamicTilemapLayer;
 
   private scene: Phaser.Scene;
@@ -154,37 +153,6 @@ export class TileGrid {
 
   // Grass
   
-  public addGrass(object: any, tile: Tile, volume: number) {
-    let hashKey = tile.i + '_' + tile.j;
-    let grass = {object: object, volume: volume};
-    if (!this.grasses[hashKey]) {
-      this.grasses[hashKey] = [grass];
-    } else {
-      this.grasses[hashKey].push(grass);
-    }
-  }
-
-  public hasGrass(tile: Tile): boolean {
-    return this.grassAt(tile) && this.grassAt(tile).length > 0;
-  }
-
-  public grassAt(tile: Tile): GrassData[] {
-    let hashKey = tile.i + '_' + tile.j;
-    return this.grasses[hashKey];
-  }
-
-  public consumeGrass(tile: Tile, volume: number) {
-    let hashKey = tile.i + '_' + tile.j;
-    let arr: GrassData[] = this.grasses[hashKey];
-    let grass = arr[0];
-    grass.volume -= volume;
-    if (grass.volume <= 0) {
-      grass.object.destroy();
-      arr.shift();
-    }
-    return ;
-  }
-
   public getTileIJ(p: Point): any {
     try {
       if (p.x < 0 || p.y < 0) throw ('cant be negative')

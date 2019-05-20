@@ -49,7 +49,6 @@ export class MapImporterModule {
           this.grassHandler(o, item);
         }
       }
-
     }
   }
 
@@ -78,7 +77,11 @@ export class MapImporterModule {
     obj.setTexture(data.texture);
     // obj.x = data.x;
     // obj.y = data.y + 32;
-    obj.depth = data.depth;
+    if (data.texture.startsWith('device')) {
+      obj.depth = data.depth - 70;
+    } else {
+      obj.depth = data.depth;
+    }
     this.scene.add.existing(obj);
     return obj;
   }

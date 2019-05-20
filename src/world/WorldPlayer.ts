@@ -67,6 +67,7 @@ export class WorldPlayer extends Phaser.GameObjects.Sprite {
     if (this.grid.isWalkable(this.grid.worldToGrid({x: this.x, y: this.y + this.speed.y}))) 
       this.y += this.speed.y;
 
+    this.depth = this.y;
     if (this.enterKey.isDown) {
       console.log('x: ' + this.x + ' y: ' + this.y);
     }
