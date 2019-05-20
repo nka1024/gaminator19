@@ -15,6 +15,7 @@ import { ToolsPanel } from "../windows/ToolsPanel";
 import { TileGrid } from "../TileGrid";
 import { UI_DEPTH } from "../const/const";
 import { GameObjects } from "phaser";
+import { Point } from "../types/Types";
 
 export class EditorRootScene extends Phaser.Scene {
 
@@ -26,6 +27,7 @@ export class EditorRootScene extends Phaser.Scene {
   private cursor: Phaser.GameObjects.Sprite;
 
   private tool: string = 'brush';
+  private cachedCanvas: HTMLElement;
 
   constructor() {
     super({
@@ -38,6 +40,16 @@ export class EditorRootScene extends Phaser.Scene {
   }
 
   create(data): void {
+    this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
+      // Dmitry Radkovsky: querySelector по классу тяжеловесный, закешируй
+      if (!this.cachedCanvas) this.cachedCanvas = document.querySelector(".canvas_main")
+      // todo: check if gets fixed in >3.16.1
+      if (pointer.event.target == this.cachedCanvas) {
+        this.cursorTouchHandler();
+        console.log('pointerdown');
+      }
+    });
+
     this.cameras.main.setBackgroundColor(0x1f1f1f);
     WindowManager.initialize();
 
@@ -57,12 +69,12 @@ export class EditorRootScene extends Phaser.Scene {
     for (let i = 0; i < 4; i++) {
       for (let j = 0; j < 4; j++) {
         idx++;
-        let texture = 'terrain_' + (idx < 10 ? '0' : '' ) +  idx;
+        let texture = 'terrain_' + (idx < 10 ? '0' : '') + idx;
         console.log('texture');
-        let ter = new Phaser.GameObjects.Image(this,0,0,texture);
-        ter.setOrigin(0,0);
-        ter.x = j* 1024;
-        ter.y = i* 1024;
+        let ter = new Phaser.GameObjects.Image(this, 0, 0, texture);
+        ter.setOrigin(0, 0);
+        ter.x = j * 1024;
+        ter.y = i * 1024;
         ter.depth = -Number.MAX_VALUE;
         this.add.existing(ter);
       }
@@ -79,7 +91,14 @@ export class EditorRootScene extends Phaser.Scene {
       this.tool = 'brush';
       console.log('swtich tool to brush');
     });
-
+    this.toolsPanel.fillButton.addEventListener('click', () => {
+      this.tool = 'fill';
+      console.log('swtich tool to fill');
+    });
+    this.toolsPanel.lineButton.addEventListener('click', () => {
+      this.tool = 'line';
+      console.log('swtich tool to line');
+    });
     // objects button
     menu.objectsButton.addEventListener('click', () => {
       if (this.objectsListPanel) {
@@ -156,48 +175,69 @@ export class EditorRootScene extends Phaser.Scene {
   update(): void {
     this.cursorFollow();
     this.cameraDrag();
-    this.cursorTouchHandler();
 
     if (this.grid) this.grid.update();
   }
 
   private cursorTouchHandler() {
-    if (this.input.activePointer.isDown) {
-      if (this.cursor.alpha != 0.5) {
-        this.cursor.alpha = 0.5;
-      }
-    } else {
-      if (this.cursor.alpha != 1) {
-        this.cursor.alpha = 1;
-        if (!this.grid.visible) {
-          // object placement
 
-          if (this.tool == 'brush') {
-            if (this.objectsListPanel != null) {
-              this.createObject();
-              // randomize after object placed
-              // this.cursor.setTexture("tree_" + this.getRandomInt(1, 9))
-            }
-          } else if (this.tool == 'erase') {
-            console.log('erase');
-            let objs = this.input.hitTestPointer(this.input.activePointer);
-            console.log(objs);
-            for (let obj of objs) {
-              if (!(obj as GameObjects.Image).texture.key.startsWith('terrain'))
-                obj.destroy();
-            }
-          }
-        } else {
-          // tile placement
-          let walkable = this.grid.isWalkable(this.grid.worldToGrid(this.cursor));
-          this.grid.editTile(this.cursor, walkable ? 'red' : 'green');
+    if (!this.grid.visible) {
+      // object placement
 
-          // for (let i = -2; i <= 2; i++)
-          // for (let j = -2; j <= 2; j++)
-          // this.grid.editTile({x: this.cursor.x + 32 * i, y: this.cursor.y + 32 * j}, walkable ? 'red' : 'green');
+      if (this.tool == 'brush') {
+        if (this.objectsListPanel != null) {
+          this.createObject();
+          // randomize after object placed
+          // this.cursor.setTexture("tree_" + this.getRandomInt(1, 9))
+        }
+      } else if (this.tool == 'erase') {
+        console.log('erase');
+        let objs = this.input.hitTestPointer(this.input.activePointer);
+        console.log(objs);
+        for (let obj of objs) {
+          if (!(obj as GameObjects.Image).texture.key.startsWith('terrain'))
+            obj.destroy();
         }
       }
+    } else {
+      // tile placement
+      let points: Point[] = [];
+      let cursor: Point = { x: this.cursor.x, y: this.cursor.y };
+      let walkable = this.grid.isWalkable(this.grid.worldToGrid(this.cursor));
+      if (this.tool == 'brush') {
+        points.push(cursor);
+      } else if (this.tool == 'fill') {
+        points.push(cursor);
+        // fill area of same color tiles
+        let step = this.grid.tileSize; // move cursor by this value every step
+        let c = { x: cursor.x, y: cursor.y }; // fill cursor
+        let dX = 1; // horizontal direction
+        let dY = 1; // vertical direction
+        for (let i = 0; i < 100; i++) {
+          c.x += step * dX
+          if (this.grid.isWalkable(this.grid.worldToGrid(c)) == walkable) {
+            points.push({ x: c.x, y: c.y });
+          } else {
+            c.x -= step * dX
+            dX *= -1
+            c.y += step * dY
+            if (this.grid.isWalkable(this.grid.worldToGrid(c)) == walkable) {
+              points.push({ x: c.x, y: c.y });
+            } else {
+              break;
+            }
+          }
+        }
+      }
+      for (let point of points) {
+        this.grid.editTile(point, walkable ? 'red' : 'green');
+      }
+
+      // for (let i = -2; i <= 2; i++)
+      // for (let j = -2; j <= 2; j++)
+      // this.grid.editTile({x: this.cursor.x + 32 * i, y: this.cursor.y + 32 * j}, walkable ? 'red' : 'green');
     }
+
   }
 
   private cursorFollow() {
@@ -250,7 +290,7 @@ export class EditorRootScene extends Phaser.Scene {
     if (data.texture.startsWith('terrain')) {
       obj.originX = 0;
       obj.originY = 0;
-      
+
     } else {
       obj.originX = 0.5;
       obj.originY = 1;

@@ -55,6 +55,7 @@ export class ExportWindow extends BaseWindow {
       if (image.depth == UI_DEPTH.EDITOR_GRID_FRAME) continue
       if (image.depth == UI_DEPTH.EDITOR_GRID_TILE) continue
       if (image.depth == UI_DEPTH.CURSOR) continue
+      if (image.depth == -Number.MAX_VALUE) continue
 
       let texture = image.texture
 

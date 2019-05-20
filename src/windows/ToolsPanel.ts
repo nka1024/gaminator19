@@ -1,11 +1,11 @@
-import { BaseWindow } from "./BaseWindow";
-
 /**
 * @author       Kirill Nepomnyaschiy <nka1024@gmail.com>
 * @copyright    nka1024
-* @description  nomads
+* @description  gaminator 19
 * @license      Apache 2.0
 */
+
+import { BaseWindow } from "./BaseWindow";
 
 export class ToolsPanel extends BaseWindow {
     // static
@@ -17,6 +17,8 @@ export class ToolsPanel extends BaseWindow {
     public playButton:HTMLInputElement;
     public eraseButton:HTMLInputElement;
     public brushButton:HTMLInputElement;
+    public fillButton:HTMLInputElement;
+    public lineButton:HTMLInputElement;
     
     constructor() {
         super();
@@ -26,6 +28,8 @@ export class ToolsPanel extends BaseWindow {
         this.playButton = this.element.querySelector(".play_button");
         this.brushButton = this.element.querySelector(".tools_button_brush");
         this.eraseButton = this.element.querySelector(".tools_button_erase");
+        this.fillButton = this.element.querySelector(".tools_button_fill");
+        this.lineButton = this.element.querySelector(".tools_button_line");
     }
 
     // Window HTML properties

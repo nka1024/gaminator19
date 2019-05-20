@@ -219,8 +219,8 @@ export class TileGrid {
     let worldPosY = screenPosY + this.scene.cameras.main.scrollY;
 
     let snapPos = this.snapToGrid({ x: worldPosX, y: worldPosY })
-    cursor.x = snapPos.x + this.gridSize/2;
-    cursor.y = snapPos.y + this.gridSize/2;
+    cursor.x = snapPos.x + this.tileSize/2;
+    cursor.y = snapPos.y + this.tileSize/2;
   }
 
   public export(): any {
