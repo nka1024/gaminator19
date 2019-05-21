@@ -19,9 +19,10 @@ export class TileGrid {
 
   public gridSize: number = 90;
   public tileSize: number = 16;
-  
+
   private grid: Phaser.GameObjects.Image[];
   private tiles: Phaser.GameObjects.Image[][];
+  private triggers: Phaser.GameObjects.Image[][];
   private data: number[][];
   private fog: Phaser.GameObjects.Image[][];
   public fogLayer: Phaser.Tilemaps.DynamicTilemapLayer;
@@ -33,14 +34,17 @@ export class TileGrid {
     this.data = [];
     this.tiles = [];
     this.fog = [];
+    this.triggers = []
     for (let i = 0; i < this.gridSize; i++) {
       this.data[i] = [];
       this.tiles[i] = [];
       this.fog[i] = [];
+      this.triggers[i] = [];
       for (let j = 0; j < this.gridSize; j++) {
         this.data[i][j] = 0;
         this.tiles[i][j] = null;
         this.fog[i][j] = null;
+        this.triggers[i][j] = null;
       }
     }
 
@@ -48,24 +52,27 @@ export class TileGrid {
     this.pathfinder.setGrid(this.data);
   }
 
-  public toggleGrid() {
+  public hideGrid() {
     // hide grid if it exists
-    if (this.grid != null) {
-      for (let img of this.grid) {
-        img.destroy();
-      }
-      this.grid = null;
+    for (let img of this.grid) {
+      img.destroy();
+    }
+    this.grid = null;
 
-      for (let i = 0; i < this.gridSize; i++) {
-        for (let j = 0; j < this.gridSize; j++) {
-          this.tiles[i][j].destroy();
-          this.tiles[i][j] = null;
+    for (let i = 0; i < this.gridSize; i++) {
+      for (let j = 0; j < this.gridSize; j++) {
+        this.tiles[i][j].destroy();
+        this.tiles[i][j] = null;
+        if (this.triggers[i][j]) {
+          this.triggers[i][j].destroy();
+          this.triggers[i][j] = null;
         }
       }
-      return;
     }
+    return;
+  }
 
-
+  public showGrid() {
     var grid = [];
     // grid image
     for (let i = 0; i < 20; i++) {
@@ -80,6 +87,7 @@ export class TileGrid {
         img.y = 128 * j;
         img.depth = UI_DEPTH.EDITOR_GRID_FRAME;
         this.scene.add.existing(img);
+
         grid.push(img);
       }
     }
@@ -101,13 +109,13 @@ export class TileGrid {
   public createFog() {
     let fog: integer[][] = []
     for (let i = 0; i < this.gridSize; i++) {
-      fog [i] = []
+      fog[i] = []
       for (let j = 0; j < this.gridSize; j++) {
         fog[i][j] = 0;
       }
     }
 
-    let config:Phaser.Types.Tilemaps.TilemapConfig = {
+    let config: Phaser.Types.Tilemaps.TilemapConfig = {
       data: fog,
       tileWidth: 32,
       tileHeight: 32,
@@ -147,12 +155,12 @@ export class TileGrid {
     }
   }
 
-  public isFog(tile: Tile): boolean{
+  public isFog(tile: Tile): boolean {
     return this.fogLayer.hasTileAt(tile.j, tile.i);
   }
 
   // Grass
-  
+
   public getTileIJ(p: Point): any {
     try {
       if (p.x < 0 || p.y < 0) throw ('cant be negative')
@@ -176,7 +184,7 @@ export class TileGrid {
 
   public isFree(tile: Tile): boolean {
     return this.legit(tile) &&
-      this.data[tile.i][tile.j] == 0 
+      this.data[tile.i][tile.j] == 0
   }
 
   public legit(tile: Tile): boolean {
@@ -212,6 +220,36 @@ export class TileGrid {
     this.pathfinder.setGrid(this.data);
   }
 
+  private createTriggerTile(tile: Tile) {
+    let img = new Phaser.GameObjects.Image(this.scene, 0, 0, null);
+    img.setTexture('grid_tile_trigger_16_a100');
+    img.depth = UI_DEPTH.EDITOR_GRID_TRIGGER;
+    var wc = this.gridToWorld(tile)
+    img.x = wc.x + 8;
+    img.y = wc.y + 8;
+    this.scene.add.existing(img);
+
+    return img;
+  }
+
+  public addTrigger(tile: Tile) {
+    let currentTile = this.triggers[tile.i][tile.j];
+    if (currentTile != null) {
+      currentTile.destroy();
+      this.triggers[tile.i][tile.j] = null;
+    }
+    let img = this.createTriggerTile(tile);
+    this.triggers[tile.i][tile.j] = img;
+  }
+
+  public removeTrigger(tile: Tile) {
+    let currentTile = this.triggers[tile.i][tile.j];
+    if (currentTile != null) {
+      currentTile.destroy();
+      this.triggers[tile.i][tile.j] = null;
+    }
+  }
+
   public cursorFollow(cursor: Phaser.GameObjects.Image) {
     let screenPosX = Math.round(this.scene.input.activePointer.x / 2) * 2;
     let screenPosY = Math.round(this.scene.input.activePointer.y / 2) * 2;
@@ -219,8 +257,8 @@ export class TileGrid {
     let worldPosY = screenPosY + this.scene.cameras.main.scrollY;
 
     let snapPos = this.snapToGrid({ x: worldPosX, y: worldPosY })
-    cursor.x = snapPos.x + this.tileSize/2;
-    cursor.y = snapPos.y + this.tileSize/2;
+    cursor.x = snapPos.x + this.tileSize / 2;
+    cursor.y = snapPos.y + this.tileSize / 2;
   }
 
   public export(): any {

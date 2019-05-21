@@ -9,13 +9,27 @@ import { TileGrid } from "../../TileGrid";
 import { UI_DEPTH } from "../../const/const";
 import { GameObjects } from "phaser";
 import { Point } from "../../types/Types";
+import { Triggers } from "../../Triggers";
 
+export enum MapTriggerType {
+  Undefined = 0,
+  Once,
+  Repeatable
+}
 export type MapObjetctData = {
   texture: string,
   depth: number,
   x: number,
   y: number
 }
+export type MapTriggerData = {
+  name: string,
+  typeRaw: string,
+  type: MapTriggerType
+  i: number,
+  j: number
+}
+
 export class MapImporterModule {
   private scene: Phaser.Scene;
   private grid: TileGrid;
@@ -24,6 +38,7 @@ export class MapImporterModule {
 
   public grassHandler: (obj:GameObjects.Image, item: any) => void;
   public ambientHandler: (obj: MapObjetctData) => void;
+  public triggerHandler: (obj: MapTriggerData) => void;
 
   constructor(scene: Phaser.Scene, grid: TileGrid) {
     this.scene = scene;
@@ -46,6 +61,13 @@ export class MapImporterModule {
 
     // create grid from config
     this.grid.import(map.grid);
+    // handle triggers
+    if (map.triggers) {
+      for (let trigger of map.triggers) {
+        trigger.type = Triggers.typeByRawType(trigger.typeRaw);
+         if (this.triggerHandler) this.triggerHandler(trigger);
+      }
+    }
     // create objects from config      
     for (let item of map.objects) {
       let o = this.createObjectFromConfig(item);

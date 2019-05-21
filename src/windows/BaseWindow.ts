@@ -48,7 +48,10 @@ export abstract class BaseWindow {
   public hide() {
     this.element.style.display = "none";
   }
-
+  public isVisible(): boolean {
+    return this.element.style.display == "block";
+  }
+  
   public set zoom(value: number) {
     this.element.style.zoom = value.toString();
   }

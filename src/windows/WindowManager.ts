@@ -11,6 +11,7 @@ import { ObjectsListPanel } from "./ObjectsListPanel";
 import { ExportWindow } from "../windows/ExportWindow";
 import { ToolsPanel } from "./ToolsPanel";
 import { DebugPanel } from "./DebugPanel";
+import { TriggersPanel } from "./TriggersPanel";
 
 export class WindowManager {
 
@@ -26,6 +27,7 @@ export class WindowManager {
     ObjectsListPanel.initialize();
     ExportWindow.initialize();
     ToolsPanel.initialize();
+    TriggersPanel.initialize();
     try {
       DebugPanel.initialize();
     } catch (e) {

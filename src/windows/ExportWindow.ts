@@ -1,5 +1,6 @@
 import { BaseWindow } from "./BaseWindow";
 import { UI_DEPTH } from "../const/const";
+import { MapTriggerData } from "../modules/scene/MapImporterModule";
 
 /**
 * @author       Kirill Nepomnyaschiy <nka1024@gmail.com>
@@ -42,10 +43,11 @@ export class ExportWindow extends BaseWindow {
   }
 
 
-  public populate(children: Phaser.GameObjects.GameObject[], gridData:any) {
+  public populate(children: Phaser.GameObjects.GameObject[], gridData:any, triggers: MapTriggerData[]) {
     var result = {
       objects: null,
-      grid: gridData
+      grid: gridData,
+      triggers: []
     };
     var objects = [];
 
@@ -54,6 +56,7 @@ export class ExportWindow extends BaseWindow {
       // exclude ui layer
       if (image.depth == UI_DEPTH.EDITOR_GRID_FRAME) continue
       if (image.depth == UI_DEPTH.EDITOR_GRID_TILE) continue
+      if (image.depth == UI_DEPTH.EDITOR_GRID_TRIGGER) continue
       if (image.depth == UI_DEPTH.CURSOR) continue
       if (image.depth == -Number.MAX_VALUE) continue
 
@@ -68,6 +71,7 @@ export class ExportWindow extends BaseWindow {
       objects.push(childData);
     }
     result.objects = objects;
+    result.triggers = triggers;
     this.dataInput.value = JSON.stringify(result);
   }
 

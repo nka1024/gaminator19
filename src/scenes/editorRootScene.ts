@@ -16,6 +16,9 @@ import { TileGrid } from "../TileGrid";
 import { UI_DEPTH } from "../const/const";
 import { GameObjects } from "phaser";
 import { Point } from "../types/Types";
+import { TriggersPanel, TriggerPanelTool } from "../windows/TriggersPanel";
+import { Triggers } from "../Triggers";
+import { MapTriggerData } from "../modules/scene/MapImporterModule";
 
 export class EditorRootScene extends Phaser.Scene {
 
@@ -24,12 +27,15 @@ export class EditorRootScene extends Phaser.Scene {
   private grid: TileGrid;
   private objectsListPanel: ObjectsListPanel;
   private toolsPanel: ToolsPanel;
+  private triggersPanel: TriggersPanel;
   private cursor: Phaser.GameObjects.Sprite;
 
   private tool: string = 'brush';
   private cachedCanvas: HTMLElement;
 
   private lineToolStart: Point;
+
+  private triggers: Triggers;
   constructor() {
     super({
       key: "EditorRootScene"
@@ -45,6 +51,7 @@ export class EditorRootScene extends Phaser.Scene {
       // Dmitry Radkovsky: querySelector по классу тяжеловесный, закешируй
       if (!this.cachedCanvas) this.cachedCanvas = document.querySelector(".canvas_main")
       // todo: check if gets fixed in >3.16.1
+      console.log(pointer.event.target);
       if (pointer.event.target == this.cachedCanvas) {
         this.cursorTouchHandler();
         console.log('pointerdown');
@@ -53,6 +60,7 @@ export class EditorRootScene extends Phaser.Scene {
 
     this.cameras.main.setBackgroundColor(0x1f1f1f);
     WindowManager.initialize();
+    this.triggers = new Triggers();
 
     this.grid = new TileGrid(this);
     this.cursor = this.add.sprite(150, 150, "cursor");
@@ -120,25 +128,28 @@ export class EditorRootScene extends Phaser.Scene {
 
     // grid button
     menu.gridButton.addEventListener('click', () => {
-      this.grid.toggleGrid();
+      if (this.grid.visible) {
+        this.grid.hideGrid();
+      } else {
+        this.grid.showGrid();
+        if (this.triggers.triggers) {
+          for (let trigger of this.triggers.triggers){
+            this.grid.addTrigger({i: trigger.i, j: trigger.j});
+          }
+        }
+      }
     });
 
     // terrain button
-    menu.terrainButton.addEventListener('click', () => {
-      if (this.objectsListPanel) {
-        this.objectsListPanel.destroy()
-        this.cursor.setTexture("cursor");
-        // close if pressed again
-        if (this.objectsListPanel.filenamePrefix.startsWith("terrain")) {
-          this.objectsListPanel = null
-          return
-        }
+    menu.triggersButton.addEventListener('click', () => {
+      if (!this.triggersPanel ) {
+        this.triggersPanel = new TriggersPanel();
+        this.triggersPanel.show();
+      } else  if (this.triggersPanel.isVisible()){
+        this.triggersPanel.hide();
+      } else {
+        this.triggersPanel.show();
       }
-      this.objectsListPanel = new ObjectsListPanel("terrain", ASSETS.TERRAIN_MAX, 256, 256);
-      this.objectsListPanel.onObjectClick = (idx: number) => {
-        this.cursor.setTexture("terrain_" + idx);
-      }
-      this.objectsListPanel.show()
     });
 
     // export button
@@ -157,16 +168,20 @@ export class EditorRootScene extends Phaser.Scene {
 
     // create grid from config
     this.grid.import(map.grid);
+
     // create objects from config      
     for (let item of map.objects) {
       this.createObjectFromConfig(item);
     }
+
+    // create triggers
+    this.triggers.load(map.triggers);
   }
 
   showExportWindow() {
     var w = new ExportWindow("EXPORT MAP DATA");
     w.show();
-    w.populate(this.children.getAll(), this.grid.export());
+    w.populate(this.children.getAll(), this.grid.export(), this.triggers.triggers);
     w.importButton.addEventListener('click', () => {
       let map = JSON.parse(w.getInputText());
       this.importMap(map);
@@ -181,7 +196,6 @@ export class EditorRootScene extends Phaser.Scene {
   }
 
   private cursorTouchHandler() {
-
     if (!this.grid.visible) {
       // object placement
 
@@ -258,14 +272,33 @@ export class EditorRootScene extends Phaser.Scene {
       }
 
       for (let point of points) {
-        this.grid.editTile(point, walkable ? 'red' : 'green');
+        if (this.triggersPanel && this.triggersPanel.isVisible()) {
+        // triggers operations
+          let tile = this.grid.worldToGrid(point)
+          if (this.triggersPanel.tool == TriggerPanelTool.Mark) {
+            if (this.triggers.getTrigger(tile)) {
+              this.grid.removeTrigger(tile);
+              this.triggers.removeTrigger(tile);
+            } else {
+              this.grid.addTrigger(tile);
+              this.triggers.addTrigger(tile, this.triggersPanel.nameInput.value, this.triggersPanel.typeInput.value);
+            }
+          } else if (this.triggersPanel.tool == TriggerPanelTool.Select) {
+            let trigger: MapTriggerData = this.triggers.getTrigger(tile);
+            if (trigger) {
+              this.triggersPanel.nameInput.value = trigger.name;
+              this.triggersPanel.typeInput.value = trigger.typeRaw;
+            } else {
+              this.triggersPanel.nameInput.value = ''
+              this.triggersPanel.typeInput.value = ''
+            }
+          }
+        } else {
+          // tiles operations
+          this.grid.editTile(point, walkable ? 'red' : 'green');
+        }
       }
-
-      // for (let i = -2; i <= 2; i++)
-      // for (let j = -2; j <= 2; j++)
-      // this.grid.editTile({x: this.cursor.x + 32 * i, y: this.cursor.y + 32 * j}, walkable ? 'red' : 'green');
     }
-
   }
 
   private cursorFollow() {

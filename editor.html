@@ -19,6 +19,26 @@
   </div>
 
   <!-- OBJECTS FORM -->
+  <div class="triggers_window_prefab">
+    <div id="container" class="triggers_container lefted" hidden=false style="display: block; position: absolute; width: 800px; left: 100px; ">
+      <section id="main" style="padding: 00px; margin: 0px; vertical-align: middle;">
+        <div id="loginForm" class="submit" style="text-align: left">
+            <input class="btn btn-blue mark_button" style="margin-left: 5px; margin-top: 5px; width: 50px;  font-size: 10px; vertical-align: middle; padding: 5px" type="button" value="Mark" />
+            <input class="btn btn-blue select_button" style="margin-left: 5px; margin-top: 5px; width: 50px;  font-size: 10px; vertical-align: middle; padding: 5px" type="button" value="Select" />
+        </div>
+      </section>
+      <section id="main" style="padding: 10px; padding-left:5px; vertical-align: middle ">
+        <div id="loginForm">
+          <div class="txt_input" style="vertical-align: middle">
+            <textarea id="wmd-input" class="name_input" style="width:200px; height:14px; padding:2px; color:#000" cols=10
+                rows=10 name="post-text"></textarea><br>
+            <textarea id="wmd-input" class="type_input" style="width:200px; height:14px; padding:2px; color:#000" cols=10
+                rows=10 name="post-text"></textarea>
+          </div>
+      </section>
+    </div>
+  </div>
+  
   <div class="objects_list_window_prefab">
     <div id="container" class="objects_container lefted" hidden=false style="display: block; position: absolute; width: 800px; left: 100px; ">
       <section id="main" style="padding: 00px; margin: 0px; vertical-align: middle;">
@@ -75,7 +95,7 @@
         <div id="loginForm">
           <form action="./" method="post">
             <div class="submit">
-              <input class="btn btn-blue terrain_button" id="terrainButton" type="button" value="LAND" />
+              <input class="btn btn-blue triggers_button" id="triggersButton" type="button" value="TRIGGERS" />
             </div>
             <div class="submit">
               <input class="btn btn-blue objects_button" id="objectsButton" type="button" value="OBJECTS" />

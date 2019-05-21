@@ -36,7 +36,6 @@ export class WorldScene extends Phaser.Scene {
     ["water_05", "water_06", "water_07", "water_08"],
     ["water_09", "water_10", "water_11", "water_12"],
     ["water_13", "water_14", "water_15", "water_16"]];
-    
 
   constructor() {
     super({
@@ -132,6 +131,11 @@ export class WorldScene extends Phaser.Scene {
     // update camera effects
     if (this.transition)
       this.transition.update();
+
+    let tile = this.grid.worldToGrid({x: this.player.x, y: this.player.y});
+    if (tile.j == 14) {
+      
+    }
   }
 
   private onWindowResize(w: number, h: number) {
