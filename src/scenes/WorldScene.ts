@@ -29,6 +29,7 @@ export class WorldScene extends Phaser.Scene {
 
   private player: WorldPlayer;
   private animationRegistry: AnimationRegistry;
+  private dialog: DialogView;
 
   private transition: FadeTransition;
   private pool: Phaser.GameObjects.Group;
@@ -73,10 +74,11 @@ export class WorldScene extends Phaser.Scene {
     this.add.existing(this.transition);
     this.transition.alphaTransition(1, 0, 0.005);
 
-    let dialog = new DialogView(this, 0, 0);
-    dialog.showText('- Миги, эсли ты сейчас же не представишь что это - всего лишь ебучая бабочка и не заткнешься, то нам обоим скорее всего пиздец!');
-    this.add.existing(dialog);
-    this.pool.add(dialog);
+    this.dialog = new DialogView(this, 0, 0);
+    this.add.existing(this.dialog);
+    this.pool.add(this.dialog);
+    this.dialog.visible = false;
+    this.player.dialog = this.dialog;
   }
 
   update(): void {
@@ -136,7 +138,8 @@ export class WorldScene extends Phaser.Scene {
     let tile = this.grid.worldToGrid({x: this.player.x, y: this.player.y});
     let trigger:MapTriggerData = this.triggers.checkTrigger(tile);
     if (trigger) {
-      console.log('stepped on trigger: ' + trigger.name);
+      // console.log('stepped on trigger: ' + trigger.name);
+      this.dialog.showText('- Миги, эсли ты сейчас же не представишь что это - всего лишь ебучая бабочка и не заткнешься, то нам обоим скорее всего пиздец!');
     }
   }
 

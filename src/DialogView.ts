@@ -38,6 +38,7 @@ export class DialogView extends Phaser.GameObjects.Container {
   }
 
   public showText(text: string) {
+    this.visible = true;
     let max = 80;
     let l = 0;
     let words = text.split(' ');
@@ -52,6 +53,10 @@ export class DialogView extends Phaser.GameObjects.Container {
     
     this.textMain.text = result;
     this.textShadow.text = result;
+  }
+
+  public hide() {
+    this.visible = false;
   }
 
   update() {

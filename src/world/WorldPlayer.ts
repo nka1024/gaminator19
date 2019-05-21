@@ -6,6 +6,7 @@
 
 import { Point } from "../types/Types";
 import { TileGrid } from "../TileGrid";
+import { DialogView } from "../DialogView";
 
 export class WorldPlayer extends Phaser.GameObjects.Sprite {
   private cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -18,6 +19,8 @@ export class WorldPlayer extends Phaser.GameObjects.Sprite {
   
   private walkSoundTimer: Phaser.Time.TimerEvent;
   private walkAudio: Phaser.Sound.BaseSound;
+  public dialog: DialogView;
+
   constructor(scene: Phaser.Scene, x: number, y: number, private grid: TileGrid) {
     super(scene, x, y, '');
 
@@ -44,25 +47,30 @@ export class WorldPlayer extends Phaser.GameObjects.Sprite {
   }
 
   public update() {
-    if (this.cursorKeys.left.isDown) {
-      this.speed.x = -this.maxSpeed.x;
-      this.facing = 'left'
-    } else if (this.cursorKeys.right.isDown) {
-      this.speed.x = this.maxSpeed.x;
-      this.facing = 'right'
-    } else {
-      this.speed.x = 0
-    }
-
-    if (this.cursorKeys.up.isDown) {
-      this.speed.y = -this.maxSpeed.y;
-      this.facing = 'back'
-    } 
-    else if (this.cursorKeys.down.isDown) {
-      this.speed.y = this.maxSpeed.y;
-      this.facing = 'front'
-    } else {
+    if (this.dialog && this.dialog.visible) {
+      this.speed.x = 0;
       this.speed.y = 0;
+    } else {
+      if (this.cursorKeys.left.isDown) {
+        this.speed.x = -this.maxSpeed.x;
+        this.facing = 'left'
+      } else if (this.cursorKeys.right.isDown) {
+        this.speed.x = this.maxSpeed.x;
+        this.facing = 'right'
+      } else {
+        this.speed.x = 0
+      }
+
+      if (this.cursorKeys.up.isDown) {
+        this.speed.y = -this.maxSpeed.y;
+        this.facing = 'back'
+      } 
+      else if (this.cursorKeys.down.isDown) {
+        this.speed.y = this.maxSpeed.y;
+        this.facing = 'front'
+      } else {
+        this.speed.y = 0;
+      }
     }
 
     if (this.speed.x != 0 && this.speed.y != 0) {
