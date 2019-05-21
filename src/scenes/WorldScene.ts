@@ -12,6 +12,7 @@ import { Point } from "../types/Types";
 import { TileGrid } from "../TileGrid";
 import { MapImporterModule, MapObjetctData } from "../modules/scene/MapImporterModule";
 import { FadeTransition } from "../FadeTransition";
+import { DialogView } from "../DialogView";
 
 export class WorldScene extends Phaser.Scene {
 
@@ -71,6 +72,11 @@ export class WorldScene extends Phaser.Scene {
     this.transition = new FadeTransition(this,0,0);
     this.add.existing(this.transition);
     this.transition.alphaTransition(1, 0, 0.005);
+
+    let dialog = new DialogView(this, 0, 0);
+    dialog.showText('- Миги, эсли ты сейчас же не представишь что это - всего лишь ебучая бабочка и не заткнешься, то нам обоим скорее всего пиздец!');
+    this.add.existing(dialog);
+    this.pool.add(dialog);
   }
 
   update(): void {

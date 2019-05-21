@@ -37,7 +37,9 @@ export class AssetsLoader {
       scene.load.image("device_" + idx, "./assets/gaminator/map_objects/device_" + idx + ".png");
     }
 
+    scene.load.image('portrait_player_32x32', './assets/gaminator/portraits/player.png');
     scene.load.image('fade_505x300', './assets/fade_505x300.png');
+    scene.load.image('dialog_bg_505x86', './assets/dialog_bg_505x86.png');
 
     scene.load.spritesheet('bubble1_128x128', './assets/gaminator/fx/bubble1_128x128.png', { frameWidth: 128, frameHeight: 128 });
     scene.load.spritesheet('bubble2_128x128', './assets/gaminator/fx/bubble2_128x128.png', { frameWidth: 128, frameHeight: 128 });
