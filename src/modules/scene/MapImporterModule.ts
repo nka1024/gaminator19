@@ -9,7 +9,7 @@ import { TileGrid } from "../../TileGrid";
 import { UI_DEPTH } from "../../const/const";
 import { GameObjects } from "phaser";
 import { Point } from "../../types/Types";
-import { Triggers } from "../../Triggers";
+import { MapTriggers } from "../../MapTriggers";
 
 export enum MapTriggerType {
   Undefined = 0,
@@ -64,7 +64,7 @@ export class MapImporterModule {
     // handle triggers
     if (map.triggers) {
       for (let trigger of map.triggers) {
-        trigger.type = Triggers.typeByRawType(trigger.typeRaw);
+        trigger.type = MapTriggers.typeByRawType(trigger.typeRaw);
          if (this.triggerHandler) this.triggerHandler(trigger);
       }
     }

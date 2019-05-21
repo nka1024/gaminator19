@@ -17,7 +17,7 @@ import { UI_DEPTH } from "../const/const";
 import { GameObjects } from "phaser";
 import { Point } from "../types/Types";
 import { TriggersPanel, TriggerPanelTool } from "../windows/TriggersPanel";
-import { Triggers } from "../Triggers";
+import { MapTriggers } from "../MapTriggers";
 import { MapTriggerData } from "../modules/scene/MapImporterModule";
 
 export class EditorRootScene extends Phaser.Scene {
@@ -35,7 +35,7 @@ export class EditorRootScene extends Phaser.Scene {
 
   private lineToolStart: Point;
 
-  private triggers: Triggers;
+  private triggers: MapTriggers;
   constructor() {
     super({
       key: "EditorRootScene"
@@ -60,7 +60,7 @@ export class EditorRootScene extends Phaser.Scene {
 
     this.cameras.main.setBackgroundColor(0x1f1f1f);
     WindowManager.initialize();
-    this.triggers = new Triggers();
+    this.triggers = new MapTriggers();
 
     this.grid = new TileGrid(this);
     this.cursor = this.add.sprite(150, 150, "cursor");

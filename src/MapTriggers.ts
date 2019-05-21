@@ -7,7 +7,7 @@
 import { MapTriggerData, MapTriggerType } from "./modules/scene/MapImporterModule";
 import { Tile } from "./types/Types";
 
-export class Triggers {
+export class MapTriggers {
 
   public triggers: MapTriggerData[];
 
@@ -21,7 +21,7 @@ export class Triggers {
       this.triggers = triggers
 
       for (let trigger of this.triggers) {
-        trigger.type = Triggers.typeByRawType(trigger.typeRaw);
+        trigger.type = MapTriggers.typeByRawType(trigger.typeRaw);
       }
     }
   }
@@ -51,14 +51,14 @@ export class Triggers {
       j: tile.j,
       name: name,
       typeRaw: typeRaw,
-      type: Triggers.typeByRawType(typeRaw)
+      type: MapTriggers.typeByRawType(typeRaw)
     }
     this.triggers.push(trigger)
   }
 
   public editTrigger(tile: Tile, name: string, typeRaw: string) {
     let trigger = this.getTrigger(tile);
-    trigger.type = Triggers.typeByRawType(typeRaw);
+    trigger.type = MapTriggers.typeByRawType(typeRaw);
     trigger.typeRaw = typeRaw
     trigger.name = name;
   }

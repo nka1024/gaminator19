@@ -10,7 +10,7 @@ import { WorldPlayer } from "../world/WorldPlayer";
 import { WorldAmbientObject } from "../world/WorldAmbientObject";
 import { Point } from "../types/Types";
 import { TileGrid } from "../TileGrid";
-import { MapImporterModule, MapObjetctData } from "../modules/scene/MapImporterModule";
+import { MapImporterModule, MapObjetctData, MapTriggerData } from "../modules/scene/MapImporterModule";
 import { FadeTransition } from "../FadeTransition";
 import { DialogView } from "../DialogView";
 
@@ -133,9 +133,6 @@ export class WorldScene extends Phaser.Scene {
       this.transition.update();
 
     let tile = this.grid.worldToGrid({x: this.player.x, y: this.player.y});
-    if (tile.j == 14) {
-      
-    }
   }
 
   private onWindowResize(w: number, h: number) {
@@ -160,6 +157,9 @@ export class WorldScene extends Phaser.Scene {
       
     };
 
+    this.mapImporter.triggerHandler = (o: MapTriggerData) => {
+      
+    };
     this.mapImporter.ambientHandler = (o: MapObjetctData) => {
       if (o.texture == 'ambient_1') {
         let ambient = new WorldAmbientObject(this, o.x, o.y);
