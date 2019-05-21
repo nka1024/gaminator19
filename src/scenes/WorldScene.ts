@@ -55,26 +55,6 @@ export class WorldScene extends Phaser.Scene {
     
     this.grid = new TileGrid(this);
     this.loadMap();
-    
-    // let xs = [{ x: 200, y: 200 },
-    // { x: 324, y: 245 },
-    // { x: 364, y: 209 },
-    // { x: 340, y: 72 },
-    // { x: 274, y: 93 },
-    // { x: 211, y: 147 }];
-
-    // for (let cords of xs) {
-    //   let ambient = new WorldAmbientObject(this, cords.x, cords.y);
-    //   this.pool.add(ambient);
-    //   this.add.existing(ambient);
-    // }
-
-    // let ambient = new WorldAmbientObject(this, 289, 204);
-    // ambient.playFireAnim();
-    // ambient.scaleX = 0.5
-    // ambient.scaleY = 0.5
-    // this.pool.add(ambient);
-    // this.add.existing(ambient);
 
     this.player = new WorldPlayer(this, 428, 320, this.grid);
     this.pool.add(this.player);
