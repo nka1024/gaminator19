@@ -10,6 +10,12 @@ import { UI_DEPTH } from "../../const/const";
 import { GameObjects } from "phaser";
 import { Point } from "../../types/Types";
 
+export type MapObjetctData = {
+  texture: string,
+  depth: number,
+  x: number,
+  y: number
+}
 export class MapImporterModule {
   private scene: Phaser.Scene;
   private grid: TileGrid;
@@ -17,6 +23,7 @@ export class MapImporterModule {
   public enemyHandler: (p: Point, type: string) => void;
 
   public grassHandler: (obj:GameObjects.Image, item: any) => void;
+  public ambientHandler: (obj: MapObjetctData) => void;
 
   constructor(scene: Phaser.Scene, grid: TileGrid) {
     this.scene = scene;
@@ -58,8 +65,11 @@ export class MapImporterModule {
       if (data.texture == 'actor_2') enemyType = 'tower'
       if (data.texture == 'actor_3') enemyType = 'boss'
       if (data.texture == 'actor_4') enemyType = 'k11'
+      
       this.enemyHandler(data, enemyType);
       return null;      
+    } else if (data.texture.startsWith('ambient_') && this.ambientHandler) {
+       this.ambientHandler(data);
     } else return this.createImageFromConfig(data);
   }
 

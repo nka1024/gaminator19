@@ -19,12 +19,12 @@ export class AnimationRegistry {
   public initWorldAnimations() {
     this.registerPlayerAnimations(this.scene);
     this.registerAmbientAnimations(this.scene);
-    // 4 13
-    // 3 13
-    // 2 9
+    
   }
 
   private registerAmbientAnimations(scene: Scene) {
+    
+    // Bubbles
     scene.anims.create({
       key: 'bubble1_anim',
       frames: scene.anims.generateFrameNumbers('bubble1_128x128', { start: 0, end: 34 }),
@@ -49,12 +49,48 @@ export class AnimationRegistry {
       repeatDelay: 0,
       hideOnComplete: true
     });
+    
+    // Fire
     scene.anims.create({
       key: 'fire_anim',
       frames: scene.anims.generateFrameNumbers('fire_128x128', { start: 0, end: 4 }),
       frameRate: 4,
       repeat: -1,
       repeatDelay: 0,
+      hideOnComplete: false
+    });
+
+    // Bamboo
+    scene.anims.create({
+      key: 'bamboo1_anim',
+      frames: scene.anims.generateFrameNumbers('bamboo1_40x96', { start: 0, end: 15 }),
+      frameRate: 4,
+      repeat: -1,
+      repeatDelay: 0.5,
+      hideOnComplete: false,
+    });
+    scene.anims.create({
+      key: 'bamboo2_anim',
+      frames: scene.anims.generateFrameNumbers('bamboo2_31x128', { start: 0, end: 8 }),
+      frameRate: 4,
+      repeat: -1,
+      repeatDelay: 0.4,
+      hideOnComplete: false
+    });
+    scene.anims.create({
+      key: 'bamboo3_anim',
+      frames: scene.anims.generateFrameNumbers('bamboo3_32x128', { start: 0, end: 12 }),
+      frameRate: 4,
+      repeat: -1,
+      repeatDelay: 0.3,
+      hideOnComplete: false
+    });
+    scene.anims.create({
+      key: 'bamboo4_anim',
+      frames: scene.anims.generateFrameNumbers('bamboo4_39x128', { start: 0, end: 12 }),
+      frameRate: 4,
+      repeat: -1,
+      repeatDelay: 0.2,
       hideOnComplete: false
     });
   }

@@ -45,8 +45,8 @@ export class ObjectsListPanel extends BaseWindow {
         // this.removeAll();
     
         this.ambientButton.addEventListener('click', () => {
-            this.filenamePrefix = 'actor';
-            this.maxIdx = 4;
+            this.filenamePrefix = 'ambient';
+            this.maxIdx = ASSETS.AMBIENT_MAX;
             this.repopulate();
         });
         this.devicesButton.addEventListener('click', () => {

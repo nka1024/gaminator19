@@ -12,6 +12,7 @@ export let ASSETS = {
   GRASS_MAX: 2,
   HOUSE_MAX: 8,
   DEVICES_MAX: 3,
+  AMBIENT_MAX: 3,
 }
 
 export class AssetsLoader {
@@ -23,28 +24,29 @@ export class AssetsLoader {
     for (let idx = 1; idx <= ASSETS.TERRAIN_MAX; idx++) {
       scene.load.image("terrain_" + (idx < 10 ? '0':'') + idx, "./assets/gaminator/terrain/terrain_" + (idx < 10 ? '0':'') + idx + ".png");
     }
-
     for (let idx = 1; idx <= ASSETS.TERRAIN_MAX; idx++) {
       scene.load.image("water_" + (idx < 10 ? '0':'') + idx, "./assets/gaminator/terrain/water_" + (idx < 10 ? '0':'') + idx + ".png");
     }
-
     for (let idx = 1; idx <= ASSETS.GRASS_MAX; idx++) {
       scene.load.image("grass_" + idx, "./assets/gaminator/map_objects/grass_" + idx + ".png");
     }
-    // for (let idx = 1; idx <= 4; idx++) {
-    //   scene.load.image("actor_" + idx, "./assets/tilemap/actor_" + idx + ".png");
-    // }
+    for (let idx = 1; idx <= ASSETS.AMBIENT_MAX; idx++) {
+      scene.load.image("ambient_" + idx, "./assets/gaminator/map_objects/ambient_" + idx + ".png");
+    }
     for (let idx = 1; idx <= ASSETS.DEVICES_MAX; idx++) {
       scene.load.image("device_" + idx, "./assets/gaminator/map_objects/device_" + idx + ".png");
     }
 
-    // scene.load.image("grass_1", "./assets/gaminator/grass_1.png");
-    // scene.load.image("grass_2", "./assets/gaminator/grass_2.png");
 
     scene.load.spritesheet('bubble1_128x128', './assets/gaminator/fx/bubble1_128x128.png', { frameWidth: 128, frameHeight: 128 });
     scene.load.spritesheet('bubble2_128x128', './assets/gaminator/fx/bubble2_128x128.png', { frameWidth: 128, frameHeight: 128 });
     scene.load.spritesheet('bubble3_128x128', './assets/gaminator/fx/bubble3_128x128.png', { frameWidth: 128, frameHeight: 128 });
     scene.load.spritesheet('fire_128x128', './assets/gaminator/fx/fire_128x128.png', { frameWidth: 128, frameHeight: 128 });
+
+    scene.load.spritesheet('bamboo1_40x96', './assets/gaminator/fx/bamboo1_40x96.png', { frameWidth: 40, frameHeight: 96 });
+    scene.load.spritesheet('bamboo2_31x128', './assets/gaminator/fx/bamboo2_31x128.png', { frameWidth: 31, frameHeight: 128 });
+    scene.load.spritesheet('bamboo3_32x128', './assets/gaminator/fx/bamboo3_32x128.png', { frameWidth: 32, frameHeight: 128 });
+    scene.load.spritesheet('bamboo4_39x128', './assets/gaminator/fx/bamboo4_39x128.png', { frameWidth: 39, frameHeight: 128 });
 
     scene.load.spritesheet('player_idle_back_128x128', './assets/gaminator/player/idle_back_128x128.png', { frameWidth: 128, frameHeight: 128 });
     scene.load.spritesheet('player_idle_front_128x128', './assets/gaminator/player/idle_front_128x128.png', { frameWidth: 128, frameHeight: 128 });

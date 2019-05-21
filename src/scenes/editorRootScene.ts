@@ -284,10 +284,10 @@ export class EditorRootScene extends Phaser.Scene {
     this.toolsPanel.positionText.innerHTML = this.cursor.x + ':' + this.cursor.y;
     let tile = this.grid.getTileIJ(this.cursor);
     if (tile) {
-      let walkable = tile.walkable ? 'free' : 'blocked';
-      this.toolsPanel.statusText.innerHTML = tile.i + ':' + tile.j + ' ' + walkable;
+      let walkable = tile.walkable ? '<br>free ' : '<br>blocked';
+      this.toolsPanel.statusText.innerHTML = ''+tile.i + ':' + tile.j + ' ' + walkable;
     } else {
-      this.toolsPanel.statusText.innerHTML = 'OFF GRID';
+      this.toolsPanel.statusText.innerHTML = '<br>OFF GRID';
     }
   }
 

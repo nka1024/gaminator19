@@ -31,4 +31,10 @@ export class WorldAmbientObject extends Phaser.GameObjects.Sprite {
     this.animPlaying = true;
     this.visible = true;
   }
+
+  public playBambooAnim() {
+    this.play('bamboo'+Math.floor(Math.random()*4 + 1)+'_anim');
+    this.animPlaying = true;
+    this.visible = true;
+  }
 }

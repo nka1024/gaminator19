@@ -10,7 +10,7 @@ import { WorldPlayer } from "../world/WorldPlayer";
 import { WorldAmbientObject } from "../world/WorldAmbientObject";
 import { Point } from "../types/Types";
 import { TileGrid } from "../TileGrid";
-import { MapImporterModule } from "../modules/scene/MapImporterModule";
+import { MapImporterModule, MapObjetctData } from "../modules/scene/MapImporterModule";
 
 export class WorldScene extends Phaser.Scene {
 
@@ -45,35 +45,36 @@ export class WorldScene extends Phaser.Scene {
   }
 
   create(data): void {
-
-    this.grid = new TileGrid(this);
-    this.loadMap();
     this.cameras.main.setBackgroundColor(0x1f1f1f);
+
     this.animationRegistry = new AnimationRegistry(this);
     this.animationRegistry.initWorldAnimations();
 
     this.pool = this.add.group();
     this.pool.runChildUpdate = true;
+    
+    this.grid = new TileGrid(this);
+    this.loadMap();
+    
+    // let xs = [{ x: 200, y: 200 },
+    // { x: 324, y: 245 },
+    // { x: 364, y: 209 },
+    // { x: 340, y: 72 },
+    // { x: 274, y: 93 },
+    // { x: 211, y: 147 }];
 
-    let xs = [{ x: 200, y: 200 },
-    { x: 324, y: 245 },
-    { x: 364, y: 209 },
-    { x: 340, y: 72 },
-    { x: 274, y: 93 },
-    { x: 211, y: 147 }];
+    // for (let cords of xs) {
+    //   let ambient = new WorldAmbientObject(this, cords.x, cords.y);
+    //   this.pool.add(ambient);
+    //   this.add.existing(ambient);
+    // }
 
-    for (let cords of xs) {
-      let ambient = new WorldAmbientObject(this, cords.x, cords.y);
-      this.pool.add(ambient);
-      this.add.existing(ambient);
-    }
-
-    let ambient = new WorldAmbientObject(this, 289, 204);
-    ambient.playFireAnim();
-    ambient.scaleX = 0.5
-    ambient.scaleY = 0.5
-    this.pool.add(ambient);
-    this.add.existing(ambient);
+    // let ambient = new WorldAmbientObject(this, 289, 204);
+    // ambient.playFireAnim();
+    // ambient.scaleX = 0.5
+    // ambient.scaleY = 0.5
+    // this.pool.add(ambient);
+    // this.add.existing(ambient);
 
     this.player = new WorldPlayer(this, 428, 320, this.grid);
     this.pool.add(this.player);
@@ -156,6 +157,31 @@ export class WorldScene extends Phaser.Scene {
       // o.depth = o.y - 24;
       
     };
+
+    this.mapImporter.ambientHandler = (o: MapObjetctData) => {
+      if (o.texture == 'ambient_1') {
+        let ambient = new WorldAmbientObject(this, o.x, o.y);
+        this.pool.add(ambient);
+        this.add.existing(ambient);
+        ambient.depth = o.depth;
+      } else if (o.texture == 'ambient_3') {
+        let ambient = new WorldAmbientObject(this, o.x, o.y);
+        ambient.playFireAnim();
+        ambient.scaleX = 0.5
+        ambient.scaleY = 0.5
+        ambient.depth = o.depth + 6;
+        this.pool.add(ambient);
+        this.add.existing(ambient);
+      } else if(o.texture == 'ambient_2') {
+        let ambient = new WorldAmbientObject(this, o.x, o.y - 50);
+        ambient.playBambooAnim();
+        ambient.depth = o.depth;
+
+        this.pool.add(ambient);
+        this.add.existing(ambient);
+      }      
+    };
+
 
     // this.mapImporter.enemyHandler = (p: Point, type: string) => {
     //   let tile = this.grid.worldToGrid(p)
