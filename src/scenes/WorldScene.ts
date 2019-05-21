@@ -11,6 +11,7 @@ import { WorldAmbientObject } from "../world/WorldAmbientObject";
 import { Point } from "../types/Types";
 import { TileGrid } from "../TileGrid";
 import { MapImporterModule, MapObjetctData } from "../modules/scene/MapImporterModule";
+import { FadeTransition } from "../FadeTransition";
 
 export class WorldScene extends Phaser.Scene {
 
@@ -25,6 +26,8 @@ export class WorldScene extends Phaser.Scene {
 
   private player: WorldPlayer;
   private animationRegistry: AnimationRegistry;
+
+  private transition: FadeTransition;
 
   private pool: Phaser.GameObjects.Group;
   private terrains = [
@@ -56,6 +59,7 @@ export class WorldScene extends Phaser.Scene {
     this.grid = new TileGrid(this);
     this.loadMap();
 
+
     this.player = new WorldPlayer(this, 428, 320, this.grid);
     this.pool.add(this.player);
     this.add.existing(this.player);
@@ -63,6 +67,10 @@ export class WorldScene extends Phaser.Scene {
     this.game.scale.on('resize', (size: Phaser.GameObjects.Components.Size) => this.onWindowResize(size.width, size.height));
 
     this.onWindowResize(window.innerWidth, window.innerHeight);
+
+    this.transition = new FadeTransition(this,0,0);
+    this.add.existing(this.transition);
+    this.transition.alphaTransition(1, 0, 0.005);
   }
 
   update(): void {
@@ -114,6 +122,10 @@ export class WorldScene extends Phaser.Scene {
       this.groundImg.depth = -Number.MAX_VALUE;
       this.waterShader.depth = -Number.MAX_VALUE;
     }
+
+    // update camera effects
+    if (this.transition)
+      this.transition.update();
   }
 
   private onWindowResize(w: number, h: number) {

@@ -16,6 +16,8 @@ export class WorldPlayer extends Phaser.GameObjects.Sprite {
   private speed: Point = {x: 0, y: 0}
   private maxSpeed: Point = {x: 1.5, y: 1}
   
+  private walkSoundTimer: Phaser.Time.TimerEvent;
+  private walkAudio: Phaser.Sound.BaseSound;
   constructor(scene: Phaser.Scene, x: number, y: number, private grid: TileGrid) {
     super(scene, x, y, '');
 
@@ -24,6 +26,21 @@ export class WorldPlayer extends Phaser.GameObjects.Sprite {
     this.cursorKeys = scene.input.keyboard.createCursorKeys();
     this.enterKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
     this.originY = 0.65;
+
+    this.walkAudio = this.scene.sound.add('walk_1', { loop: false, volume: 0.5 });
+    this.walkSoundTimer = this.scene.time.addEvent({
+      delay: 600 + Math.random() * 200,
+      callback: this.playSound,
+      callbackScope: this,
+      loop: true,
+      paused: false
+    });
+  }
+
+  private playSound() {
+    if (this.speed.x != 0 || this.speed.y != 0) {
+      this.walkAudio.play();
+    }
   }
 
   public update() {
