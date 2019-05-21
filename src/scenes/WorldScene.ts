@@ -13,6 +13,7 @@ import { TileGrid } from "../TileGrid";
 import { MapImporterModule, MapObjetctData, MapTriggerData } from "../modules/scene/MapImporterModule";
 import { FadeTransition } from "../FadeTransition";
 import { DialogView } from "../DialogView";
+import { Triggers } from "../world/Triggers";
 
 export class WorldScene extends Phaser.Scene {
 
@@ -23,13 +24,13 @@ export class WorldScene extends Phaser.Scene {
   private waterShader: Phaser.GameObjects.Shader;
 
   private grid: TileGrid;
+  private triggers:Triggers
   private mapImporter: MapImporterModule;
 
   private player: WorldPlayer;
   private animationRegistry: AnimationRegistry;
 
   private transition: FadeTransition;
-
   private pool: Phaser.GameObjects.Group;
   private terrains = [
     ["water_01", "water_02", "water_03", "water_04"],
@@ -55,7 +56,7 @@ export class WorldScene extends Phaser.Scene {
 
     this.pool = this.add.group();
     this.pool.runChildUpdate = true;
-    
+    this.triggers = new Triggers();
     this.grid = new TileGrid(this);
     this.loadMap();
 
@@ -133,6 +134,10 @@ export class WorldScene extends Phaser.Scene {
       this.transition.update();
 
     let tile = this.grid.worldToGrid({x: this.player.x, y: this.player.y});
+    let trigger:MapTriggerData = this.triggers.checkTrigger(tile);
+    if (trigger) {
+      console.log('stepped on trigger: ' + trigger.name);
+    }
   }
 
   private onWindowResize(w: number, h: number) {
@@ -158,7 +163,8 @@ export class WorldScene extends Phaser.Scene {
     };
 
     this.mapImporter.triggerHandler = (o: MapTriggerData) => {
-      
+      console.log('new trigger: '+ o);
+      this.triggers.add(o);
     };
     this.mapImporter.ambientHandler = (o: MapObjetctData) => {
       if (o.texture == 'ambient_1') {

@@ -26,10 +26,6 @@ export class MapTriggers {
     }
   }
 
-  public isTriggered(trigger: string) {
-    // return this.flags[trigger]
-  }
-
   public getTrigger(tile: Tile): MapTriggerData {
     for (let trigger of this.triggers) {
       if (trigger.i == tile.i && trigger.j == tile.j) {

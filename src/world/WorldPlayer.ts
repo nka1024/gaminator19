@@ -75,7 +75,7 @@ export class WorldPlayer extends Phaser.GameObjects.Sprite {
     } else {
       this.anims.play('player_walk_' + this.facing + '_anim', true);
       
-      console.log(Math.floor(this.x) + ' : ' + Math.floor(this.y) + ': ' + this.grid.isWalkable(this.grid.worldToGrid({x: this.x, y: this.y})))
+      // console.log(Math.floor(this.x) + ' : ' + Math.floor(this.y) + ': ' + this.grid.isWalkable(this.grid.worldToGrid({x: this.x, y: this.y})))
     }
 
     if (this.grid.isWalkable(this.grid.worldToGrid({x: this.x + this.speed.x, y: this.y}))) 
