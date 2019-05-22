@@ -23,8 +23,8 @@ export class DeckScene extends Phaser.Scene {
   private keybinds: Keybinds;
   private animationRegistry: AnimationRegistry;
 
-  private battleService: BattleService;
-  private player: PlayerBoardData;
+  // private battleService: BattleService;
+  // private player: PlayerBoardData;
 
   private imgRemoveModule: Phaser.GameObjects.Image;
   private imgAddModule: Phaser.GameObjects.Image;
@@ -59,8 +59,8 @@ export class DeckScene extends Phaser.Scene {
       this.repopulate();
     })
     this.keybinds = new Keybinds(this);
-    this.battleService = new BattleService();
-    this.player = this.battleService.makePlayerData();
+    // this.battleService = new BattleService();
+    // this.player = this.battleService.makePlayerData();
 
     this.deck = new DeckDisplay(this);
     this.add.existing(this.deck);
@@ -98,16 +98,13 @@ export class DeckScene extends Phaser.Scene {
         this.cardDetails.visible = false;
       }
   }
+
   private repopulate() {
     this.deck.cleanup();
     this.loot.cleanup();
-    // for (let card of this.player.deck) {
-    //   if (card) {
-    //     this.deck.addCard(new CardDisplay(this).populate(card));
-    //   }
-    // }
+
     for (let i = 0; i < 25; i++) {
-      let card =  i < this.player.deck.length ? this.player.deck[i] : null
+      let card =  i < BattleService.playerDeck.length ? BattleService.playerDeck[i] : null
       this.deck.addCard(new CardDisplay(this).populate(card));
     }
 
@@ -121,6 +118,7 @@ export class DeckScene extends Phaser.Scene {
   }
 
   private end() {
+    BattleService.playerDeck = this.deck.getAllCardData();
     this.scene.sleep();
     this.scene.run("WorldScene");
   }
@@ -150,7 +148,6 @@ export class DeckScene extends Phaser.Scene {
     if (this.keybinds.upPressed) this.setActiveDeck(this.deck)
     if (this.keybinds.enterPressed) this.moveCard();
     if (this.keybinds.escPressed) this.end();
-    
   }
 
   private moveCard() {
@@ -186,6 +183,4 @@ export class DeckScene extends Phaser.Scene {
       this.cameras.main.setOrigin(0, 0);
     }
   }
-
-
 }

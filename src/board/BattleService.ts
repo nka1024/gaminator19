@@ -8,6 +8,8 @@ import { PlayerBoardData, BoardData, CardData, CardType, CardSkillType, BoardPha
 
 export class BattleService {
 
+  public static playerDeck: CardData[] = [];
+
   public makeBoardData(): BoardData {
     let result: BoardData = {
       opponent: this.makeOpponentData(),
@@ -19,9 +21,12 @@ export class BattleService {
   }
 
   public makePlayerData(): PlayerBoardData {
+    if (BattleService.playerDeck.length == 0) {
+      BattleService.playerDeck = [this.makeCard1(0), this.makeCard1(1), this.makeCard1(2), this.makeCard1(3), this.makeCard1(4), this.makeCard1(5), this.makeCard1(6)]
+    }
     let result: PlayerBoardData = {
       name: 'Sora',
-      deck: [this.makeCard1(0), this.makeCard1(1), this.makeCard1(2), this.makeCard1(3), this.makeCard1(4), this.makeCard1(5), this.makeCard1(6)],
+      deck: Object.assign([], BattleService.playerDeck),
       hand: [],
       board: [],
       link: 0,

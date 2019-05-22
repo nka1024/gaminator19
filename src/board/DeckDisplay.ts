@@ -6,6 +6,7 @@
 
 import { Scene } from "phaser";
 import { CardDisplay } from "./CardDisplay";
+import { CardData } from "../types/Types";
 
 export class DeckDisplay extends Phaser.GameObjects.Container {
 
@@ -124,6 +125,13 @@ export class DeckDisplay extends Phaser.GameObjects.Container {
     this.putCursor(this.cursorPos + x);
   }
 
+  public getAllCardData(): CardData[] {
+    let result: CardData[] = []
+    for (let view of this.cards) {
+      if (view.card) result.push(view.card);
+    }
+    return result;
+  }
   update() {
     for (let card of this.cards) {
       card.update();
