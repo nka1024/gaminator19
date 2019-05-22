@@ -18,7 +18,7 @@ import { GameObjects } from "phaser";
 import { Point } from "../types/Types";
 import { TriggersPanel, TriggerPanelTool } from "../windows/TriggersPanel";
 import { MapTriggers } from "../MapTriggers";
-import { MapTriggerData } from "../modules/scene/MapImporterModule";
+import { MapTriggerData, MapTriggerType } from "../modules/scene/MapImporterModule";
 
 export class EditorRootScene extends Phaser.Scene {
 
@@ -51,10 +51,8 @@ export class EditorRootScene extends Phaser.Scene {
       // Dmitry Radkovsky: querySelector по классу тяжеловесный, закешируй
       if (!this.cachedCanvas) this.cachedCanvas = document.querySelector(".canvas_main")
       // todo: check if gets fixed in >3.16.1
-      console.log(pointer.event.target);
       if (pointer.event.target == this.cachedCanvas) {
         this.cursorTouchHandler();
-        console.log('pointerdown');
       }
     });
 
@@ -134,7 +132,7 @@ export class EditorRootScene extends Phaser.Scene {
         this.grid.showGrid();
         if (this.triggers.triggers) {
           for (let trigger of this.triggers.triggers){
-            this.grid.addTrigger({i: trigger.i, j: trigger.j});
+            this.grid.addTrigger({i: trigger.i, j: trigger.j}, trigger.type == MapTriggerType.Repeatable);
           }
         }
       }
@@ -280,7 +278,7 @@ export class EditorRootScene extends Phaser.Scene {
               this.grid.removeTrigger(tile);
               this.triggers.removeTrigger(tile);
             } else {
-              this.grid.addTrigger(tile);
+              this.grid.addTrigger(tile,  MapTriggers.typeByRawType(this.triggersPanel.typeInput.value) == MapTriggerType.Repeatable);
               this.triggers.addTrigger(tile, this.triggersPanel.nameInput.value, this.triggersPanel.typeInput.value);
             }
           } else if (this.triggersPanel.tool == TriggerPanelTool.Select) {

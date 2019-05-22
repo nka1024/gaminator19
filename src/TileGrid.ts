@@ -220,9 +220,9 @@ export class TileGrid {
     this.pathfinder.setGrid(this.data);
   }
 
-  private createTriggerTile(tile: Tile) {
+  private createTriggerTile(tile: Tile, repeat: boolean) {
     let img = new Phaser.GameObjects.Image(this.scene, 0, 0, null);
-    img.setTexture('grid_tile_trigger_16_a100');
+    img.setTexture(repeat ? 'grid_tile_trigger_repeat_16_a100' : 'grid_tile_trigger_once_16_a100');
     img.depth = UI_DEPTH.EDITOR_GRID_TRIGGER;
     var wc = this.gridToWorld(tile)
     img.x = wc.x + 8;
@@ -232,13 +232,13 @@ export class TileGrid {
     return img;
   }
 
-  public addTrigger(tile: Tile) {
+  public addTrigger(tile: Tile, repeat: boolean) {
     let currentTile = this.triggers[tile.i][tile.j];
     if (currentTile != null) {
       currentTile.destroy();
       this.triggers[tile.i][tile.j] = null;
     }
-    let img = this.createTriggerTile(tile);
+    let img = this.createTriggerTile(tile, repeat);
     this.triggers[tile.i][tile.j] = img;
   }
 

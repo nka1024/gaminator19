@@ -102,7 +102,8 @@ export class AssetsLoader {
     scene.load.spritesheet('fog_tilemap', './assets/fog_tile_32_a70.png', { frameWidth: 32, frameHeight: 32 });
     scene.load.image("grid_tile_green_16_a50", "./assets/grid_tile_green_16_a50.png");
     scene.load.image("grid_tile_yellow_16_a50", "./assets/grid_tile_yellow_16_a50.png");
-    scene.load.image("grid_tile_trigger_16_a100", "./assets/grid_tile_trigger_16_a100.png");
+    scene.load.image("grid_tile_trigger_repeat_16_a100", "./assets/grid_tile_trigger_repeat_16_a100.png");
+    scene.load.image("grid_tile_trigger_once_16_a100", "./assets/grid_tile_trigger_once_16_a100.png");
     scene.load.image("grid_tile_red_16_a50", "./assets/grid_tile_red_16_a50.png");
     scene.load.image("cursor", "./assets/cursor.png");
     scene.load.image("cursor_grid_32x32", "./assets/cursor_grid_32x32.png");
