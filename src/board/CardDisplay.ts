@@ -63,11 +63,21 @@ export class CardDisplay extends Phaser.GameObjects.Container {
   public populate(card: CardData):CardDisplay {
     this.card = card;
 
-    this.linkTxt.text = card.link.toString();
-    this.hpTxt.text = card.hp.toString();
-    this.atkTxt.text = card.attack.toString();
+    this.creature.visible = this.card != null;
+    this.heart.visible    = this.card != null;
+    this.sword.visible    = this.card != null;
+    this.link.visible     = this.card != null;
+    if (this.card != null) {
+      this.linkTxt.text = card.link.toString();
+      this.hpTxt.text = card.hp.toString();
+      this.atkTxt.text = card.attack.toString();
 
-    this.creature.setTexture(CardDetailsDisplay.creatureTextureByName(card.name));
+      this.creature.setTexture(CardDetailsDisplay.creatureTextureByName(card.name));
+    } else {
+      this.linkTxt.text = ''
+      this.hpTxt.text = ''
+      this.atkTxt.text = ''
+    }
     return this;
   }
 

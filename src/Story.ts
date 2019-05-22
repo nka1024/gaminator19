@@ -41,7 +41,7 @@ export class Story {
       id: DialogActorID.Player,
       texture: 'portrait_player_32x32',
       name: 'Хиро'
-    },
+  },
     {
       id: DialogActorID.Unknown,
       texture: null,

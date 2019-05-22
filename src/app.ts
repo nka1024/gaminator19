@@ -13,6 +13,7 @@ import { BootScene } from "./scenes/bootScene";
 import { BoardScene } from "./scenes/BoardScene";
 import { WorldScene } from "./scenes/WorldScene";
 import { EditorRootScene } from "./scenes/editorRootScene";
+import { DeckScene } from "./scenes/DeckScene";
 
 var game = null;
 
@@ -32,7 +33,7 @@ window.onload = () => {
     type: Phaser.WEBGL,
     // type: Phaser.WEBGL,
     parent: "game",
-    scene: [new BootScene, new BoardScene, new WorldScene, new EditorRootScene],
+    scene: [new BootScene, new BoardScene, new DeckScene, new WorldScene, new EditorRootScene],
     input: {
       keyboard: true,
       mouse: true,

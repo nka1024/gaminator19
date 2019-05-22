@@ -98,11 +98,10 @@ export class BoardScene extends Phaser.Scene {
     this.battleController = new BattleController(this, this.keybinds, this.playerDisplay, this.opponentDisplay, this.phaseDisplay, this.spots, this.hand, this.cardDetails, this.battleService.makeBoardData());
     this.battleController.start();
     this.battleController.events.on('battle_end', () => {
-      // this.transition.alphaTransition(0, 1, 0.05, () => {
-        // this.scene.pause();
+      this.transition.alphaTransition(0, 1, 0.1, () => {
         this.scene.sleep();
-        this.scene.run("WorldScene");
-      // });
+        this.scene.run("DeckScene");
+      });
     });
   }
 
