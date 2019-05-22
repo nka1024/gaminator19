@@ -16,7 +16,7 @@ import { DialogView } from "../DialogView";
 import { Triggers } from "../world/Triggers";
 import { BoxShadowOverlay } from "../BoxShadowOverlay";
 import { Events } from "phaser";
-import { Story } from "../Story";
+import { Story, StoryEvent } from "../Story";
 
 export class WorldScene extends Phaser.Scene {
 
@@ -87,7 +87,10 @@ export class WorldScene extends Phaser.Scene {
     
     this.story = new Story(this);
     this.story.setDialogView(this.dialog)
-
+    this.story.events.on(StoryEvent.BattleStart, () => {
+       this.startBattle();
+    })
+     
     let boxShadow = new BoxShadowOverlay(this);
     this.add.existing(boxShadow)
     this.pool.add(boxShadow)
@@ -95,6 +98,7 @@ export class WorldScene extends Phaser.Scene {
     this.events.on('wake', () => {
       this.player.stopMovement();
       this.transition.alphaTransition(1, 0, 0.1);
+      this.story.eventFinished();
     })
   }
 
@@ -156,20 +160,18 @@ export class WorldScene extends Phaser.Scene {
     let trigger: MapTriggerData = this.triggers.checkTrigger(tile);
     if (trigger) {
       console.log('stepped on trigger: ' + trigger.name);
-      // this.dialog.showText('- Миги, эсли ты сейчас же не представишь что это - всего лишь ебучая бабочка и не заткнешься, то нам обоим скорее всего пиздец!');
       this.story.startDialog('arrival');
-    
-      // this.transition.alphaTransition(0, 1, 0.05, () => {
-      //   this.player.stopMovement();
-      //   this.scene.sleep();
-      //   this.scene.run("BoardScene");
-      // });
     }
   }
 
-  private cleanup() {
-    this.transition = null;
+  private startBattle() {
+    this.transition.alphaTransition(0, 1, 0.05, () => {
+      this.player.stopMovement();
+      this.scene.sleep();
+      this.scene.run("BoardScene");
+    });
   }
+  
   private onWindowResize(w: number, h: number) {
     if (this.cameras && this.cameras.main) {
       console.log('resize to : 1010, 600')

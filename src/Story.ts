@@ -5,6 +5,9 @@
 */
 import { DialogView } from "./DialogView";
 
+export enum StoryEvent {
+  BattleStart = 'battle_start'
+}
 enum DialogActorID {
   Unknown,
   Player,
@@ -16,8 +19,9 @@ type DialogActorData = {
   name: string
 }
 export type DialogLine = {
-  a: DialogActorID
-  m: string,
+  a?: DialogActorID
+  m?: string,
+  e?: string
 }
 
 export class Story {
@@ -25,6 +29,8 @@ export class Story {
   private enterKey: Phaser.Input.Keyboard.Key;
   private currentDialog: DialogLine[];
   private currentDialogIdx: number;
+  public events: Phaser.Events.EventEmitter;
+
   private actors: DialogActorData[] = [
     {
       id: DialogActorID.Controller,
@@ -48,12 +54,14 @@ export class Story {
     { a: DialogActorID.Controller, m: '- Ресурс кислородного блока на минимуме. Фотонная подсистема функционирует в авайрийном режиме. Вентиляционные системы требуют ремонта. Насосно-фильтровальная подстанция перегружена.' },
     { a: DialogActorID.Player, m: '- Хоть что-то в этом секторе работает нормально?' },
     { a: DialogActorID.Controller, m: '- Прото-реактор функционирует штатно.' },
+    { e: StoryEvent.BattleStart },
   ];
 
   private dialogs = {
     'arrival': this.arrival
   }
   constructor(scene: Phaser.Scene) {
+    this.events = new Phaser.Events.EventEmitter();
     this.enterKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
     this.enterKey.on('down', (key, event) => {
       if (this.currentDialog) {
@@ -73,6 +81,10 @@ export class Story {
     this.showLine(this.currentDialog[this.currentDialogIdx]);
   }
 
+  public eventFinished() {
+    this.nextLine();
+  }
+
   private nextLine() {
     this.currentDialogIdx++;
     if (this.currentDialogIdx < this.currentDialog.length) {
@@ -85,8 +97,12 @@ export class Story {
   }
 
   private showLine(line: DialogLine) {
-    let actor = this.actorDataByID(line.a);
-    this.view.showText(actor.texture, actor.name, line.m)
+    if (line.e) {
+      this.events.emit(line.e);
+    } else {
+      let actor = this.actorDataByID(line.a);
+      this.view.showText(actor.texture, actor.name, line.m)
+    }
   }
 
   private actorDataByID(id: DialogActorID): DialogActorData {
