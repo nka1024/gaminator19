@@ -15,6 +15,7 @@ import { FadeTransition } from "../FadeTransition";
 import { DialogView } from "../DialogView";
 import { Triggers } from "../world/Triggers";
 import { BoxShadowOverlay } from "../BoxShadowOverlay";
+import { Events } from "phaser";
 
 export class WorldScene extends Phaser.Scene {
 
@@ -25,7 +26,7 @@ export class WorldScene extends Phaser.Scene {
   private waterShader: Phaser.GameObjects.Shader;
 
   private grid: TileGrid;
-  private triggers:Triggers
+  private triggers: Triggers
   private mapImporter: MapImporterModule;
 
   private player: WorldPlayer;
@@ -51,6 +52,7 @@ export class WorldScene extends Phaser.Scene {
   }
 
   create(data): void {
+    
     this.cameras.main.setBackgroundColor(0x1f1f1f);
 
     this.animationRegistry = new AnimationRegistry(this);
@@ -71,7 +73,7 @@ export class WorldScene extends Phaser.Scene {
 
     this.onWindowResize(window.innerWidth, window.innerHeight);
 
-    this.transition = new FadeTransition(this,0,0);
+    this.transition = new FadeTransition(this, 0, 0);
     this.add.existing(this.transition);
     this.transition.alphaTransition(1, 0, 0.005);
 
@@ -80,19 +82,23 @@ export class WorldScene extends Phaser.Scene {
     this.pool.add(this.dialog);
     this.dialog.visible = false;
     this.player.dialog = this.dialog;
-    
+
     let boxShadow = new BoxShadowOverlay(this);
     this.add.existing(boxShadow)
     this.pool.add(boxShadow)
+
+    this.events.on('wake', () => {
+      this.transition.alphaTransition(1, 0, 0.1);
+    })
   }
 
   update(): void {
-    let wOffsetX = Math.floor(this.player.x/this.MAP_W);
-    let wOffsetY = Math.floor(this.player.y/this.MAP_W);
+    let wOffsetX = Math.floor(this.player.x / this.MAP_W);
+    let wOffsetY = Math.floor(this.player.y / this.MAP_W);
 
     // camera management
-    this.cameras.main.scrollX = this.player.x - this.cameras.main.displayWidth/2;
-    this.cameras.main.scrollY = this.player.y - this.cameras.main.displayHeight/2;
+    this.cameras.main.scrollX = this.player.x - this.cameras.main.displayWidth / 2;
+    this.cameras.main.scrollY = this.player.y - this.cameras.main.displayHeight / 2;
 
     if (this.cameras.main.scrollX < wOffsetX * this.MAP_W) this.cameras.main.scrollX = wOffsetX * this.MAP_W
     if (this.cameras.main.scrollY < wOffsetY * this.MAP_W) this.cameras.main.scrollY = wOffsetY * this.MAP_W
@@ -105,13 +111,13 @@ export class WorldScene extends Phaser.Scene {
 
     // ground and water management
     if (!this.prevWorldOffset || (this.prevWorldOffset.x != wOffsetX || this.prevWorldOffset.y != wOffsetY)) {
-      this.prevWorldOffset = {x: wOffsetX, y: wOffsetY};
+      this.prevWorldOffset = { x: wOffsetX, y: wOffsetY };
 
       let x = this.MAP_W * wOffsetX;
       let y = this.MAP_W * wOffsetY;
 
       // create water
-      if (this.waterShader) { 
+      if (this.waterShader) {
         // this.waterShader.destroy()
         this.waterShader.setChannel0(this.terrains[wOffsetY][wOffsetX], { 'magFilter': 'nearest', 'minFilter': 'nearest' });
         this.waterShader.x = x;
@@ -140,26 +146,36 @@ export class WorldScene extends Phaser.Scene {
     if (this.transition)
       this.transition.update();
 
-    let tile = this.grid.worldToGrid({x: this.player.x, y: this.player.y});
-    let trigger:MapTriggerData = this.triggers.checkTrigger(tile);
+    let tile = this.grid.worldToGrid({ x: this.player.x, y: this.player.y });
+    let trigger: MapTriggerData = this.triggers.checkTrigger(tile);
     if (trigger) {
       // console.log('stepped on trigger: ' + trigger.name);
-      this.dialog.showText('- Миги, эсли ты сейчас же не представишь что это - всего лишь ебучая бабочка и не заткнешься, то нам обоим скорее всего пиздец!');
+      // this.dialog.showText('- Миги, эсли ты сейчас же не представишь что это - всего лишь ебучая бабочка и не заткнешься, то нам обоим скорее всего пиздец!');
+    
+      this.transition.alphaTransition(0, 1, 0.05, () => {
+        this.scene.sleep();
+        this.scene.run("BoardScene");
+      });
     }
   }
 
+  private cleanup() {
+    this.transition = null;
+  }
   private onWindowResize(w: number, h: number) {
-    console.log('resize to : 1010, 600')
-    this.cameras.main.setSize(1010, 600);
+    if (this.cameras && this.cameras.main) {
+      console.log('resize to : 1010, 600')
+      this.cameras.main.setSize(1010, 600);
 
-    if (w < 500) {
-      this.cameras.main.zoom = 2;
-    } else if (w <= 1280) {
-      this.cameras.main.zoom = 2;
-    } else {
-      this.cameras.main.zoom = 2;
+      if (w < 500) {
+        this.cameras.main.zoom = 2;
+      } else if (w <= 1280) {
+        this.cameras.main.zoom = 2;
+      } else {
+        this.cameras.main.zoom = 2;
+      }
+      this.cameras.main.setOrigin(0, 0);
     }
-    this.cameras.main.setOrigin(0, 0);
   }
 
   private loadMap() {
@@ -167,11 +183,11 @@ export class WorldScene extends Phaser.Scene {
     this.mapImporter.grassHandler = (o: Phaser.GameObjects.Image, item: any) => {
       // let tile = this.grid.worldToGrid({ x: o.x, y: o.y - o.height / 2 });
       // o.depth = o.y - 24;
-      
+
     };
 
     this.mapImporter.triggerHandler = (o: MapTriggerData) => {
-      console.log('new trigger: '+ o);
+      console.log('new trigger: ' + o);
       this.triggers.add(o);
     };
     this.mapImporter.ambientHandler = (o: MapObjetctData) => {
@@ -188,14 +204,14 @@ export class WorldScene extends Phaser.Scene {
         ambient.depth = o.depth + 6;
         this.pool.add(ambient);
         this.add.existing(ambient);
-      } else if(o.texture == 'ambient_2') {
+      } else if (o.texture == 'ambient_2') {
         let ambient = new WorldAmbientObject(this, o.x, o.y - 50);
         ambient.playBambooAnim();
         ambient.depth = o.depth;
 
         this.pool.add(ambient);
         this.add.existing(ambient);
-      }      
+      }
     };
 
 

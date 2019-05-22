@@ -19,6 +19,7 @@ import { Scene } from "phaser";
 import { BattleService } from "../board/BattleService";
 import { BattleController } from "../board/BattleController";
 import { AnimationRegistry } from "../AnimationRegistry";
+import { FadeTransition } from "../FadeTransition";
 
 export class BoardScene extends Phaser.Scene {
 
@@ -31,6 +32,8 @@ export class BoardScene extends Phaser.Scene {
   private battleService: BattleService;
   private battleController: BattleController;
   private keybinds: Keybinds;
+
+  private transition: FadeTransition;
 
   private animationRegistry: AnimationRegistry;
 
@@ -48,16 +51,18 @@ export class BoardScene extends Phaser.Scene {
 
   private onWindowResize(w: number, h: number) {
     console.log('resize to : 1010, 600')
-    this.cameras.main.setSize(1010, 600);
-    
-    if (w < 500) {
-      this.cameras.main.zoom = 2;
-    } else if (w <= 1280) {
-      this.cameras.main.zoom = 2;
-    } else  {
-      this.cameras.main.zoom = 2;
+    if (this.cameras && this.cameras.main) {
+      this.cameras.main.setSize(1010, 600);
+      
+      if (w < 500) {
+        this.cameras.main.zoom = 2;
+      } else if (w <= 1280) {
+        this.cameras.main.zoom = 2;
+      } else  {
+        this.cameras.main.zoom = 2;
+      }
+      this.cameras.main.setOrigin(0,0);
     }
-    this.cameras.main.setOrigin(0,0);
   }
 
   create(data): void {
@@ -72,12 +77,33 @@ export class BoardScene extends Phaser.Scene {
     this.addDisplays()
     this.addKeybinds();
 
+    this.initBattle();
+    this.game.scale.on('resize', (size: Phaser.GameObjects.Components.Size) => this.onWindowResize(size.width, size.height));
+    this.onWindowResize(window.innerWidth, window.innerHeight);
+
+    this.transition = new FadeTransition(this, 0,0);
+    this.add.existing(this.transition);
+    this.transition.alphaTransition(1, 0, 0.005);
+
+    this.events.on('wake', () => {
+      this.transition.alphaTransition(1, 0, 0.1);
+      this.hand.cleanup();
+      this.spots.cleanup();
+      this.initBattle();
+    })
+  }
+
+  private initBattle() {
     this.battleService = new BattleService();
     this.battleController = new BattleController(this, this.keybinds, this.playerDisplay, this.opponentDisplay, this.phaseDisplay, this.spots, this.hand, this.cardDetails, this.battleService.makeBoardData());
     this.battleController.start();
-
-    this.game.scale.on('resize', (size: Phaser.GameObjects.Components.Size) => this.onWindowResize(size.width, size.height));
-    this.onWindowResize(window.innerWidth, window.innerHeight);
+    this.battleController.events.on('battle_end', () => {
+      // this.transition.alphaTransition(0, 1, 0.05, () => {
+        // this.scene.pause();
+        this.scene.sleep();
+        this.scene.run("WorldScene");
+      // });
+    });
   }
 
   private addDisplays() {
@@ -96,7 +122,7 @@ export class BoardScene extends Phaser.Scene {
     this.opponentDisplay.y = 7;
     this.add.existing(this.opponentDisplay);
 
-    let instructions = this.add.image(136,284, "instructions");
+    let instructions = this.add.image(136, 284, "instructions");
     instructions.setOrigin(0, 0)
 
     let platforms = this.add.image(83, 100, "platforms");
@@ -133,6 +159,10 @@ export class BoardScene extends Phaser.Scene {
   update(): void {
     this.hand.update();
     this.battleController.update();
+    
+    // update camera effects
+    if (this.transition)
+      this.transition.update();
   }
  
 }

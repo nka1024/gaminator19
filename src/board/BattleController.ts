@@ -14,6 +14,7 @@ import { PlayerDisplay } from "./PlayerDisplay";
 import { PhaseDisplay } from "./PhaseDisplay";
 
 type TMPData = {
+  prepareFinished?: boolean;
   selectedCard?: CardData;
   protectedCard?: CardData;
   compileFinished?: boolean;
@@ -22,6 +23,8 @@ type TMPData = {
 export class BattleController {
   private phase: BoardPhase = BoardPhase.UNDEFINED;
   private tmp: TMPData = {};
+
+  public events: Phaser.Events.EventEmitter;
 
   constructor(
     private scene: Phaser.Scene,
@@ -33,8 +36,8 @@ export class BattleController {
     private hand: HandDisplay,
     private details: CardDetailsDisplay,
     private board: BoardData) {
+    this.events = new Phaser.Events.EventEmitter();
   }
-
 
   public start() {
     this.board.phase = BoardPhase.PREPARE;
@@ -63,8 +66,22 @@ export class BattleController {
       this.player.populate(this.board.player.hp, this.board.player.link, this.board.player.linkMax);
       this.opponent.populate(this.board.opponent.hp, this.board.opponent.link, this.board.opponent.linkMax);
       this.turn.setPhase(PhaseType.LOAD);
+      
+      let timer = this.scene.time.addEvent({
+        delay: 2000,
+        callback: () => {
+          this.tmp.prepareFinished = true;
+          timer.destroy();
+          this.nextPhase();
+        },
+        callbackScope: this,
+        loop: false,
+        paused: false
+      });
     }
-    this.nextPhase();
+    if (this.tmp.prepareFinished) {
+      this.nextPhase();
+    }
   }
 
   //
@@ -271,6 +288,7 @@ export class BattleController {
         delay: 2000,
         callback: () => {
           this.tmp.compileFinished = true;
+          this.events.emit('battle_end');
           timer.destroy();
         },
         callbackScope: this,

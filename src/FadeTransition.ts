@@ -26,7 +26,7 @@ export class FadeTransition extends Phaser.GameObjects.Image {
 
     if (this.alpha < this.to) {
       this.alpha += this.step
-      if (this.alpha > this.to) {
+      if (this.alpha >= this.to) {
         this.alpha = this.to;
         if (this.callback) this.callback();
       }
@@ -34,7 +34,7 @@ export class FadeTransition extends Phaser.GameObjects.Image {
     
     if (this.alpha > this.to) {
       this.alpha -= this.step
-      if (this.alpha < this.to) {
+      if (this.alpha <= this.to) {
         this.alpha = this.to;
         if (this.callback) this.callback();
       }

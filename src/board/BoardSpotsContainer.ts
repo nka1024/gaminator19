@@ -128,4 +128,13 @@ export class BoardSpotsContainer extends Phaser.GameObjects.Container {
       }
     }
   }
+
+  public cleanup() {
+    for (let i = 0; i < this.spots.length; i++) {
+      for (let j = 0; j < this.spots[i].length; j++) {
+        let spot = this.spots[i][j]
+        spot.populate(null);
+      }
+    }
+  }
 }

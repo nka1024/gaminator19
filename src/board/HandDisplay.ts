@@ -36,6 +36,16 @@ export class HandDisplay extends Phaser.GameObjects.Container {
     this.setCursorHidden(true);
   }
 
+  public cleanup() {
+    while(this.cards.length > 0) {
+      let card = this.cards.shift();
+      this.remove(card);
+      card.destroy();
+    }
+    this.cursorPos = 0
+    this.setCursorHidden(true);
+  }
+
   public addCard(card: CardDisplay) {
     card.x = this.cards.length * 22;
     this.cards.push(card);
