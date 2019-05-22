@@ -93,6 +93,8 @@ export class AssetsLoader {
     scene.load.image("creature_snakey", "./assets/board/creatures/snakey.png");
     scene.load.image("creature_doogie", "./assets/board/creatures/doogie.png");
 
+    
+    scene.load.image("box_shadow_1010x600", "./assets/box_shadow_1010x600.png");
     scene.load.image("grid_128_50", "./assets/grid_128_a50.png");
     scene.load.image("grid_128_30", "./assets/grid_128_a50.png");
     scene.load.image("path_end_14x14", "./assets/path_end_14x14.png");

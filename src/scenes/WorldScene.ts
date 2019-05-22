@@ -14,6 +14,7 @@ import { MapImporterModule, MapObjetctData, MapTriggerData } from "../modules/sc
 import { FadeTransition } from "../FadeTransition";
 import { DialogView } from "../DialogView";
 import { Triggers } from "../world/Triggers";
+import { BoxShadowOverlay } from "../BoxShadowOverlay";
 
 export class WorldScene extends Phaser.Scene {
 
@@ -79,6 +80,10 @@ export class WorldScene extends Phaser.Scene {
     this.pool.add(this.dialog);
     this.dialog.visible = false;
     this.player.dialog = this.dialog;
+    
+    let boxShadow = new BoxShadowOverlay(this);
+    this.add.existing(boxShadow)
+    this.pool.add(boxShadow)
   }
 
   update(): void {
