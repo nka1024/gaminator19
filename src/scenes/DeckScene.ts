@@ -9,14 +9,15 @@ import { FadeTransition } from "../FadeTransition";
 import { DeckDisplay } from "../board/DeckDisplay";
 import { BattleService } from "../board/BattleService";
 import { CardDisplay } from "../board/CardDisplay";
-import { PlayerBoardData } from "../types/Types";
+import { PlayerBoardData, CardData } from "../types/Types";
 import { Keybinds } from "../Keybinds";
+import { CardDetailsDisplay } from "../board/CardDetailsDisplay";
 
 export class DeckScene extends Phaser.Scene {
   private deck: DeckDisplay;
   private loot: DeckDisplay;
   private activeDeck: DeckDisplay;
-
+  private cardDetails: CardDetailsDisplay;
 
   private transition: FadeTransition;
   private keybinds: Keybinds;
@@ -24,6 +25,10 @@ export class DeckScene extends Phaser.Scene {
 
   private battleService: BattleService;
   private player: PlayerBoardData;
+
+  private imgRemoveModule: Phaser.GameObjects.Image;
+  private imgAddModule: Phaser.GameObjects.Image;
+  private lootCards: CardData[] = [];
 
   constructor() {
     super({
@@ -35,7 +40,8 @@ export class DeckScene extends Phaser.Scene {
     AssetsLoader.preload(this);
   }
 
-  create() {
+  create(loot: CardData[]) {
+    this.lootCards = this.lootCards;
     this.animationRegistry = new AnimationRegistry(this);
     this.animationRegistry.initBoardAnimations();
 
@@ -47,7 +53,8 @@ export class DeckScene extends Phaser.Scene {
     this.add.existing(this.transition);
     this.transition.alphaTransition(1, 0, 0.01);
 
-    this.events.on('wake', () => {
+    this.events.on('wake', (sys, lootCards: CardData[]) => {
+      this.lootCards = lootCards;
       this.transition.alphaTransition(1, 0, 0.1);
       this.repopulate();
     })
@@ -65,11 +72,35 @@ export class DeckScene extends Phaser.Scene {
     this.loot.x = 64;
     this.loot.y = 180;
 
+    this.cardDetails = new CardDetailsDisplay(this);
+    this.add.existing(this.cardDetails)
+    this.cardDetails.x = 330;
+    this.cardDetails.y = 200;
+    this.cardDetails.visible = false;
+    this.deck.events.on('card_select', this.onCardSelect.bind(this))
+    this.loot.events.on('card_select', this.onCardSelect.bind(this))
+
+    this.imgAddModule = new Phaser.GameObjects.Image(this, 445, 160, 'add_module_100x20');
+    this.imgRemoveModule = new Phaser.GameObjects.Image(this, 445, 160, 'remove_module_100x20');
+    this.add.existing(this.imgAddModule);
+    this.add.existing(this.imgRemoveModule);
+    this.imgAddModule.visible = true
+    this.imgAddModule.visible = false
+
     this.repopulate();
   }
 
+  private onCardSelect(card: CardDisplay) {
+      if (card.card) {
+        this.cardDetails.visible = true;
+        this.cardDetails.populate(card.card);
+      } else {
+        this.cardDetails.visible = false;
+      }
+  }
   private repopulate() {
     this.deck.cleanup();
+    this.loot.cleanup();
     // for (let card of this.player.deck) {
     //   if (card) {
     //     this.deck.addCard(new CardDisplay(this).populate(card));
@@ -81,10 +112,11 @@ export class DeckScene extends Phaser.Scene {
     }
 
     for (let i = 0; i < 10; i++) {
-      this.loot.addCard(new CardDisplay(this).populate(null));
+      let card =  i < this.lootCards.length ? this.lootCards[i] : null
+      this.loot.addCard(new CardDisplay(this).populate(card));
     }
     this.loot.putCursor(0);
-    this.deck.putCursor(0)
+    this.deck.putCursor(0);
     this.setActiveDeck(this.loot);
   }
 
@@ -100,7 +132,11 @@ export class DeckScene extends Phaser.Scene {
     this.activeDeck = deck
     if (this.activeDeck) {
       this.activeDeck.setCursorHidden(false);
+      this.activeDeck.putCursor(this.activeDeck.cursorPos)
     }
+
+    this.imgAddModule.visible = this.activeDeck == this.loot
+    this.imgRemoveModule.visible = this.activeDeck == this.deck
   }
   update() {
     this.transition.update();
@@ -113,6 +149,8 @@ export class DeckScene extends Phaser.Scene {
     if (this.keybinds.downPressed) this.setActiveDeck(this.loot)
     if (this.keybinds.upPressed) this.setActiveDeck(this.deck)
     if (this.keybinds.enterPressed) this.moveCard();
+    if (this.keybinds.escPressed) this.end();
+    
   }
 
   private moveCard() {
@@ -129,6 +167,7 @@ export class DeckScene extends Phaser.Scene {
     } else {
       toView.populate(fromView.card)
       fromView.populate(null);
+      this.cardDetails.visible = false;
     }
   }
 

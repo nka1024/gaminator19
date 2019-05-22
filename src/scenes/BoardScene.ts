@@ -100,7 +100,7 @@ export class BoardScene extends Phaser.Scene {
     this.battleController.events.on('battle_end', () => {
       this.transition.alphaTransition(0, 1, 0.1, () => {
         this.scene.sleep();
-        this.scene.run("DeckScene");
+        this.scene.run("DeckScene", this.battleService.makeLootCards());
       });
     });
   }

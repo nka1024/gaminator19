@@ -37,6 +37,9 @@ export class AssetsLoader {
       scene.load.image("device_" + idx, "./assets/gaminator/map_objects/device_" + idx + ".png");
     }
 
+    scene.load.image('remove_module_100x20', './assets/board/remove_module_100x20.png');
+    scene.load.image('add_module_100x20', './assets/board/add_module_100x20.png');
+
     scene.load.image('portrait_player_32x32', './assets/gaminator/portraits/player.png');
     scene.load.image('portrait_controller_32x32', './assets/gaminator/portraits/controller.png');
     scene.load.image('fade_505x300', './assets/fade_505x300.png');

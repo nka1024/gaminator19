@@ -66,5 +66,9 @@ export class BattleService {
       turned: true
     }
   }
+
+  public makeLootCards(): CardData[] {
+    return [this.makeCard2(0), this.makeCard2(1), this.makeCard2(2), this.makeCard2(3), this.makeCard2(4), this.makeCard2(5), this.makeCard2(6)];
+  }
 }
 
