@@ -19,7 +19,7 @@ export class AnimationRegistry {
   public initWorldAnimations() {
     this.registerPlayerAnimations(this.scene);
     this.registerAmbientAnimations(this.scene);
-    
+    this.registerWorldUIAnimations(this.scene);
   }
 
   private registerAmbientAnimations(scene: Scene) {
@@ -193,6 +193,17 @@ export class AnimationRegistry {
       repeat: 0,
       repeatDelay: 0,
       hideOnComplete: true
+    });
+  }
+
+  private registerWorldUIAnimations(scene: Scene) {
+    scene.anims.create({
+      key: 'enter_key_anim',
+      frames: scene.anims.generateFrameNumbers('enter_40x16',{ frames: [0, 1] }),
+      frameRate: 2,
+      repeat: -1,
+      repeatDelay: 0,
+      hideOnComplete: false
     });
   }
 

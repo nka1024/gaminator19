@@ -10,11 +10,14 @@ export class DialogView extends Phaser.GameObjects.Container {
   private bg: Phaser.GameObjects.Image;
   private portrait: Phaser.GameObjects.Image;
 
+  private enterAnim: Phaser.GameObjects.Sprite;
+
   constructor(scene, x, y) {
     super(scene, x, y);
     let tx = 60
     let ty = 218
   
+
     this.bg = this.scene.add.image(-20, 214, 'dialog_bg_505x86');
     this.bg.scaleX = 2;
     this.bg.scaleY = 2;
@@ -35,6 +38,13 @@ export class DialogView extends Phaser.GameObjects.Container {
     this.textMain = this.scene.add.bitmapText(tx, ty, 'coco-8-white', '');
     this.textMain.letterSpacing = -1;
     this.add(this.textMain);
+
+    this.enterAnim = new Phaser.GameObjects.Sprite(scene, 0, 0, 'enter_40x16');
+    this.enterAnim.play('enter_key_anim')
+    this.enterAnim.x = 480;
+    this.enterAnim.y = 288;
+    this.scene.add.existing(this.enterAnim);
+    this.add(this.enterAnim)
   }
 
   public showText(text: string) {

@@ -150,14 +150,14 @@ export class WorldScene extends Phaser.Scene {
     let tile = this.grid.worldToGrid({ x: this.player.x, y: this.player.y });
     let trigger: MapTriggerData = this.triggers.checkTrigger(tile);
     if (trigger) {
-      // console.log('stepped on trigger: ' + trigger.name);
-      // this.dialog.showText('- Миги, эсли ты сейчас же не представишь что это - всего лишь ебучая бабочка и не заткнешься, то нам обоим скорее всего пиздец!');
+      console.log('stepped on trigger: ' + trigger.name);
+      this.dialog.showText('- Миги, эсли ты сейчас же не представишь что это - всего лишь ебучая бабочка и не заткнешься, то нам обоим скорее всего пиздец!');
     
-      this.transition.alphaTransition(0, 1, 0.05, () => {
-        this.player.stopMovement();
-        this.scene.sleep();
-        this.scene.run("BoardScene");
-      });
+      // this.transition.alphaTransition(0, 1, 0.05, () => {
+      //   this.player.stopMovement();
+      //   this.scene.sleep();
+      //   this.scene.run("BoardScene");
+      // });
     }
   }
 
