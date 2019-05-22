@@ -46,6 +46,13 @@ export class WorldPlayer extends Phaser.GameObjects.Sprite {
     }
   }
 
+  public stopMovement() {
+    this.cursorKeys.down.isDown = false;
+    this.cursorKeys.up.isDown = false;
+    this.cursorKeys.left.isDown = false;
+    this.cursorKeys.right.isDown = false;
+  }
+
   public update() {
     if (this.dialog && this.dialog.visible) {
       this.speed.x = 0;

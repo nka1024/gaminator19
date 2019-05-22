@@ -88,6 +88,7 @@ export class WorldScene extends Phaser.Scene {
     this.pool.add(boxShadow)
 
     this.events.on('wake', () => {
+      this.player.stopMovement();
       this.transition.alphaTransition(1, 0, 0.1);
     })
   }
@@ -153,6 +154,7 @@ export class WorldScene extends Phaser.Scene {
       // this.dialog.showText('- Миги, эсли ты сейчас же не представишь что это - всего лишь ебучая бабочка и не заткнешься, то нам обоим скорее всего пиздец!');
     
       this.transition.alphaTransition(0, 1, 0.05, () => {
+        this.player.stopMovement();
         this.scene.sleep();
         this.scene.run("BoardScene");
       });
