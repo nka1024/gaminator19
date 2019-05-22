@@ -16,6 +16,7 @@ import { DialogView } from "../DialogView";
 import { Triggers } from "../world/Triggers";
 import { BoxShadowOverlay } from "../BoxShadowOverlay";
 import { Events } from "phaser";
+import { Story } from "../Story";
 
 export class WorldScene extends Phaser.Scene {
 
@@ -32,6 +33,7 @@ export class WorldScene extends Phaser.Scene {
   private player: WorldPlayer;
   private animationRegistry: AnimationRegistry;
   private dialog: DialogView;
+  private story: Story;
 
   private transition: FadeTransition;
   private pool: Phaser.GameObjects.Group;
@@ -82,6 +84,9 @@ export class WorldScene extends Phaser.Scene {
     this.pool.add(this.dialog);
     this.dialog.visible = false;
     this.player.dialog = this.dialog;
+    
+    this.story = new Story(this);
+    this.story.setDialogView(this.dialog)
 
     let boxShadow = new BoxShadowOverlay(this);
     this.add.existing(boxShadow)
@@ -151,7 +156,8 @@ export class WorldScene extends Phaser.Scene {
     let trigger: MapTriggerData = this.triggers.checkTrigger(tile);
     if (trigger) {
       console.log('stepped on trigger: ' + trigger.name);
-      this.dialog.showText('- Миги, эсли ты сейчас же не представишь что это - всего лишь ебучая бабочка и не заткнешься, то нам обоим скорее всего пиздец!');
+      // this.dialog.showText('- Миги, эсли ты сейчас же не представишь что это - всего лишь ебучая бабочка и не заткнешься, то нам обоим скорее всего пиздец!');
+      this.story.startDialog('arrival');
     
       // this.transition.alphaTransition(0, 1, 0.05, () => {
       //   this.player.stopMovement();
