@@ -37,6 +37,8 @@ export class AssetsLoader {
       scene.load.image("device_" + idx, "./assets/gaminator/map_objects/device_" + idx + ".png");
     }
 
+    
+    scene.load.image('stripes_1_endless_bg', './assets/board/stripes_1_endless_bg.png');
     scene.load.image('remove_module_100x20', './assets/board/remove_module_100x20.png');
     scene.load.image('add_module_100x20', './assets/board/add_module_100x20.png');
 

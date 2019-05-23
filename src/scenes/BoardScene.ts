@@ -20,6 +20,7 @@ import { BattleService } from "../board/BattleService";
 import { BattleController } from "../board/BattleController";
 import { AnimationRegistry } from "../AnimationRegistry";
 import { FadeTransition } from "../FadeTransition";
+import { ScrollingImage } from "../board/ScrollingImage";
 
 export class BoardScene extends Phaser.Scene {
 
@@ -32,6 +33,9 @@ export class BoardScene extends Phaser.Scene {
   private battleService: BattleService;
   private battleController: BattleController;
   private keybinds: Keybinds;
+
+  private stripesTop: ScrollingImage;
+  private stripesBottom: ScrollingImage;
 
   private transition: FadeTransition;
 
@@ -106,6 +110,12 @@ export class BoardScene extends Phaser.Scene {
   }
 
   private addDisplays() {
+    this.stripesTop = new ScrollingImage(this, 0,0);
+    // this.stripesTop = new ScrollingImage(this, 0,0);
+    this.stripesTop.configure(-1, 0, 'stripes_1_endless_bg');
+    this.stripesTop.alpha = 0.05;
+    this.add.existing(this.stripesTop);
+
     this.phaseDisplay = new PhaseDisplay(this)
     this.phaseDisplay.x = 60;
     this.phaseDisplay.y = 244;
@@ -160,6 +170,7 @@ export class BoardScene extends Phaser.Scene {
     this.hand.update();
     this.battleController.update();
     
+    this.stripesTop.update();
     // update camera effects
     if (this.transition)
       this.transition.update();
