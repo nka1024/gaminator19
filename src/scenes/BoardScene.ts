@@ -140,6 +140,7 @@ export class BoardScene extends Phaser.Scene {
 
     this.hand.events.on('card_select', (card: CardDisplay) => {
       if (card) {
+        this.cardDetails.visible = true;
         this.cardDetails.populate(card.card);
       } else {
         this.cardDetails.visible = false;
