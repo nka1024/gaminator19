@@ -19,6 +19,17 @@ export class AssetsLoader {
   public static preload(scene: Phaser.Scene) {
     scene.load.json("map", "./assets/map.json");
     scene.load.audio('walk_1', './assets/sfx/walk.wav');
+    scene.load.audio('connect', './assets/sfx/Randomize134.mp3');
+    scene.load.audio('connect3', './assets/sfx/Randomize419.wav');
+    scene.load.audio('connect2', './assets/sfx/Randomize430.wav');
+
+    scene.load.audio('select_blip', './assets/sfx/Randomize155.mp3');
+    scene.load.audio('spawn_whoosh', './assets/sfx/Randomize463.wav');
+    scene.load.audio('damage_shuh', './assets/sfx/Randomize466.wav');
+    
+    scene.load.audio('combat_loop', './assets/sfx/SawZer_OffWorldX.mp3');
+    scene.load.audio('main_theme', './assets/sfx/CalmTune_Entrance.mp3');
+
     scene.load.glsl('bundle', './assets/shaders/chelnoque-water.glsl');
 
     for (let idx = 1; idx <= ASSETS.TERRAIN_MAX; idx++) {
@@ -43,8 +54,13 @@ export class AssetsLoader {
     scene.load.image('pixel_box_shadow_505x300', "./assets/board/pixel_box_shadow_505x300.png");
     scene.load.image('numbers_highlight', "./assets/board/numbers_highlight.png");
     
-    scene.load.spritesheet('press_enter_to_start_178x60', './assets/board/terminal/press_enter_to_start_178x60.png', { frameWidth: 178, frameHeight: 60 });
 
+    scene.load.spritesheet('hide_module_link_178x64',     './assets/board/terminal/terminal_hide_module_link_178x64.png', { frameWidth: 178, frameHeight: 64 });
+    scene.load.spritesheet('press_enter_to_start_178x60', './assets/board/terminal/terminal_press_enter_to_start_178x60.png', { frameWidth: 178, frameHeight: 60 });
+    scene.load.spritesheet('select_lane_178x60',          './assets/board/terminal/terminal_select_lane_178x60.png', { frameWidth: 178, frameHeight: 60 });
+    scene.load.spritesheet('select_module_178x60',        './assets/board/terminal/terminal_select_module_178x60.png', { frameWidth: 178, frameHeight: 60 });
+    scene.load.spritesheet('unable_to_install_178x60',    './assets/board/terminal/terminal_unable_to_install_178x60.png', { frameWidth: 178, frameHeight: 60 });
+    scene.load.spritesheet('unsufficient_link_178x60',    './assets/board/terminal/terminal_unsufficient_link_178x60.png', { frameWidth: 178, frameHeight: 60 });
 
     scene.load.spritesheet('enemy_card_anim_13x15', './assets/board/enemy_card_anim_13x15.png', { frameWidth: 13, frameHeight: 15 });
     scene.load.spritesheet("cursor_spot_68x70", "./assets/board/cursor_spot_68x70.png", { frameWidth: 68, frameHeight: 70 });

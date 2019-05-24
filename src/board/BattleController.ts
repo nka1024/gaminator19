@@ -72,7 +72,7 @@ export class BattleController {
       this.turn.setPhase(PhaseType.LOAD);
 
       let timer = this.scene.time.addEvent({
-        delay: 100,
+        delay: 1000,
         callback: () => {
           this.tmp.prepareFinished = true;
           timer.destroy();
@@ -150,7 +150,7 @@ export class BattleController {
   private phasePlayerCommand() {
     if (this.phaseStarted()) {
       this.turn.setPhase(PhaseType.COMMANDS)
-      console.log('Select card to command');
+      this.terminal.setScreen(TerminalScreenID.SELECT_MODULE);
       this.hand.setCursorHidden(false)
       this.hand.putCursor(0);
       this.details.visible = true;
@@ -164,7 +164,7 @@ export class BattleController {
       if (this.keybinds.rightPressed) this.spots.moveCursor(1)
       if (this.keybinds.enterPressed) {
         if (this.spots.getCursorRow() == 0) {
-          console.log('can not place module at enemy slot')
+          this.terminal.setScreen(TerminalScreenID.UNABLE_TO_INSTALL);
         } else {
           let card = this.tmp.selectedCard
           if (card.link <= this.board.player.link) {
@@ -181,7 +181,7 @@ export class BattleController {
             this.board.player.hand.splice(this.board.player.hand.indexOf(card), 1);
             this.hand.removeCardAtCursor();
           } else {
-            console.log('not enough link');
+            this.terminal.setScreen(TerminalScreenID.UNSIFFICIENT_LINK);
           }
         }
       }
@@ -190,6 +190,7 @@ export class BattleController {
         this.spots.setCursorHidden(true);
       }
     } else {
+      
       // select card from hand
       if (this.keybinds.leftPressed) this.hand.moveCursor(-1)
       if (this.keybinds.rightPressed) this.hand.moveCursor(1)
@@ -199,11 +200,12 @@ export class BattleController {
           let card = this.board.player.hand[this.hand.cursorPos];
           if (card.link <= this.board.player.link) {
             this.tmp.selectedCard = card
+            this.terminal.setScreen(TerminalScreenID.SELECT_LANE);
             this.spots.putCursor(1, 1);
             this.spots.setCursorHidden(false);
             this.spots.setNextPhaseHidden(true);
           } else {
-            console.log('not enough link');
+            this.terminal.setScreen(TerminalScreenID.UNSIFFICIENT_LINK);
           }
         } else {
           // next phase
@@ -221,7 +223,7 @@ export class BattleController {
   private phasePlayerProtect() {
     if (this.phaseStarted()) {
       this.turn.setPhase(PhaseType.PROTECT);
-      console.log('select protected card');
+      this.terminal.setScreen(TerminalScreenID.HIDE_MODULE);
       this.spots.putCursor(1, 1);
       this.spots.setNextPhaseHidden(false);
     }

@@ -43,6 +43,8 @@ export class WorldScene extends Phaser.Scene {
     ["water_09", "water_10", "water_11", "water_12"],
     ["water_13", "water_14", "water_15", "water_16"]];
 
+  private mainThemeAudio: Phaser.Sound.BaseSound;
+
   constructor() {
     super({
       key: "WorldScene"
@@ -77,7 +79,6 @@ export class WorldScene extends Phaser.Scene {
 
     this.transition = new FadeTransition(this, 0, 0);
     this.add.existing(this.transition);
-    this.transition.alphaTransition(1, 0, 0.005);
 
     this.dialog = new DialogView(this, 0, 0);
     this.add.existing(this.dialog);
@@ -96,10 +97,19 @@ export class WorldScene extends Phaser.Scene {
     this.pool.add(boxShadow)
 
     this.events.on('wake', () => {
+      this.onEnter();
+
       this.player.stopMovement();
-      this.transition.alphaTransition(1, 0, 0.1);
       this.story.eventFinished();
     })
+    this.mainThemeAudio = this.sound.add('main_theme', { loop: true, volume: 0.0 });
+    
+    this.onEnter();
+  }
+
+  private onEnter() {
+    this.mainThemeAudio.play();
+    this.transition.alphaTransition(1, 0, 0.01);
   }
 
   update(): void {
@@ -169,6 +179,7 @@ export class WorldScene extends Phaser.Scene {
       this.player.stopMovement();
       this.scene.sleep();
       this.scene.run("BoardScene");
+      this.mainThemeAudio.pause();
     });
   }
   

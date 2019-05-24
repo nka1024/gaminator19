@@ -114,11 +114,7 @@ export class BoardSpotsContainer extends Phaser.GameObjects.Container {
   }
   
   public putCardAtCursor(card: CardData) {
-    if (this.cursorRow < this.spots.length && this.cursorCol < this.spots[this.cursorRow].length) {
-      this.spots[this.cursorRow][this.cursorCol].populate(card);
-    } else {
-      return ;
-    }
+    this.putCard(this.cursorRow, this.cursorCol, card);
   }
 
   public isCursorNextPhase() {
@@ -141,6 +137,8 @@ export class BoardSpotsContainer extends Phaser.GameObjects.Container {
   public putCard(row: number, col: number, card: CardData) {
     if (row < this.spots.length && col < this.spots[row].length) {
       this.spots[row][col].populate(card);
+
+      this.events.emit('spot_populated', card);
     }
   }
 

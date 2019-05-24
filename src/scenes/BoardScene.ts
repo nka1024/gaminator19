@@ -50,6 +50,14 @@ export class BoardScene extends Phaser.Scene {
 
   private animationRegistry: AnimationRegistry;
 
+  private combatLoopAudio: Phaser.Sound.BaseSound;
+  private connectAudio: Phaser.Sound.BaseSound;
+  private connectAudio2: Phaser.Sound.BaseSound;
+  private connectAudio3: Phaser.Sound.BaseSound;
+  private selectAudio: Phaser.Sound.BaseSound;
+  private spawnAudio: Phaser.Sound.BaseSound;
+  private damageAudio: Phaser.Sound.BaseSound;
+
   constructor() {
     super({
       key: "BoardScene"
@@ -79,7 +87,16 @@ export class BoardScene extends Phaser.Scene {
   }
 
   create(data): void {
-    console.log('create')
+    this.connectAudio = this.sound.add('connect', { loop: false, volume: 0.3 });
+    this.connectAudio2 = this.sound.add('connect2', { loop: false, volume: 0.3 });
+    this.connectAudio3 = this.sound.add('connect3', { loop: false, volume: 0.3 });
+    this.combatLoopAudio = this.sound.add('combat_loop', { loop: true, volume: 0.0 });
+    this.selectAudio = this.sound.add('select_blip', { loop: false, volume: 0.5 });
+    this.spawnAudio = this.sound.add('spawn_whoosh', { loop: false, volume: 0.5 });
+    this.damageAudio = this.sound.add('damage_shuh', { loop: false, volume: 0.5 });
+    
+    // this.combatLoopAudio.addMarker({name: 'bounce', start: 30, duration: 30});
+    
     this.animationRegistry = new AnimationRegistry(this);
     this.animationRegistry.initBoardAnimations();
     
@@ -126,6 +143,27 @@ export class BoardScene extends Phaser.Scene {
   }
 
   private onEnter() {
+    this.connectAudio2.play();
+    this.time.addEvent({
+      delay: 1300,
+      callback: () => {
+        this.connectAudio.play();
+      },
+      callbackScope: this,
+      loop: false,
+      paused: false
+    });
+    this.time.addEvent({
+      delay: 2800,
+      callback: () => {
+        this.connectAudio3.play();
+      },
+      callbackScope: this,
+      loop: false,
+      paused: false
+    });
+    this.combatLoopAudio.play();
+    
     this.entranceLinkAnim.visible = true;
     this.transition.alphaTransition(1, 0, 0.1);
     this.entranceLinkAnim.play('board_entrance1_anim');
@@ -212,6 +250,7 @@ export class BoardScene extends Phaser.Scene {
     this.hand.y = 144;
 
     this.hand.events.on('card_select', (card: CardDisplay) => {
+      this.selectAudio.play();
       if (card) {
         this.cardDetails.visible = true;
         this.cardDetails.populate(card.card);
@@ -226,6 +265,7 @@ export class BoardScene extends Phaser.Scene {
     this.spots = new BoardSpotsContainer(this);
     this.add.existing(this.spots);
     this.spots.events.on('spot_select', (card: CardData) => {
+      this.selectAudio.play();
       if (card) {
         this.cardDetails.visible = true;
         this.cardDetails.populate(card);
@@ -238,6 +278,12 @@ export class BoardScene extends Phaser.Scene {
         // this.cardDetails.visible = false;
       }
     })
+    this.spots.events.on('spot_populated', (card: CardData) => {
+      if (card != null) {
+        this.spawnAudio.play();
+      }
+    });
+    
   }
 
   private addKeybinds() {

@@ -8,6 +8,11 @@ import { Scene, GameObjects } from "phaser";
 
 export enum TerminalScreenID {
   PRESS_ENTER_TO_START = 'terminal_press_enter_to_start_anim',
+  HIDE_MODULE = 'terminal_hide_module_anim',    
+  SELECT_LANE = 'terminal_select_lane_anim',         
+  SELECT_MODULE = 'terminal_select_module_anim',       
+  UNABLE_TO_INSTALL = 'terminal_unable_to_install_anim',   
+  UNSIFFICIENT_LINK = 'terminal_unsufficient_link_anim'
 }
 
 export class TerminalDisplay extends Phaser.GameObjects.Container {
