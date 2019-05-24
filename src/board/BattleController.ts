@@ -268,42 +268,8 @@ export class BattleController {
       this.tmp.compileFinished = false;
 
       for (let i = 0; i < 3; i++) {
-        let t = this.scene.time.addEvent({
-          delay: i * 500,
-          callback: () => {
-            let card = this.board.player.board[i];
-            if (card && !card.turned) {
-              let opponentCard = this.board.opponent.board[i];
-              let short = opponentCard != null
-              this.spots.attack(1, i, -1, short);
-              // deal damage
-              if (opponentCard) {
-                if (!card.protected) {
-                  opponentCard.hp -= card.attack;
-                  this.spots.refresh();
-                } else {
-                  this.board.opponent.hp -= card.attack;
-                  this.spots.refresh();
-                  this.opponent.populate(this.board.opponent.hp, this.board.opponent.link, this.board.opponent.linkMax);
-                }
-                if (opponentCard.hp <= 0) {
-                  this.board.opponent.board[i] = null;
-                  this.spots.putCard(0, i, null);
-                }
-              } else {
-                this.board.opponent.hp -= card.attack;
-                this.spots.refresh();
-                this.opponent.populate(this.board.opponent.hp, this.board.opponent.link, this.board.opponent.linkMax);
-              }
-            }
-            t.destroy();
-          },
-          callbackScope: this,
-          loop: false,
-          paused: false
-        });
+        let t = this.scene.time.addEvent(this.onPlayerAttack(i))
       }
-
 
       let timer = this.scene.time.addEvent({
         delay: 2000,
@@ -324,6 +290,45 @@ export class BattleController {
     }
   }
 
+
+  private onPlayerAttack(i: number):Phaser.Types.Time.TimerEventConfig {
+    return {
+      delay: i * 500,
+      callback: () => {
+        let card = this.board.player.board[i];
+        if (card && !card.turned) {
+          let opponentCard = this.board.opponent.board[i];
+          let short = opponentCard != null
+          this.spots.attack(1, i, -1, short);
+          // deal damage
+          if (opponentCard) {
+            if (!card.protected) {
+              opponentCard.hp -= card.attack;
+              this.spots.refresh();
+            } else {
+              this.board.opponent.hp -= card.attack;
+              this.spots.refresh();
+              this.opponent.populate(this.board.opponent.hp, this.board.opponent.link, this.board.opponent.linkMax);
+            }
+            if (opponentCard.hp <= 0) {
+              this.board.opponent.board[i] = null;
+              this.spots.putCard(0, i, null);
+              console.log('destroyed opponent card at slot ' + i);
+            }
+          } else {
+            this.board.opponent.hp -= card.attack;
+            this.spots.refresh();
+            this.opponent.populate(this.board.opponent.hp, this.board.opponent.link, this.board.opponent.linkMax);
+          }
+        }
+        // t.destroy();
+      },
+      callbackScope: this,
+      loop: false,
+      paused: false
+    };
+
+  }
   //
   // OPPONENT DRAW
   //
@@ -387,17 +392,22 @@ export class BattleController {
       // select card and put it on board
       for (let card of this.board.opponent.hand) {
         if (card.link <= this.board.opponent.link) {
-          let idxes = [];
-          if (Math.random() > 0.66) idxes = [0, 2, 1]
-          else if (Math.random() > 0.5) idxes = [1, 0, 2]
-          else idxes = [2, 1, 0]
-
+          let variants = [
+            [0, 2, 1],
+            [0, 1, 2],
+            [1, 0, 2],
+            [1, 2, 0],
+            [2, 1, 0],
+            [2, 0, 1]
+          ]
+          let idxes = variants[Math.floor(Math.random()*variants.length)];
+          
           for (let idx of idxes) {
             if (this.board.opponent.board[idx] == null) {
               this.board.opponent.board[idx] = card;
               this.spots.putCard(0, idx, card);
               this.board.opponent.link -= card.link;
-              this.board.opponent.hand.splice(this.board.player.hand.indexOf(card), 1);
+              this.board.opponent.hand.splice(this.board.opponent.hand.indexOf(card), 1);
               this.opponent.setHandSize(this.board.opponent.hand.length)
               break;
             }
@@ -427,40 +437,7 @@ export class BattleController {
       this.tmp.compileFinished = false;
 
       for (let i = 0; i < 3; i++) {
-        let t = this.scene.time.addEvent({
-          delay: i * 500,
-          callback: () => {
-            let card = this.board.opponent.board[i];
-            if (card && !card.turned) {
-              let playerCard = this.board.player.board[i];
-              let short = playerCard != null
-              this.spots.attack(0, i, 1, short);
-              // deal damage
-              if (playerCard) {
-                if (!playerCard.protected) {
-                  playerCard.hp -= card.attack;
-                  this.spots.refresh();
-                } else {
-                  this.board.player.hp -= card.attack;
-                  this.spots.refresh();
-                  this.player.populate(this.board.player.hp, this.board.player.link, this.board.player.linkMax);
-                }
-                if (playerCard.hp <= 0) {
-                  this.board.player.board[i] = null
-                  this.spots.putCard(1, i, null);
-                }
-              } else {
-                this.board.player.hp -= card.attack;
-                this.spots.refresh();
-                this.player.populate(this.board.player.hp, this.board.player.link, this.board.player.linkMax);
-              }
-            }
-            t.destroy();
-          },
-          callbackScope: this,
-          loop: false,
-          paused: false
-        });
+        let t = this.scene.time.addEvent(this.onOpponentAttack(i));
       }
 
       let timer = this.scene.time.addEvent({
@@ -474,6 +451,43 @@ export class BattleController {
         loop: false,
         paused: false
       });
+    }
+  }
+
+  private onOpponentAttack(i: number): Phaser.Types.Time.TimerEventConfig {
+    return {
+      delay: i * 500,
+      callback: () => {
+        let card = this.board.opponent.board[i];
+        if (card && !card.turned) {
+          let playerCard = this.board.player.board[i];
+          let short = playerCard != null
+          this.spots.attack(0, i, 1, short);
+          // deal damage
+          if (playerCard) {
+            if (!playerCard.protected) {
+              playerCard.hp -= card.attack;
+              this.spots.refresh();
+            } else {
+              this.board.player.hp -= card.attack;
+              this.spots.refresh();
+              this.player.populate(this.board.player.hp, this.board.player.link, this.board.player.linkMax);
+            }
+            if (playerCard.hp <= 0) {
+              this.board.player.board[i] = null
+              this.spots.putCard(1, i, null);
+            }
+          } else {
+            this.board.player.hp -= card.attack;
+            this.spots.refresh();
+            this.player.populate(this.board.player.hp, this.board.player.link, this.board.player.linkMax);
+          }
+        }
+        // t.destroy();
+      },
+      callbackScope: this,
+      loop: false,
+      paused: false
     }
   }
 
