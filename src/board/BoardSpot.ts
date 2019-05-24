@@ -54,15 +54,22 @@ export class BoardSpot extends Phaser.GameObjects.Container {
   }
 
   public attack(direction: number, short: boolean) {
-    let body = new Phaser.GameObjects.Sprite(this.scene, 0,0, 'attack_anim');
+    let animKey = direction < 0 ? 'attack_blue_anim' : 'attack_yellow_anim';
+    let body = new Phaser.GameObjects.Sprite(this.scene, 0,0, animKey);
     
-    body.play('attack_anim');
+    body.play(animKey);
     body.on('animationcomplete', (anim: Animations.Animation, frame: Animations.AnimationFrame) => {
       body.destroy();
     });
-    body.angle = direction < 0 ? -90 : 90;
+    body.angle = direction < 0 ? 0 : 180;
     body.displayOriginX = 0;
-    body.scaleX = short ? 0.5 : 1; 
+    if (direction == -1) {
+      body.y = -47
+      body.x = -9
+    } else{
+      body.y = 30
+      body.x = 11
+    }
     this.scene.add.existing(body);
     this.add(body);
   }

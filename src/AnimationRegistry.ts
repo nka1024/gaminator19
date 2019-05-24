@@ -164,9 +164,17 @@ export class AnimationRegistry {
 
   private registerFxAnimations(scene: Scene) {
     scene.anims.create({
-      key: 'board_attack_anim',
-      frames: scene.anims.generateFrameNumbers('attack_anim_128x32', { start: 0, end: 6 }),
-      frameRate: 10,
+      key: 'attack_yellow_anim',
+      frames: scene.anims.generateFrameNumbers('attack_anim_yellow_19x22', { start: 0, end: 8 }),
+      frameRate: 15,
+      repeat: 0,
+      repeatDelay: 0,
+      hideOnComplete: true
+    });
+    scene.anims.create({
+      key: 'attack_blue_anim',
+      frames: scene.anims.generateFrameNumbers('attack_anim_blue_19x22', { start: 0, end: 8 }),
+      frameRate: 15,
       repeat: 0,
       repeatDelay: 0,
       hideOnComplete: true

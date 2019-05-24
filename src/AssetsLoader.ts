@@ -77,8 +77,10 @@ export class AssetsLoader {
     scene.load.spritesheet('player_walk_front_128x128', './assets/gaminator/player/walk_front_128x128.png', { frameWidth: 128, frameHeight: 128 });
     scene.load.spritesheet('player_walk_left_128x128', './assets/gaminator/player/walk_left_128x128.png', { frameWidth: 128, frameHeight: 128 });
     scene.load.spritesheet('player_walk_right_128x128', './assets/gaminator/player/walk_right_128x128.png', { frameWidth: 128, frameHeight: 128 });
+    
+    scene.load.spritesheet('attack_anim_blue_19x22', './assets/board/attack_anim_blue_19x22.png', { frameWidth: 19, frameHeight: 22 });
+    scene.load.spritesheet('attack_anim_yellow_19x22', './assets/board/attack_anim_yellow_19x22.png', { frameWidth: 19, frameHeight: 22 });
 
-    scene.load.spritesheet('attack_anim_128x32', './assets/board/attack_anim_128x32.png', { frameWidth: 128, frameHeight: 32 });
     scene.load.spritesheet('spawn_64x64', './assets/board/spawn2_64x64.png', { frameWidth: 64, frameHeight: 64 });
     scene.load.spritesheet('cursor_hand_18x124', './assets/board/cursor_hand.png', { frameWidth: 18, frameHeight: 124 });
     scene.load.spritesheet('turn_current_8x8', './assets/board/turn_current_8x8.png', { frameWidth: 8, frameHeight: 8 });
