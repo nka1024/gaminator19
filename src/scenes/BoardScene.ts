@@ -34,8 +34,12 @@ export class BoardScene extends Phaser.Scene {
   private battleController: BattleController;
   private keybinds: Keybinds;
 
+  private boxShadow: Phaser.GameObjects.Image;
   private stripesTop: ScrollingImage;
   private stripesBottom: ScrollingImage;
+  private codeA: ScrollingImage;
+  private codeB: ScrollingImage;
+  private codeC: ScrollingImage;
 
   private transition: FadeTransition;
 
@@ -110,11 +114,34 @@ export class BoardScene extends Phaser.Scene {
   }
 
   private addDisplays() {
-    this.stripesTop = new ScrollingImage(this, 0,0);
-    // this.stripesTop = new ScrollingImage(this, 0,0);
-    this.stripesTop.configure(-1, 0, 'stripes_1_endless_bg');
+    this.stripesTop = new ScrollingImage(this, 0, 14);
+    this.stripesTop.configure(-0.5, 0, 'stripes_1_endless_bg');
     this.stripesTop.alpha = 0.05;
     this.add.existing(this.stripesTop);
+
+    this.stripesBottom = new ScrollingImage(this, 0, 250);
+    this.stripesBottom.configure(0.5, 0, 'stripes_2_endless_bg');
+    this.stripesBottom.alpha = 0.05;
+    this.add.existing(this.stripesBottom);
+
+    this.codeA = new ScrollingImage(this, -5, 0);
+    this.codeA.configure(0, 0.5, 'code_endless_bg', true);
+    this.codeA.alpha = 0.05;
+    this.add.existing(this.codeA);
+
+    this.codeB = new ScrollingImage(this, 186, 0);
+    this.codeB.configure(0, -0.5, 'code_endless_bg', true);
+    this.codeB.alpha = 0.05;
+    this.add.existing(this.codeB);
+
+    this.codeC = new ScrollingImage(this, 388, 0);
+    this.codeC.configure(0, 0.5, 'code_endless_bg', true);
+    this.codeC.alpha = 0.05;
+    this.add.existing(this.codeC);
+
+    this.boxShadow = new Phaser.GameObjects.Image(this, 0, 0, 'pixel_box_shadow_505x300');
+    this.boxShadow.setOrigin(0, 0);
+    this.add.existing(this.boxShadow)
 
     this.phaseDisplay = new PhaseDisplay(this)
     this.phaseDisplay.x = 60;
@@ -171,6 +198,10 @@ export class BoardScene extends Phaser.Scene {
     this.battleController.update();
     
     this.stripesTop.update();
+    this.stripesBottom.update();
+    this.codeA.update();
+    this.codeB.update();
+    this.codeC.update();
     // update camera effects
     if (this.transition)
       this.transition.update();

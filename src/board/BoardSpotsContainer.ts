@@ -14,7 +14,7 @@ export class BoardSpotsContainer extends Phaser.GameObjects.Container {
   private cursorRow: number = 1;
   private cursorCol: number = 0;
 
-  private cursor: Phaser.GameObjects.Image;
+  private cursor: Phaser.GameObjects.Sprite;
   private nextPhase: Phaser.GameObjects.Image;
   private cords: Point[][] = [
     [{ x: 113, y: 110 }, { x: 171, y: 112 }, { x: 228, y: 110 }],
@@ -28,8 +28,10 @@ export class BoardSpotsContainer extends Phaser.GameObjects.Container {
   constructor(scene: Scene) {
     super(scene);
 
-    this.cursor = new Phaser.GameObjects.Image(scene, 0, 0, 'cursor_spot');
+    this.cursor = new Phaser.GameObjects.Sprite(scene, 0, 0, 'cursor_spot_anim');
+    this.cursor.play('cursor_spot_anim');
     this.add(this.cursor);
+    this.scene.add.existing(this.cursor);
 
     this.nextPhase = new Phaser.GameObjects.Image(scene, 0, 0, 'next_phase');
     this.nextPhase.setOrigin(0,0)

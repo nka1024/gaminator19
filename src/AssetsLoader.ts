@@ -39,6 +39,13 @@ export class AssetsLoader {
 
     
     scene.load.image('stripes_1_endless_bg', './assets/board/stripes_1_endless_bg.png');
+    scene.load.image('stripes_2_endless_bg', './assets/board/stripes_2_endless_bg.png');
+    scene.load.image('code_endless_bg', './assets/board/code_endless_bg.png');
+    scene.load.image('pixel_box_shadow_505x300', "./assets/board/pixel_box_shadow_505x300.png");
+    
+    scene.load.spritesheet('enemy_card_anim_13x15', './assets/board/enemy_card_anim_13x15.png', { frameWidth: 13, frameHeight: 15 });
+    scene.load.spritesheet("cursor_spot_68x70", "./assets/board/cursor_spot_68x70.png", { frameWidth: 68, frameHeight: 70 });
+
     scene.load.image('remove_module_100x20', './assets/board/remove_module_100x20.png');
     scene.load.image('add_module_100x20', './assets/board/add_module_100x20.png');
 
@@ -72,16 +79,16 @@ export class AssetsLoader {
     scene.load.spritesheet('turn_current_8x8', './assets/board/turn_current_8x8.png', { frameWidth: 8, frameHeight: 8 });
     scene.load.spritesheet('link_up_64x64', './assets/board/link_up_64x64.png', { frameWidth: 64, frameHeight: 64 });
 
-    scene.load.spritesheet('enter_40x16', './assets/gaminator/enter_40x16.png', { frameWidth: 40, frameHeight: 16 });
+  scene.load.spritesheet('enter_40x16', './assets/gaminator/enter_40x16.png', { frameWidth: 40, frameHeight: 16 });
 
     scene.load.image("sandclock", "./assets/board/sandclock.png");
     scene.load.image("next_phase", "./assets/board/next_phase.png");
     scene.load.image("add_heart", "./assets/board/add_heart.png");
     scene.load.image("add_sword", "./assets/board/add_sword.png");
-    scene.load.image("battle_bg", "./assets/board/battle_bg.png");
+    scene.load.image("battle_bg", "./assets/board/battle_background.png");
     scene.load.image("card_frame", "./assets/board/card_frame.png");
-    scene.load.image("cursor_spot", "./assets/board/cursor_spot.png");
-    scene.load.image("spot_shadow", "./assets/board/spot_shadow.png");
+    
+    
     scene.load.image("icon_heart", "./assets/board/icon_heart.png");
     scene.load.image("icon_link", "./assets/board/icon_link.png");
     scene.load.image("icon_sword", "./assets/board/icon_sword.png");

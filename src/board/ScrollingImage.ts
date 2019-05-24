@@ -11,6 +11,9 @@ export class ScrollingImage extends Phaser.GameObjects.Container {
   private imageA: Phaser.GameObjects.Image;
   private imageB: Phaser.GameObjects.Image;
   private speed: Point = {x: 0, y: 0}
+
+  private suspension: boolean = true;
+  private ignoreSuspension: boolean = false;
   constructor(scene, x, y) {
     super (scene, x, y);
 
@@ -21,9 +24,26 @@ export class ScrollingImage extends Phaser.GameObjects.Container {
     this.imageB = new Phaser.GameObjects.Image(scene, 0, 0, '')
     this.imageB.setOrigin(0, 0)
     this.add(this.imageB)
+    
+    this.toggleSuspension();
   }
 
-  public configure(x: number, y: number, texture: string) {
+  private toggleSuspension() {
+    this.suspension = !this.suspension;
+
+    let delay = this.suspension ? Math.random() * 400 + 200 : Math.random() * 2000 + 400
+    this.scene.time.addEvent({
+      delay: delay,
+      callback: this.toggleSuspension.bind(this),
+      callbackScope: this,
+      loop: false,
+      paused: false
+    });
+  }
+
+  public configure(x: number, y: number, texture: string, suspend: boolean = false) {
+    this.ignoreSuspension = !suspend;
+
     this.imageA.setTexture(texture);
     this.imageB.setTexture(texture);
 
@@ -44,6 +64,9 @@ export class ScrollingImage extends Phaser.GameObjects.Container {
   }
 
   update() {
+    if (this.suspension && !this.ignoreSuspension) {
+      return;
+    }
 
     for (let img of [this.imageA, this.imageB]) {
       img.x += this.speed.x;

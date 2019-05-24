@@ -225,6 +225,21 @@ export class AnimationRegistry {
       repeatDelay: 0,
       hideOnComplete: false
     });
+    scene.anims.create({
+      key: 'enemy_card_anim',
+      frames: scene.anims.generateFrameNumbers('enemy_card_anim_13x15', { start: 0, end: 15 }),
+      frameRate: 20,
+      repeat: -1,
+      repeatDelay: 0,
+      hideOnComplete: false
+    });
+    scene.anims.create({
+      key: 'cursor_spot_anim',
+      frames: scene.anims.generateFrameNumbers('cursor_spot_68x70', { start: 0, end: 22 }),
+      frameRate: 15,
+      repeat: -1,
+      repeatDelay: 0,
+      hideOnComplete: false
+    });
   }
-
 }
