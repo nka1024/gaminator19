@@ -18,10 +18,10 @@ export class CardDetailsDisplay extends Phaser.GameObjects.Container {
 
   constructor(scene: Phaser.Scene) {
     super(scene);
-    this.sword = new Phaser.GameObjects.Image(scene, 0, 18, "icon_sword");
+    this.sword = new Phaser.GameObjects.Image(scene, 0, 18, "icon_attack");
     this.sword.setOrigin(0, 0);
     this.add(this.sword);
-    this.heart = new Phaser.GameObjects.Image(scene, 0, 34, "icon_heart");
+    this.heart = new Phaser.GameObjects.Image(scene, 0, 34, "icon_hp");
     this.heart.setOrigin(0, 0);
     this.add(this.heart);
     
@@ -37,7 +37,7 @@ export class CardDetailsDisplay extends Phaser.GameObjects.Container {
     this.atkTxt.letterSpacing = -1
     this.add(this.atkTxt);
 
-    this.hpTxt = new Phaser.GameObjects.BitmapText(scene, 12, 32, 'coco-8-red');
+    this.hpTxt = new Phaser.GameObjects.BitmapText(scene, 12, 32, 'coco-8-hp');
     this.hpTxt.letterSpacing = -1
     this.add(this.hpTxt);
 

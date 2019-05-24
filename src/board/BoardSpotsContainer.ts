@@ -18,7 +18,7 @@ export class BoardSpotsContainer extends Phaser.GameObjects.Container {
   private nextPhase: Phaser.GameObjects.Image;
   private cords: Point[][] = [
     [{ x: 113, y: 110 }, { x: 171, y: 112 }, { x: 228, y: 110 }],
-    [{ x: 117, y: 168 }, { x: 176, y: 168 }, { x: 233, y: 168 }]
+    [{ x: 117 - 50, y: 173}, { x: 125+24, y: 173 }, { x: 205+24, y: 173 }]
   ];
 
   public getCursorCol(): number {

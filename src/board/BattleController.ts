@@ -68,6 +68,7 @@ export class BattleController {
       console.log('battle begins. press enter to start');
       this.player.populate(this.board.player.hp, this.board.player.link, this.board.player.linkMax);
       this.opponent.populate(this.board.opponent.hp, this.board.opponent.link, this.board.opponent.linkMax);
+      this.opponent.setTexture('creature_snakey');
       this.turn.setPhase(PhaseType.LOAD);
       
       let timer = this.scene.time.addEvent({
@@ -291,7 +292,7 @@ export class BattleController {
         delay: 2000,
         callback: () => {
           this.tmp.compileFinished = true;
-          this.events.emit('battle_end');
+          // this.events.emit('battle_end');
           timer.destroy();
         },
         callbackScope: this,

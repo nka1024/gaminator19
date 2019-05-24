@@ -14,7 +14,7 @@ export class CardDisplay extends Phaser.GameObjects.Container {
 
   private frame: Phaser.GameObjects.Image;
   private link: Phaser.GameObjects.Image;
-  private heart: Phaser.GameObjects.Image;
+  private hp: Phaser.GameObjects.Image;
   private sword: Phaser.GameObjects.Image;
 
   private creature: Phaser.GameObjects.Image;
@@ -28,11 +28,11 @@ export class CardDisplay extends Phaser.GameObjects.Container {
     super (scene);
 
     this.frame = new Phaser.GameObjects.Image(scene, 0, 0, "card_frame");
-    this.heart = new Phaser.GameObjects.Image(scene, 0, 87, "icon_heart");
-    this.sword = new Phaser.GameObjects.Image(scene, 1, 70, "icon_sword");
+    this.hp = new Phaser.GameObjects.Image(scene, 1, 87, "icon_hp");
+    this.sword = new Phaser.GameObjects.Image(scene, 0, 72, "icon_attack");
     this.link  = new Phaser.GameObjects.Image(scene, 1, 8, "icon_link");
 
-    for (let img of [this.frame, this.heart, this.sword, this.link]) {
+    for (let img of [this.frame, this.hp, this.sword, this.link]) {
       img.setOrigin(0, 0);
       this.add(img);
     }
@@ -41,11 +41,11 @@ export class CardDisplay extends Phaser.GameObjects.Container {
     this.linkTxt.letterSpacing = -1
     this.add(this.linkTxt);
 
-    this.atkTxt = new Phaser.GameObjects.BitmapText(scene, 12, 70, 'coco-8-white');
+    this.atkTxt = new Phaser.GameObjects.BitmapText(scene, 13, 69, 'coco-8-white');
     this.atkTxt.letterSpacing = -1
     this.add(this.atkTxt);
 
-    this.hpTxt = new Phaser.GameObjects.BitmapText(scene, 12, 87, 'coco-8-red');
+    this.hpTxt = new Phaser.GameObjects.BitmapText(scene, 13, 84, 'coco-8-hp');
     this.hpTxt.letterSpacing = -1
     this.add(this.hpTxt);
 
@@ -64,7 +64,7 @@ export class CardDisplay extends Phaser.GameObjects.Container {
     this.card = card;
 
     this.creature.visible = this.card != null;
-    this.heart.visible    = this.card != null;
+    this.hp.visible       = this.card != null;
     this.sword.visible    = this.card != null;
     this.link.visible     = this.card != null;
     if (this.card != null) {

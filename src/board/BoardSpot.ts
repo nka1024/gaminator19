@@ -28,10 +28,10 @@ export class BoardSpot extends Phaser.GameObjects.Container {
     this.creature.y = -4
     this.add(this.creature);
 
-    this.sword = new Phaser.GameObjects.Image(scene, -15, 0, "icon_sword");
+    this.sword = new Phaser.GameObjects.Image(scene, -15, 0, "icon_attack");
     this.add(this.sword);
 
-    this.heart = new Phaser.GameObjects.Image(scene, 15, 0, "icon_heart");
+    this.heart = new Phaser.GameObjects.Image(scene, 15, 0, "icon_hp");
     this.add(this.heart);
 
     this.sandclock = new Phaser.GameObjects.Image(scene, -15, -25, "sandclock");
@@ -41,7 +41,7 @@ export class BoardSpot extends Phaser.GameObjects.Container {
     this.atkTxt.letterSpacing = -1;
     this.add(this.atkTxt);
 
-    this.hpTxt = new Phaser.GameObjects.BitmapText(scene, 9, 0, 'coco-8-red');
+    this.hpTxt = new Phaser.GameObjects.BitmapText(scene, 9, 0, 'coco-8-hp');
     this.hpTxt.letterSpacing = -1;
     this.add(this.hpTxt);
 

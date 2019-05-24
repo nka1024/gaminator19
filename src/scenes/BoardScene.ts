@@ -139,6 +139,9 @@ export class BoardScene extends Phaser.Scene {
     this.codeC.alpha = 0.05;
     this.add.existing(this.codeC);
 
+    let spotsBackground = this.add.image(25, 0, 'spots_background');
+    spotsBackground.setOrigin(0, 0)
+
     this.boxShadow = new Phaser.GameObjects.Image(this, 0, 0, 'pixel_box_shadow_505x300');
     this.boxShadow.setOrigin(0, 0);
     this.add.existing(this.boxShadow)
@@ -154,20 +157,17 @@ export class BoardScene extends Phaser.Scene {
     this.add.existing(this.terminalDisplay);
 
     this.playerDisplay = new PlayerDisplay(this)
-    this.playerDisplay.x = 192;
-    this.playerDisplay.y = 194;
+    this.playerDisplay.x = 206;
+    this.playerDisplay.y = 261;
     this.add.existing(this.playerDisplay);
 
     this.opponentDisplay = new PlayerDisplay(this)
-    this.opponentDisplay.x = 100;
-    this.opponentDisplay.y = 7;
+    this.opponentDisplay.x = 174;
+    this.opponentDisplay.y = 37;
     this.add.existing(this.opponentDisplay);
 
-    let instructions = this.add.image(136, 284, "instructions");
-    instructions.setOrigin(0, 0)
-
-    let platforms = this.add.image(83, 100, "platforms");
-    platforms.setOrigin(0, 0)
+    let instructions = this.add.image(270, 288, 'tutorial_combat');
+    instructions.setOrigin(0, 0);
 
     this.cardDetails = new CardDetailsDisplay(this);
     this.add.existing(this.cardDetails)

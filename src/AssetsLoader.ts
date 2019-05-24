@@ -83,7 +83,7 @@ export class AssetsLoader {
     scene.load.spritesheet('turn_current_8x8', './assets/board/turn_current_8x8.png', { frameWidth: 8, frameHeight: 8 });
     scene.load.spritesheet('link_up_64x64', './assets/board/link_up_64x64.png', { frameWidth: 64, frameHeight: 64 });
 
-  scene.load.spritesheet('enter_40x16', './assets/gaminator/enter_40x16.png', { frameWidth: 40, frameHeight: 16 });
+    scene.load.spritesheet('enter_40x16', './assets/gaminator/enter_40x16.png', { frameWidth: 40, frameHeight: 16 });
 
     scene.load.image("sandclock", "./assets/board/sandclock.png");
     scene.load.image("next_phase", "./assets/board/next_phase.png");
@@ -92,14 +92,12 @@ export class AssetsLoader {
     scene.load.image("battle_bg", "./assets/board/battle_background.png");
     scene.load.image("card_frame", "./assets/board/card_frame.png");
     
-    
-    scene.load.image("icon_heart", "./assets/board/icon_heart.png");
-    scene.load.image("icon_link", "./assets/board/icon_link.png");
-    scene.load.image("icon_sword", "./assets/board/icon_sword.png");
+    scene.load.image("icon_hp", "./assets/board/icon_hp_9x9.png");
+    scene.load.image("icon_link", "./assets/board/icon_link_9x9.png");
+    scene.load.image("icon_attack", "./assets/board/icon_attack_11x11.png");
     scene.load.image("protected", "./assets/board/protected.png");
-    scene.load.image("instructions", "./assets/board/instructions.png");
-    scene.load.image("platforms", "./assets/board/platforms.png");
-    scene.load.image("player_data", "./assets/board/player_data.png");
+    scene.load.image("tutorial_combat", "./assets/board/tutorial_combat.png");
+    scene.load.image("spots_background", "./assets/board/spots_background.png");
     scene.load.image("trait_boost_atk_hp", "./assets/board/trait_boost_atk_hp.png");
     scene.load.image("turn_done", "./assets/board/turn_done.png");
     scene.load.image("turn_name_commands", "./assets/board/turn_name_commands.png");
@@ -146,6 +144,9 @@ export class AssetsLoader {
       './assets/fonts/hello-world/hello-world-16-shadow.png',
       './assets/fonts/hello-world/hello-world-16.fnt');
 
+    scene.load.bitmapFont('coco-8-hp',
+      './assets/fonts/coco/coco-8-hp.png',
+      './assets/fonts/coco/coco-8.fnt');
     scene.load.bitmapFont('coco-8-white',
       './assets/fonts/coco/coco-8-white.png',
       './assets/fonts/coco/coco-8.fnt');
