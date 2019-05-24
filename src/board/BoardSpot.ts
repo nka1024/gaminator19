@@ -7,6 +7,7 @@
 import { Scene, Animations } from "phaser";
 import { CardData } from "../types/Types";
 import { CardDetailsDisplay } from "./CardDetailsDisplay";
+import { FloatingText } from "../FloatingText";
 
 export class BoardSpot extends Phaser.GameObjects.Container {
   public card: CardData;
@@ -20,6 +21,7 @@ export class BoardSpot extends Phaser.GameObjects.Container {
   private numbersBg: Phaser.GameObjects.Image;
   private creature: Phaser.GameObjects.Image;
 
+  private currentHp: number = 0;
   constructor(scene: Scene) {
     super(scene);
 
@@ -55,8 +57,8 @@ export class BoardSpot extends Phaser.GameObjects.Container {
 
   public attack(direction: number, short: boolean) {
     let animKey = direction < 0 ? 'attack_blue_anim' : 'attack_yellow_anim';
-    let body = new Phaser.GameObjects.Sprite(this.scene, 0,0, animKey);
-    
+    let body = new Phaser.GameObjects.Sprite(this.scene, 0, 0, animKey);
+
     body.play(animKey);
     body.on('animationcomplete', (anim: Animations.Animation, frame: Animations.AnimationFrame) => {
       body.destroy();
@@ -66,7 +68,7 @@ export class BoardSpot extends Phaser.GameObjects.Container {
     if (direction == -1) {
       body.y = -47
       body.x = -9
-    } else{
+    } else {
       body.y = 30
       body.x = 11
     }
@@ -87,10 +89,12 @@ export class BoardSpot extends Phaser.GameObjects.Container {
       this.sandclock.visible = card.turned;
       this.hpTxt.text = card.hp.toString();
       this.atkTxt.text = card.attack.toString();
+      this.currentHp = card.hp;
 
       this.creature.setTexture(CardDetailsDisplay.creatureTextureByName(card.name));
       this.protected.visible = this.card.protected;
     } else {
+      this.currentHp = 0;
       this.card = null;
       this.visible = false;
     }
@@ -122,6 +126,9 @@ export class BoardSpot extends Phaser.GameObjects.Container {
   }
 
   public repopulate() {
+    if (this.card && this.card.hp < this.currentHp) {
+      new FloatingText(this.scene, this.x + this.hpTxt.x, this.y + this.hpTxt.y, '-' + (this.currentHp - this.card.hp), 'hp');
+    }
     this.populate(this.card)
   }
 }

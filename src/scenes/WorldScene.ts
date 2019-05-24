@@ -102,7 +102,7 @@ export class WorldScene extends Phaser.Scene {
       this.player.stopMovement();
       this.story.eventFinished();
     })
-    this.mainThemeAudio = this.sound.add('main_theme', { loop: true, volume: 0.0 });
+    this.mainThemeAudio = this.sound.add('main_theme', { loop: true, volume: 0.5 });
     
     this.onEnter();
   }

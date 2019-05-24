@@ -1,3 +1,5 @@
+import { FloatingText } from "../FloatingText";
+
 /**
 * @author       Kirill Nepomnyaschiy <nka1024@gmail.com>
 * @copyright    Kirill Nepomnyaschiy
@@ -8,6 +10,7 @@ export class PlayerDisplay extends Phaser.GameObjects.Container {
   
   private link: Phaser.GameObjects.Image;
   private hp: Phaser.GameObjects.Image;
+  private currentHp: number = 0;
   private linkTxt: Phaser.GameObjects.BitmapText;
   private hpTxt: Phaser.GameObjects.BitmapText;
 
@@ -82,9 +85,13 @@ export class PlayerDisplay extends Phaser.GameObjects.Container {
   }
 
   public populate(hp: number, link: number, linkMax: number) {
+    if (hp < this.currentHp) {
+      new FloatingText(this.scene, this.x + this.hpTxt.x, this.y + this.hpTxt.y, '-' + (this.currentHp - hp), 'hp');
+    }
+
     this.linkTxt.text = link + '/' + linkMax;
     this.hpTxt.text = hp + '';
-
+    this.currentHp = hp;
     if (this.isPlayer) {
       this.hpTxt.x = hp < 10 ? -44 : -47; 
     } else {

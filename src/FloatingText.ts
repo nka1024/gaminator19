@@ -58,15 +58,15 @@ export class FloatingText {
       this.textShadow1 = this.scene.add.bitmapText(this.x, this.y + offset, 'coco-8-shadow', txt);
       this.textShadow2.letterSpacing = spacing;
       this.textShadow1.letterSpacing = spacing;
-      this.textShadow1.depth = UI_DEPTH.FLOATING_TEXT;
-      this.textShadow2.depth = UI_DEPTH.FLOATING_TEXT;
+      // this.textShadow1.depth = UI_DEPTH.FLOATING_TEXT;
+      // this.textShadow2.depth = UI_DEPTH.FLOATING_TEXT;
     }
 
     if (!this.textMain) {
       let font = 'coco-8-' + color;
       this.textMain = this.scene.add.bitmapText(this.x, this.y, font, txt);
       this.textMain.letterSpacing = spacing;
-      this.textMain.depth = UI_DEPTH.FLOATING_TEXT;
+      // this.textMain.depth = UI_DEPTH.FLOATING_TEXT;
     }
   }
 
