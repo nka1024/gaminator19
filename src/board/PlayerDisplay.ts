@@ -15,6 +15,11 @@ export class PlayerDisplay extends Phaser.GameObjects.Container {
   private opponent: Phaser.GameObjects.Image;
 
   private isPlayer: boolean = true;
+  
+  // red opponent card icons
+  private handSize: number = 0;
+  private cards: Phaser.GameObjects.Sprite[] = [];
+
   constructor(scene: Phaser.Scene) {
     super (scene);
 
@@ -52,6 +57,17 @@ export class PlayerDisplay extends Phaser.GameObjects.Container {
     this.linkTxt.setPosition(31 + dx, -1 + dy)
     this.hp.setPosition(16 + dx, -9 + dy)
     this.link.setPosition(34 + dx, -9 + dy)
+
+    // create hand
+    for (let i  = 0; i < 10; i ++) {
+      let card = new Phaser.GameObjects.Sprite(scene, -(i * 15) - 26, 1, '');
+      card.play('enemy_card_anim');
+      card.visible = false;
+      this.cards.push(card);
+      this.add(card)
+      this.scene.add.existing(card);
+      
+    }
   }
 
   public setTexture(texture: string) {
@@ -73,6 +89,18 @@ export class PlayerDisplay extends Phaser.GameObjects.Container {
       this.hpTxt.x = hp < 10 ? -44 : -47; 
     } else {
       this.hpTxt.x = hp < 10 ? 17 : 14; 
+    }
+  }
+
+  public setHandSize(handSize: number) {
+    this.handSize = this.handSize;
+    for (let i = 0; i < this.cards.length; i++) {
+      let card = this.cards[i];
+      if (i < handSize) {
+        card.visible = true;
+      } else {
+        card.visible = false;
+      }
     }
   }
 

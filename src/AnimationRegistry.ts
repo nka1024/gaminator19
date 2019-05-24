@@ -237,7 +237,7 @@ export class AnimationRegistry {
     scene.anims.create({
       key: 'enemy_card_anim',
       frames: scene.anims.generateFrameNumbers('enemy_card_anim_13x15', { start: 0, end: 15 }),
-      frameRate: 20,
+      frameRate: 12,
       repeat: -1,
       repeatDelay: 0,
       hideOnComplete: false

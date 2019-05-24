@@ -70,7 +70,7 @@ export class BattleController {
       this.opponent.populate(this.board.opponent.hp, this.board.opponent.link, this.board.opponent.linkMax);
       this.opponent.setTexture('creature_snakey');
       this.turn.setPhase(PhaseType.LOAD);
-      
+
       let timer = this.scene.time.addEvent({
         delay: 100,
         callback: () => {
@@ -107,6 +107,17 @@ export class BattleController {
           this.hand.addCard(new CardDisplay(this.scene).populate(card));
         }
       }
+
+      if (this.board.turn == 1) {
+        for (let i = 0; i < 3; i++) {
+          let card = this.board.opponent.deck.shift();
+          if (card) {
+            this.board.opponent.hand.push(card);
+            this.opponent.setHandSize(this.board.opponent.hand.length)
+          }
+        }
+      }
+
       // increase & refill mana
       this.board.player.linkMax++;
       this.board.player.link = this.board.player.linkMax;
@@ -128,8 +139,8 @@ export class BattleController {
     }
 
     // if (this.keybinds.enterPressed) {
-      console.log('hand is confirmed');
-      this.nextPhase();
+    console.log('hand is confirmed');
+    this.nextPhase();
     // }
   }
 
@@ -321,7 +332,6 @@ export class BattleController {
       console.log('вrawing player cards');
 
       // turn 
-      this.board.turn++;
       this.turn.setPhase(PhaseType.OPPONENT);
 
       // increase & refill mana
@@ -337,22 +347,22 @@ export class BattleController {
       }
 
       // draw card
-      for (let i = 0; i < (this.board.turn == 1 ? 3 : 1); i++) {
-        let timer = this.scene.time.addEvent({
-          delay: i * 250,
-          callback: () => {
-            let card = this.board.opponent.deck.shift();
-            if (card) {
-              this.board.opponent.hand.push(card);
-              // this.hand.addCard(new CardDisplay(this.scene).populate(card));
-            }
-            timer.destroy();
-          },
-          callbackScope: this,
-          loop: false,
-          paused: false
-        });
-      }
+      let timerDraw = this.scene.time.addEvent({
+        delay: 250,
+        callback: () => {
+          let card = this.board.opponent.deck.shift();
+          if (card) {
+            this.board.opponent.hand.push(card);
+            this.opponent.setHandSize(this.board.opponent.hand.length)
+            // this.hand.addCard(new CardDisplay(this.scene).populate(card));
+          }
+          timerDraw.destroy();
+        },
+        callbackScope: this,
+        loop: false,
+        paused: false
+      });
+
 
       let timer = this.scene.time.addEvent({
         delay: 1000,
@@ -388,6 +398,7 @@ export class BattleController {
               this.spots.putCard(0, idx, card);
               this.board.opponent.link -= card.link;
               this.board.opponent.hand.splice(this.board.player.hand.indexOf(card), 1);
+              this.opponent.setHandSize(this.board.opponent.hand.length)
               break;
             }
           }
