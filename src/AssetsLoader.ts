@@ -69,6 +69,9 @@ export class AssetsLoader {
     scene.load.spritesheet('bamboo3_32x128', './assets/gaminator/fx/bamboo3_32x128.png', { frameWidth: 32, frameHeight: 128 });
     scene.load.spritesheet('bamboo4_39x128', './assets/gaminator/fx/bamboo4_39x128.png', { frameWidth: 39, frameHeight: 128 });
 
+    scene.load.spritesheet('board_entrance_anim_505x300', './assets/board/board_entrance_anim_505x300.png', { frameWidth: 505, frameHeight: 300 });
+    scene.load.spritesheet('board_entrance2_anim_505x300', './assets/board/board_entrance2_anim_505x300.png', { frameWidth: 505, frameHeight: 300 });
+
     scene.load.spritesheet('player_idle_back_128x128', './assets/gaminator/player/idle_back_128x128.png', { frameWidth: 128, frameHeight: 128 });
     scene.load.spritesheet('player_idle_front_128x128', './assets/gaminator/player/idle_front_128x128.png', { frameWidth: 128, frameHeight: 128 });
     scene.load.spritesheet('player_idle_left_128x128', './assets/gaminator/player/idle_left_128x128.png', { frameWidth: 128, frameHeight: 128 });
@@ -102,6 +105,7 @@ export class AssetsLoader {
     scene.load.image("protected", "./assets/board/protected.png");
     scene.load.image("tutorial_combat", "./assets/board/tutorial_combat.png");
     scene.load.image("spots_background", "./assets/board/spots_background.png");
+    // scene.load.image("spots_background", "./assets/board/spots2_background.png");
     scene.load.image("trait_boost_atk_hp", "./assets/board/trait_boost_atk_hp.png");
     scene.load.image("turn_done", "./assets/board/turn_done.png");
     scene.load.image("turn_name_commands", "./assets/board/turn_name_commands.png");
@@ -113,6 +117,16 @@ export class AssetsLoader {
     scene.load.image("card_mask", "./assets/board/card_mask.png");
     scene.load.image("creature_snakey", "./assets/board/creatures/snakey.png");
     scene.load.image("creature_doogie", "./assets/board/creatures/doogie.png");
+
+    scene.load.image("creature_1", "./assets/board/creatures/creature_1.png");
+    scene.load.image("creature_2", "./assets/board/creatures/creature_2.png");
+    scene.load.image("creature_3", "./assets/board/creatures/creature_3.png");
+    scene.load.image("creature_4", "./assets/board/creatures/creature_4.png");
+    scene.load.image("creature_5", "./assets/board/creatures/creature_5.png");
+    scene.load.image("creature_6", "./assets/board/creatures/creature_6.png");
+    scene.load.image("creature_7", "./assets/board/creatures/creature_7.png");
+    scene.load.image("creature_8", "./assets/board/creatures/creature_8.png");
+    scene.load.image("health_6", "./assets/board/creatures/health_6.png");
 
     
     scene.load.image("box_shadow_1010x600", "./assets/box_shadow_1010x600.png");

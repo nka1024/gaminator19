@@ -21,8 +21,12 @@ import { FadeTransition } from "../FadeTransition";
 import { ScrollingImage } from "../board/ScrollingImage";
 import { TerminalDisplay } from "../board/TerminalDisplay";
 import { CardData } from "../types/Types";
+import { Animations } from "phaser";
 
 export class BoardScene extends Phaser.Scene {
+
+  private entranceLinkAnim: Phaser.GameObjects.Sprite;
+  private entranceRevealAnim: Phaser.GameObjects.Sprite;
 
   private spots: BoardSpotsContainer;
   private hand: HandDisplay;
@@ -92,14 +96,39 @@ export class BoardScene extends Phaser.Scene {
 
     this.transition = new FadeTransition(this, 0,0);
     this.add.existing(this.transition);
-    this.transition.alphaTransition(1, 0, 0.005);
 
     this.events.on('wake', () => {
-      this.transition.alphaTransition(1, 0, 0.1);
       this.hand.cleanup();
       this.spots.cleanup();
       this.initBattle();
+      this.onEnter();
     })
+
+    this.entranceLinkAnim = new Phaser.GameObjects.Sprite(this, 0, 0, 'board_entrance1_anim');
+    this.add.existing(this.entranceLinkAnim)
+    this.entranceLinkAnim.setOrigin(0, 0);
+    this.entranceLinkAnim.depth = Number.MAX_VALUE;
+    this.entranceLinkAnim.visible = false;
+    this.entranceLinkAnim.on('animationcomplete', (anim: Animations.Animation, frame: Animations.AnimationFrame) => {
+      this.entranceLinkAnim.visible = false;
+      this.entranceRevealAnim.visible = true;
+      this.entranceRevealAnim.play('board_entrance2_anim');
+      this.transition.alphaTransition(1, 0, 0.01);
+    });
+
+    this.entranceRevealAnim = new Phaser.GameObjects.Sprite(this, 0, 0, 'board_entrance2_anim');
+    this.add.existing(this.entranceRevealAnim)
+    this.entranceRevealAnim.setOrigin(0, 0)
+    this.entranceRevealAnim.depth = Number.MAX_VALUE;
+    this.entranceRevealAnim.visible = false;
+
+    this.onEnter();
+  }
+
+  private onEnter() {
+    this.entranceLinkAnim.visible = true;
+    this.transition.alphaTransition(1, 0, 0.1);
+    this.entranceLinkAnim.play('board_entrance1_anim');
   }
 
   private initBattle() {
@@ -141,6 +170,7 @@ export class BoardScene extends Phaser.Scene {
     this.add.existing(this.codeC);
 
     let spotsBackground = this.add.image(25, 0, 'spots_background');
+    spotsBackground.alpha = 0.8
     spotsBackground.setOrigin(0, 0)
 
     this.boxShadow = new Phaser.GameObjects.Image(this, 0, 0, 'pixel_box_shadow_505x300');

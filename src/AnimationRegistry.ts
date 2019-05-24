@@ -164,6 +164,23 @@ export class AnimationRegistry {
 
   private registerFxAnimations(scene: Scene) {
     scene.anims.create({
+      key: 'board_entrance1_anim',
+      frames: scene.anims.generateFrameNumbers('board_entrance_anim_505x300', { start: 0, end: 20 }),
+      frameRate: 15,
+      repeat: 0,
+      repeatDelay: 0,
+      hideOnComplete: false
+    });
+    scene.anims.create({
+      key: 'board_entrance2_anim',
+      frames: scene.anims.generateFrameNumbers('board_entrance2_anim_505x300', { start: 0, end: 12 }),
+      frameRate: 15,
+      repeat: 0,
+      repeatDelay: 0,
+      hideOnComplete: true
+    });
+
+    scene.anims.create({
       key: 'attack_yellow_anim',
       frames: scene.anims.generateFrameNumbers('attack_anim_yellow_19x22', { start: 0, end: 8 }),
       frameRate: 15,
