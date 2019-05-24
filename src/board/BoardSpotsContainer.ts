@@ -19,7 +19,7 @@ export class BoardSpotsContainer extends Phaser.GameObjects.Container {
   private cursor: Phaser.GameObjects.Sprite;
   private nextPhase: Phaser.GameObjects.Image;
   private cords: Point[][] = [
-    [{ x: 113, y: 110 }, { x: 171, y: 112 }, { x: 228, y: 110 }],
+    [{ x: 117 - 50, y: 96}, { x: 125+22, y: 96 }, { x: 205+23, y: 96 }],
     [{ x: 117 - 50, y: 173}, { x: 125+24, y: 173 }, { x: 205+24, y: 173 }]
   ];
 
