@@ -11,43 +11,43 @@ import { CardDetailsDisplay } from "./CardDetailsDisplay";
 export class BoardSpot extends Phaser.GameObjects.Container {
   public card: CardData;
 
-  private heart: Phaser.GameObjects.Image;
-  private sword: Phaser.GameObjects.Image;
+  private hp: Phaser.GameObjects.Image;
+  private atk: Phaser.GameObjects.Image;
   private sandclock: Phaser.GameObjects.Image;
   private protected: Phaser.GameObjects.Image;
   private atkTxt: Phaser.GameObjects.BitmapText;
   private hpTxt: Phaser.GameObjects.BitmapText;
-  
+  private numbersBg: Phaser.GameObjects.Image;
   private creature: Phaser.GameObjects.Image;
 
   constructor(scene: Scene) {
     super(scene);
 
+    this.numbersBg = new Phaser.GameObjects.Image(scene, 0, 8, 'numbers_highlight')
+    this.add(this.numbersBg);
     this.creature = new Phaser.GameObjects.Image(scene, 0, 0, 'creature_doogie')
     this.creature.setOrigin(0.5, 1);
-    this.creature.y = -4
+    this.creature.y = 8
     this.add(this.creature);
 
-    this.sword = new Phaser.GameObjects.Image(scene, -15, 0, "icon_attack");
-    this.add(this.sword);
+    this.atk = new Phaser.GameObjects.Image(scene, -18, 8, "icon_attack");
+    this.add(this.atk);
 
-    this.heart = new Phaser.GameObjects.Image(scene, 15, 0, "icon_hp");
-    this.add(this.heart);
+    this.hp = new Phaser.GameObjects.Image(scene, 18, 8, "icon_hp");
+    this.add(this.hp);
 
-    this.sandclock = new Phaser.GameObjects.Image(scene, -15, -25, "sandclock");
+    this.sandclock = new Phaser.GameObjects.Image(scene, 0, -32, "sandclock");
     this.add(this.sandclock);
 
-    this.atkTxt = new Phaser.GameObjects.BitmapText(scene, -14, 0, 'coco-8-white');
+    this.atkTxt = new Phaser.GameObjects.BitmapText(scene, -30, 0, 'coco-8-white');
     this.atkTxt.letterSpacing = -1;
     this.add(this.atkTxt);
 
-    this.hpTxt = new Phaser.GameObjects.BitmapText(scene, 9, 0, 'coco-8-hp');
+    this.hpTxt = new Phaser.GameObjects.BitmapText(scene, 23, 0, 'coco-8-hp');
     this.hpTxt.letterSpacing = -1;
     this.add(this.hpTxt);
 
-    this.protected = new Phaser.GameObjects.Image(scene, 0, 0, 'protected')
-    this.protected.y = -34
-    this.protected.x = 10
+    this.protected = new Phaser.GameObjects.Image(scene, 1, 5, 'protected')
     this.add(this.protected);
 
     this.visible = false
@@ -92,7 +92,7 @@ export class BoardSpot extends Phaser.GameObjects.Container {
       this.creature.alpha = 0;
       let spawnAnim = new Phaser.GameObjects.Sprite(this.scene, 0, 0, '');
       spawnAnim.play('board_spawn_anim')
-      spawnAnim.y = -20;
+      spawnAnim.y = -10;
       spawnAnim.x = 0;
       this.scene.add.existing(spawnAnim);
       this.add(spawnAnim);

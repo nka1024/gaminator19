@@ -18,6 +18,7 @@ export class BoardSpotsContainer extends Phaser.GameObjects.Container {
 
   private cursor: Phaser.GameObjects.Sprite;
   private nextPhase: Phaser.GameObjects.Image;
+  private nextPhaseSelected: Phaser.GameObjects.Image;
   private cords: Point[][] = [
     [{ x: 117 - 50, y: 96}, { x: 125+22, y: 96 }, { x: 205+23, y: 96 }],
     [{ x: 117 - 50, y: 173}, { x: 125+24, y: 173 }, { x: 205+24, y: 173 }]
@@ -41,11 +42,11 @@ export class BoardSpotsContainer extends Phaser.GameObjects.Container {
     this.add(this.cursor);
     this.scene.add.existing(this.cursor);
 
-    this.nextPhase = new Phaser.GameObjects.Image(scene, 0, 0, 'next_phase');
-    this.nextPhase.setOrigin(0,0)
-    this.nextPhase.x = 264;
-    this.nextPhase.y = 130;
+    this.nextPhase = new Phaser.GameObjects.Image(scene, 284, 150, 'next_phase');
     this.add(this.nextPhase);
+    this.nextPhaseSelected = new Phaser.GameObjects.Image(scene, 284, 150, 'next_phase_selected');
+    this.add(this.nextPhaseSelected);
+    this.nextPhaseSelected.visible = false;
 
     this.setCursorHidden(true);
     this.setNextPhaseHidden(true);
@@ -67,6 +68,8 @@ export class BoardSpotsContainer extends Phaser.GameObjects.Container {
 
   public setNextPhaseHidden(hidden: boolean) {
     this.nextPhase.visible = !hidden;
+    if (hidden)
+      this.nextPhaseSelected.visible = false;
   }
 
   public putCursor(row: number, col: number) {
@@ -74,13 +77,13 @@ export class BoardSpotsContainer extends Phaser.GameObjects.Container {
     this.cursorCol = col;
 
     if (col < this.cords[row].length) {
+      this.nextPhaseSelected.visible = false;
       this.cursor.visible = true;
       this.cursor.x = this.cords[row][col].x
       this.cursor.y = this.cords[row][col].y
     } else {
-      this.cursor.visible = true;
-      this.cursor.x = 277
-      this.cursor.y = 155
+      this.cursor.visible = false;
+      this.nextPhaseSelected.visible = true;
     }
     if (this.cursorCol <= this.cords[0].length) {
       this.events.emit('spot_select', this.getCardAtCursor());

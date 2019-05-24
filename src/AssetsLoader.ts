@@ -41,6 +41,7 @@ export class AssetsLoader {
     scene.load.image('stripes_2_endless_bg', './assets/board/stripes_2_endless_bg.png');
     scene.load.image('code_endless_bg', './assets/board/code_endless_bg.png');
     scene.load.image('pixel_box_shadow_505x300', "./assets/board/pixel_box_shadow_505x300.png");
+    scene.load.image('numbers_highlight', "./assets/board/numbers_highlight.png");
     
     scene.load.spritesheet('press_enter_to_start_178x60', './assets/board/terminal/press_enter_to_start_178x60.png', { frameWidth: 178, frameHeight: 60 });
 
@@ -87,6 +88,7 @@ export class AssetsLoader {
 
     scene.load.image("sandclock", "./assets/board/sandclock.png");
     scene.load.image("next_phase", "./assets/board/next_phase.png");
+    scene.load.image("next_phase_selected", "./assets/board/next_phase_selected.png");
     scene.load.image("add_heart", "./assets/board/add_heart.png");
     scene.load.image("add_sword", "./assets/board/add_sword.png");
     scene.load.image("battle_bg", "./assets/board/battle_background.png");

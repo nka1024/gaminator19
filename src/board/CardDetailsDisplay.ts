@@ -8,8 +8,8 @@ import { CardData, CardSkillType } from "../types/Types";
 
 export class CardDetailsDisplay extends Phaser.GameObjects.Container {
   private card: CardData;
-  private heart: Phaser.GameObjects.Image;
-  private sword: Phaser.GameObjects.Image;
+  private hp: Phaser.GameObjects.Image;
+  private attack: Phaser.GameObjects.Image;
   private nameTxt: Phaser.GameObjects.BitmapText;
   private atkTxt: Phaser.GameObjects.BitmapText;
   private hpTxt: Phaser.GameObjects.BitmapText;
@@ -18,14 +18,14 @@ export class CardDetailsDisplay extends Phaser.GameObjects.Container {
 
   constructor(scene: Phaser.Scene) {
     super(scene);
-    this.sword = new Phaser.GameObjects.Image(scene, 0, 18, "icon_attack");
-    this.sword.setOrigin(0, 0);
-    this.add(this.sword);
-    this.heart = new Phaser.GameObjects.Image(scene, 0, 34, "icon_hp");
-    this.heart.setOrigin(0, 0);
-    this.add(this.heart);
+    this.attack = new Phaser.GameObjects.Image(scene, 0, 19, "icon_attack");
+    this.attack.setOrigin(0, 0);
+    this.add(this.attack);
+    this.hp = new Phaser.GameObjects.Image(scene, 1, 34, "icon_hp");
+    this.hp.setOrigin(0, 0);
+    this.add(this.hp);
     
-    this.skill = new Phaser.GameObjects.Image(scene, 0, 0, "");
+    this.skill = new Phaser.GameObjects.Image(scene, -4, -3, "");
     this.skill.setOrigin(0, 0);
     this.add(this.skill);
 
@@ -33,17 +33,17 @@ export class CardDetailsDisplay extends Phaser.GameObjects.Container {
     this.nameTxt.letterSpacing = -1
     this.add(this.nameTxt);
 
-    this.atkTxt = new Phaser.GameObjects.BitmapText(scene, 12, 17, 'coco-8-white');
+    this.atkTxt = new Phaser.GameObjects.BitmapText(scene, 13, 17, 'coco-8-white');
     this.atkTxt.letterSpacing = -1
     this.add(this.atkTxt);
 
-    this.hpTxt = new Phaser.GameObjects.BitmapText(scene, 12, 32, 'coco-8-hp');
+    this.hpTxt = new Phaser.GameObjects.BitmapText(scene, 13, 31, 'coco-8-hp');
     this.hpTxt.letterSpacing = -1
     this.add(this.hpTxt);
 
-    this.creature = new Phaser.GameObjects.Image(scene, 0,0, 'creature_doogie')
-    this.creature.x = 33
-    this.creature.y = 30
+    this.creature = new Phaser.GameObjects.Image(scene, 0, 0, 'creature_doogie')
+    this.creature.x = 35
+    this.creature.y = 31
     this.add(this.creature)
   }
 

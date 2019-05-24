@@ -72,7 +72,7 @@ export class BattleController {
       this.turn.setPhase(PhaseType.LOAD);
       
       let timer = this.scene.time.addEvent({
-        delay: 2000,
+        delay: 100,
         callback: () => {
           this.tmp.prepareFinished = true;
           timer.destroy();
@@ -127,10 +127,10 @@ export class BattleController {
       }
     }
 
-    if (this.keybinds.enterPressed) {
+    // if (this.keybinds.enterPressed) {
       console.log('hand is confirmed');
       this.nextPhase();
-    }
+    // }
   }
 
   //
