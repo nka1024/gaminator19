@@ -36,18 +36,22 @@ export class AssetsLoader {
     for (let idx = 1; idx <= ASSETS.DEVICES_MAX; idx++) {
       scene.load.image("device_" + idx, "./assets/gaminator/map_objects/device_" + idx + ".png");
     }
-
     
     scene.load.image('stripes_1_endless_bg', './assets/board/stripes_1_endless_bg.png');
     scene.load.image('stripes_2_endless_bg', './assets/board/stripes_2_endless_bg.png');
     scene.load.image('code_endless_bg', './assets/board/code_endless_bg.png');
     scene.load.image('pixel_box_shadow_505x300', "./assets/board/pixel_box_shadow_505x300.png");
     
+    scene.load.spritesheet('press_enter_to_start_178x60', './assets/board/terminal/press_enter_to_start_178x60.png', { frameWidth: 178, frameHeight: 60 });
+
+
     scene.load.spritesheet('enemy_card_anim_13x15', './assets/board/enemy_card_anim_13x15.png', { frameWidth: 13, frameHeight: 15 });
     scene.load.spritesheet("cursor_spot_68x70", "./assets/board/cursor_spot_68x70.png", { frameWidth: 68, frameHeight: 70 });
 
     scene.load.image('remove_module_100x20', './assets/board/remove_module_100x20.png');
     scene.load.image('add_module_100x20', './assets/board/add_module_100x20.png');
+    scene.load.image('debug_terminal_header_bg', './assets/board/debug_terminal_header_bg.png');
+    scene.load.image('status_header_bg', './assets/board/status_header_bg.png');
 
     scene.load.image('portrait_player_32x32', './assets/gaminator/portraits/player.png');
     scene.load.image('portrait_controller_32x32', './assets/gaminator/portraits/controller.png');

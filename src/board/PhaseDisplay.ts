@@ -13,13 +13,18 @@ export class PhaseDisplay extends Phaser.GameObjects.Container {
   private static phaseOrder = [
     PhaseType.LOAD, PhaseType.COMMANDS, PhaseType.PROTECT, PhaseType.COMPILE, PhaseType.OPPONENT];
 
+  private headerImage: Phaser.GameObjects.Image;
   private phaseNames: Phaser.GameObjects.Image[] = [];
   private phaseDone: Phaser.GameObjects.Image[] = [];
   private phaseCurrent: Phaser.GameObjects.Sprite[] = [];
   
   constructor(scene: Scene) {
     super(scene, 0, 0);
-    
+
+    this.headerImage = new Phaser.GameObjects.Image(scene, -3, -15, "status_header_bg");
+    this.headerImage.setOrigin(0, 0);
+    this.add(this.headerImage);
+
     this.phaseNames.push(new Phaser.GameObjects.Image(scene, 0, 0, "turn_name_load"))
     this.phaseNames.push(new Phaser.GameObjects.Image(scene, 0, 0, "turn_name_commands"))
     this.phaseNames.push(new Phaser.GameObjects.Image(scene, 0, 0, "turn_name_protect"))

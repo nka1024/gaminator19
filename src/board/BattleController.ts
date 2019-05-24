@@ -12,6 +12,7 @@ import { CardDetailsDisplay } from "./CardDetailsDisplay";
 import { CardDisplay } from "./CardDisplay";
 import { PlayerDisplay } from "./PlayerDisplay";
 import { PhaseDisplay } from "./PhaseDisplay";
+import { TerminalDisplay, TerminalScreenID } from "./TerminalDisplay";
 
 type TMPData = {
   prepareFinished?: boolean;
@@ -32,6 +33,7 @@ export class BattleController {
     private player: PlayerDisplay,
     private opponent: PlayerDisplay,
     private turn: PhaseDisplay,
+    private terminal: TerminalDisplay,
     private spots: BoardSpotsContainer,
     private hand: HandDisplay,
     private details: CardDetailsDisplay,
@@ -62,6 +64,7 @@ export class BattleController {
   //
   private phasePrepare() {
     if (this.phaseStarted()) {
+      this.terminal.setScreen(TerminalScreenID.PRESS_ENTER_TO_START);
       console.log('battle begins. press enter to start');
       this.player.populate(this.board.player.hp, this.board.player.link, this.board.player.linkMax);
       this.opponent.populate(this.board.opponent.hp, this.board.opponent.link, this.board.opponent.linkMax);

@@ -10,17 +10,16 @@ import { AssetsLoader } from "../AssetsLoader";
 import { PhaseDisplay } from "../board/PhaseDisplay";
 import { PlayerDisplay } from "../board/PlayerDisplay";
 import { CardDisplay } from "../board/CardDisplay";
-import { CardData, CardType, CardEffectType, CardSkillType } from "../types/Types";
 import { HandDisplay } from "../board/HandDisplay";
-import { Keybinds, KeybindType } from "../Keybinds";
+import { Keybinds } from "../Keybinds";
 import { CardDetailsDisplay } from "../board/CardDetailsDisplay";
 import { BoardSpotsContainer } from "../board/BoardSpotsContainer";
-import { Scene } from "phaser";
 import { BattleService } from "../board/BattleService";
 import { BattleController } from "../board/BattleController";
 import { AnimationRegistry } from "../AnimationRegistry";
 import { FadeTransition } from "../FadeTransition";
 import { ScrollingImage } from "../board/ScrollingImage";
+import { TerminalDisplay } from "../board/TerminalDisplay";
 
 export class BoardScene extends Phaser.Scene {
 
@@ -29,6 +28,7 @@ export class BoardScene extends Phaser.Scene {
   private playerDisplay: PlayerDisplay;
   private opponentDisplay: PlayerDisplay;
   private phaseDisplay: PhaseDisplay;
+  private terminalDisplay: TerminalDisplay;
   private cardDetails: CardDetailsDisplay;
   private battleService: BattleService;
   private battleController: BattleController;
@@ -103,7 +103,7 @@ export class BoardScene extends Phaser.Scene {
 
   private initBattle() {
     this.battleService = new BattleService();
-    this.battleController = new BattleController(this, this.keybinds, this.playerDisplay, this.opponentDisplay, this.phaseDisplay, this.spots, this.hand, this.cardDetails, this.battleService.makeBoardData());
+    this.battleController = new BattleController(this, this.keybinds, this.playerDisplay, this.opponentDisplay, this.phaseDisplay, this.terminalDisplay, this.spots, this.hand, this.cardDetails, this.battleService.makeBoardData());
     this.battleController.start();
     this.battleController.events.on('battle_end', () => {
       this.transition.alphaTransition(0, 1, 0.1, () => {
@@ -144,9 +144,14 @@ export class BoardScene extends Phaser.Scene {
     this.add.existing(this.boxShadow)
 
     this.phaseDisplay = new PhaseDisplay(this)
-    this.phaseDisplay.x = 60;
-    this.phaseDisplay.y = 244;
+    this.phaseDisplay.x = 430;
+    this.phaseDisplay.y = 18;
     this.add.existing(this.phaseDisplay);
+
+    this.terminalDisplay = new TerminalDisplay(this)
+    this.terminalDisplay.x = 250;
+    this.terminalDisplay.y = 18;
+    this.add.existing(this.terminalDisplay);
 
     this.playerDisplay = new PlayerDisplay(this)
     this.playerDisplay.x = 192;
@@ -154,7 +159,7 @@ export class BoardScene extends Phaser.Scene {
     this.add.existing(this.playerDisplay);
 
     this.opponentDisplay = new PlayerDisplay(this)
-    this.opponentDisplay.x = 194;
+    this.opponentDisplay.x = 100;
     this.opponentDisplay.y = 7;
     this.add.existing(this.opponentDisplay);
 
@@ -202,6 +207,7 @@ export class BoardScene extends Phaser.Scene {
     this.codeA.update();
     this.codeB.update();
     this.codeC.update();
+    this.terminalDisplay.update();
     // update camera effects
     if (this.transition)
       this.transition.update();

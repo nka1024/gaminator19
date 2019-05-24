@@ -14,6 +14,7 @@ export class AnimationRegistry {
     this.registerPlayerAnimations(this.scene);
     this.registerFxAnimations(this.scene);
     this.registerBoardUIAnimations(this.scene);
+    this.registerTerminalScreenAnimations(this.scene);
   }
 
   public initWorldAnimations() {
@@ -242,4 +243,16 @@ export class AnimationRegistry {
       hideOnComplete: false
     });
   }
+
+  private registerTerminalScreenAnimations(scene: Scene) {
+    scene.anims.create({
+      key: 'terminal_press_enter_to_start_anim',
+      frames: scene.anims.generateFrameNumbers('press_enter_to_start_178x60', { frames: [0, 1] }),
+      frameRate: 2,
+      repeat: -1,
+      repeatDelay: 0,
+      hideOnComplete: false
+    });
+  }
+  
 }

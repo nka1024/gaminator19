@@ -19,16 +19,9 @@ export class BoardSpot extends Phaser.GameObjects.Container {
   private hpTxt: Phaser.GameObjects.BitmapText;
   
   private creature: Phaser.GameObjects.Image;
-  private shadow: Phaser.GameObjects.Image;
 
   constructor(scene: Scene) {
     super(scene);
-
-    this.shadow = new Phaser.GameObjects.Image(scene, 0, 0, 'spot_shadow')
-    this.shadow.alpha = 0.4
-    this.shadow.setOrigin(0.5, 1);
-    this.shadow.y = -4
-    this.add(this.shadow);
 
     this.creature = new Phaser.GameObjects.Image(scene, 0, 0, 'creature_doogie')
     this.creature.setOrigin(0.5, 1);
