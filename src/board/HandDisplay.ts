@@ -55,6 +55,10 @@ export class HandDisplay extends Phaser.GameObjects.Container {
     this.shiftNextPhase();
   }
 
+  public cardAtCursor(): CardDisplay {
+    return this.cards[this.cursorPos];
+  }
+
   public removeCardAtCursor() {
     let card = this.cards[this.cursorPos];
     this.cards.splice(this.cards.indexOf(card), 1);

@@ -147,25 +147,31 @@ export class BattleController {
 
     if (this.tmp.selectedCard) {
       // select spot for card
+      if (this.keybinds.downPressed) this.spots.moveCursor(0, 1)
+      if (this.keybinds.upPressed) this.spots.moveCursor(0, -1)
       if (this.keybinds.leftPressed) this.spots.moveCursor(-1)
       if (this.keybinds.rightPressed) this.spots.moveCursor(1)
       if (this.keybinds.enterPressed) {
-        let card = this.tmp.selectedCard
-        if (card.link <= this.board.player.link) {
-          // reduce link
-          this.board.player.link -= card.link;
-          this.player.populate(this.board.player.hp, this.board.player.link, this.board.player.linkMax);
-          // put hard on board
-          this.spots.putCardAtCursor(card);
-          this.board.player.board[this.spots.getCursorCol()] = card;
-          this.tmp.selectedCard = null;
-          this.spots.setCursorHidden(true);
-          this.spots.setNextPhaseHidden(true);
-          // remove card from hand
-          this.board.player.hand.splice(this.board.player.hand.indexOf(card), 1);
-          this.hand.removeCardAtCursor();
+        if (this.spots.getCursorRow() == 0) {
+          console.log('can not place module at enemy slot')
         } else {
-          console.log('not enough link');
+          let card = this.tmp.selectedCard
+          if (card.link <= this.board.player.link) {
+            // reduce link
+            this.board.player.link -= card.link;
+            this.player.populate(this.board.player.hp, this.board.player.link, this.board.player.linkMax);
+            // put hard on board
+            this.spots.putCardAtCursor(card);
+            this.board.player.board[this.spots.getCursorCol()] = card;
+            this.tmp.selectedCard = null;
+            this.spots.setCursorHidden(true);
+            this.spots.setNextPhaseHidden(true);
+            // remove card from hand
+            this.board.player.hand.splice(this.board.player.hand.indexOf(card), 1);
+            this.hand.removeCardAtCursor();
+          } else {
+            console.log('not enough link');
+          }
         }
       }
       if (this.keybinds.escPressed) {

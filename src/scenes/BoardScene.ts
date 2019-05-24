@@ -20,6 +20,7 @@ import { AnimationRegistry } from "../AnimationRegistry";
 import { FadeTransition } from "../FadeTransition";
 import { ScrollingImage } from "../board/ScrollingImage";
 import { TerminalDisplay } from "../board/TerminalDisplay";
+import { CardData } from "../types/Types";
 
 export class BoardScene extends Phaser.Scene {
 
@@ -188,10 +189,25 @@ export class BoardScene extends Phaser.Scene {
         this.cardDetails.visible = false;
       }
     })
+
+    
     this.hand.putCursor(0);
 
     this.spots = new BoardSpotsContainer(this);
     this.add.existing(this.spots);
+    this.spots.events.on('spot_select', (card: CardData) => {
+      if (card) {
+        this.cardDetails.visible = true;
+        this.cardDetails.populate(card);
+      } else {
+        // this.cardDetails.visible = true;
+        let view = this.hand.cardAtCursor();
+        if (view && view.card) {
+          this.cardDetails.populate(view.card);
+        }
+        // this.cardDetails.visible = false;
+      }
+    })
   }
 
   private addKeybinds() {

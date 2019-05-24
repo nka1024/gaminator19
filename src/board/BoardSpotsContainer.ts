@@ -9,6 +9,8 @@ import { BoardSpot } from "./BoardSpot";
 import { CardData, Point } from "../types/Types";
 
 export class BoardSpotsContainer extends Phaser.GameObjects.Container {
+  public events: Phaser.Events.EventEmitter;
+
   private spots: BoardSpot[][] = [[], []];
 
   private cursorRow: number = 1;
@@ -25,8 +27,14 @@ export class BoardSpotsContainer extends Phaser.GameObjects.Container {
     return this.cursorCol;
   }
 
+  public getCursorRow(): number {
+    return this.cursorRow;
+  }
+
   constructor(scene: Scene) {
     super(scene);
+
+    this.events = new Phaser.Events.EventEmitter();
 
     this.cursor = new Phaser.GameObjects.Sprite(scene, 0, 0, 'cursor_spot_anim');
     this.cursor.play('cursor_spot_anim');
@@ -74,6 +82,9 @@ export class BoardSpotsContainer extends Phaser.GameObjects.Container {
       this.cursor.x = 277
       this.cursor.y = 155
     }
+    if (this.cursorCol <= this.cords[0].length) {
+      this.events.emit('spot_select', this.getCardAtCursor());
+    }
   }
 
   public moveCursor(x: number, y: number = 0) {
@@ -89,7 +100,14 @@ export class BoardSpotsContainer extends Phaser.GameObjects.Container {
     if (this.cursorCol == this.cords[0].length && x == 1) {
       return
     }
-    this.putCursor(this.cursorRow, this.cursorCol + x);
+
+    if (this.cursorRow == 0 && y == -1) {
+      return
+    }
+    if (this.cursorRow == 1 && y == 11) {
+      return
+    }
+    this.putCursor(this.cursorRow + y, this.cursorCol + x);
   }
   
   public putCardAtCursor(card: CardData) {
