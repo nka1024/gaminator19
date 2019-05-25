@@ -101,7 +101,7 @@ export class BoardScene extends Phaser.Scene {
     this.connectAudio2 = this.sound.add('connect2', { loop: false, volume: 0.3 });
     this.connectAudio3 = this.sound.add('connect3', { loop: false, volume: 0.3 });
     this.combatLoopAudio = this.sound.add('combat_loop', { loop: true, volume: 0.5 });
-    this.selectAudio = this.sound.add('select_blip', { loop: false, volume: 0.5 });
+    this.selectAudio = this.sound.add('select_blip', { loop: false, volume: 0.3 });
     this.spawnAudio = this.sound.add('spawn_whoosh', { loop: false, volume: 0.5 });
     this.damageAudio = this.sound.add('damage_shuh', { loop: false, volume: 0.5 });
     this.linkUpAudio = this.sound.add('linkup_wurl', { loop: false, volume: 0.4 });
