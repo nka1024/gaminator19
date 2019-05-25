@@ -7,7 +7,7 @@
 import { Keybinds } from "../Keybinds";
 import { BoardSpotsContainer } from "./BoardSpotsContainer";
 import { HandDisplay } from "./HandDisplay";
-import { BoardData, BoardPhase, PhaseType, CardData } from "../types/Types";
+import { BoardData, BoardPhase, PhaseType, CardData, CardType, CardSkillType, PlayerBoardData } from "../types/Types";
 import { CardDetailsDisplay } from "./CardDetailsDisplay";
 import { CardDisplay } from "./CardDisplay";
 import { PlayerDisplay } from "./PlayerDisplay";
@@ -139,11 +139,67 @@ export class BattleController {
     }
 
     if (this.keybinds.enterPressed) {
-    console.log('hand is confirmed');
-    this.nextPhase();
+      console.log('hand is confirmed');
+      this.nextPhase();
     }
   }
 
+  //
+  // HELPER METHODS
+  // 
+  private modifyCoreHP(data: PlayerBoardData, view: PlayerDisplay, value: number) {
+    data.hp += value;
+    view.populate(data.hp, data.link, data.linkMax);
+  }
+
+  private modifyCoreLink(data: PlayerBoardData, view: PlayerDisplay, value: number) {
+    data.link += value;
+    view.populate(data.hp, data.link, data.linkMax);
+  }
+  
+  private modifyCardHP(card: CardData, value: number) {
+    card.hp -= card.attack;
+    this.spots.refresh();
+  }
+
+  private removeCardFromHand(card: CardData, hand: CardData[]) {
+    hand.splice(hand.indexOf(card), 1);
+    if (hand == this.board.opponent.hand) {
+      this.opponent.setHandSize(hand.length)
+    } else {
+      this.hand.removeCardAtCursor();
+    }
+  }
+
+  private putCardToBoard(card: CardData, col: number, playerData: PlayerBoardData) {
+    let row = playerData == this.board.opponent ? 0 : 1;
+    playerData.board[col] = card;
+    this.spots.putCard(row, col, card);
+  }
+
+  private removeCardFromBoard(card: CardData) {
+    let row = 0
+    let col = 0;
+    for (let i = 0; i < this.board.opponent.board.length; i++) {
+      if (this.board.opponent.board[i] == card) {
+        this.board.opponent.board[i] = null;
+        row = 0;
+        col = i;
+        break;
+      }
+    }
+    for (let i = 0; i < this.board.player.board.length; i++) {
+      if (this.board.player.board[i] == card) {
+        this.board.player.board[i] = null;
+        row = 1;
+        col = i;
+        break;
+      }
+    }
+    this.spots.putCard(row, col, null);
+  }
+
+  
   //
   // PLAYER COMMAND
   //
@@ -157,40 +213,22 @@ export class BattleController {
     }
 
     if (this.tmp.selectedCard) {
-      // select spot for card
-      if (this.keybinds.downPressed) this.spots.moveCursor(0, 1)
-      if (this.keybinds.upPressed) this.spots.moveCursor(0, -1)
-      if (this.keybinds.leftPressed) this.spots.moveCursor(-1)
-      if (this.keybinds.rightPressed) this.spots.moveCursor(1)
-      if (this.keybinds.enterPressed) {
-        if (this.spots.getCursorRow() == 0) {
-          this.terminal.setScreen(TerminalScreenID.UNABLE_TO_INSTALL);
+      let card = this.tmp.selectedCard;
+      if (card.type == CardType.EFFECT) {
+        if (card.skill == CardSkillType.RECOVER_HP_CORE) {
+          this.modifyCoreHP(this.board.player, this.player, card.hp);
+          this.modifyCoreLink(this.board.player, this.player, -card.link);
+          this.removeCardFromHand(card, this.board.player.hand);
+
+          this.tmp.selectedCard = null;
         } else {
-          let card = this.tmp.selectedCard
-          if (card.link <= this.board.player.link) {
-            // reduce link
-            this.board.player.link -= card.link;
-            this.player.populate(this.board.player.hp, this.board.player.link, this.board.player.linkMax);
-            // put hard on board
-            this.spots.putCardAtCursor(card);
-            this.board.player.board[this.spots.getCursorCol()] = card;
-            this.tmp.selectedCard = null;
-            this.spots.setCursorHidden(true);
-            this.spots.setNextPhaseHidden(true);
-            // remove card from hand
-            this.board.player.hand.splice(this.board.player.hand.indexOf(card), 1);
-            this.hand.removeCardAtCursor();
-          } else {
-            this.terminal.setScreen(TerminalScreenID.UNSIFFICIENT_LINK);
-          }
+          throw('unknown card skill type')
         }
       }
-      if (this.keybinds.escPressed) {
-        this.tmp.selectedCard = null;
-        this.spots.setCursorHidden(true);
+      else {
+        this.commandSelectedPlayerCard();
       }
     } else {
-      
       // select card from hand
       if (this.keybinds.leftPressed) this.hand.moveCursor(-1)
       if (this.keybinds.rightPressed) this.hand.moveCursor(1)
@@ -217,6 +255,37 @@ export class BattleController {
     }
   }
 
+  private commandSelectedPlayerCard() {
+    // select spot for card
+    if (this.keybinds.downPressed) this.spots.moveCursor(0, 1)
+    if (this.keybinds.upPressed) this.spots.moveCursor(0, -1)
+    if (this.keybinds.leftPressed) this.spots.moveCursor(-1)
+    if (this.keybinds.rightPressed) this.spots.moveCursor(1)
+    if (this.keybinds.enterPressed) {
+      if (this.spots.getCursorRow() == 0) {
+        this.terminal.setScreen(TerminalScreenID.UNABLE_TO_INSTALL);
+      } else {
+        let card = this.tmp.selectedCard
+        if (card.link <= this.board.player.link) {
+          this.modifyCoreLink(this.board.player, this.player, -card.link)
+          
+          this.putCardToBoard(card, this.spots.getCursorCol(), this.board.player);
+          this.spots.setCursorHidden(true);
+          this.spots.setNextPhaseHidden(true);
+
+          this.removeCardFromHand(card, this.board.player.hand);
+          this.tmp.selectedCard = null;
+        } else {
+          this.terminal.setScreen(TerminalScreenID.UNSIFFICIENT_LINK);
+        }
+      }
+    }
+    if (this.keybinds.escPressed) {
+      this.tmp.selectedCard = null;
+      this.spots.setCursorHidden(true);
+    }
+  }
+
   //
   // PLAYER PROTECT
   //
@@ -231,9 +300,6 @@ export class BattleController {
     if (this.keybinds.leftPressed) this.spots.moveCursor(-1)
     if (this.keybinds.rightPressed) this.spots.moveCursor(1)
     if (this.keybinds.enterPressed) {
-      // let col = this.spots.getCursorCol();
-      // let short = this.board.opponent.board[col] != null
-      // this.spots.attack(1, col, -1, short);
       if (!this.spots.isCursorNextPhase()) {
         // toggle card protection
         let card = this.spots.getCardAtCursor();
@@ -293,7 +359,7 @@ export class BattleController {
   }
 
 
-  private onPlayerAttack(i: number):Phaser.Types.Time.TimerEventConfig {
+  private onPlayerAttack(i: number): Phaser.Types.Time.TimerEventConfig {
     return {
       delay: i * 500,
       callback: () => {
@@ -305,20 +371,20 @@ export class BattleController {
           // deal damage
           if (opponentCard) {
             if (!card.protected) {
-              opponentCard.hp -= card.attack;
-              this.spots.refresh();
+              this.modifyCardHP(opponentCard, -card.attack);
             } else {
               this.board.opponent.hp -= card.attack;
               this.spots.refresh();
               this.opponent.populate(this.board.opponent.hp, this.board.opponent.link, this.board.opponent.linkMax);
             }
             if (opponentCard.hp <= 0) {
-              this.board.opponent.board[i] = null;
-              this.spots.putCard(0, i, null);
-              console.log('destroyed opponent card at slot ' + i);
+              this.removeCardFromBoard(opponentCard);
             }
           } else {
             this.board.opponent.hp -= card.attack;
+            if (this.board.opponent.hp <= 0) {
+              this.events.emit('battle_end', 'win');
+            }
             this.spots.refresh();
             this.opponent.populate(this.board.opponent.hp, this.board.opponent.link, this.board.opponent.linkMax);
           }
@@ -402,15 +468,13 @@ export class BattleController {
             [2, 1, 0],
             [2, 0, 1]
           ]
-          let idxes = variants[Math.floor(Math.random()*variants.length)];
-          
+          let idxes = variants[Math.floor(Math.random() * variants.length)];
+
           for (let idx of idxes) {
             if (this.board.opponent.board[idx] == null) {
-              this.board.opponent.board[idx] = card;
-              this.spots.putCard(0, idx, card);
-              this.board.opponent.link -= card.link;
-              this.board.opponent.hand.splice(this.board.opponent.hand.indexOf(card), 1);
-              this.opponent.setHandSize(this.board.opponent.hand.length)
+              this.putCardToBoard(card, idx, this.board.opponent);
+              this.removeCardFromHand(card, this.board.opponent.hand);
+              this.modifyCoreLink(this.board.opponent, this.opponent, -card.link);
               break;
             }
           }
@@ -471,21 +535,19 @@ export class BattleController {
               playerCard.hp -= card.attack;
               this.spots.refresh();
             } else {
-              this.board.player.hp -= card.attack;
-              this.spots.refresh();
-              this.player.populate(this.board.player.hp, this.board.player.link, this.board.player.linkMax);
+              this.modifyCoreHP(this.board.player, this.player, -card.attack)
             }
             if (playerCard.hp <= 0) {
               this.board.player.board[i] = null
               this.spots.putCard(1, i, null);
             }
           } else {
-            this.board.player.hp -= card.attack;
-            this.spots.refresh();
-            this.player.populate(this.board.player.hp, this.board.player.link, this.board.player.linkMax);
+            this.modifyCoreHP(this.board.player, this.player, -card.attack)
+            if (this.board.player.hp <= 0) {
+              this.events.emit('battle_end', 'lose');
+            }
           }
         }
-        // t.destroy();
       },
       callbackScope: this,
       loop: false,

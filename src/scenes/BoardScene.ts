@@ -62,7 +62,7 @@ export class BoardScene extends Phaser.Scene {
     super({
       key: "BoardScene"
     });
-    
+
   }
 
   preload() {
@@ -74,15 +74,15 @@ export class BoardScene extends Phaser.Scene {
     console.log('resize to : 1010, 600')
     if (this.cameras && this.cameras.main) {
       this.cameras.main.setSize(1010, 600);
-      
+
       if (w < 500) {
         this.cameras.main.zoom = 2;
       } else if (w <= 1280) {
         this.cameras.main.zoom = 2;
-      } else  {
+      } else {
         this.cameras.main.zoom = 2;
       }
-      this.cameras.main.setOrigin(0,0);
+      this.cameras.main.setOrigin(0, 0);
     }
   }
 
@@ -94,16 +94,14 @@ export class BoardScene extends Phaser.Scene {
     this.selectAudio = this.sound.add('select_blip', { loop: false, volume: 0.5 });
     this.spawnAudio = this.sound.add('spawn_whoosh', { loop: false, volume: 0.5 });
     this.damageAudio = this.sound.add('damage_shuh', { loop: false, volume: 0.5 });
-    
-    // this.combatLoopAudio.addMarker({name: 'bounce', start: 30, duration: 30});
-    
+
     this.animationRegistry = new AnimationRegistry(this);
     this.animationRegistry.initBoardAnimations();
-    
+
     this.cameras.main.setBackgroundColor(0x1f1f1f);
 
-    this.add.image(0, 0, "battle_bg").setOrigin(0,0);
-    
+    this.add.image(0, 0, "battle_bg").setOrigin(0, 0);
+
     this.addDisplays()
     this.addKeybinds();
 
@@ -111,7 +109,7 @@ export class BoardScene extends Phaser.Scene {
     this.game.scale.on('resize', (size: Phaser.GameObjects.Components.Size) => this.onWindowResize(size.width, size.height));
     this.onWindowResize(window.innerWidth, window.innerHeight);
 
-    this.transition = new FadeTransition(this, 0,0);
+    this.transition = new FadeTransition(this, 0, 0);
     this.add.existing(this.transition);
 
     this.events.on('wake', () => {
@@ -163,7 +161,7 @@ export class BoardScene extends Phaser.Scene {
       paused: false
     });
     this.combatLoopAudio.play();
-    
+
     this.entranceLinkAnim.visible = true;
     this.transition.alphaTransition(1, 0, 0.1);
     this.entranceLinkAnim.play('board_entrance1_anim');
@@ -173,11 +171,15 @@ export class BoardScene extends Phaser.Scene {
     this.battleService = new BattleService();
     this.battleController = new BattleController(this, this.keybinds, this.playerDisplay, this.opponentDisplay, this.phaseDisplay, this.terminalDisplay, this.spots, this.hand, this.cardDetails, this.battleService.makeBoardData());
     this.battleController.start();
-    this.battleController.events.on('battle_end', () => {
-      this.transition.alphaTransition(0, 1, 0.1, () => {
-        this.scene.sleep();
-        this.scene.run("DeckScene", this.battleService.makeLootCards());
-      });
+    this.battleController.events.on('battle_end', (result: string) => {
+      if (result == 'win') {
+        this.transition.alphaTransition(0, 1, 0.1, () => {
+          this.scene.sleep();
+          this.scene.run("DeckScene", this.battleService.makeLootCards());
+        });
+      } else {
+        this.scene.run("WorldScene");
+      }
     });
   }
 
@@ -259,7 +261,7 @@ export class BoardScene extends Phaser.Scene {
       }
     })
 
-    
+
     this.hand.putCursor(0);
 
     this.spots = new BoardSpotsContainer(this);
@@ -283,7 +285,7 @@ export class BoardScene extends Phaser.Scene {
         this.spawnAudio.play();
       }
     });
-    
+
   }
 
   private addKeybinds() {
@@ -293,7 +295,7 @@ export class BoardScene extends Phaser.Scene {
   update(): void {
     this.hand.update();
     this.battleController.update();
-    
+
     this.stripesTop.update();
     this.stripesBottom.update();
     this.codeA.update();
@@ -304,5 +306,5 @@ export class BoardScene extends Phaser.Scene {
     if (this.transition)
       this.transition.update();
   }
- 
+
 }

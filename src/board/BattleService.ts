@@ -6,7 +6,7 @@
 
 import { PlayerBoardData, BoardData, CardData, CardType, CardSkillType, BoardPhase } from "../types/Types";
 
-export enum ModuleName {
+export enum CardName {
   Snukchak = 'Snuk-chak',
   Doogie = 'Doogie',
   x11F0C4 = '0x11F0C4',
@@ -35,7 +35,7 @@ export class BattleService {
 
   public makePlayerData(): PlayerBoardData {
     if (BattleService.playerDeck.length == 0) {
-      BattleService.playerDeck = [this.makeCard1(0), this.makeCard1(1), this.makeCard1(2), this.makeCard1(3), this.makeCard1(4), this.makeCard1(5), this.makeCard1(6)]
+      BattleService.playerDeck = [this.makeCard1(0), this.makeCardHPCore(2), this.makeCard1(1), this.makeCard1(2), this.makeCard1(3), this.makeCard1(4), this.makeCard1(5), this.makeCard1(6)]
     }
     let result: PlayerBoardData = {
       name: 'Sora',
@@ -44,20 +44,20 @@ export class BattleService {
       board: [],
       link: 0,
       linkMax: 0,
-      hp: 15
+      hp: 1
     }
     return result;
   }
 
   public makeOpponentData(): PlayerBoardData {
     let result: PlayerBoardData = {
-      name: ModuleName.Doogie,
+      name: CardName.Doogie,
       deck: [this.makeCard2(0), this.makeCard2(1), this.makeCard2(2), this.makeCard2(3), this.makeCard2(4), this.makeCard2(5), this.makeCard2(6)],
       hand: [],
       board: [],
       link: 0,
       linkMax: 0,
-      hp: 15
+      hp: 1
     }
     return result;
   }
@@ -70,6 +70,30 @@ export class BattleService {
       attack: 1 + power,
       hp: 1 + power,
       link: 1 + power,
+      turned: true
+    }
+  }
+
+  public makeCardHPCore(hp: number): CardData {
+    return {
+      type: CardType.EFFECT,
+      name: CardName.HP6,
+      skill: CardSkillType.RECOVER_HP_CORE,
+      attack: 0,
+      hp: hp,
+      link: hp,
+      turned: true
+    }
+  }
+
+  public makeCardHPCreature(hp: number): CardData {
+    return {
+      type: CardType.EFFECT,
+      name: CardName.HP6,
+      skill: CardSkillType.RECOVER_HP_CREATURE,
+      attack: 0,
+      hp: hp,
+      link: hp,
       turned: true
     }
   }
@@ -89,19 +113,19 @@ export class BattleService {
     return [this.makeCard2(0), this.makeCard2(1), this.makeCard2(2), this.makeCard2(3), this.makeCard2(4), this.makeCard2(5), this.makeCard2(6)];
   }
 
-  private randomName(): ModuleName {
+  private randomName(): CardName {
     let a = [
-      ModuleName.Snukchak,
-      ModuleName.Doogie,
-      ModuleName.x11F0C4,
-      ModuleName.xAF2D10,
-      ModuleName.x0B4211,
-      ModuleName.x1D4531,
-      ModuleName.x3A8C30,
-      ModuleName.xF93A72,
-      ModuleName.xA90013,
-      ModuleName.xCF3081,
-      ModuleName.HP6
+      CardName.Snukchak,
+      CardName.Doogie,
+      CardName.x11F0C4,
+      CardName.xAF2D10,
+      CardName.x0B4211,
+      CardName.x1D4531,
+      CardName.x3A8C30,
+      CardName.xF93A72,
+      CardName.xA90013,
+      CardName.xCF3081,
+      CardName.HP6
     ]
     return a[Math.floor(Math.random() * a.length)];
   }

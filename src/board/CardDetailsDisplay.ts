@@ -5,7 +5,7 @@
 */
 
 import { CardData, CardSkillType } from "../types/Types";
-import { ModuleName } from "./BattleService";
+import { CardName } from "./BattleService";
 
 export class CardDetailsDisplay extends Phaser.GameObjects.Container {
   private card: CardData;
@@ -62,17 +62,17 @@ export class CardDetailsDisplay extends Phaser.GameObjects.Container {
   public static creatureTextureByName(name: string):string {
     console.log
     switch (name) {
-      case ModuleName.Snukchak: return 'creature_doogie';
-      case ModuleName.Doogie: return 'creature_snakey';
-      case ModuleName.x11F0C4: return 'creature_1';
-      case ModuleName.x0B4211: return 'creature_2';
-      case ModuleName.x1D4531: return 'creature_3';
-      case ModuleName.x3A8C30: return 'creature_4';
-      case ModuleName.xA90013: return 'creature_5';
-      case ModuleName.xAF2D10: return 'creature_6';
-      case ModuleName.xCF3081: return 'creature_7';
-      case ModuleName.xF93A72: return 'creature_8';
-      case ModuleName.HP6: return 'health_6';
+      case CardName.Snukchak: return 'creature_doogie';
+      case CardName.Doogie: return 'creature_snakey';
+      case CardName.x11F0C4: return 'creature_1';
+      case CardName.x0B4211: return 'creature_2';
+      case CardName.x1D4531: return 'creature_3';
+      case CardName.x3A8C30: return 'creature_4';
+      case CardName.xA90013: return 'creature_5';
+      case CardName.xAF2D10: return 'creature_6';
+      case CardName.xCF3081: return 'creature_7';
+      case CardName.xF93A72: return 'creature_8';
+      case CardName.HP6: return 'health_6';
       default: return '';
     }
   }
