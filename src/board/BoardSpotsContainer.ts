@@ -126,6 +126,10 @@ export class BoardSpotsContainer extends Phaser.GameObjects.Container {
     this.putCard(this.cursorRow, this.cursorCol, card);
   }
 
+  public getSpot(row: number, col: number): BoardSpot {
+    return this.spots[row][col];
+  }
+
   public isCursorNextPhase() {
     return this.cursorCol == 3;
   }

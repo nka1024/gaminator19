@@ -296,6 +296,26 @@ export class BattleController {
     }
   }
 
+
+  private applyCreatureEffect(card: CardData, playerData: PlayerBoardData) {
+    let row = playerData == this.board.player ? 1 : 0;
+    if (card.skill) {
+      // buff all cards except this one
+      if (card.skill == CardSkillType.BUFF_ALLIES_1_1) {
+        for (let i = 0; i < 3; i++) {
+          let target = this.spots.getSpot(row, i).card;
+          if (target != card && target != null) {
+            this.modifyCardHP(target, 1);
+            this.modifyCardAtk(target, 1);
+          }
+        }
+      } else {
+        throw 'unknown card skill';
+      }
+    }
+  }
+
+
   private commandSelectedPlayerCard() {
     // select spot for card
     if (this.keybinds.downPressed) this.spots.moveCursor(0, 1)
@@ -343,6 +363,8 @@ export class BattleController {
 
             this.removeCardFromHand(card, this.board.player.hand);
             this.tmp.selectedCard = null;
+
+            this.applyCreatureEffect(card, this.board.player);
           } else {
             this.terminal.setScreen(TerminalScreenID.UNSIFFICIENT_LINK);
             this.events.emit(BattleControllerEvent.ERROR);
@@ -545,6 +567,7 @@ export class BattleController {
               this.putCardToBoard(card, idx, this.board.opponent);
               this.removeCardFromHand(card, this.board.opponent.hand);
               this.modifyCoreLink(this.board.opponent, this.opponent, -card.link);
+              this.applyCreatureEffect(card, this.board.opponent);
               break;
             }
           }
@@ -615,7 +638,7 @@ export class BattleController {
             this.modifyCoreHP(this.board.player, this.player, -card.attack)
           }
         }
-        
+
         if (this.board.player.hp <= 0) {
           this.events.emit(BattleControllerEvent.BATTLE_END, 'lose');
         }

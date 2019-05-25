@@ -39,6 +39,7 @@ export class BattleService {
     if (BattleService.playerDeck.length == 0) {
       BattleService.playerDeck = [
         this.makeCard1(0),
+        this.makeCard1(1),
         this.makeCardAddHPCore(1),
         this.makeCardAddHPCreature(2),
         this.makeCardAddAtk(3),
