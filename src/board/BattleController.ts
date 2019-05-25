@@ -22,6 +22,17 @@ type TMPData = {
   compileFinished?: boolean;
 }
 
+export enum BattleControllerEvent  {
+  BATTLE_END = 'BATTLE_END',
+  LINK_UP = 'LINK_UP',
+  CORE_DAMAGE = 'CORE_DAMAGE',
+  CORE_HEAL = 'CORE_HEAL',
+  MODULE_DAMAGE = 'MODULE_DAMAGE',
+  MODULE_HEAL = 'MODULE_HEAL',
+  MODULE_BUFF = 'MODULE_BUFF',
+  ERROR = 'ERROR',
+}
+
 export class BattleController {
   private phase: BoardPhase = BoardPhase.UNDEFINED;
   private tmp: TMPData = {};
@@ -123,6 +134,7 @@ export class BattleController {
       this.board.player.linkMax++;
       this.board.player.link = this.board.player.linkMax;
       this.player.addLink(this.board.player.link, this.board.player.linkMax);
+      this.events.emit(BattleControllerEvent.LINK_UP);
 
       // unturn turned cards 
       for (let i = 0; i < 3; i++) {
@@ -152,6 +164,9 @@ export class BattleController {
     data.hp += value;
     view.populate(data.hp, data.link, data.linkMax);
     view.deltaHPAnim(value);
+
+    if (value < 0) this.events.emit(BattleControllerEvent.CORE_DAMAGE);
+    else if (value > 0 ) this.events.emit(BattleControllerEvent.CORE_HEAL);
   }
 
   private modifyCoreLink(data: PlayerBoardData, view: PlayerDisplay, value: number) {
@@ -165,6 +180,8 @@ export class BattleController {
     let spot = this.spots.spotForCard(card);
     spot.deltaHPAnim(value);
     spot.repopulate();
+    if (value < 0) this.events.emit(BattleControllerEvent.MODULE_DAMAGE);
+    else if (value > 0 ) this.events.emit(BattleControllerEvent.MODULE_HEAL);
   }
 
   private modifyCardAtk(card: CardData, value: number) {
@@ -172,6 +189,7 @@ export class BattleController {
     let spot = this.spots.spotForCard(card);
     spot.deltaAtkAnim(value);
     spot.repopulate();
+    if (value > 0 ) this.events.emit(BattleControllerEvent.MODULE_BUFF);
   }
 
   private removeCardFromHand(card: CardData, hand: CardData[]) {
@@ -217,18 +235,25 @@ export class BattleController {
   private phasePlayerCommand() {
     if (this.phaseStarted()) {
       this.turn.setPhase(PhaseType.COMMANDS)
-      this.terminal.setScreen(TerminalScreenID.SELECT_MODULE);
       this.hand.setCursorHidden(false)
       this.hand.putCursor(0);
       this.details.visible = true;
+      this.terminal.setScreen(TerminalScreenID.SELECT_MODULE);
     }
 
     if (this.tmp.selectedCard) {
       this.commandSelectedPlayerCard();
     } else {
+      
       // select card from hand
-      if (this.keybinds.leftPressed) this.hand.moveCursor(-1)
-      if (this.keybinds.rightPressed) this.hand.moveCursor(1)
+      if (this.keybinds.leftPressed) {
+        this.hand.moveCursor(-1)
+        this.terminal.setScreen(TerminalScreenID.SELECT_MODULE);
+      }
+      if (this.keybinds.rightPressed) {
+        this.hand.moveCursor(1)
+        this.terminal.setScreen(TerminalScreenID.SELECT_MODULE);
+      }
       if (this.keybinds.enterPressed) {
         if (this.hand.cursorPos < this.board.player.hand.length) {
           // activate spot cursor for selected card
@@ -245,6 +270,7 @@ export class BattleController {
             }
           } else {
             this.terminal.setScreen(TerminalScreenID.UNSIFFICIENT_LINK);
+            this.events.emit(BattleControllerEvent.ERROR);
           }
         } else {
           // next phase
@@ -306,6 +332,7 @@ export class BattleController {
         // place creature on board
         if (this.spots.getCursorRow() == 0) {
           this.terminal.setScreen(TerminalScreenID.UNABLE_TO_INSTALL);
+          this.events.emit(BattleControllerEvent.ERROR);
         } else {
           if (card.link <= this.board.player.link) {
             this.modifyCoreLink(this.board.player, this.player, -card.link)
@@ -318,6 +345,7 @@ export class BattleController {
             this.tmp.selectedCard = null;
           } else {
             this.terminal.setScreen(TerminalScreenID.UNSIFFICIENT_LINK);
+            this.events.emit(BattleControllerEvent.ERROR);
           }
         }
       } else {
@@ -417,21 +445,18 @@ export class BattleController {
             if (!card.protected) {
               this.modifyCardHP(opponentCard, -card.attack);
             } else {
-              this.board.opponent.hp -= card.attack;
-              this.spots.refresh();
-              this.opponent.populate(this.board.opponent.hp, this.board.opponent.link, this.board.opponent.linkMax);
+              this.modifyCoreHP(this.board.opponent, this.opponent, -card.attack);
             }
             if (opponentCard.hp <= 0) {
               this.removeCardFromBoard(opponentCard);
             }
           } else {
-            this.board.opponent.hp -= card.attack;
-            if (this.board.opponent.hp <= 0) {
-              this.events.emit('battle_end', 'win');
-            }
-            this.spots.refresh();
-            this.opponent.populate(this.board.opponent.hp, this.board.opponent.link, this.board.opponent.linkMax);
+            this.modifyCoreHP(this.board.opponent, this.opponent, -card.attack);
           }
+        }
+
+        if (this.board.opponent.hp <= 0) {
+          this.events.emit(BattleControllerEvent.BATTLE_END, 'win');
         }
         // t.destroy();
       },
@@ -455,6 +480,7 @@ export class BattleController {
       this.board.opponent.linkMax++;
       this.board.opponent.link = this.board.opponent.linkMax;
       this.opponent.addLink(this.board.opponent.link, this.board.opponent.linkMax);
+      this.events.emit(BattleControllerEvent.LINK_UP);
 
       // unturn turned cards 
       for (let i = 0; i < 3; i++) {
@@ -587,10 +613,11 @@ export class BattleController {
             }
           } else {
             this.modifyCoreHP(this.board.player, this.player, -card.attack)
-            if (this.board.player.hp <= 0) {
-              this.events.emit('battle_end', 'lose');
-            }
           }
+        }
+        
+        if (this.board.player.hp <= 0) {
+          this.events.emit(BattleControllerEvent.BATTLE_END, 'lose');
         }
       },
       callbackScope: this,

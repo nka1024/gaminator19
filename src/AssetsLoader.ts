@@ -22,11 +22,14 @@ export class AssetsLoader {
     scene.load.audio('connect', './assets/sfx/Randomize134.mp3');
     scene.load.audio('connect3', './assets/sfx/Randomize419.wav');
     scene.load.audio('connect2', './assets/sfx/Randomize430.wav');
-
     scene.load.audio('select_blip', './assets/sfx/Randomize155.mp3');
     scene.load.audio('spawn_whoosh', './assets/sfx/Randomize463.wav');
-    scene.load.audio('damage_shuh', './assets/sfx/Randomize466.wav');
-    
+    scene.load.audio('damage_shuh', './assets/sfx/Randomize449.wav');
+    scene.load.audio('linkup_wurl', './assets/sfx/Randomize535.wav');
+    scene.load.audio('heal_swir', './assets/sfx/Randomize568.wav');
+    scene.load.audio('err_skwii', './assets/sfx/Randomize569.wav');
+    scene.load.audio('buff_brlrl', './assets/sfx/Randomize570.wav');
+
     scene.load.audio('combat_loop', './assets/sfx/SawZer_OffWorldX.mp3');
     scene.load.audio('main_theme', './assets/sfx/CalmTune_Entrance.mp3');
 

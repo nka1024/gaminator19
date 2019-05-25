@@ -305,7 +305,7 @@ export class AnimationRegistry {
     });
     scene.anims.create({
       key: TerminalScreenID.UNABLE_TO_INSTALL,
-      frames: scene.anims.generateFrameNumbers('terminal_unable_to_install_178x60', { frames: [0, 1] }),
+      frames: scene.anims.generateFrameNumbers('unable_to_install_178x60', { frames: [0, 1] }),
       frameRate: 2,
       repeat: -1,
       repeatDelay: 0,

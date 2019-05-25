@@ -56,7 +56,7 @@ export class BattleService {
       board: [],
       link: 0,
       linkMax: 0,
-      hp: 1
+      hp: 15
     }
     return result;
   }
@@ -76,7 +76,7 @@ export class BattleService {
       board: [],
       link: 0,
       linkMax: 0,
-      hp: 1
+      hp: 15
     }
     return result;
   }

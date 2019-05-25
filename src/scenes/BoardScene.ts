@@ -15,7 +15,7 @@ import { Keybinds } from "../Keybinds";
 import { CardDetailsDisplay } from "../board/CardDetailsDisplay";
 import { BoardSpotsContainer } from "../board/BoardSpotsContainer";
 import { BattleService } from "../board/BattleService";
-import { BattleController } from "../board/BattleController";
+import { BattleController, BattleControllerEvent } from "../board/BattleController";
 import { AnimationRegistry } from "../AnimationRegistry";
 import { FadeTransition } from "../FadeTransition";
 import { ScrollingImage } from "../board/ScrollingImage";
@@ -37,7 +37,7 @@ export class BoardScene extends Phaser.Scene {
   private terminalDisplay: TerminalDisplay;
   private cardDetails: CardDetailsDisplay;
   private battleService: BattleService;
-  private battleController: BattleController;
+  private controller: BattleController;
   private keybinds: Keybinds;
 
   private boxShadow: Phaser.GameObjects.Image;
@@ -58,6 +58,15 @@ export class BoardScene extends Phaser.Scene {
   private selectAudio: Phaser.Sound.BaseSound;
   private spawnAudio: Phaser.Sound.BaseSound;
   private damageAudio: Phaser.Sound.BaseSound;
+  private linkUpAudio: Phaser.Sound.BaseSound;
+  private healModuleAudio: Phaser.Sound.BaseSound;
+  private healCoreAudio: Phaser.Sound.BaseSound;
+  private buffAudio: Phaser.Sound.BaseSound;
+  private errAudio: Phaser.Sound.BaseSound;
+  
+
+  
+  
 
   constructor() {
     super({
@@ -95,7 +104,13 @@ export class BoardScene extends Phaser.Scene {
     this.selectAudio = this.sound.add('select_blip', { loop: false, volume: 0.5 });
     this.spawnAudio = this.sound.add('spawn_whoosh', { loop: false, volume: 0.5 });
     this.damageAudio = this.sound.add('damage_shuh', { loop: false, volume: 0.5 });
+    this.linkUpAudio = this.sound.add('linkup_wurl', { loop: false, volume: 0.4 });
 
+    this.healCoreAudio = this.sound.add('heal_swir', { loop: false, volume: 0.5 });
+    this.healModuleAudio = this.sound.add('heal_swir', { loop: false, volume: 0.5 });
+    this.buffAudio = this.sound.add('buff_brlrl', { loop: false, volume: 0.3 });
+    this.errAudio = this.sound.add('err_skwii', { loop: false, volume: 0.4 });
+    
     this.animationRegistry = new AnimationRegistry(this);
     this.animationRegistry.initBoardAnimations();
 
@@ -172,9 +187,9 @@ export class BoardScene extends Phaser.Scene {
 
   private initBattle() {
     this.battleService = new BattleService();
-    this.battleController = new BattleController(this, this.keybinds, this.playerDisplay, this.opponentDisplay, this.phaseDisplay, this.terminalDisplay, this.spots, this.hand, this.cardDetails, this.battleService.makeBoardData());
-    this.battleController.start();
-    this.battleController.events.on('battle_end', (result: string) => {
+    this.controller = new BattleController(this, this.keybinds, this.playerDisplay, this.opponentDisplay, this.phaseDisplay, this.terminalDisplay, this.spots, this.hand, this.cardDetails, this.battleService.makeBoardData());
+    this.controller.start();
+    this.controller.events.on(BattleControllerEvent.BATTLE_END, (result: string) => {
       if (result == 'win') {
         this.transition.alphaTransition(0, 1, 0.1, () => {
           this.scene.sleep();
@@ -183,6 +198,27 @@ export class BoardScene extends Phaser.Scene {
       } else {
         this.scene.run("WorldScene");
       }
+    });
+    this.controller.events.on(BattleControllerEvent.CORE_DAMAGE, () => {
+      this.damageAudio.play();
+    })
+    this.controller.events.on(BattleControllerEvent.CORE_HEAL, () => {
+      this.healCoreAudio.play();
+    });
+    this.controller.events.on(BattleControllerEvent.MODULE_DAMAGE, () => {
+      this.damageAudio.play();
+    })
+    this.controller.events.on(BattleControllerEvent.MODULE_HEAL, () => {
+      this.healModuleAudio.play();
+    });
+    this.controller.events.on(BattleControllerEvent.MODULE_BUFF, () => {
+      this.buffAudio.play();
+    });
+    this.controller.events.on(BattleControllerEvent.LINK_UP, () => {
+      this.linkUpAudio.play();
+    });
+    this.controller.events.on(BattleControllerEvent.ERROR, () => {
+      this.errAudio.play();
     });
   }
 
@@ -297,7 +333,7 @@ export class BoardScene extends Phaser.Scene {
 
   update(): void {
     this.hand.update();
-    this.battleController.update();
+    this.controller.update();
 
     this.stripesTop.update();
     this.stripesBottom.update();
