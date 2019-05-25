@@ -150,16 +150,27 @@ export class BattleController {
   private modifyCoreHP(data: PlayerBoardData, view: PlayerDisplay, value: number) {
     data.hp += value;
     view.populate(data.hp, data.link, data.linkMax);
+    view.deltaHPAnim(value);
   }
 
   private modifyCoreLink(data: PlayerBoardData, view: PlayerDisplay, value: number) {
     data.link += value;
     view.populate(data.hp, data.link, data.linkMax);
+    view.deltaLinkAnim(value);
   }
-  
+
   private modifyCardHP(card: CardData, value: number) {
-    card.hp -= card.attack;
-    this.spots.refresh();
+    card.hp += value;
+    let spot = this.spots.spotForCard(card);
+    spot.deltaHPAnim(value);
+    spot.repopulate();
+  }
+
+  private modifyCardAtk(card: CardData, value: number) {
+    card.attack += value;
+    let spot = this.spots.spotForCard(card);
+    spot.deltaAtkAnim(value);
+    spot.repopulate();
   }
 
   private removeCardFromHand(card: CardData, hand: CardData[]) {
@@ -199,7 +210,6 @@ export class BattleController {
     this.spots.putCard(row, col, null);
   }
 
-  
   //
   // PLAYER COMMAND
   //
@@ -213,21 +223,7 @@ export class BattleController {
     }
 
     if (this.tmp.selectedCard) {
-      let card = this.tmp.selectedCard;
-      if (card.type == CardType.EFFECT) {
-        if (card.skill == CardSkillType.RECOVER_HP_CORE) {
-          this.modifyCoreHP(this.board.player, this.player, card.hp);
-          this.modifyCoreLink(this.board.player, this.player, -card.link);
-          this.removeCardFromHand(card, this.board.player.hand);
-
-          this.tmp.selectedCard = null;
-        } else {
-          throw('unknown card skill type')
-        }
-      }
-      else {
-        this.commandSelectedPlayerCard();
-      }
+      this.commandSelectedPlayerCard();
     } else {
       // select card from hand
       if (this.keybinds.leftPressed) this.hand.moveCursor(-1)
@@ -237,11 +233,15 @@ export class BattleController {
           // activate spot cursor for selected card
           let card = this.board.player.hand[this.hand.cursorPos];
           if (card.link <= this.board.player.link) {
-            this.tmp.selectedCard = card
-            this.terminal.setScreen(TerminalScreenID.SELECT_LANE);
-            this.spots.putCursor(1, 1);
-            this.spots.setCursorHidden(false);
-            this.spots.setNextPhaseHidden(true);
+            if (card.instant) {
+              this.useInstantCard(card)
+            } else {
+              this.tmp.selectedCard = card
+              this.terminal.setScreen(TerminalScreenID.SELECT_LANE);
+              this.spots.putCursor(1, 1);
+              this.spots.setCursorHidden(false);
+              this.spots.setNextPhaseHidden(true);
+            }
           } else {
             this.terminal.setScreen(TerminalScreenID.UNSIFFICIENT_LINK);
           }
@@ -255,6 +255,20 @@ export class BattleController {
     }
   }
 
+  //
+  // COMMAND HELPERS
+  // 
+  private useInstantCard(card: CardData) {
+    if (card.skill == CardSkillType.ADD_HP_CORE) {
+      this.modifyCoreHP(this.board.player, this.player, card.hp);
+      this.modifyCoreLink(this.board.player, this.player, -card.link);
+      this.removeCardFromHand(card, this.board.player.hand);
+      this.tmp.selectedCard = null;
+    } else {
+      throw ('unknown instant card skill type')
+    }
+  }
+
   private commandSelectedPlayerCard() {
     // select spot for card
     if (this.keybinds.downPressed) this.spots.moveCursor(0, 1)
@@ -262,22 +276,51 @@ export class BattleController {
     if (this.keybinds.leftPressed) this.spots.moveCursor(-1)
     if (this.keybinds.rightPressed) this.spots.moveCursor(1)
     if (this.keybinds.enterPressed) {
-      if (this.spots.getCursorRow() == 0) {
-        this.terminal.setScreen(TerminalScreenID.UNABLE_TO_INSTALL);
-      } else {
-        let card = this.tmp.selectedCard
-        if (card.link <= this.board.player.link) {
-          this.modifyCoreLink(this.board.player, this.player, -card.link)
-          
-          this.putCardToBoard(card, this.spots.getCursorCol(), this.board.player);
+      let card = this.tmp.selectedCard;
+
+      if (card.type == CardType.EFFECT) {
+        // use effect card
+        let target = this.spots.getCardAtCursor();
+        if (!target) {
+          console.log('need to select card');
+        } else {
+          // apply skill effect
+          if (card.skill == CardSkillType.ADD_HP_CREATURE) {
+            this.modifyCoreLink(this.board.player, this.player, -card.link)
+            this.modifyCardHP(target, card.hp);
+          } else if (card.skill == CardSkillType.ADD_ATTACK_CREATURE) {
+            this.modifyCoreLink(this.board.player, this.player, -card.link)
+            this.modifyCardAtk(target, card.attack);
+          } else {
+            throw ('unknow card skill type');
+          }
+          // remove used card
           this.spots.setCursorHidden(true);
           this.spots.setNextPhaseHidden(true);
-
           this.removeCardFromHand(card, this.board.player.hand);
           this.tmp.selectedCard = null;
-        } else {
-          this.terminal.setScreen(TerminalScreenID.UNSIFFICIENT_LINK);
         }
+      }
+      else if (card.type == CardType.CREATURE) {
+        // place creature on board
+        if (this.spots.getCursorRow() == 0) {
+          this.terminal.setScreen(TerminalScreenID.UNABLE_TO_INSTALL);
+        } else {
+          if (card.link <= this.board.player.link) {
+            this.modifyCoreLink(this.board.player, this.player, -card.link)
+
+            this.putCardToBoard(card, this.spots.getCursorCol(), this.board.player);
+            this.spots.setCursorHidden(true);
+            this.spots.setNextPhaseHidden(true);
+
+            this.removeCardFromHand(card, this.board.player.hand);
+            this.tmp.selectedCard = null;
+          } else {
+            this.terminal.setScreen(TerminalScreenID.UNSIFFICIENT_LINK);
+          }
+        }
+      } else {
+        throw ('unknown card type');
       }
     }
     if (this.keybinds.escPressed) {

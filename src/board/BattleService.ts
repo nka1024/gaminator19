@@ -17,7 +17,9 @@ export enum CardName {
   xF93A72 = 'xF93A72',
   xA90013 = 'xA90013',
   xCF3081 = 'xCF3081',
-  HP6 = 'HP 6'
+  ADD_ATK_MODULE = 'Add power',
+  ADD_HP_MODULE = 'Add module HP',
+  ADD_HP_CORE = 'Add core HP',
 }
 export class BattleService {
 
@@ -35,7 +37,17 @@ export class BattleService {
 
   public makePlayerData(): PlayerBoardData {
     if (BattleService.playerDeck.length == 0) {
-      BattleService.playerDeck = [this.makeCard1(0), this.makeCardHPCore(2), this.makeCard1(1), this.makeCard1(2), this.makeCard1(3), this.makeCard1(4), this.makeCard1(5), this.makeCard1(6)]
+      BattleService.playerDeck = [
+        this.makeCard1(0),
+        this.makeCardAddHPCore(1),
+        this.makeCardAddHPCreature(1),
+        this.makeCardAddAtk(1),
+        this.makeCard1(1),
+        this.makeCard1(2),
+        this.makeCard1(3),
+        this.makeCard1(4),
+        this.makeCard1(5),
+        this.makeCard1(6)]
     }
     let result: PlayerBoardData = {
       name: 'Sora',
@@ -74,11 +86,24 @@ export class BattleService {
     }
   }
 
-  public makeCardHPCore(hp: number): CardData {
+  public makeCardAddHPCore(hp: number): CardData {
     return {
       type: CardType.EFFECT,
-      name: CardName.HP6,
-      skill: CardSkillType.RECOVER_HP_CORE,
+      name: CardName.ADD_HP_CORE,
+      skill: CardSkillType.ADD_HP_CORE,
+      attack: 0,
+      hp: hp,
+      link: hp,
+      turned: true,
+      instant: true
+    }
+  }
+
+  public makeCardAddHPCreature(hp: number): CardData {
+    return {
+      type: CardType.EFFECT,
+      name: CardName.ADD_HP_MODULE,
+      skill: CardSkillType.ADD_HP_CREATURE,
       attack: 0,
       hp: hp,
       link: hp,
@@ -86,11 +111,11 @@ export class BattleService {
     }
   }
 
-  public makeCardHPCreature(hp: number): CardData {
+  public makeCardAddAtk(hp: number): CardData {
     return {
       type: CardType.EFFECT,
-      name: CardName.HP6,
-      skill: CardSkillType.RECOVER_HP_CREATURE,
+      name: CardName.ADD_ATK_MODULE,
+      skill: CardSkillType.ADD_ATTACK_CREATURE,
       attack: 0,
       hp: hp,
       link: hp,
@@ -125,7 +150,6 @@ export class BattleService {
       CardName.xF93A72,
       CardName.xA90013,
       CardName.xCF3081,
-      CardName.HP6
     ]
     return a[Math.floor(Math.random() * a.length)];
   }

@@ -27,7 +27,7 @@ export class BoardSpot extends Phaser.GameObjects.Container {
 
     this.numbersBg = new Phaser.GameObjects.Image(scene, 0, 8, 'numbers_highlight')
     this.add(this.numbersBg);
-    this.creature = new Phaser.GameObjects.Image(scene, 0, 0, 'creature_doogie')
+    this.creature = new Phaser.GameObjects.Image(scene, 0, 0, '')
     this.creature.setOrigin(0.5, 1);
     this.creature.y = 8
     this.add(this.creature);
@@ -126,9 +126,16 @@ export class BoardSpot extends Phaser.GameObjects.Container {
   }
 
   public repopulate() {
-    if (this.card && this.card.hp < this.currentHp) {
-      new FloatingText(this.scene, this.x + this.hpTxt.x, this.y + this.hpTxt.y, '-' + (this.currentHp - this.card.hp), 'hp');
-    }
     this.populate(this.card)
+  }
+
+  public deltaHPAnim(delta: number) {
+    let text = (delta < 0 ? '-' : '+') + Math.abs(delta);
+    new FloatingText(this.scene, this.x + this.hpTxt.x, this.y + this.hpTxt.y, text, 'hp');
+  }
+
+  public deltaAtkAnim(delta: number) {
+    let text = (delta < 0 ? '-' : '+') + Math.abs(delta);
+    new FloatingText(this.scene, this.x + this.atkTxt.x, this.y + this.hpTxt.y, text, 'white');
   }
 }

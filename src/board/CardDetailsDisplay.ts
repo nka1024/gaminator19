@@ -72,7 +72,10 @@ export class CardDetailsDisplay extends Phaser.GameObjects.Container {
       case CardName.xAF2D10: return 'creature_6';
       case CardName.xCF3081: return 'creature_7';
       case CardName.xF93A72: return 'creature_8';
-      case CardName.HP6: return 'health_6';
+      case CardName.ADD_ATK_MODULE: return 'creature_atk';
+      case CardName.ADD_HP_MODULE: return 'creature_hp_module';
+      case CardName.ADD_HP_CORE: return 'creature_hp_core';
+      
       default: return '';
     }
   }

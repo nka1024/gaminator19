@@ -35,12 +35,12 @@ export enum CardEffectType  {
 export enum CardSkillType  {
   NONE,
   BUFF_ALLIES_1_1,
-  RECOVER_HP_CREATURE,
-  RECOVER_HP_CORE,
+  ADD_HP_CREATURE,
+  ADD_HP_CORE,
+  ADD_ATTACK_CREATURE,
   DEAL_DAMAGE_CREATURE,
   DEAL_DAMAGE_CORE,
   SILENCE_CREATURE,
-  BUFF_ATTACK_CREATURE,
   ZERO_TURN,
 }
 
@@ -54,6 +54,7 @@ export type CardData = {
   link: number
   protected?: boolean
   turned: boolean
+  instant?: boolean
 }
 
 export enum BoardPhase {

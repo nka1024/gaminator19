@@ -49,7 +49,7 @@ export class CardDisplay extends Phaser.GameObjects.Container {
     this.hpTxt.letterSpacing = -1
     this.add(this.hpTxt);
 
-    this.creature = new Phaser.GameObjects.Image(scene, 0,0, 'creature_doogie')
+    this.creature = new Phaser.GameObjects.Image(scene, 0,0, '')
     this.cardMask = new Phaser.GameObjects.Image(scene, 0,0, 'card_mask')
     this.cardMask.setOrigin(0,0)
     this.creature.setOrigin(0.5,0)

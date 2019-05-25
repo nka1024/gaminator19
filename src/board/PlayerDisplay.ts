@@ -84,11 +84,17 @@ export class PlayerDisplay extends Phaser.GameObjects.Container {
     this.hp.setPosition(16, -9)
   }
 
-  public populate(hp: number, link: number, linkMax: number) {
-    if (hp < this.currentHp) {
-      new FloatingText(this.scene, this.x + this.hpTxt.x, this.y + this.hpTxt.y, '-' + (this.currentHp - hp), 'hp');
-    }
+  public deltaHPAnim(delta: number) {
+    let text = (delta < 0 ? '-' : '+') + Math.abs(delta);
+    new FloatingText(this.scene, this.x + this.hpTxt.x, this.y + this.hpTxt.y, text, 'hp');
+  }
 
+  public deltaLinkAnim(delta: number) {
+    let text = (delta < 0 ? '-' : '+') + Math.abs(delta);
+    new FloatingText(this.scene, this.x + this.linkTxt.x, this.y + this.hpTxt.y, text, 'yellow');
+  }
+
+  public populate(hp: number, link: number, linkMax: number) {
     this.linkTxt.text = link + '/' + linkMax;
     this.hpTxt.text = hp + '';
     this.currentHp = hp;

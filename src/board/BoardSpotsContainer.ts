@@ -71,6 +71,15 @@ export class BoardSpotsContainer extends Phaser.GameObjects.Container {
     if (hidden)
       this.nextPhaseSelected.visible = false;
   }
+  
+  public spotForCard(card: CardData): BoardSpot {
+    for (let i = 0; i < this.cords.length; i++) {
+      for (let j = 0; j < this.cords[i].length; j++) {
+        if (this.spots[i][j].card == card)
+          return this.spots[i][j]
+      }
+    }
+  }
 
   public putCursor(row: number, col: number) {
     this.cursorRow = row;

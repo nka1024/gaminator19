@@ -110,8 +110,6 @@ export class AssetsLoader {
     scene.load.image("sandclock", "./assets/board/sandclock.png");
     scene.load.image("next_phase", "./assets/board/next_phase.png");
     scene.load.image("next_phase_selected", "./assets/board/next_phase_selected.png");
-    scene.load.image("add_heart", "./assets/board/add_heart.png");
-    scene.load.image("add_sword", "./assets/board/add_sword.png");
     scene.load.image("battle_bg", "./assets/board/battle_background.png");
     scene.load.image("card_frame", "./assets/board/card_frame.png");
     
@@ -121,7 +119,6 @@ export class AssetsLoader {
     scene.load.image("protected", "./assets/board/protected.png");
     scene.load.image("tutorial_combat", "./assets/board/tutorial_combat.png");
     scene.load.image("spots_background", "./assets/board/spots_background.png");
-    // scene.load.image("spots_background", "./assets/board/spots2_background.png");
     scene.load.image("trait_boost_atk_hp", "./assets/board/trait_boost_atk_hp.png");
     scene.load.image("turn_done", "./assets/board/turn_done.png");
     scene.load.image("turn_name_commands", "./assets/board/turn_name_commands.png");
@@ -133,7 +130,6 @@ export class AssetsLoader {
     scene.load.image("card_mask", "./assets/board/card_mask.png");
     scene.load.image("creature_snakey", "./assets/board/creatures/snakey.png");
     scene.load.image("creature_doogie", "./assets/board/creatures/doogie.png");
-
     scene.load.image("creature_1", "./assets/board/creatures/creature_1.png");
     scene.load.image("creature_2", "./assets/board/creatures/creature_2.png");
     scene.load.image("creature_3", "./assets/board/creatures/creature_3.png");
@@ -142,8 +138,9 @@ export class AssetsLoader {
     scene.load.image("creature_6", "./assets/board/creatures/creature_6.png");
     scene.load.image("creature_7", "./assets/board/creatures/creature_7.png");
     scene.load.image("creature_8", "./assets/board/creatures/creature_8.png");
-    scene.load.image("health_6", "./assets/board/creatures/health_6.png");
-
+    scene.load.image("creature_atk", "./assets/board/creatures/atk.png");
+    scene.load.image("creature_hp_core", "./assets/board/creatures/hp_core.png");
+    scene.load.image("creature_hp_module", "./assets/board/creatures/hp_module.png");
     
     scene.load.image("box_shadow_1010x600", "./assets/box_shadow_1010x600.png");
     scene.load.image("grid_128_50", "./assets/grid_128_a50.png");
