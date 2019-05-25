@@ -95,6 +95,7 @@ export class CardDisplay extends Phaser.GameObjects.Container {
       this.linkTxt.text = ''
       this.hpTxt.text = ''
       this.atkTxt.text = ''
+      this.benefitTxt.text = ''
     }
     return this;
   }

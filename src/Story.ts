@@ -136,7 +136,8 @@ export class Story {
   }
 
   public eventFinished() {
-    this.nextLine();
+    if (this.currentDialog)
+      this.nextLine();
   }
 
   private nextLine() {

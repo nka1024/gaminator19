@@ -41,7 +41,7 @@ export class DeckScene extends Phaser.Scene {
   }
 
   create(loot: CardData[]) {
-    this.lootCards = this.lootCards;
+    this.lootCards = loot;
     this.animationRegistry = new AnimationRegistry(this);
     this.animationRegistry.initBoardAnimations();
 
@@ -59,8 +59,6 @@ export class DeckScene extends Phaser.Scene {
       this.repopulate();
     })
     this.keybinds = new Keybinds(this);
-    // this.battleService = new BattleService();
-    // this.player = this.battleService.makePlayerData();
 
     this.deck = new DeckDisplay(this);
     this.add.existing(this.deck);

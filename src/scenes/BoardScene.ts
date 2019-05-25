@@ -64,10 +64,6 @@ export class BoardScene extends Phaser.Scene {
   private healCoreAudio: Phaser.Sound.BaseSound;
   private buffAudio: Phaser.Sound.BaseSound;
   private errAudio: Phaser.Sound.BaseSound;
-  
-
-  
-  
 
   constructor() {
     super({
@@ -79,7 +75,6 @@ export class BoardScene extends Phaser.Scene {
   preload() {
     AssetsLoader.preload(this);
   }
-
 
   private onWindowResize(w: number, h: number) {
     console.log('resize to : 1010, 600')
@@ -98,16 +93,15 @@ export class BoardScene extends Phaser.Scene {
   }
 
   create(data): void {
+    this.combatLoopAudio = this.sound.add('combat_loop', { loop: true, volume: 0.35 });
     this.connectAudio = this.sound.add('connect', { loop: false, volume: 0.3 });
     this.connectAudio2 = this.sound.add('connect2', { loop: false, volume: 0.3 });
     this.connectAudio3 = this.sound.add('connect3', { loop: false, volume: 0.3 });
-    this.combatLoopAudio = this.sound.add('combat_loop', { loop: true, volume: 0.5 });
     this.selectAudio = this.sound.add('select_blip', { loop: false, volume: 0.3 });
     this.selectAudio2 = this.sound.add('select_blop', { loop: false, volume: 0.3 });
     this.spawnAudio = this.sound.add('spawn_whoosh', { loop: false, volume: 0.5 });
     this.damageAudio = this.sound.add('damage_shuh', { loop: false, volume: 0.5 });
     this.linkUpAudio = this.sound.add('linkup_wurl', { loop: false, volume: 0.4 });
-
     this.healCoreAudio = this.sound.add('heal_swir', { loop: false, volume: 0.5 });
     this.healModuleAudio = this.sound.add('heal_swir', { loop: false, volume: 0.5 });
     this.buffAudio = this.sound.add('buff_brlrl', { loop: false, volume: 0.3 });
