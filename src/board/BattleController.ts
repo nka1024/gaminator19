@@ -13,6 +13,7 @@ import { CardDisplay } from "./CardDisplay";
 import { PlayerDisplay } from "./PlayerDisplay";
 import { PhaseDisplay } from "./PhaseDisplay";
 import { TerminalDisplay, TerminalScreenID } from "./TerminalDisplay";
+import { CONST } from "../const/const";
 
 type TMPData = {
   prepareFinished?: boolean;
@@ -72,7 +73,7 @@ export class BattleController {
       this.turn.setPhase(PhaseType.LOAD);
 
       let timer = this.scene.time.addEvent({
-        delay: 2000,
+        delay: CONST.DEV ? 100 : 2000,
         callback: () => {
           this.tmp.prepareFinished = true;
           timer.destroy();
@@ -260,7 +261,7 @@ export class BattleController {
   // 
   private useInstantCard(card: CardData) {
     if (card.skill == CardSkillType.ADD_HP_CORE) {
-      this.modifyCoreHP(this.board.player, this.player, card.hp);
+      this.modifyCoreHP(this.board.player, this.player, card.benefit);
       this.modifyCoreLink(this.board.player, this.player, -card.link);
       this.removeCardFromHand(card, this.board.player.hand);
       this.tmp.selectedCard = null;
@@ -287,10 +288,10 @@ export class BattleController {
           // apply skill effect
           if (card.skill == CardSkillType.ADD_HP_CREATURE) {
             this.modifyCoreLink(this.board.player, this.player, -card.link)
-            this.modifyCardHP(target, card.hp);
+            this.modifyCardHP(target, card.benefit);
           } else if (card.skill == CardSkillType.ADD_ATTACK_CREATURE) {
             this.modifyCoreLink(this.board.player, this.player, -card.link)
-            this.modifyCardAtk(target, card.attack);
+            this.modifyCardAtk(target, card.benefit);
           } else {
             throw ('unknow card skill type');
           }

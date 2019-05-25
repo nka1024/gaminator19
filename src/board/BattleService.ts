@@ -40,8 +40,8 @@ export class BattleService {
       BattleService.playerDeck = [
         this.makeCard1(0),
         this.makeCardAddHPCore(1),
-        this.makeCardAddHPCreature(1),
-        this.makeCardAddAtk(1),
+        this.makeCardAddHPCreature(2),
+        this.makeCardAddAtk(3),
         this.makeCard1(1),
         this.makeCard1(2),
         this.makeCard1(3),
@@ -64,7 +64,14 @@ export class BattleService {
   public makeOpponentData(): PlayerBoardData {
     let result: PlayerBoardData = {
       name: CardName.Doogie,
-      deck: [this.makeCard2(0), this.makeCard2(1), this.makeCard2(2), this.makeCard2(3), this.makeCard2(4), this.makeCard2(5), this.makeCard2(6)],
+      deck: [
+        this.makeCard2(0), 
+        this.makeCard2(1), 
+        this.makeCard2(2), 
+        this.makeCard2(3), 
+        this.makeCard2(4),
+        this.makeCard2(5), 
+        this.makeCard2(6)],
       hand: [],
       board: [],
       link: 0,
@@ -91,8 +98,7 @@ export class BattleService {
       type: CardType.EFFECT,
       name: CardName.ADD_HP_CORE,
       skill: CardSkillType.ADD_HP_CORE,
-      attack: 0,
-      hp: hp,
+      benefit: hp,
       link: hp,
       turned: true,
       instant: true
@@ -104,21 +110,19 @@ export class BattleService {
       type: CardType.EFFECT,
       name: CardName.ADD_HP_MODULE,
       skill: CardSkillType.ADD_HP_CREATURE,
-      attack: 0,
-      hp: hp,
+      benefit: hp,
       link: hp,
       turned: true
     }
   }
 
-  public makeCardAddAtk(hp: number): CardData {
+  public makeCardAddAtk(atk: number): CardData {
     return {
       type: CardType.EFFECT,
       name: CardName.ADD_ATK_MODULE,
       skill: CardSkillType.ADD_ATTACK_CREATURE,
-      attack: 0,
-      hp: hp,
-      link: hp,
+      benefit: atk,
+      link: atk,
       turned: true
     }
   }

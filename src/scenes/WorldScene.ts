@@ -17,6 +17,7 @@ import { Triggers } from "../world/Triggers";
 import { BoxShadowOverlay } from "../BoxShadowOverlay";
 import { Events } from "phaser";
 import { Story, StoryEvent } from "../Story";
+import { CONST } from "../const/const";
 
 export class WorldScene extends Phaser.Scene {
 
@@ -108,8 +109,10 @@ export class WorldScene extends Phaser.Scene {
   }
 
   private onEnter() {
-    this.mainThemeAudio.play();
-    this.transition.alphaTransition(1, 0, 0.01);
+    if (!CONST.DEV) {
+      this.mainThemeAudio.play();
+      this.transition.alphaTransition(1, 0, 0.01);
+    }
   }
 
   update(): void {

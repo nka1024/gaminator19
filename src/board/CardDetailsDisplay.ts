@@ -4,7 +4,7 @@
 * @description  gaminator 19
 */
 
-import { CardData, CardSkillType } from "../types/Types";
+import { CardData, CardSkillType, CardType } from "../types/Types";
 import { CardName } from "./BattleService";
 
 export class CardDetailsDisplay extends Phaser.GameObjects.Container {
@@ -52,8 +52,19 @@ export class CardDetailsDisplay extends Phaser.GameObjects.Container {
     this.card = card;
 
     this.nameTxt.text = card.name
-    this.hpTxt.text = card.hp.toString();
-    this.atkTxt.text = card.attack.toString();
+    if (this.card.type == CardType.CREATURE) {
+      this.hp.visible = true;
+      this.atkTxt.visible = true;
+      this.hpTxt.text = card.hp.toString();
+      this.atkTxt.text = card.attack.toString();
+    } else if (this.card.type == CardType.EFFECT) {
+      this.attack.visible = false;
+      this.hp.visible = false;
+      this.hpTxt.text = ''
+      this.atkTxt.text = ''
+    } else {
+      throw 'unknown card type';
+    }
 
     this.creature.setTexture(CardDetailsDisplay.creatureTextureByName(card.name));
     this.skill.setTexture(this.skillTextureByType(card.skill));

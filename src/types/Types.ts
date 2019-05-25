@@ -52,6 +52,7 @@ export type CardData = {
   attack?: number
   hp?: number
   link: number
+  benefit?: number
   protected?: boolean
   turned: boolean
   instant?: boolean

@@ -21,6 +21,8 @@ export class FadeTransition extends Phaser.GameObjects.Image {
   }
 
   update() {
+    if (!this.scene) return;
+    
     this.x = this.scene.cameras.main.scrollX + this.scene.cameras.main.displayWidth/2
     this.y = this.scene.cameras.main.scrollY + this.scene.cameras.main.displayHeight/2
 

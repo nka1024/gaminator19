@@ -22,6 +22,7 @@ import { ScrollingImage } from "../board/ScrollingImage";
 import { TerminalDisplay } from "../board/TerminalDisplay";
 import { CardData } from "../types/Types";
 import { Animations } from "phaser";
+import { CONST } from "../const/const";
 
 export class BoardScene extends Phaser.Scene {
 
@@ -141,30 +142,32 @@ export class BoardScene extends Phaser.Scene {
   }
 
   private onEnter() {
-    this.connectAudio2.play();
-    this.time.addEvent({
-      delay: 1300,
-      callback: () => {
-        this.connectAudio.play();
-      },
-      callbackScope: this,
-      loop: false,
-      paused: false
-    });
-    this.time.addEvent({
-      delay: 2800,
-      callback: () => {
-        this.connectAudio3.play();
-      },
-      callbackScope: this,
-      loop: false,
-      paused: false
-    });
-    this.combatLoopAudio.play();
+    if (!CONST.DEV) {
+      this.connectAudio2.play();
+      this.time.addEvent({
+        delay: 1300,
+        callback: () => {
+          this.connectAudio.play();
+        },
+        callbackScope: this,
+        loop: false,
+        paused: false
+      });
+      this.time.addEvent({
+        delay: 2800,
+        callback: () => {
+          this.connectAudio3.play();
+        },
+        callbackScope: this,
+        loop: false,
+        paused: false
+      });
+      this.combatLoopAudio.play();
 
-    this.entranceLinkAnim.visible = true;
-    this.transition.alphaTransition(1, 0, 0.1);
-    this.entranceLinkAnim.play('board_entrance1_anim');
+      this.entranceLinkAnim.visible = true;
+      this.transition.alphaTransition(1, 0, 0.1);
+      this.entranceLinkAnim.play('board_entrance1_anim');
+    }
   }
 
   private initBattle() {

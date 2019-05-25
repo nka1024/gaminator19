@@ -7,7 +7,7 @@
 
 export let CONST = {
   
-  DEV: false,
+  DEV: true,
 
   FIELD_W: 300,
   FIELD_H: 150,

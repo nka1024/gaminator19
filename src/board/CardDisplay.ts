@@ -5,7 +5,7 @@
 */
 
 import { Scene } from "phaser";
-import { CardData } from "../types/Types";
+import { CardData, CardType } from "../types/Types";
 import { CardDetailsDisplay } from "./CardDetailsDisplay";
 
 export class CardDisplay extends Phaser.GameObjects.Container {
@@ -23,6 +23,7 @@ export class CardDisplay extends Phaser.GameObjects.Container {
   private linkTxt: Phaser.GameObjects.BitmapText;
   private atkTxt: Phaser.GameObjects.BitmapText;
   private hpTxt: Phaser.GameObjects.BitmapText;
+  private benefitTxt: Phaser.GameObjects.BitmapText;
 
   constructor(scene: Scene) {
     super (scene);
@@ -49,6 +50,10 @@ export class CardDisplay extends Phaser.GameObjects.Container {
     this.hpTxt.letterSpacing = -1
     this.add(this.hpTxt);
 
+    this.benefitTxt = new Phaser.GameObjects.BitmapText(scene, 2, 45, 'coco-8-white');
+    this.benefitTxt.letterSpacing = -1
+    this.add(this.benefitTxt);
+
     this.creature = new Phaser.GameObjects.Image(scene, 0,0, '')
     this.cardMask = new Phaser.GameObjects.Image(scene, 0,0, 'card_mask')
     this.cardMask.setOrigin(0,0)
@@ -67,12 +72,25 @@ export class CardDisplay extends Phaser.GameObjects.Container {
     this.hp.visible       = this.card != null;
     this.sword.visible    = this.card != null;
     this.link.visible     = this.card != null;
+    
     if (this.card != null) {
-      this.linkTxt.text = card.link.toString();
-      this.hpTxt.text = card.hp.toString();
-      this.atkTxt.text = card.attack.toString();
-
-      this.creature.setTexture(CardDetailsDisplay.creatureTextureByName(card.name));
+      if (this.card.type == CardType.CREATURE) {
+        this.linkTxt.text = card.link.toString();
+        this.hpTxt.text = card.hp.toString();
+        this.atkTxt.text = card.attack.toString();
+        this.benefitTxt.text = '';
+        this.creature.setTexture(CardDetailsDisplay.creatureTextureByName(card.name));
+      } else if (this.card.type == CardType.EFFECT) {
+        this.linkTxt.text = card.link.toString();
+        this.hpTxt.text = ''
+        this.atkTxt.text = ''
+        this.benefitTxt.text = '+' + card.benefit.toString();
+        this.creature.setTexture(CardDetailsDisplay.creatureTextureByName(card.name));
+        this.hp.visible = false;
+        this.sword.visible = false
+      } else {
+        throw "unknown card type";
+      }
     } else {
       this.linkTxt.text = ''
       this.hpTxt.text = ''
