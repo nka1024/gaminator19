@@ -7,18 +7,21 @@
 export class DialogView extends Phaser.GameObjects.Container {
   private textMain: Phaser.GameObjects.BitmapText;
   private textName: Phaser.GameObjects.BitmapText;
-  private textShadow: Phaser.GameObjects.BitmapText;
-  private textNameShadow: Phaser.GameObjects.BitmapText;
   private bg: Phaser.GameObjects.Image;
   private portrait: Phaser.GameObjects.Image;
+  private cursor: Phaser.GameObjects.Image;
 
   private enterAnim: Phaser.GameObjects.Sprite;
+
+  private options: Phaser.GameObjects.BitmapText[] = [];
+  private optLenght: number = 0;
+  private cursorPos: number = 0;
 
   constructor(scene, x, y) {
     super(scene, x, y);
     let tx = 60
     let ty = 232
-
+    
     this.bg = this.scene.add.image(-20, 214, 'dialog_bg_505x86');
     this.bg.scaleX = 2;
     this.bg.scaleY = 2;
@@ -26,23 +29,18 @@ export class DialogView extends Phaser.GameObjects.Container {
     this.bg.alpha = 1;
     this.add(this.bg);
 
+    this.cursor = this.scene.add.image(0, 0, 'turn_current_8x8');
+    this.cursor.visible = false;
+    this.add(this.cursor);
+
     this.portrait = this.scene.add.image(32, 240, 'portrait_player_32x32');
     this.portrait.scaleX = 2;
     this.portrait.scaleY = 2;
-    // this.portrait.setOrigin(0, 0);
     this.add(this.portrait);
-
-    this.textShadow = this.scene.add.bitmapText(tx, ty + 1, 'coco-8-shadow', '');
-    this.textShadow.letterSpacing = -1;
-    this.add(this.textShadow);
 
     this.textMain = this.scene.add.bitmapText(tx, ty, 'coco-8-white', '');
     this.textMain.letterSpacing = -1;
     this.add(this.textMain);
-
-    this.textNameShadow = this.scene.add.bitmapText(tx, ty - 16 + 1, 'coco-8-shadow', '');
-    this.textNameShadow.letterSpacing = -1;
-    this.add(this.textNameShadow);
 
     this.textName = this.scene.add.bitmapText(tx, ty - 16, 'coco-8-white', '');
     this.textName.letterSpacing = -1;
@@ -53,7 +51,14 @@ export class DialogView extends Phaser.GameObjects.Container {
     this.enterAnim.x = 480;
     this.enterAnim.y = 288;
     this.scene.add.existing(this.enterAnim);
-    this.add(this.enterAnim)
+    this.add(this.enterAnim);
+
+    for (let i = 0; i < 3; i++) {
+      let option = this.scene.add.bitmapText(tx + 16, 300 - 14 - i * 16, 'coco-8-white', '');
+      option.letterSpacing = -1;
+      this.add(option);
+      this.options.push(option)
+    }
   }
 
   public showText(texture: string, name: string, message: string) {
@@ -69,12 +74,9 @@ export class DialogView extends Phaser.GameObjects.Container {
       }
       result += word + '  ';
     }
-    
-    this.textMain.text = result;
-    this.textShadow.text = result;
 
+    this.textMain.text = result;
     this.textName.text = name;
-    this.textNameShadow.text = name;
 
     if (texture) {
       this.portrait.visible = true;
@@ -84,8 +86,40 @@ export class DialogView extends Phaser.GameObjects.Container {
     }
   }
 
+  public addOption(text: string) {
+    this.options[this.optLenght].text = text;
+    this.optLenght++
+    
+    this.setCursorHidden(false);
+    this.moveCursor(0);
+    this.moveCursor(-this.optLenght);
+  }
+
   public hide() {
     this.visible = false;
+    this.optLenght = 0;
+    for (let option of this.options) {
+      option.text = '';
+    }
+    this.setCursorHidden(true);
+  }
+
+  public moveCursor(delta: number) {
+    this.cursorPos -= delta
+  
+    if (this.cursorPos < 0) this.cursorPos = 0;
+    if (this.cursorPos >= this.optLenght) this.cursorPos = this.optLenght - 1;
+
+    this.cursor.x = 68
+    this.cursor.y = 300 - 6 - this.cursorPos * 16;
+  }
+
+  public getCursorPos(): number {
+    return this.cursorPos;
+  }
+
+  private setCursorHidden(hidden: boolean) {
+    this.cursor.visible = !hidden;
   }
 
   update() {

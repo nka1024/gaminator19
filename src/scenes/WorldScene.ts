@@ -92,6 +92,9 @@ export class WorldScene extends Phaser.Scene {
     this.story.events.on(StoryEvent.BattleStart, () => {
        this.startBattle();
     })
+    this.story.events.on(StoryEvent.EndDialog, () => {
+      this.story.endDialog();
+    })
      
     let boxShadow = new BoxShadowOverlay(this);
     this.add.existing(boxShadow)
