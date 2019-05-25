@@ -124,7 +124,12 @@ export class AssetsLoader {
     scene.load.image("protected", "./assets/board/protected.png");
     scene.load.image("tutorial_combat", "./assets/board/tutorial_combat.png");
     scene.load.image("spots_background", "./assets/board/spots_background.png");
-    scene.load.image("trait_boost_atk_hp", "./assets/board/trait_boost_atk_hp.png");
+    scene.load.image("skill_boost_atk_hp", "./assets/board/skills/skill_boost_atk_hp.png");
+    scene.load.image("skill_zero_turn", "./assets/board/skills/skill_zero_turn.png");
+    scene.load.image("skill_add_attack", "./assets/board/skills/skill_add_attack.png");
+    scene.load.image("skill_add_hp_core", "./assets/board/skills/skill_add_hp_core.png");
+    scene.load.image("skill_add_hp_creature", "./assets/board/skills/skill_add_hp_creature.png");
+    
     scene.load.image("turn_done", "./assets/board/turn_done.png");
     scene.load.image("turn_name_commands", "./assets/board/turn_name_commands.png");
     scene.load.image("turn_name_compile", "./assets/board/turn_name_compile.png");

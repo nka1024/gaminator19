@@ -178,6 +178,8 @@ export class BoardScene extends Phaser.Scene {
       this.entranceLinkAnim.visible = true;
       this.transition.alphaTransition(1, 0, 0.1);
       this.entranceLinkAnim.play('board_entrance1_anim');
+    } else {
+      this.transition.alphaTransition(1, 0, 1);
     }
   }
 

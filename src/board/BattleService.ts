@@ -39,7 +39,7 @@ export class BattleService {
     if (BattleService.playerDeck.length == 0) {
       BattleService.playerDeck = [
         this.makeCard1(0),
-        this.makeCard1(1),
+        this.makeZeroTurnCard(1),
         this.makeCardAddHPCore(1),
         this.makeCardAddHPCreature(2),
         this.makeCardAddAtk(3),
@@ -94,6 +94,18 @@ export class BattleService {
     }
   }
 
+  public makeZeroTurnCard(power: number = 0): CardData {
+    return {
+      type: CardType.CREATURE,
+      name: this.randomName(),
+      skill: CardSkillType.ZERO_TURN,
+      attack: 1 + power,
+      hp: 1 + power,
+      link: 1 + power,
+      turned: true
+    }
+  }
+  
   public makeCardAddHPCore(hp: number): CardData {
     return {
       type: CardType.EFFECT,

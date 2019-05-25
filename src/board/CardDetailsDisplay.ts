@@ -10,18 +10,19 @@ import { CardName } from "./BattleService";
 export class CardDetailsDisplay extends Phaser.GameObjects.Container {
   private card: CardData;
   private hp: Phaser.GameObjects.Image;
-  private attack: Phaser.GameObjects.Image;
+  private atk: Phaser.GameObjects.Image;
   private nameTxt: Phaser.GameObjects.BitmapText;
   private atkTxt: Phaser.GameObjects.BitmapText;
   private hpTxt: Phaser.GameObjects.BitmapText;
+  private benefitTxt: Phaser.GameObjects.BitmapText;
   private creature: Phaser.GameObjects.Image;
   private skill: Phaser.GameObjects.Image;
 
   constructor(scene: Phaser.Scene) {
     super(scene);
-    this.attack = new Phaser.GameObjects.Image(scene, 0, 19, "icon_attack");
-    this.attack.setOrigin(0, 0);
-    this.add(this.attack);
+    this.atk = new Phaser.GameObjects.Image(scene, 0, 19, "icon_attack");
+    this.atk.setOrigin(0, 0);
+    this.add(this.atk);
     this.hp = new Phaser.GameObjects.Image(scene, 1, 34, "icon_hp");
     this.hp.setOrigin(0, 0);
     this.add(this.hp);
@@ -42,6 +43,10 @@ export class CardDetailsDisplay extends Phaser.GameObjects.Container {
     this.hpTxt.letterSpacing = -1
     this.add(this.hpTxt);
 
+    this.benefitTxt = new Phaser.GameObjects.BitmapText(scene, 5, 22, 'coco-8-white');
+    this.benefitTxt.letterSpacing = -1
+    this.add(this.benefitTxt);
+
     this.creature = new Phaser.GameObjects.Image(scene, 0, 0, 'creature_doogie')
     this.creature.x = 35
     this.creature.y = 31
@@ -54,12 +59,14 @@ export class CardDetailsDisplay extends Phaser.GameObjects.Container {
     this.nameTxt.text = card.name
     if (this.card.type == CardType.CREATURE) {
       this.hp.visible = true;
-      this.atkTxt.visible = true;
+      this.atk.visible = true;
       this.hpTxt.text = card.hp.toString();
       this.atkTxt.text = card.attack.toString();
+      this.benefitTxt.text = '';
     } else if (this.card.type == CardType.EFFECT) {
-      this.attack.visible = false;
+      this.atk.visible = false;
       this.hp.visible = false;
+      this.benefitTxt.text = '+' + this.card.benefit.toString();
       this.hpTxt.text = ''
       this.atkTxt.text = ''
     } else {
@@ -93,8 +100,11 @@ export class CardDetailsDisplay extends Phaser.GameObjects.Container {
 
   private skillTextureByType(skill: CardSkillType): string {
     switch (skill) {
-      case CardSkillType.BUFF_ALLIES_1_1: return 'trait_boost_atk_hp';
-      case CardSkillType.ZERO_TURN: return 'trait_boost_atk_hp';
+      case CardSkillType.BUFF_ALLIES_1_1: return 'skill_boost_atk_hp';
+      case CardSkillType.ZERO_TURN: return 'skill_zero_turn';
+      case CardSkillType.ADD_ATTACK_CREATURE: return 'skill_add_attack';
+      case CardSkillType.ADD_HP_CORE: return 'skill_add_hp_core';
+      case CardSkillType.ADD_HP_CREATURE: return 'skill_add_hp_creature';
       default: return 
     }
   }

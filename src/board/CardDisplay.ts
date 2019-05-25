@@ -50,7 +50,7 @@ export class CardDisplay extends Phaser.GameObjects.Container {
     this.hpTxt.letterSpacing = -1
     this.add(this.hpTxt);
 
-    this.benefitTxt = new Phaser.GameObjects.BitmapText(scene, 2, 45, 'coco-8-white');
+    this.benefitTxt = new Phaser.GameObjects.BitmapText(scene, 2, 55, 'coco-8-white');
     this.benefitTxt.letterSpacing = -1
     this.add(this.benefitTxt);
 

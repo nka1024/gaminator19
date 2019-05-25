@@ -72,7 +72,7 @@ export class BoardSpotsContainer extends Phaser.GameObjects.Container {
       this.nextPhaseSelected.visible = false;
   }
   
-  public spotForCard(card: CardData): BoardSpot {
+  public getSpotForCard(card: CardData): BoardSpot {
     for (let i = 0; i < this.cords.length; i++) {
       for (let j = 0; j < this.cords[i].length; j++) {
         if (this.spots[i][j].card == card)

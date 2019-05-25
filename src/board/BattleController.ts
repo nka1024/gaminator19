@@ -177,7 +177,7 @@ export class BattleController {
 
   private modifyCardHP(card: CardData, value: number) {
     card.hp += value;
-    let spot = this.spots.spotForCard(card);
+    let spot = this.spots.getSpotForCard(card);
     spot.deltaHPAnim(value);
     spot.repopulate();
     if (value < 0) this.events.emit(BattleControllerEvent.MODULE_DAMAGE);
@@ -186,7 +186,7 @@ export class BattleController {
 
   private modifyCardAtk(card: CardData, value: number) {
     card.attack += value;
-    let spot = this.spots.spotForCard(card);
+    let spot = this.spots.getSpotForCard(card);
     spot.deltaAtkAnim(value);
     spot.repopulate();
     if (value > 0 ) this.events.emit(BattleControllerEvent.MODULE_BUFF);
@@ -309,6 +309,9 @@ export class BattleController {
             this.modifyCardAtk(target, 1);
           }
         }
+      } else if (card.skill == CardSkillType.ZERO_TURN) {
+        card.turned = false;        
+        this.spots.getSpotForCard(card).repopulate();
       } else {
         throw 'unknown card skill';
       }
