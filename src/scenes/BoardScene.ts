@@ -56,6 +56,7 @@ export class BoardScene extends Phaser.Scene {
   private connectAudio2: Phaser.Sound.BaseSound;
   private connectAudio3: Phaser.Sound.BaseSound;
   private selectAudio: Phaser.Sound.BaseSound;
+  private selectAudio2: Phaser.Sound.BaseSound;
   private spawnAudio: Phaser.Sound.BaseSound;
   private damageAudio: Phaser.Sound.BaseSound;
   private linkUpAudio: Phaser.Sound.BaseSound;
@@ -102,6 +103,7 @@ export class BoardScene extends Phaser.Scene {
     this.connectAudio3 = this.sound.add('connect3', { loop: false, volume: 0.3 });
     this.combatLoopAudio = this.sound.add('combat_loop', { loop: true, volume: 0.5 });
     this.selectAudio = this.sound.add('select_blip', { loop: false, volume: 0.3 });
+    this.selectAudio2 = this.sound.add('select_blop', { loop: false, volume: 0.3 });
     this.spawnAudio = this.sound.add('spawn_whoosh', { loop: false, volume: 0.5 });
     this.damageAudio = this.sound.add('damage_shuh', { loop: false, volume: 0.5 });
     this.linkUpAudio = this.sound.add('linkup_wurl', { loop: false, volume: 0.4 });
@@ -306,7 +308,7 @@ export class BoardScene extends Phaser.Scene {
     this.spots = new BoardSpotsContainer(this);
     this.add.existing(this.spots);
     this.spots.events.on('spot_select', (card: CardData) => {
-      this.selectAudio.play();
+      this.selectAudio2.play();
       if (card) {
         this.cardDetails.visible = true;
         this.cardDetails.populate(card);

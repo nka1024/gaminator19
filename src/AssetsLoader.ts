@@ -24,6 +24,7 @@ export class AssetsLoader {
     scene.load.audio('connect2', './assets/sfx/Randomize430.wav');
     // scene.load.audio('select_blip', './assets/sfx/Randomize155.mp3');
     scene.load.audio('select_blip', './assets/sfx/Randomize571.wav');
+    scene.load.audio('select_blop', './assets/sfx/Randomize572.wav');
     scene.load.audio('spawn_whoosh', './assets/sfx/Randomize463.wav');
     scene.load.audio('damage_shuh', './assets/sfx/Randomize449.wav');
     scene.load.audio('linkup_wurl', './assets/sfx/Randomize535.wav');
