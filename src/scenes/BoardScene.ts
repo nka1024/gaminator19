@@ -201,7 +201,7 @@ export class BoardScene extends Phaser.Scene {
       }
     });
     this.controller.events.on(BattleControllerEvent.CORE_DAMAGE, () => {
-      Math.random()> 0.5? this.damage1Audio.play() : this.damage1Audio.play();
+      Math.random()> 0.5? this.damage1Audio.play() : this.damage2Audio.play();
     })
     this.controller.events.on(BattleControllerEvent.CORE_HEAL, () => {
       this.healCoreAudio.play();

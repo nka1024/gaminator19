@@ -628,7 +628,7 @@ export class BattleController {
           // deal damage
           if (playerCard) {
             if (!playerCard.protected) {
-              playerCard.hp -= card.attack;
+              this.modifyCardHP(playerCard, -card.attack)
               this.spots.refresh();
             } else {
               this.modifyCoreHP(this.board.player, this.player, -card.attack)
