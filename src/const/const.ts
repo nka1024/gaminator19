@@ -6,7 +6,7 @@
  */
 
 export let CONST = {
-  DEV: true,
+  DEV: false,
 };
 
 export let UI_DEPTH = {

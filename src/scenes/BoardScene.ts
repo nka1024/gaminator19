@@ -195,10 +195,12 @@ export class BoardScene extends Phaser.Scene {
         this.transition.alphaTransition(0, 1, 0.1, () => {
           this.scene.sleep();
           this.scene.run("DeckScene", this.battleService.makeLootCards());
+          this.combatLoopAudio.pause();
         });
       } else {
         this.scene.sleep();
         this.scene.run("WorldScene");
+        this.combatLoopAudio.pause();
       }
     });
     this.controller.events.on(BattleControllerEvent.CORE_DAMAGE, () => {
