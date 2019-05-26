@@ -132,7 +132,7 @@ export class EditorRootScene extends Phaser.Scene {
         this.grid.showGrid();
         if (this.triggers.triggers) {
           for (let trigger of this.triggers.triggers){
-            this.grid.addTrigger({i: trigger.i, j: trigger.j}, trigger.type == MapTriggerType.Repeatable);
+            this.grid.addTrigger({i: trigger.i, j: trigger.j}, trigger.type);
           }
         }
       }
@@ -278,7 +278,7 @@ export class EditorRootScene extends Phaser.Scene {
               this.grid.removeTrigger(tile);
               this.triggers.removeTrigger(tile);
             } else {
-              this.grid.addTrigger(tile,  MapTriggers.typeByRawType(this.triggersPanel.typeInput.value) == MapTriggerType.Repeatable);
+              this.grid.addTrigger(tile,  MapTriggers.typeByRawType(this.triggersPanel.typeInput.value));
               this.triggers.addTrigger(tile, this.triggersPanel.nameInput.value, this.triggersPanel.typeInput.value);
             }
           } else if (this.triggersPanel.tool == TriggerPanelTool.Select) {

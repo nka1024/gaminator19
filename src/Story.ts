@@ -92,7 +92,7 @@ export class Story {
     this.enterKey.on('down', (key, event) => {
       let dialog = this.currentDialog;
       if (dialog) this.processOptions();
-      if (this.currentDialog == dialog) this.nextLine();
+      if (this.currentDialog == dialog && dialog != null) this.nextLine();
     });
     this.cursorKeys.up.on('down', (key, event) => {
       if (this.currentDialog) {

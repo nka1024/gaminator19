@@ -20,8 +20,8 @@ export class BootScene extends Phaser.Scene {
       this.scene.start("EditorRootScene");
     } else {
       // this.scene.start("DeckScene");
-      // this.scene.start("WorldScene");
-      this.scene.start("BoardScene");
+      this.scene.start("WorldScene");
+      // this.scene.start("BoardScene");
     }
   }
 }

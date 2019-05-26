@@ -1,6 +1,6 @@
 {
-  "name": "technobiome",
-  "productName": "technobiome",
+  "name": "debugger206",
+  "productName": "debugger206",
   "version": "1.0.0",
   "main": "index.html",
   "devDependencies": {
@@ -13,7 +13,7 @@
     "easystarjs": "0.4.3"
   },
   "window": {
-    "title": "Технобиом",
+    "title": "Отладчик 206",
     "width": 1010,
     "height": 600,
     "fullscreen": false,

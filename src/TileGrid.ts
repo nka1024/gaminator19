@@ -9,6 +9,7 @@ import { js as easystar } from "easystarjs";
 import { UI_DEPTH, CONST } from "./const/const";
 import { GameObjects } from "phaser";
 import { Tile, Point } from "./types/Types";
+import { MapTriggerType } from "./modules/scene/MapImporterModule";
 
 export declare type GrassData = {
   object: GameObjects.Image;
@@ -232,13 +233,13 @@ export class TileGrid {
     return img;
   }
 
-  public addTrigger(tile: Tile, repeat: boolean) {
+  public addTrigger(tile: Tile, type: MapTriggerType) {
     let currentTile = this.triggers[tile.i][tile.j];
     if (currentTile != null) {
       currentTile.destroy();
       this.triggers[tile.i][tile.j] = null;
     }
-    let img = this.createTriggerTile(tile, repeat);
+    let img = this.createTriggerTile(tile, type == MapTriggerType.Repeatable ? true : false);
     this.triggers[tile.i][tile.j] = img;
   }
 

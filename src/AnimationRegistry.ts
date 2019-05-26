@@ -232,6 +232,14 @@ export class AnimationRegistry {
       repeatDelay: 0,
       hideOnComplete: false
     });
+    scene.anims.create({
+      key: 'interact_anim',
+      frames: scene.anims.generateFrameNumbers('interact_33x18',{ frames: [0, 1] }),
+      frameRate: 2,
+      repeat: -1,
+      repeatDelay: 0,
+      hideOnComplete: false
+    });
   }
 
   private registerBoardUIAnimations(scene: Scene) {

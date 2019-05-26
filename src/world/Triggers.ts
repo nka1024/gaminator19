@@ -14,25 +14,36 @@ export class Triggers {
 
   private currentTile: Tile;
 
+  public events: Phaser.Events.EventEmitter;
+  private isTriggerTile: boolean;
+
   constructor() {
+    this.events = new Phaser.Events.EventEmitter();
   }
 
   public import(triggers: MapTriggerData[]) {
     this.triggers = triggers;
   }
 
-  public checkTrigger(tile: Tile): MapTriggerData {
+  public checkTrigger(tile: Tile) {
     if (!this.currentTile || tile.j != this.currentTile.j || tile.i != this.currentTile.i) {
       this.currentTile = tile
       for (let trigger of this.triggers) {
         if (tile.i == trigger.i && tile.j == trigger.j) {
           if (this.usedTriggers[trigger.name] && trigger.type == MapTriggerType.Once) {
-            return null;
+            //
           } else {
             this.usedTriggers[trigger.name] = true
-            return trigger;
+            this.events.emit('enter_trigger', trigger);
+            this.isTriggerTile = true;
+            return;
           }
         }
+      }
+      if (this.isTriggerTile) {
+        this.isTriggerTile = false;
+        this.events.emit('no_trigger');
+        return
       }
     }
   }

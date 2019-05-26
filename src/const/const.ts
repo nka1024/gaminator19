@@ -6,21 +6,7 @@
  */
 
 export let CONST = {
-  
   DEV: true,
-
-  FIELD_W: 300,
-  FIELD_H: 150,
-  SCOUT_RATE: 0.01,
-  HERO_SPEED: 0.5,
-  SCOUT_SPEED: 0.4,
-  SQUAD_SPEED: 0.5,
-  BASE_ATTACK: 300,
-
-  HARVESTER_COST: 100,
-  BUILDER_COST: 200,
-  GUARDIAN_COST: 300,
-
 };
 
 export let UI_DEPTH = {

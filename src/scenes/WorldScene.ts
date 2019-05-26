@@ -36,6 +36,9 @@ export class WorldScene extends Phaser.Scene {
   private dialog: DialogView;
   private story: Story;
 
+  private enterKey: Phaser.Input.Keyboard.Key;
+  private interactAnim: Phaser.GameObjects.Sprite;
+  
   private transition: FadeTransition;
   private pool: Phaser.GameObjects.Group;
   private terrains = [
@@ -65,7 +68,7 @@ export class WorldScene extends Phaser.Scene {
 
     this.pool = this.add.group();
     this.pool.runChildUpdate = true;
-    this.triggers = new Triggers();
+    this.setupTriggers();
     this.grid = new TileGrid(this);
     this.loadMap();
 
@@ -109,6 +112,34 @@ export class WorldScene extends Phaser.Scene {
     this.mainThemeAudio = this.sound.add('main_theme', { loop: true, volume: 0.5 });
     
     this.onEnter();
+    
+    this.interactAnim = new Phaser.GameObjects.Sprite(this, 0, 0, '');
+    this.interactAnim.depth = Number.MAX_VALUE
+    this.interactAnim.play('interact_anim')
+    this.add.existing(this.interactAnim);
+
+    this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+    this.enterKey.on('down', (key, event) => {
+      if (this.interactAnim.visible && !this.dialog.visible) {
+        this.story.startDialog('arrival');
+      }
+    });
+  }
+
+  private setupTriggers() {
+    this.triggers = new Triggers();
+    this.triggers.events.on('no_trigger', () => {
+      this.interactAnim.visible = false;
+    });
+    this.triggers.events.on('enter_trigger', (trigger: MapTriggerData) => {
+      console.log('stepped on trigger: ' + trigger.name);
+
+      if (trigger.name == 'terminal') {
+        this.interactAnim.x = 500;
+        this.interactAnim.y = 44;
+        this.interactAnim.visible = true;
+      }
+    })
   }
 
   private onEnter() {
@@ -172,12 +203,7 @@ export class WorldScene extends Phaser.Scene {
     if (this.transition)
       this.transition.update();
 
-    let tile = this.grid.worldToGrid({ x: this.player.x, y: this.player.y });
-    let trigger: MapTriggerData = this.triggers.checkTrigger(tile);
-    if (trigger) {
-      console.log('stepped on trigger: ' + trigger.name);
-      this.story.startDialog('arrival');
-    }
+    this.triggers.checkTrigger(this.grid.worldToGrid({ x: this.player.x, y: this.player.y }));
   }
 
   private startBattle() {

@@ -83,6 +83,8 @@ export class AssetsLoader {
     scene.load.image('fade_505x300', './assets/fade_505x300.png');
     scene.load.image('dialog_bg_505x86', './assets/dialog_bg_505x86.png');
 
+    
+    scene.load.spritesheet('interact_33x18', './assets/gaminator/interact_33x18.png', { frameWidth: 33, frameHeight: 18 });
     scene.load.spritesheet('bubble1_128x128', './assets/gaminator/fx/bubble1_128x128.png', { frameWidth: 128, frameHeight: 128 });
     scene.load.spritesheet('bubble2_128x128', './assets/gaminator/fx/bubble2_128x128.png', { frameWidth: 128, frameHeight: 128 });
     scene.load.spritesheet('bubble3_128x128', './assets/gaminator/fx/bubble3_128x128.png', { frameWidth: 128, frameHeight: 128 });
