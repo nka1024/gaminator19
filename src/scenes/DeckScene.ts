@@ -45,9 +45,28 @@ export class DeckScene extends Phaser.Scene {
     this.animationRegistry = new AnimationRegistry(this);
     this.animationRegistry.initBoardAnimations();
 
-    this.cameras.main.setBackgroundColor(0x1f1f1f);
+    this.cameras.main.setBackgroundColor(0x000000);
     this.game.scale.on('resize', (size: Phaser.GameObjects.Components.Size) => this.onWindowResize(size.width, size.height));
     this.onWindowResize(window.innerWidth, window.innerHeight);
+
+    let bg = new Phaser.GameObjects.Image(this, 0,0,'deck_background_505x300');
+    bg.alpha = 0.5
+    bg.setOrigin(0,0)
+    this.add.existing(bg)
+
+    let instructions = new Phaser.GameObjects.Image(this, 0,0,'tutorial_deck_230x11');
+    instructions.x = this.cameras.main.displayWidth - 2
+    instructions.y = this.cameras.main.displayHeight - 2
+    instructions.setOrigin(1,1)
+    this.add.existing(instructions)
+
+    let currentDeck = new Phaser.GameObjects.Image(this, 66,6,'new_deck');
+    currentDeck.setOrigin(0,0)
+    this.add.existing(currentDeck);
+
+    let newDeck = new Phaser.GameObjects.Image(this, 66,152,'current_deck');
+    newDeck.setOrigin(0,0)
+    this.add.existing(newDeck);
 
     this.transition = new FadeTransition(this, 0,0);
     this.add.existing(this.transition);
