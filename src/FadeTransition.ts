@@ -9,6 +9,8 @@ export class FadeTransition extends Phaser.GameObjects.Image {
   private to: number;
   private step: number;
 
+  public playing: boolean = false;
+
   private callback: () => void;
 
   constructor(scene, x , y) {
@@ -30,16 +32,19 @@ export class FadeTransition extends Phaser.GameObjects.Image {
       this.alpha += this.step
       if (this.alpha >= this.to) {
         this.alpha = this.to;
+        this.playing = false;
         if (this.callback) this.callback();
       }
     }
-    
-    if (this.alpha > this.to) {
+    else if (this.alpha > this.to) {
       this.alpha -= this.step
       if (this.alpha <= this.to) {
         this.alpha = this.to;
+        this.playing = false;
         if (this.callback) this.callback();
       }
+    } else{
+      this.playing = false;
     }
   }
 
@@ -48,6 +53,7 @@ export class FadeTransition extends Phaser.GameObjects.Image {
     this.to = to;
     this.step = step;
     this.callback = callback;
+    this.playing = true;
   }
 
 }

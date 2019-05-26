@@ -73,7 +73,7 @@ export class WorldScene extends Phaser.Scene {
     this.loadMap();
 
 
-    this.player = new WorldPlayer(this, 428, 320, this.grid);
+    this.player = new WorldPlayer(this, 306, 130, this.grid);
     this.pool.add(this.player);
     this.add.existing(this.player);
 
@@ -81,8 +81,15 @@ export class WorldScene extends Phaser.Scene {
 
     this.onWindowResize(window.innerWidth, window.innerHeight);
 
+    this.interactAnim = new Phaser.GameObjects.Sprite(this, 0, 0, '');
+    this.interactAnim.play('interact_anim')
+    this.interactAnim.visible = false;
+    this.add.existing(this.interactAnim);
+    this.interactAnim.depth = Number.MAX_VALUE -1
+
     this.transition = new FadeTransition(this, 0, 0);
     this.add.existing(this.transition);
+    this.transition.depth = Number.MAX_VALUE
 
     this.dialog = new DialogView(this, 0, 0);
     this.add.existing(this.dialog);
@@ -113,15 +120,14 @@ export class WorldScene extends Phaser.Scene {
     
     this.onEnter();
     
-    this.interactAnim = new Phaser.GameObjects.Sprite(this, 0, 0, '');
-    this.interactAnim.depth = Number.MAX_VALUE
-    this.interactAnim.play('interact_anim')
-    this.add.existing(this.interactAnim);
-
     this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
     this.enterKey.on('down', (key, event) => {
-      if (this.interactAnim.visible && !this.dialog.visible) {
-        this.story.startDialog('arrival');
+      // event.stopPropagation() was used
+      if (event.cancelled == -1) {
+        return;
+      }
+      if (this.interactAnim.visible && !this.dialog.visible && !this.transition.playing) {
+        this.story.startDialog('debug_1');
       }
     });
   }
@@ -146,6 +152,8 @@ export class WorldScene extends Phaser.Scene {
     if (!CONST.DEV) {
       this.mainThemeAudio.play();
       this.transition.alphaTransition(1, 0, 0.01);
+    } else {
+      this.transition.alphaTransition(1, 0, 0.5);
     }
   }
 

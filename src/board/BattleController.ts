@@ -233,6 +233,7 @@ export class BattleController {
   // PLAYER COMMAND
   //
   private phasePlayerCommand() {
+    
     if (this.phaseStarted()) {
       this.turn.setPhase(PhaseType.COMMANDS)
       this.hand.setCursorHidden(false)

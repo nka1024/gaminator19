@@ -1,6 +1,6 @@
 {
-  "name": "debugger206",
-  "productName": "debugger206",
+  "name": "debugger4406",
+  "productName": "debugger4406",
   "version": "1.0.0",
   "main": "index.html",
   "devDependencies": {
@@ -13,7 +13,7 @@
     "easystarjs": "0.4.3"
   },
   "window": {
-    "title": "Отладчик 206",
+    "title": "Отладчик 4406",
     "width": 1010,
     "height": 600,
     "fullscreen": false,

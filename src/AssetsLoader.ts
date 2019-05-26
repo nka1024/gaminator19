@@ -80,6 +80,7 @@ export class AssetsLoader {
 
     scene.load.image('portrait_player_32x32', './assets/gaminator/portraits/player.png');
     scene.load.image('portrait_controller_32x32', './assets/gaminator/portraits/controller.png');
+    scene.load.image('test_terminal_32x32', './assets/gaminator/portraits/test_terminal.png');
     scene.load.image('fade_505x300', './assets/fade_505x300.png');
     scene.load.image('dialog_bg_505x86', './assets/dialog_bg_505x86.png');
 

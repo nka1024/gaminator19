@@ -197,6 +197,7 @@ export class BoardScene extends Phaser.Scene {
           this.scene.run("DeckScene", this.battleService.makeLootCards());
         });
       } else {
+        this.scene.sleep();
         this.scene.run("WorldScene");
       }
     });

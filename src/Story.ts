@@ -14,7 +14,8 @@ export enum StoryEvent {
 enum DialogActorID {
   Unknown,
   Player,
-  Controller
+  Controller,
+  TestTerminal
 }
 type DialogActorData = {
   id: DialogActorID,
@@ -53,6 +54,11 @@ export class Story {
       name: 'Хиро'
     },
     {
+      id: DialogActorID.TestTerminal,
+      texture: 'test_terminal_32x32',
+      name: 'Терминал'
+    },
+    {
       id: DialogActorID.Unknown,
       texture: null,
       name: ''
@@ -70,6 +76,14 @@ export class Story {
     // { e: StoryEvent.BattleStart },
   ];
 
+  private debug_1: DialogLine[] = [
+    { a: DialogActorID.Unknown, m: 'Перед вами старый терминал для тестирования модулей'},
+    { a: DialogActorID.TestTerminal, m: 'Доступна только одна програма', o: [
+      { m:'Ничего не делать' },
+      { m:'Запустить программу тестирования', e: StoryEvent.BattleStart }
+    ]},
+    // { e: StoryEvent.BattleStart },
+  ];
 
   private afterArrival: DialogLine[] = [
     { a: DialogActorID.Player, m: '- Ясно. А откуда ветер?'},
@@ -82,8 +96,9 @@ export class Story {
   ];
 
   private dialogs = {
-    'arrival': this.arrival,
-    'afterArrival': this.afterArrival
+    // 'arrival': this.arrival,
+    // 'afterArrival': this.afterArrival
+    'debug_1': this.debug_1
   }
   constructor(scene: Phaser.Scene) {
     this.events = new Phaser.Events.EventEmitter();
@@ -92,7 +107,10 @@ export class Story {
     this.enterKey.on('down', (key, event) => {
       let dialog = this.currentDialog;
       if (dialog) this.processOptions();
-      if (this.currentDialog == dialog && dialog != null) this.nextLine();
+      if (this.currentDialog == dialog && dialog != null) {
+        this.nextLine();
+        event.stopPropagation();
+      }
     });
     this.cursorKeys.up.on('down', (key, event) => {
       if (this.currentDialog) {
