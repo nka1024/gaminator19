@@ -111,6 +111,8 @@ export class AssetsLoader {
     scene.load.spritesheet('link_up_64x64', './assets/board/link_up_64x64.png', { frameWidth: 64, frameHeight: 64 });
 
     scene.load.spritesheet('enter_40x16', './assets/gaminator/enter_40x16.png', { frameWidth: 40, frameHeight: 16 });
+    scene.load.spritesheet('screen_anim_48x48', './assets/board/screen_anim_48x48.png', { frameWidth: 48, frameHeight: 48 });
+    
 
     scene.load.image("sandclock", "./assets/board/sandclock.png");
     scene.load.image("next_phase", "./assets/board/next_phase.png");
@@ -123,7 +125,8 @@ export class AssetsLoader {
     scene.load.image("icon_attack", "./assets/board/icon_attack_11x11.png");
     scene.load.image("protected", "./assets/board/protected.png");
     scene.load.image("tutorial_combat", "./assets/board/tutorial_combat.png");
-    scene.load.image("spots_background", "./assets/board/spots_background.png");
+    // scene.load.image("spots_background", "./assets/board/spots_background.png");
+    scene.load.image("spots_background", "./assets/board/spots4_background.png");
     scene.load.image("skill_boost_atk_hp", "./assets/board/skills/skill_boost_atk_hp.png");
     scene.load.image("skill_zero_turn", "./assets/board/skills/skill_zero_turn.png");
     scene.load.image("skill_add_attack", "./assets/board/skills/skill_add_attack.png");

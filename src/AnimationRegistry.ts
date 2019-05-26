@@ -245,6 +245,14 @@ export class AnimationRegistry {
       hideOnComplete: false
     });
     scene.anims.create({
+      key: 'spot_screen_anim',
+      frames: scene.anims.generateFrameNumbers('screen_anim_48x48', { start: 0, end: 23 }),
+      frameRate: 28,
+      repeat: -1,
+      repeatDelay: 2000,
+      hideOnComplete: false
+    });
+    scene.anims.create({
       key: 'turn_current_anim',
       frames: scene.anims.generateFrameNumbers('turn_current_8x8', { start: 0, end: 1 }),
       frameRate: 2,

@@ -53,7 +53,7 @@ export class BoardSpotsContainer extends Phaser.GameObjects.Container {
 
     for (let i = 0; i < this.cords.length; i++) {
       for (let j = 0; j < this.cords[i].length; j++) {
-        let spot = new BoardSpot(scene);
+        let spot = new BoardSpot(scene, i == 0);
         spot.x = this.cords[i][j].x;
         spot.y = this.cords[i][j].y + 10;
         this.add(spot);

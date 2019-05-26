@@ -20,11 +20,20 @@ export class BoardSpot extends Phaser.GameObjects.Container {
   private hpTxt: Phaser.GameObjects.BitmapText;
   private numbersBg: Phaser.GameObjects.Image;
   private creature: Phaser.GameObjects.Image;
+  private screenAnim: Phaser.GameObjects.Sprite;
 
   private currentHp: number = 0;
-  constructor(scene: Scene) {
+  constructor(scene: Scene, private isOpponent: boolean) {
     super(scene);
 
+    this.screenAnim = new Phaser.GameObjects.Sprite(scene, 0,-7,'');
+    // this.screenAnim.play('spot_screen_anim', false, Math.floor(Math.random()*23));
+    this.screenAnim.visible = false;
+    this.screenAnim.alpha = 0.75
+    this.screenAnim.scaleY = isOpponent ? 1 : -1;
+    this.add(this.screenAnim)
+    this.scene.add.existing(this.screenAnim);
+    
     this.numbersBg = new Phaser.GameObjects.Image(scene, 0, 8, 'numbers_highlight')
     this.add(this.numbersBg);
     this.creature = new Phaser.GameObjects.Image(scene, 0, 0, '')
@@ -82,6 +91,8 @@ export class BoardSpot extends Phaser.GameObjects.Container {
       playSpawnAnim = true
     }
 
+    this.screenAnim.visible = card != null;
+    this.screenAnim.play('spot_screen_anim', false, Math.floor(Math.random()*23));
     if (card != null) {
       this.visible = true;
       this.card = card;
