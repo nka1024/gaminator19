@@ -25,6 +25,29 @@ export class BattleService {
 
   public static playerDeck: CardData[] = [];
 
+  private copy(c: CardData): CardData {
+    return {
+      type: c.type,
+      name: c.name,
+      effect: c.effect,
+      skill: c.skill,
+      attack: c.attack,
+      hp: c.hp,
+      link: c.link,
+      benefit: c.benefit,
+      turned: c.turned,
+      instant: c.instant,
+    }
+  }
+
+  private copyAll(a: CardData[]): CardData[] {
+    let result = [];
+    for (let c of a) {
+      result.push(this.copy(c));
+    }
+    return result;
+  }
+
   public makeBoardData(): BoardData {
     let result: BoardData = {
       opponent: this.makeOpponentData(),
@@ -52,7 +75,7 @@ export class BattleService {
     }
     let result: PlayerBoardData = {
       name: 'Sora',
-      deck: Object.assign([], BattleService.playerDeck),
+      deck: this.copyAll(BattleService.playerDeck),
       hand: [],
       board: [],
       link: 0,
@@ -61,18 +84,21 @@ export class BattleService {
     }
     return result;
   }
+  public makeOpponentDeck(): CardData[] {
+    return [
+      this.makeCard2(0),
+      this.makeCard2(1),
+      this.makeCard2(2),
+      this.makeCard2(3),
+      this.makeCard2(4),
+      this.makeCard2(5),
+    ]
+  }
 
   public makeOpponentData(): PlayerBoardData {
     let result: PlayerBoardData = {
       name: CardName.Doogie,
-      deck: [
-        this.makeCard2(0), 
-        this.makeCard2(1), 
-        this.makeCard2(2), 
-        this.makeCard2(3), 
-        this.makeCard2(4),
-        this.makeCard2(5), 
-        this.makeCard2(6)],
+      deck: this.makeOpponentDeck(),
       hand: [],
       board: [],
       link: 0,

@@ -22,7 +22,6 @@ export class BoardSpot extends Phaser.GameObjects.Container {
   private creature: Phaser.GameObjects.Image;
   private screenAnim: Phaser.GameObjects.Sprite;
 
-  private currentHp: number = 0;
   constructor(scene: Scene, private isOpponent: boolean) {
     super(scene);
 
@@ -31,8 +30,8 @@ export class BoardSpot extends Phaser.GameObjects.Container {
     this.screenAnim.visible = false;
     this.screenAnim.alpha = 0.75
     this.screenAnim.scaleY = isOpponent ? 1 : -1;
-    this.add(this.screenAnim)
     this.scene.add.existing(this.screenAnim);
+    this.add(this.screenAnim)
     
     this.numbersBg = new Phaser.GameObjects.Image(scene, 0, 8, 'numbers_highlight')
     this.add(this.numbersBg);
@@ -100,12 +99,10 @@ export class BoardSpot extends Phaser.GameObjects.Container {
       this.sandclock.visible = card.turned;
       this.hpTxt.text = card.hp.toString();
       this.atkTxt.text = card.attack.toString();
-      this.currentHp = card.hp;
 
       this.creature.setTexture(CardDetailsDisplay.creatureTextureByName(card.name));
       this.protected.visible = this.card.protected;
     } else {
-      this.currentHp = 0;
       this.card = null;
       this.visible = false;
     }
