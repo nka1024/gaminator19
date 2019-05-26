@@ -26,7 +26,10 @@ export class AssetsLoader {
     scene.load.audio('select_blip', './assets/sfx/Randomize571.wav');
     scene.load.audio('select_blop', './assets/sfx/Randomize572.wav');
     scene.load.audio('spawn_whoosh', './assets/sfx/Randomize463.wav');
-    scene.load.audio('damage_shuh', './assets/sfx/Randomize449.wav');
+    // scene.load.audio('damage_shuh', './assets/sfx/Randomize449.wav');
+    scene.load.audio('damage1_shuh', './assets/sfx/Hit_Hurt13.wav');
+    scene.load.audio('damage2_shuh', './assets/sfx/Hit_Hurt14.wav');
+    
     scene.load.audio('linkup_wurl', './assets/sfx/Randomize535.wav');
     scene.load.audio('heal_swir', './assets/sfx/Randomize568.wav');
     scene.load.audio('err_skwii', './assets/sfx/Randomize569.wav');
@@ -104,6 +107,10 @@ export class AssetsLoader {
     
     scene.load.spritesheet('attack_anim_blue_19x22', './assets/board/attack_anim_blue_19x22.png', { frameWidth: 19, frameHeight: 22 });
     scene.load.spritesheet('attack_anim_yellow_19x22', './assets/board/attack_anim_yellow_19x22.png', { frameWidth: 19, frameHeight: 22 });
+
+    scene.load.spritesheet('attack4_48x48', './assets/board/attack4_48x48.png', { frameWidth: 48, frameHeight: 48 });
+    scene.load.spritesheet('attack4_yellow_48x48', './assets/board/attack4_yellow_48x48.png', { frameWidth: 48, frameHeight: 48 });
+    
 
     scene.load.spritesheet('spawn_64x64', './assets/board/spawn2_64x64.png', { frameWidth: 64, frameHeight: 64 });
     scene.load.spritesheet('cursor_hand_18x124', './assets/board/cursor_hand.png', { frameWidth: 18, frameHeight: 124 });

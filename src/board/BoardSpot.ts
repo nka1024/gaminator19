@@ -68,17 +68,18 @@ export class BoardSpot extends Phaser.GameObjects.Container {
     let body = new Phaser.GameObjects.Sprite(this.scene, 0, 0, animKey);
 
     body.play(animKey);
+    body.alpha = 0.8
     body.on('animationcomplete', (anim: Animations.Animation, frame: Animations.AnimationFrame) => {
       body.destroy();
     });
     body.angle = direction < 0 ? 0 : 180;
     body.displayOriginX = 0;
     if (direction == -1) {
-      body.y = -47
-      body.x = -9
+      body.y = -44
+      body.x = -20
     } else {
-      body.y = 30
-      body.x = 11
+      body.y = 27
+      body.x = 27
     }
     this.scene.add.existing(body);
     this.add(body);

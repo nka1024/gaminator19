@@ -183,16 +183,16 @@ export class AnimationRegistry {
 
     scene.anims.create({
       key: 'attack_yellow_anim',
-      frames: scene.anims.generateFrameNumbers('attack_anim_yellow_19x22', { start: 0, end: 8 }),
-      frameRate: 15,
+      frames: scene.anims.generateFrameNumbers('attack4_yellow_48x48', { start: 0, end: 14 }),
+      frameRate: 23,
       repeat: 0,
       repeatDelay: 0,
       hideOnComplete: true
     });
     scene.anims.create({
       key: 'attack_blue_anim',
-      frames: scene.anims.generateFrameNumbers('attack_anim_blue_19x22', { start: 0, end: 8 }),
-      frameRate: 15,
+      frames: scene.anims.generateFrameNumbers('attack4_48x48', { start: 0, end: 14 }),
+      frameRate: 23,
       repeat: 0,
       repeatDelay: 0,
       hideOnComplete: true

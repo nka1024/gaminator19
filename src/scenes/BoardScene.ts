@@ -58,7 +58,8 @@ export class BoardScene extends Phaser.Scene {
   private selectAudio: Phaser.Sound.BaseSound;
   private selectAudio2: Phaser.Sound.BaseSound;
   private spawnAudio: Phaser.Sound.BaseSound;
-  private damageAudio: Phaser.Sound.BaseSound;
+  private damage1Audio: Phaser.Sound.BaseSound;
+  private damage2Audio: Phaser.Sound.BaseSound;
   private linkUpAudio: Phaser.Sound.BaseSound;
   private healModuleAudio: Phaser.Sound.BaseSound;
   private healCoreAudio: Phaser.Sound.BaseSound;
@@ -100,7 +101,8 @@ export class BoardScene extends Phaser.Scene {
     this.selectAudio = this.sound.add('select_blip', { loop: false, volume: 0.3 });
     this.selectAudio2 = this.sound.add('select_blop', { loop: false, volume: 0.3 });
     this.spawnAudio = this.sound.add('spawn_whoosh', { loop: false, volume: 0.5 });
-    this.damageAudio = this.sound.add('damage_shuh', { loop: false, volume: 0.5 });
+    this.damage1Audio = this.sound.add('damage1_shuh', { loop: false, volume: 0.4 });
+    this.damage2Audio = this.sound.add('damage2_shuh', { loop: false, volume: 0.4 });
     this.linkUpAudio = this.sound.add('linkup_wurl', { loop: false, volume: 0.4 });
     this.healCoreAudio = this.sound.add('heal_swir', { loop: false, volume: 0.5 });
     this.healModuleAudio = this.sound.add('heal_swir', { loop: false, volume: 0.5 });
@@ -199,13 +201,13 @@ export class BoardScene extends Phaser.Scene {
       }
     });
     this.controller.events.on(BattleControllerEvent.CORE_DAMAGE, () => {
-      this.damageAudio.play();
+      Math.random()> 0.5? this.damage1Audio.play() : this.damage1Audio.play();
     })
     this.controller.events.on(BattleControllerEvent.CORE_HEAL, () => {
       this.healCoreAudio.play();
     });
     this.controller.events.on(BattleControllerEvent.MODULE_DAMAGE, () => {
-      this.damageAudio.play();
+      Math.random()> 0.5? this.damage1Audio.play() : this.damage2Audio.play();
     })
     this.controller.events.on(BattleControllerEvent.MODULE_HEAL, () => {
       this.healModuleAudio.play();
