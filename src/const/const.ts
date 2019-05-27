@@ -1,12 +1,12 @@
 /**
  * @author       Kirill Nepomnyaschiy <nka1024@gmail.com>
  * @copyright    nka1024
- * @description  Blank
+ * @description  gaminator 19
  * @license      nka1024
  */
 
 export let CONST = {
-  DEV: true,
+  DEV: false,
 };
 
 export let UI_DEPTH = {

@@ -1,10 +1,10 @@
-import { FloatingText } from "../FloatingText";
-
 /**
 * @author       Kirill Nepomnyaschiy <nka1024@gmail.com>
 * @copyright    Kirill Nepomnyaschiy
 * @description  gaminator 19
 */
+
+import { FloatingText } from "../FloatingText";
 
 export class PlayerDisplay extends Phaser.GameObjects.Container {
   
@@ -39,7 +39,6 @@ export class PlayerDisplay extends Phaser.GameObjects.Container {
     this.add(this.opponent);
 
     this.hero = new Phaser.GameObjects.Sprite(scene, 0, 0, '');
-    // this.hero.setOrigin(0,0)
     this.hero.play('player_idle_back_anim')
     this.hero.y = 0;
     this.hero.x = 0;
@@ -133,7 +132,6 @@ export class PlayerDisplay extends Phaser.GameObjects.Container {
     this.add(linkUp);
   }
 
-
   public playDeathAnim() {
     this.opponent.visible = false;
     this.hero.visible = false;
@@ -143,7 +141,6 @@ export class PlayerDisplay extends Phaser.GameObjects.Container {
     deathAnim.x = 0;
     this.scene.add.existing(deathAnim);
     this.add(deathAnim);
-    // this.isDeathPlaying = true;
 
     deathAnim.on('animationcomplete', (anim, frame) => {
       deathAnim.destroy();

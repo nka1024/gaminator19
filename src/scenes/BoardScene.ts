@@ -356,12 +356,10 @@ export class BoardScene extends Phaser.Scene {
         this.cardDetails.visible = true;
         this.cardDetails.populate(card);
       } else {
-        // this.cardDetails.visible = true;
         let view = this.hand.cardAtCursor();
         if (view && view.card) {
           this.cardDetails.populate(view.card);
         }
-        // this.cardDetails.visible = false;
       }
     })
     this.spots.events.on('spot_populated', (card: CardData) => {
@@ -369,7 +367,6 @@ export class BoardScene extends Phaser.Scene {
         this.spawnAudio.play();
       }
     });
-
   }
 
   private addKeybinds() {
