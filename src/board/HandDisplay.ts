@@ -10,6 +10,9 @@ import { CardDisplay } from "./CardDisplay";
 export class HandDisplay extends Phaser.GameObjects.Container {
 
   private cards: CardDisplay[] = []
+  // need to keep deleted cards here for update() to handle mask correctly
+  private tweenedCards: CardDisplay[] = []; 
+
   private cursor: Phaser.GameObjects.Sprite;
   private nextPhase: Phaser.GameObjects.Image;
   public cursorPos: number = 0;
@@ -22,14 +25,14 @@ export class HandDisplay extends Phaser.GameObjects.Container {
     this.events = new Phaser.Events.EventEmitter();
 
     this.cursor = new Phaser.GameObjects.Sprite(scene, 0, 0, '');
-    this.cursor.setOrigin(0,0)
+    this.cursor.setOrigin(0, 0)
     this.cursor.play('cursor_hand_anim')
     this.cursor.y = -18;
     scene.add.existing(this.cursor);
     this.add(this.cursor);
 
     this.nextPhase = new Phaser.GameObjects.Image(scene, 0, 0, 'next_phase');
-    this.nextPhase.setOrigin(0,0)
+    this.nextPhase.setOrigin(0, 0)
     this.nextPhase.y = 32;
     this.add(this.nextPhase);
 
@@ -37,7 +40,7 @@ export class HandDisplay extends Phaser.GameObjects.Container {
   }
 
   public cleanup() {
-    while(this.cards.length > 0) {
+    while (this.cards.length > 0) {
       let card = this.cards.shift();
       this.remove(card);
       card.destroy();
@@ -46,13 +49,27 @@ export class HandDisplay extends Phaser.GameObjects.Container {
     this.setCursorHidden(true);
   }
 
-  public addCard(card: CardDisplay) {
+  public addCard(card: CardDisplay, delay: number) {
+    let finalX = this.cards.length * 22;
     card.x = this.cards.length * 22;
+    // card.x = finalX + 200;
+    card.y = 200
+    card.alpha = 0;
     this.cards.push(card);
     this.add(card);
     this.bringToTop(this.cursor)
 
     this.shiftNextPhase();
+
+    this.scene.tweens.add({
+      targets: card,
+      y: 0,
+      alpha: 1,
+      duration: 1000,
+      ease: 'Elastic',
+      easeParams: [0.5, 0.5],
+      delay: delay
+    });
   }
 
   public cardAtCursor(): CardDisplay {
@@ -62,9 +79,34 @@ export class HandDisplay extends Phaser.GameObjects.Container {
   public removeCardAtCursor() {
     let card = this.cards[this.cursorPos];
     this.cards.splice(this.cards.indexOf(card), 1);
-    this.remove(card);
-    card.destroy();
+
+    this.tweenedCards.push(card);
     this.putCursor(0);
+
+    this.scene.tweens.add({
+      targets: card,
+      x: -30,
+      duration: 1000,
+      ease: 'Elastic',
+      easeParams: [0.5, 0.5],
+      delay: 0
+    });
+
+    this.scene.tweens.add({
+      targets: card,
+      y: -100,
+      alpha: 0,
+      duration: 1000,
+      ease: 'Power3',
+      easeParams: [0.5, 0.5],
+      delay: 700,
+      onComplete: () => {
+        this.tweenedCards.splice(this.tweenedCards.indexOf(card), 1);
+        this.remove(card);
+        card.destroy();
+      }
+    });
+
 
     if (this.cards.length == 0) {
       this.setCursorHidden(true);
@@ -118,6 +160,10 @@ export class HandDisplay extends Phaser.GameObjects.Container {
   update() {
     for (let card of this.cards) {
       card.update();
+    }
+
+    for (let tweenedCard of this.tweenedCards) {
+      tweenedCard.update();
     }
   }
 }

@@ -116,7 +116,7 @@ export class BattleController {
         let card = this.board.player.deck.shift();
         if (card) {
           this.board.player.hand.push(card);
-          this.hand.addCard(new CardDisplay(this.scene).populate(card));
+          this.hand.addCard(new CardDisplay(this.scene).populate(card), i * 300);
         }
       }
 

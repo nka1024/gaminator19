@@ -10,7 +10,8 @@
     "webpack": "4.20.1",
     "webpack-cli": "3.1.1",
     "webpack-dev-server": "3.1.9",
-    "easystarjs": "0.4.3"
+    "easystarjs": "0.4.3",
+    "electron": "^2.0.0"
   },
   "window": {
     "title": "Отладчик 4406",
@@ -25,7 +26,8 @@
   },
   "scripts": {
     "dev": "webpack --mode development && webpack-dev-server --mode development",
-    "build": "webpack --mode production "
+    "build": "webpack --mode production ",
+    "electron": "electron ."
   },
   "repository": {
     "type": "git",
