@@ -12,7 +12,9 @@ export enum TerminalScreenID {
   SELECT_LANE = 'terminal_select_lane_anim',         
   SELECT_MODULE = 'terminal_select_module_anim',       
   UNABLE_TO_INSTALL = 'terminal_unable_to_install_anim',   
-  UNSIFFICIENT_LINK = 'terminal_unsufficient_link_anim'
+  UNSIFFICIENT_LINK = 'terminal_unsufficient_link_anim',
+  BATTLE_WON = 'terminal_battle_won_anim',
+  BATTLE_LOST = 'terminal_battle_lost_anim'
 }
 
 export class TerminalDisplay extends Phaser.GameObjects.Container {

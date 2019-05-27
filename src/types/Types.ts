@@ -68,7 +68,8 @@ export enum BoardPhase {
   OPPONENT_DRAW,
   OPPONENT_COMMAND,
   OPPONENT_PROTECT,
-  OPPONENT_COMPILE
+  OPPONENT_COMPILE,
+  BATTLE_END,
 }
 
 export type BoardData = {

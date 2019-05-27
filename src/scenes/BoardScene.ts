@@ -52,6 +52,8 @@ export class BoardScene extends Phaser.Scene {
   private animationRegistry: AnimationRegistry;
 
   private combatLoopAudio: Phaser.Sound.BaseSound;
+  private victoryAudio: Phaser.Sound.BaseSound;
+  private defeatAudio: Phaser.Sound.BaseSound;
   private connectAudio: Phaser.Sound.BaseSound;
   private connectAudio2: Phaser.Sound.BaseSound;
   private connectAudio3: Phaser.Sound.BaseSound;
@@ -65,6 +67,8 @@ export class BoardScene extends Phaser.Scene {
   private healCoreAudio: Phaser.Sound.BaseSound;
   private buffAudio: Phaser.Sound.BaseSound;
   private errAudio: Phaser.Sound.BaseSound;
+  private moduleDeathAudio: Phaser.Sound.BaseSound;
+  private moduleDrawAudio: Phaser.Sound.BaseSound;
 
   constructor() {
     super({
@@ -95,6 +99,8 @@ export class BoardScene extends Phaser.Scene {
 
   create(data): void {
     this.combatLoopAudio = this.sound.add('combat_loop', { loop: true, volume: 0.35 });
+    this.victoryAudio = this.sound.add('victory_audio', { loop: false, volume: 0.5 });
+    this.defeatAudio = this.sound.add('defeat_audio', { loop: false, volume: 0.35 });
     this.connectAudio = this.sound.add('connect', { loop: false, volume: 0.3 });
     this.connectAudio2 = this.sound.add('connect2', { loop: false, volume: 0.3 });
     this.connectAudio3 = this.sound.add('connect3', { loop: false, volume: 0.3 });
@@ -108,6 +114,9 @@ export class BoardScene extends Phaser.Scene {
     this.healModuleAudio = this.sound.add('heal_swir', { loop: false, volume: 0.5 });
     this.buffAudio = this.sound.add('buff_brlrl', { loop: false, volume: 0.3 });
     this.errAudio = this.sound.add('err_skwii', { loop: false, volume: 0.4 });
+    this.moduleDrawAudio = this.sound.add('card_draw_plick', { loop: false, volume: 0.3 });
+    this.moduleDeathAudio = this.sound.add('card_death_frfr', { loop: false, volume: 0.3 });
+    
     
     this.animationRegistry = new AnimationRegistry(this);
     this.animationRegistry.initBoardAnimations();
@@ -155,6 +164,10 @@ export class BoardScene extends Phaser.Scene {
   }
 
   private onEnter() {
+    this.hand.visible = true;
+    this.opponentDisplay.visible = true;
+    this.playerDisplay.visible = true;
+    // this.cardDetails.visible = true;
     if (!CONST.DEV) {
       this.connectAudio2.play();
       this.time.addEvent({
@@ -223,6 +236,34 @@ export class BoardScene extends Phaser.Scene {
     });
     this.controller.events.on(BattleControllerEvent.ERROR, () => {
       this.errAudio.play();
+    });
+    this.controller.events.on(BattleControllerEvent.MODULE_DEATH, () => {
+      this.moduleDeathAudio.play();
+    });
+    this.controller.events.on(BattleControllerEvent.MODULE_DRAW, () => {
+      this.moduleDrawAudio.play();
+    });
+    this.controller.events.on(BattleControllerEvent.PLAYER_LOST, () => {
+      this.time.addEvent({
+        delay: 700,
+        callback: () => {
+          this.defeatAudio.play();
+         } ,
+        callbackScope: this,
+        loop: false,
+        paused: false
+      });
+    });
+    this.controller.events.on(BattleControllerEvent.PLAYER_WON, () => {
+      this.time.addEvent({
+        delay: 700,
+        callback: () => {
+          this.victoryAudio.play();
+         } ,
+        callbackScope: this,
+        loop: false,
+        paused: false
+      });
     });
   }
 

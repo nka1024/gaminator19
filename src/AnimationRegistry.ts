@@ -206,6 +206,14 @@ export class AnimationRegistry {
       hideOnComplete: true
     });
     scene.anims.create({
+      key: 'board_death_anim',
+      frames: scene.anims.generateFrameNumbers('explode_67x58', { start: 0, end: 10 }),
+      frameRate: 12,
+      repeat: 0,
+      repeatDelay: 0,
+      hideOnComplete: true
+    });
+    scene.anims.create({
       key: 'link_up_anim',
       frames: scene.anims.generateFrameNumbers('link_up_64x64', { start: 0, end: 17 }),
       frameRate: 12,
@@ -330,6 +338,22 @@ export class AnimationRegistry {
     scene.anims.create({
       key: TerminalScreenID.UNSIFFICIENT_LINK,
       frames: scene.anims.generateFrameNumbers('unsufficient_link_178x60', { frames: [0, 1] }),
+      frameRate: 2,
+      repeat: -1,
+      repeatDelay: 0,
+      hideOnComplete: false
+    });
+    scene.anims.create({
+      key: TerminalScreenID.BATTLE_WON,
+      frames: scene.anims.generateFrameNumbers('battle_won_178x64', { frames: [0, 1] }),
+      frameRate: 2,
+      repeat: -1,
+      repeatDelay: 0,
+      hideOnComplete: false
+    });
+    scene.anims.create({
+      key: TerminalScreenID.BATTLE_LOST,
+      frames: scene.anims.generateFrameNumbers('battle_lost_178x64', { frames: [0, 1] }),
       frameRate: 2,
       repeat: -1,
       repeatDelay: 0,

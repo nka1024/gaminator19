@@ -22,7 +22,7 @@ type TMPData = {
   compileFinished?: boolean;
 }
 
-export enum BattleControllerEvent  {
+export enum BattleControllerEvent {
   BATTLE_END = 'BATTLE_END',
   LINK_UP = 'LINK_UP',
   CORE_DAMAGE = 'CORE_DAMAGE',
@@ -30,13 +30,17 @@ export enum BattleControllerEvent  {
   MODULE_DAMAGE = 'MODULE_DAMAGE',
   MODULE_HEAL = 'MODULE_HEAL',
   MODULE_BUFF = 'MODULE_BUFF',
+  MODULE_DEATH = 'MODULE_DEATH',
+  MODULE_DRAW = 'MODULE_DRAW',
   ERROR = 'ERROR',
+  PLAYER_LOST = 'PLAYER_LOST',
+  PLAYER_WON = 'PLAYER_WON'
 }
 
 export class BattleController {
   private phase: BoardPhase = BoardPhase.UNDEFINED;
   private tmp: TMPData = {};
-
+  private result: string = '';
   public events: Phaser.Events.EventEmitter;
 
   constructor(
@@ -68,6 +72,7 @@ export class BattleController {
       case BoardPhase.OPPONENT_COMMAND: this.phaseOpponentCommand(); return
       case BoardPhase.OPPONENT_PROTECT: this.phaseOpponentProtect(); return
       case BoardPhase.OPPONENT_COMPILE: this.phaseOpponentCompile(); return
+      case BoardPhase.BATTLE_END: this.phaseBattleEnd(); return
     }
   }
 
@@ -76,7 +81,7 @@ export class BattleController {
   //
   private phasePrepare() {
     if (this.phaseStarted()) {
-      this.terminal.setScreen(TerminalScreenID.PRESS_ENTER_TO_START);
+      // this.terminal.setScreen(TerminalScreenID.PRESS_ENTER_TO_START);
       console.log('battle begins. press enter to start');
       this.player.populate(this.board.player.hp, this.board.player.link, this.board.player.linkMax);
       this.opponent.populate(this.board.opponent.hp, this.board.opponent.link, this.board.opponent.linkMax);
@@ -88,7 +93,7 @@ export class BattleController {
         callback: () => {
           this.tmp.prepareFinished = true;
           timer.destroy();
-          this.nextPhase();
+          // this.nextPhase();
         },
         callbackScope: this,
         loop: false,
@@ -96,7 +101,12 @@ export class BattleController {
       });
     }
     if (this.tmp.prepareFinished) {
-      this.nextPhase();
+      this.terminal.setScreen(TerminalScreenID.PRESS_ENTER_TO_START);
+      if (this.keybinds.enterPressed) {
+        console.log('hand is confirmed');
+        this.nextPhase();
+      }
+      // this.nextPhase();
     }
   }
 
@@ -107,6 +117,8 @@ export class BattleController {
     if (this.phaseStarted()) {
       console.log('вrawing player cards');
 
+      this.hand.visible = true;
+      // this.details.visible = true;
       // turn 
       this.board.turn++;
       this.turn.setPhase(PhaseType.LOAD);
@@ -117,6 +129,17 @@ export class BattleController {
         if (card) {
           this.board.player.hand.push(card);
           this.hand.addCard(new CardDisplay(this.scene).populate(card), i * 300);
+          if (this.board.turn == 1) {
+            this.scene.time.addEvent({
+              delay: i * 300,
+              callback: () => {
+                this.events.emit(BattleControllerEvent.MODULE_DRAW);
+              },
+              callbackScope: this,
+              loop: false,
+              paused: false
+            });
+          }
         }
       }
 
@@ -162,11 +185,12 @@ export class BattleController {
   // 
   private modifyCoreHP(data: PlayerBoardData, view: PlayerDisplay, value: number) {
     data.hp += value;
+    if (data.hp < 0) data.hp = 0;
     view.populate(data.hp, data.link, data.linkMax);
     view.deltaHPAnim(value);
 
     if (value < 0) this.events.emit(BattleControllerEvent.CORE_DAMAGE);
-    else if (value > 0 ) this.events.emit(BattleControllerEvent.CORE_HEAL);
+    else if (value > 0) this.events.emit(BattleControllerEvent.CORE_HEAL);
   }
 
   private modifyCoreLink(data: PlayerBoardData, view: PlayerDisplay, value: number) {
@@ -177,11 +201,13 @@ export class BattleController {
 
   private modifyCardHP(card: CardData, value: number) {
     card.hp += value;
+    if (card.hp < 0) card.hp = 0;
+
     let spot = this.spots.getSpotForCard(card);
     spot.deltaHPAnim(value);
     spot.repopulate();
     if (value < 0) this.events.emit(BattleControllerEvent.MODULE_DAMAGE);
-    else if (value > 0 ) this.events.emit(BattleControllerEvent.MODULE_HEAL);
+    else if (value > 0) this.events.emit(BattleControllerEvent.MODULE_HEAL);
   }
 
   private modifyCardAtk(card: CardData, value: number) {
@@ -189,7 +215,7 @@ export class BattleController {
     let spot = this.spots.getSpotForCard(card);
     spot.deltaAtkAnim(value);
     spot.repopulate();
-    if (value > 0 ) this.events.emit(BattleControllerEvent.MODULE_BUFF);
+    if (value > 0) this.events.emit(BattleControllerEvent.MODULE_BUFF);
   }
 
   private removeCardFromHand(card: CardData, hand: CardData[]) {
@@ -208,6 +234,9 @@ export class BattleController {
   }
 
   private removeCardFromBoard(card: CardData) {
+    this.spots.getSpotForCard(card).playDeathAnim();
+    this.events.emit(BattleControllerEvent.MODULE_DEATH);
+
     let row = 0
     let col = 0;
     for (let i = 0; i < this.board.opponent.board.length; i++) {
@@ -233,7 +262,7 @@ export class BattleController {
   // PLAYER COMMAND
   //
   private phasePlayerCommand() {
-    
+
     if (this.phaseStarted()) {
       this.turn.setPhase(PhaseType.COMMANDS)
       this.hand.setCursorHidden(false)
@@ -245,7 +274,7 @@ export class BattleController {
     if (this.tmp.selectedCard) {
       this.commandSelectedPlayerCard();
     } else {
-      
+
       // select card from hand
       if (this.keybinds.leftPressed) {
         this.hand.moveCursor(-1)
@@ -311,7 +340,7 @@ export class BattleController {
           }
         }
       } else if (card.skill == CardSkillType.ZERO_TURN) {
-        card.turned = false;        
+        card.turned = false;
         this.spots.getSpotForCard(card).repopulate();
       } else {
         throw 'unknown card skill';
@@ -429,6 +458,7 @@ export class BattleController {
   //
   private phasePlayerCompile() {
     if (this.phaseStarted()) {
+      this.details.visible = false;
       this.turn.setPhase(PhaseType.COMPILE);
       console.log('compiling...');
       this.tmp.compileFinished = false;
@@ -461,6 +491,9 @@ export class BattleController {
     return {
       delay: i * 500,
       callback: () => {
+        if (this.isBattleEnded())
+          return;
+
         let card = this.board.player.board[i];
         if (card && !card.turned) {
           let opponentCard = this.board.opponent.board[i];
@@ -482,7 +515,7 @@ export class BattleController {
         }
 
         if (this.board.opponent.hp <= 0) {
-          this.events.emit(BattleControllerEvent.BATTLE_END, 'win');
+          this.endBattle(true);
         }
         // t.destroy();
       },
@@ -621,6 +654,9 @@ export class BattleController {
     return {
       delay: i * 500,
       callback: () => {
+        if (this.isBattleEnded())
+          return;
+
         let card = this.board.opponent.board[i];
         if (card && !card.turned) {
           let playerCard = this.board.player.board[i];
@@ -644,12 +680,22 @@ export class BattleController {
         }
 
         if (this.board.player.hp <= 0) {
-          this.events.emit(BattleControllerEvent.BATTLE_END, 'lose');
+          this.endBattle(false);
         }
       },
       callbackScope: this,
       loop: false,
       paused: false
+    }
+  }
+
+  private phaseBattleEnd() {
+    if (!this['ended']) {
+      this['ended'] = true;
+      this.terminal.setScreen(this.result == 'win' ? TerminalScreenID.BATTLE_WON : TerminalScreenID.BATTLE_LOST);
+    }
+    else if (this.keybinds.enterPressed) {
+      this.events.emit(BattleControllerEvent.BATTLE_END, this.result);
     }
   }
 
@@ -659,7 +705,6 @@ export class BattleController {
     return isStart;
   }
 
-
   private nextPhase() {
     if (this.board.phase == BoardPhase.OPPONENT_COMPILE) {
       this.board.phase = BoardPhase.PLAYER_DRAW
@@ -667,5 +712,60 @@ export class BattleController {
       this.board.phase++;
     }
     this.tmp = {};
+  }
+
+  private isBattleEnded() {
+    return this.board.phase == BoardPhase.BATTLE_END
+  }
+
+  private endBattle(won: boolean) {
+    this.events.emit(this.result = won ? BattleControllerEvent.PLAYER_WON : BattleControllerEvent.PLAYER_LOST);
+    this.result = won ? 'win' : 'lose';
+    this.board.phase = BoardPhase.BATTLE_END
+    this.tmp = {};
+
+    let loserView = won ? this.opponent : this.player;
+    let loserBoard = won ? this.board.opponent.board : this.board.player.board;
+    loserView.playDeathAnim();
+    for (let i = 0; i < 3; i++) {
+      let card = loserBoard[i];
+      if (card) {
+        this.scene.time.addEvent({
+          delay: i * 400,
+          callback: () => {
+            this.removeCardFromBoard(card);
+          },
+          callbackScope: this,
+          loop: false,
+          paused: false
+        });
+      }
+    }
+
+    let idx = 0;
+    for (let card of this.board.player.hand) {
+      idx++
+      this.scene.time.addEvent({
+        delay: idx * 200,
+        callback: () => {
+          this.removeCardFromHand(card, this.board.player.hand);
+        },
+        callbackScope: this,
+        loop: false,
+        paused: false
+      });
+    }
+    idx++
+    this.scene.time.addEvent({
+      delay: idx * 200,
+      callback: () => {
+        this.hand.visible = false;
+        this.details.visible = false;
+      },
+      callbackScope: this,
+      loop: false,
+      paused: false
+    });
+
   }
 }

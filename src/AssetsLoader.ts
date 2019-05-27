@@ -34,9 +34,13 @@ export class AssetsLoader {
     scene.load.audio('heal_swir', './assets/sfx/Randomize568.wav');
     scene.load.audio('err_skwii', './assets/sfx/Randomize569.wav');
     scene.load.audio('buff_brlrl', './assets/sfx/Randomize570.wav');
+    scene.load.audio('card_death_frfr', './assets/sfx/card_death.wav');
+    scene.load.audio('card_draw_plick', './assets/sfx/card_draw.wav');
 
     scene.load.audio('combat_loop', './assets/sfx/SawZer_OffWorldX.mp3');
     scene.load.audio('main_theme', './assets/sfx/CalmTune_Entrance.mp3');
+    scene.load.audio('victory_audio', './assets/sfx/victory.mp3');
+    scene.load.audio('defeat_audio', './assets/sfx/defeat.wav');
 
     scene.load.glsl('bundle', './assets/shaders/chelnoque-water.glsl');
 
@@ -69,6 +73,8 @@ export class AssetsLoader {
     scene.load.spritesheet('select_module_178x60',        './assets/board/terminal/terminal_select_module_178x60.png', { frameWidth: 178, frameHeight: 60 });
     scene.load.spritesheet('unable_to_install_178x60',    './assets/board/terminal/terminal_unable_to_install_178x60.png', { frameWidth: 178, frameHeight: 60 });
     scene.load.spritesheet('unsufficient_link_178x60',    './assets/board/terminal/terminal_unsufficient_link_178x60.png', { frameWidth: 178, frameHeight: 60 });
+    scene.load.spritesheet('battle_won_178x64',           './assets/board/terminal/terminal_battle_won_178x64.png', { frameWidth: 178, frameHeight: 64 });
+    scene.load.spritesheet('battle_lost_178x64',          './assets/board/terminal/terminal_battle_lost_178x64.png', { frameWidth: 178, frameHeight: 64 });
 
     scene.load.spritesheet('enemy_card_anim_13x15', './assets/board/enemy_card_anim_13x15.png', { frameWidth: 13, frameHeight: 15 });
     scene.load.spritesheet("cursor_spot_68x70", "./assets/board/cursor_spot_68x70.png", { frameWidth: 68, frameHeight: 70 });
@@ -119,7 +125,7 @@ export class AssetsLoader {
     scene.load.spritesheet('attack4_48x48', './assets/board/attack4_48x48.png', { frameWidth: 48, frameHeight: 48 });
     scene.load.spritesheet('attack4_yellow_48x48', './assets/board/attack4_yellow_48x48.png', { frameWidth: 48, frameHeight: 48 });
     
-
+    scene.load.spritesheet('explode_67x58', './assets/board/explode_67x58.png', { frameWidth: 67, frameHeight: 58 });
     scene.load.spritesheet('spawn_64x64', './assets/board/spawn2_64x64.png', { frameWidth: 64, frameHeight: 64 });
     scene.load.spritesheet('cursor_hand_18x124', './assets/board/cursor_hand.png', { frameWidth: 18, frameHeight: 124 });
     scene.load.spritesheet('turn_current_8x8', './assets/board/turn_current_8x8.png', { frameWidth: 8, frameHeight: 8 });

@@ -99,9 +99,11 @@ export class PlayerDisplay extends Phaser.GameObjects.Container {
     this.hpTxt.text = hp + '';
     this.currentHp = hp;
     if (this.isPlayer) {
+      this.hero.visible = true;
       this.hpTxt.x = hp < 10 ? -44 : -47; 
     } else {
       this.hpTxt.x = hp < 10 ? 17 : 14; 
+      this.opponent.visible = true;
     }
   }
 
@@ -129,6 +131,26 @@ export class PlayerDisplay extends Phaser.GameObjects.Container {
     }
     this.scene.add.existing(linkUp);
     this.add(linkUp);
+  }
+
+
+  public playDeathAnim() {
+    this.opponent.visible = false;
+    this.hero.visible = false;
+    let deathAnim = new Phaser.GameObjects.Sprite(this.scene, 0, 0, '');
+    deathAnim.play('board_death_anim')
+    deathAnim.y = -10;
+    deathAnim.x = 0;
+    this.scene.add.existing(deathAnim);
+    this.add(deathAnim);
+    // this.isDeathPlaying = true;
+
+    deathAnim.on('animationcomplete', (anim, frame) => {
+      deathAnim.destroy();
+      this.visible = false;
+      this.opponent.visible = false;
+      this.hero.visible = false;
+    });
   }
 
 }

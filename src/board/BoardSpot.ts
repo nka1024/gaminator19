@@ -21,6 +21,7 @@ export class BoardSpot extends Phaser.GameObjects.Container {
   private numbersBg: Phaser.GameObjects.Image;
   private creature: Phaser.GameObjects.Image;
   private screenAnim: Phaser.GameObjects.Sprite;
+  private isDeathPlaying: boolean;
 
   constructor(scene: Scene, private isOpponent: boolean) {
     super(scene);
@@ -105,7 +106,8 @@ export class BoardSpot extends Phaser.GameObjects.Container {
       this.protected.visible = this.card.protected;
     } else {
       this.card = null;
-      this.visible = false;
+      if (!this.isDeathPlaying)
+        this.visible = false;
     }
 
     if (playSpawnAnim) {
@@ -132,6 +134,23 @@ export class BoardSpot extends Phaser.GameObjects.Container {
         });
       });
     }
+  }
+
+  public playDeathAnim() {
+    this.creature.alpha = 0;
+    let deathAnim = new Phaser.GameObjects.Sprite(this.scene, 0, 0, '');
+    deathAnim.play('board_death_anim')
+    deathAnim.y = -10;
+    deathAnim.x = 0;
+    this.scene.add.existing(deathAnim);
+    this.add(deathAnim);
+    this.isDeathPlaying = true;
+
+    deathAnim.on('animationcomplete', (anim: Animations.Animation, frame: Animations.AnimationFrame) => {
+      deathAnim.destroy();
+      this.isDeathPlaying = false;
+      this.visible = false;
+    });
   }
 
   public repopulate() {
