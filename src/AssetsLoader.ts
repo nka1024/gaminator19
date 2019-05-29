@@ -169,6 +169,7 @@ export class AssetsLoader {
     scene.load.image("skill_dmg_core", "./assets/board/skills/skill_damage_core.png");
     scene.load.image("skill_dmg_creature", "./assets/board/skills/skill_damage_creature.png");
     scene.load.image("skill_buff_atk_while_alive", "./assets/board/skills/skill_buff_atk_while_alive.png");
+    scene.load.image("skill_enrage", "./assets/board/skills/skill_enrage.png");
 
     // Creatures
     scene.load.image("card_mask", "./assets/board/card_mask.png");
@@ -191,7 +192,7 @@ export class AssetsLoader {
     scene.load.image("creature_hp_module", "./assets/board/creatures/hp_module.png");
     scene.load.image("spell_dmg_core", "./assets/board/creatures/dmg_core.png");
     scene.load.image("spell_dmg_module", "./assets/board/creatures/dmg_module.png");
-
+    scene.load.image("spell_enrage", "./assets/board/creatures/enrage.png");
 
     scene.load.image("box_shadow_1010x600", "./assets/box_shadow_1010x600.png");
     scene.load.image("grid_128_50", "./assets/grid_128_a50.png");

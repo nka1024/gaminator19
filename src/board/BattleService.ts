@@ -26,6 +26,7 @@ export enum CardName {
   INJECTION = 'Инжектор',
   DAMAGE_CORE = 'Урон ядру',
   DAMAGE_MODULE = 'Урон модулю',
+  ENRAGE = 'Энрейдж,'
 }
 export class BattleService {
 
@@ -47,6 +48,7 @@ export class BattleService {
   }
 
   private shuffle(array: CardData[]): CardData[] {
+    return array;
     for (let i = array.length - 1; i > 0; i--) {
       let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
       [array[i], array[j]] = [array[j], array[i]]; // swap elements
@@ -76,6 +78,7 @@ export class BattleService {
     if (BattleService.playerDeck.length == 0) {
       BattleService.playerDeck = [
         this.makeCard1(0),
+        this.makeEnrageSpell(),
         this.makeBuffAtkWhileALiveCard(),
         this.makeZeroTurnCard(1),
         this.makeCardAddHPCore(1),
@@ -253,6 +256,17 @@ export class BattleService {
       skill: CardSkillType.DAMAGE_CREATURE,
       benefit: benefit,
       link: benefit,
+      turned: true
+    }
+  }
+
+  public makeEnrageSpell(): CardData {
+    return {
+      type: CardType.EFFECT,
+      name: CardName.ENRAGE,
+      skill: CardSkillType.ENRAGE,
+      benefit: 0,
+      link: 0,
       turned: true
     }
   }

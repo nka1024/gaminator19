@@ -46,6 +46,7 @@ export enum CardSkillType  {
   SUBTLETY,
   INJECTION,
   BUFF_ATK_WHILE_ALIVE,
+  ENRAGE,
 }
 
 export type CardData = {

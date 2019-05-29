@@ -87,6 +87,7 @@ SUBTLETY: пока этот модуль защищен Скрытием, уме
 deal damage to core
 deal damage to module
 пока на поле, ваши модули наносят 1 дополнительный урон
+наносит модулю 1 урон и дает +2 атаки
 
 ИЗОЛЯЦИЯ
 destroy random module

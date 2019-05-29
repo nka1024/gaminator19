@@ -100,6 +100,7 @@ export class CardDetailsDisplay extends Phaser.GameObjects.Container {
       case CardName.INJECTION: return 'creature_injection';
       case CardName.DAMAGE_CORE: return 'spell_dmg_core';
       case CardName.DAMAGE_MODULE: return 'spell_dmg_module';
+      case CardName.ENRAGE: return 'spell_enrage';
       
       default: return '';
     }
@@ -119,6 +120,7 @@ export class CardDetailsDisplay extends Phaser.GameObjects.Container {
       case CardSkillType.DAMAGE_CORE: return 'skill_dmg_core';
       case CardSkillType.DAMAGE_CREATURE: return 'skill_dmg_creature';
       case CardSkillType.BUFF_ATK_WHILE_ALIVE: return 'skill_buff_atk_while_alive';
+      case CardSkillType.ENRAGE: return 'skill_enrage';
       
       default: return 
     }

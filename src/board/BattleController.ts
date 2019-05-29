@@ -474,9 +474,19 @@ export class BattleController {
               this.onCardDeath(target, this.board.player);
             }
           } else if (card.skill == CardSkillType.HYBERNATION) {
+            this.modifyCoreLink(this.board.player, this.player, -card.link)
             target.hybernate = 1;
             let spot = this.spots.getSpotForCard(target);
             spot.repopulate();
+          } else if (card.skill == CardSkillType.ENRAGE) {
+            this.modifyCoreLink(this.board.player, this.player, -card.link)
+            this.modifyCardAtk(target, 2)
+            this.modifyCardHP(target, -1)
+            if (target.hp <= 0) {
+              this.removeCardFromBoard(target);
+              let data = this.spots.getCursorRow() == 0 ? this.board.opponent : this.board.player;
+              this.onCardDeath(target, data);
+            }
           } else {
             throw ('unknow card skill type');
           }
