@@ -24,6 +24,8 @@ export enum CardName {
   HYBRID = 'Гибрид',
   SUBTLETY = 'Кардинал',
   INJECTION = 'Инжектор',
+  DAMAGE_CORE = 'Урон ядру',
+  DAMAGE_MODULE = 'Урон модулю',
 }
 export class BattleService {
 
@@ -66,7 +68,8 @@ export class BattleService {
     if (BattleService.playerDeck.length == 0) {
       BattleService.playerDeck = [
         this.makeCard1(0),
-        this.makeInjectionCard(),
+        this.makeDamageCoreSpell(1),
+        this.makeDamageCreatureSpell(2),
         this.makeZeroTurnCard(1),
         this.makeCardAddHPCore(1),
         this.makeCardAddHPCreature(2),
@@ -74,6 +77,7 @@ export class BattleService {
         this.makeHybernationCard(),
         this.makeHybridCard(),
         this.makeSubtletyCard(),
+        this.makeInjectionCard(),
         this.makeCard1(1),
         this.makeCard1(2),
         this.makeCard1(3),
@@ -188,6 +192,18 @@ export class BattleService {
     }
   }
 
+  public makeDamageCoreSpell(benefit: number): CardData {
+    return {
+      type: CardType.EFFECT,
+      name: CardName.DAMAGE_CORE,
+      skill: CardSkillType.DAMAGE_CORE,
+      benefit: benefit,
+      link: benefit,
+      turned: true,
+      instant: true
+    }
+  }
+
   public makeHybernationCard(): CardData {
     return {
       type: CardType.EFFECT,
@@ -209,6 +225,16 @@ export class BattleService {
     }
   }
 
+  public makeDamageCreatureSpell(benefit: number): CardData {
+    return {
+      type: CardType.EFFECT,
+      name: CardName.DAMAGE_MODULE,
+      skill: CardSkillType.DAMAGE_CREATURE,
+      benefit: benefit,
+      link: benefit,
+      turned: true
+    }
+  }
   public makeCardAddAtk(atk: number): CardData {
     return {
       type: CardType.EFFECT,

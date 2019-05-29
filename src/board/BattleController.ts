@@ -381,7 +381,15 @@ export class BattleController {
       this.removeCardFromHand(card, this.board.player.hand);
       this.tmp.selectedCard = null;
     }
-
+    else if (card.skill == CardSkillType.DAMAGE_CORE) {
+      this.modifyCoreHP(this.board.opponent, this.opponent, -card.benefit);
+      this.modifyCoreLink(this.board.player, this.player, -card.link);
+      this.removeCardFromHand(card, this.board.player.hand);
+      this.tmp.selectedCard = null;
+      if (this.board.opponent.hp <= 0) {
+        this.endBattle(true);
+      }
+    }
     else {
       throw ('unknown instant card skill type')
     }
@@ -430,6 +438,12 @@ export class BattleController {
           } else if (card.skill == CardSkillType.ADD_ATTACK_CREATURE) {
             this.modifyCoreLink(this.board.player, this.player, -card.link)
             this.modifyCardAtk(target, card.benefit);
+          } else if (card.skill == CardSkillType.DAMAGE_CREATURE) {
+            this.modifyCoreLink(this.board.player, this.player, -card.link)
+            this.modifyCardHP(target, -card.benefit);
+            if (target.hp <= 0) {
+              this.removeCardFromBoard(target);
+            }
           } else if (card.skill == CardSkillType.HYBERNATION) {
             target.hybernate = 1;
             let spot = this.spots.getSpotForCard(target);

@@ -166,7 +166,8 @@ export class AssetsLoader {
     scene.load.image("skill_hybrid", "./assets/board/skills/skill_hybrid.png");
     scene.load.image("skill_subtlety", "./assets/board/skills/skill_subtlety.png");
     scene.load.image("skill_injection", "./assets/board/skills/skill_injection.png");
-    
+    scene.load.image("skill_dmg_core", "./assets/board/skills/skill_damage_core.png");
+    scene.load.image("skill_dmg_creature", "./assets/board/skills/skill_damage_creature.png");
     
     // Creatures
     scene.load.image("card_mask", "./assets/board/card_mask.png");
@@ -187,7 +188,10 @@ export class AssetsLoader {
     scene.load.image("creature_atk", "./assets/board/creatures/atk.png");
     scene.load.image("creature_hp_core", "./assets/board/creatures/hp_core.png");
     scene.load.image("creature_hp_module", "./assets/board/creatures/hp_module.png");
+    scene.load.image("spell_dmg_core", "./assets/board/creatures/dmg_core.png");
+    scene.load.image("spell_dmg_module", "./assets/board/creatures/dmg_module.png");
     
+
     scene.load.image("box_shadow_1010x600", "./assets/box_shadow_1010x600.png");
     scene.load.image("grid_128_50", "./assets/grid_128_a50.png");
     scene.load.image("grid_128_30", "./assets/grid_128_a50.png");
