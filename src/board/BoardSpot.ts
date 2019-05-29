@@ -101,6 +101,7 @@ export class BoardSpot extends Phaser.GameObjects.Container {
       this.sandclock.visible = card.turned || card.hybernate > 0;
       this.hpTxt.text = card.hp.toString();
       this.atkTxt.text = card.attack.toString();
+      this.atkTxt.x = card.attack > 10 ? -35 : -30;
 
       this.creature.setTexture(CardDetailsDisplay.creatureTextureByName(card.name));
       this.protected.visible = this.card.protected;

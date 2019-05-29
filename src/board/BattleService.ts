@@ -46,6 +46,14 @@ export class BattleService {
     }
   }
 
+  private shuffle(array: CardData[]): CardData[] {
+    for (let i = array.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
+      [array[i], array[j]] = [array[j], array[i]]; // swap elements
+    }
+    return array;
+  }
+
   private copyAll(a: CardData[]): CardData[] {
     let result = [];
     for (let c of a) {
@@ -88,7 +96,7 @@ export class BattleService {
     }
     let result: PlayerBoardData = {
       name: 'Sora',
-      deck: this.copyAll(BattleService.playerDeck),
+      deck: this.shuffle(this.copyAll(BattleService.playerDeck)),
       hand: [],
       board: [],
       link: 0,

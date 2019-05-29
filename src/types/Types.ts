@@ -63,7 +63,6 @@ export type CardData = {
 
   // effects:
   hybernate?: number
-  atkBuff?: number
 }
 
 export enum BoardPhase {
