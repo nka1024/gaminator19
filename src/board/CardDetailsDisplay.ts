@@ -95,6 +95,7 @@ export class CardDetailsDisplay extends Phaser.GameObjects.Container {
       case CardName.ADD_HP_MODULE: return 'creature_hp_module';
       case CardName.ADD_HP_CORE: return 'creature_hp_core';
       case CardName.HYBERNATION: return 'spell_hybernation';
+      case CardName.HYBRID: return 'creature_hybrid';
       
       default: return '';
     }
@@ -108,6 +109,7 @@ export class CardDetailsDisplay extends Phaser.GameObjects.Container {
       case CardSkillType.HYBERNATION: return 'skill_put_to_sleep';
       case CardSkillType.ADD_HP_CORE: return 'skill_add_hp_core';
       case CardSkillType.ADD_HP_CREATURE: return 'skill_add_hp_creature';
+      case CardSkillType.HYBRID: return 'skill_hybrid';
       default: return 
     }
   }

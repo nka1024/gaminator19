@@ -20,7 +20,8 @@ export enum CardName {
   ADD_ATK_MODULE = 'Add power',
   ADD_HP_MODULE = 'Add module HP',
   ADD_HP_CORE = 'Add core HP',
-  HYBERNATION = 'Гибернация'
+  HYBERNATION = 'Гибернация',
+  HYBRID = 'Гибрид'
 }
 export class BattleService {
 
@@ -62,12 +63,13 @@ export class BattleService {
   public makePlayerData(): PlayerBoardData {
     if (BattleService.playerDeck.length == 0) {
       BattleService.playerDeck = [
-        this.makeHybernationCard(),
         this.makeCard1(0),
+        this.makeHybridCard(),
         this.makeZeroTurnCard(1),
         this.makeCardAddHPCore(1),
         this.makeCardAddHPCreature(2),
         this.makeCardAddAtk(3),
+        this.makeHybernationCard(),
         this.makeCard1(1),
         this.makeCard1(2),
         this.makeCard1(3),
@@ -134,6 +136,18 @@ export class BattleService {
     }
   }
   
+  public makeHybridCard(): CardData {
+    return {
+      type: CardType.CREATURE,
+      name: CardName.HYBRID,
+      skill: CardSkillType.HYBRID,
+      attack: 1,
+      hp: 2,
+      link: 1,
+      turned: true
+    }
+  }
+
   public makeCardAddHPCore(hp: number): CardData {
     return {
       type: CardType.EFFECT,

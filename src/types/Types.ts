@@ -42,6 +42,7 @@ export enum CardSkillType  {
   DEAL_DAMAGE_CORE,
   HYBERNATION,
   ZERO_TURN,
+  HYBRID,
 }
 
 export type CardData = {

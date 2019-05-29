@@ -141,8 +141,6 @@ export class BattleController {
       console.log('вrawing player cards');
 
       this.hand.visible = true;
-      // this.details.visible = true;
-      // turn 
       this.board.turn++;
       this.turn.setPhase(PhaseType.LOAD);
 
@@ -259,8 +257,13 @@ export class BattleController {
 
   private putCardToBoard(card: CardData, col: number, playerData: PlayerBoardData) {
     let row = playerData == this.board.opponent ? 0 : 1;
+    let oldCard = playerData.board[col];
     playerData.board[col] = card;
     this.spots.putCard(row, col, card);
+    if (card.skill == CardSkillType.HYBRID) {
+      this.modifyCardHP(card, oldCard.hp);
+      this.modifyCardAtk(card, oldCard.attack);
+    }
   }
 
   private removeCardFromBoard(card: CardData) {
@@ -374,6 +377,7 @@ export class BattleController {
       } else if (card.skill == CardSkillType.ZERO_TURN) {
         card.turned = false;
         this.spots.getSpotForCard(card).repopulate();
+      } else if (card.skill == CardSkillType.HYBRID) {
       } else {
         throw 'unknown card skill';
       }
