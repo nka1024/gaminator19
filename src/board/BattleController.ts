@@ -445,15 +445,42 @@ export class BattleController {
       let data = this.board.player == playerData ? this.board.opponent : playerData;
       for (let target of data.board) {
         if (target) {
-          this.modifyCardHP(target, -3)
-          if (target.hp <= 0) {
-            this.removeCardFromBoard(target);
-            let data = this.spots.getCursorRow() == 0 ? this.board.opponent : this.board.player;
-            this.onCardDeath(target, data);
-          }
+          this.doDamageToCard(target, 3)
         }
       }
       this.spots.refresh();
+    }
+  }
+
+  private getBoardCardOwner(card: CardData): PlayerBoardData {
+    for (let c of this.board.opponent.board) {
+      if (c == card) {
+        return this.board.opponent;
+      }
+    }
+    for (let c of this.board.player.board) {
+      if (c == card) {
+        return this.board.player;
+      }
+    }
+    return null;
+  }
+
+  private doDamageToCard(card: CardData, dmg: number) {
+    let owner = this.getBoardCardOwner(card);
+    if (!owner) return;
+    if (!card.protected) {
+      this.modifyCardHP(card, -dmg);
+      if (card.hp <= 0) {
+        this.removeCardFromBoard(card);
+        this.onCardDeath(card, owner);
+      }
+    } else {
+      let view = owner == this.board.player ? this.player : this.opponent;
+      this.modifyCoreHP(owner, view, dmg);
+      if (owner.hp <= 0) {
+        this.endBattle(owner == this.board.opponent);
+      }
     }
   }
 
@@ -481,11 +508,7 @@ export class BattleController {
             this.modifyCardAtk(target, card.benefit);
           } else if (card.skill == CardSkillType.DAMAGE_CREATURE) {
             this.modifyCoreLink(this.board.player, this.player, -card.link)
-            this.modifyCardHP(target, -card.benefit);
-            if (target.hp <= 0) {
-              this.removeCardFromBoard(target);
-              this.onCardDeath(target, this.board.player);
-            }
+            this.doDamageToCard(target, card.benefit);
           } else if (card.skill == CardSkillType.HYBERNATION) {
             this.modifyCoreLink(this.board.player, this.player, -card.link)
             target.hybernate = 1;
@@ -493,13 +516,8 @@ export class BattleController {
             spot.repopulate();
           } else if (card.skill == CardSkillType.ENRAGE) {
             this.modifyCoreLink(this.board.player, this.player, -card.link)
-            this.modifyCardAtk(target, 2)
-            this.modifyCardHP(target, -1)
-            if (target.hp <= 0) {
-              this.removeCardFromBoard(target);
-              let data = this.spots.getCursorRow() == 0 ? this.board.opponent : this.board.player;
-              this.onCardDeath(target, data);
-            }
+            this.modifyCardAtk(target, 2);
+            this.doDamageToCard(target, 1);
           } else {
             throw ('unknow card skill type');
           }
@@ -629,24 +647,16 @@ export class BattleController {
           this.spots.attack(1, i, -1, short);
           // deal damage
           if (opponentCard) {
-            if (!card.protected) {
-              this.modifyCardHP(opponentCard, -card.attack);
-            } else {
-              this.modifyCoreHP(this.board.opponent, this.opponent, -card.attack);
-            }
-            if (opponentCard.hp <= 0) {
-              this.removeCardFromBoard(opponentCard);
-              this.onCardDeath(opponentCard, this.board.opponent);
-            }
+            this.doDamageToCard(opponentCard, card.attack);
           } else {
             this.modifyCoreHP(this.board.opponent, this.opponent, -card.attack);
+            if (this.board.opponent.hp <= 0) {
+              this.endBattle(true);
+            }
           }
         }
 
-        if (this.board.opponent.hp <= 0) {
-          this.endBattle(true);
-        }
-        // t.destroy();
+
       },
       callbackScope: this,
       loop: false,
@@ -789,23 +799,13 @@ export class BattleController {
           this.spots.attack(0, i, 1, short);
           // deal damage
           if (playerCard) {
-            if (!playerCard.protected) {
-              this.modifyCardHP(playerCard, -card.attack)
-              this.spots.refresh();
-            } else {
-              this.modifyCoreHP(this.board.player, this.player, -card.attack)
-            }
-            if (playerCard.hp <= 0) {
-              this.removeCardFromBoard(playerCard);
-              this.onCardDeath(playerCard, this.board.player);
-            }
+            this.doDamageToCard(playerCard, card.attack);
           } else {
             this.modifyCoreHP(this.board.player, this.player, -card.attack)
+            if (this.board.player.hp <= 0) {
+              this.endBattle(false);
+            }
           }
-        }
-
-        if (this.board.player.hp <= 0) {
-          this.endBattle(false);
         }
       },
       callbackScope: this,
@@ -893,6 +893,5 @@ export class BattleController {
       loop: false,
       paused: false
     });
-
   }
 }
