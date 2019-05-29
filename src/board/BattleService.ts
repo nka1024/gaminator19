@@ -21,7 +21,8 @@ export enum CardName {
   ADD_HP_MODULE = 'Add module HP',
   ADD_HP_CORE = 'Add core HP',
   HYBERNATION = 'Гибернация',
-  HYBRID = 'Гибрид'
+  HYBRID = 'Гибрид',
+  SUBTLETY = 'Кардинал'
 }
 export class BattleService {
 
@@ -64,12 +65,13 @@ export class BattleService {
     if (BattleService.playerDeck.length == 0) {
       BattleService.playerDeck = [
         this.makeCard1(0),
-        this.makeHybridCard(),
+        this.makeSubtletyCard(),
         this.makeZeroTurnCard(1),
         this.makeCardAddHPCore(1),
         this.makeCardAddHPCreature(2),
         this.makeCardAddAtk(3),
         this.makeHybernationCard(),
+        this.makeHybridCard(),
         this.makeCard1(1),
         this.makeCard1(2),
         this.makeCard1(3),
@@ -143,6 +145,18 @@ export class BattleService {
       skill: CardSkillType.HYBRID,
       attack: 1,
       hp: 2,
+      link: 1,
+      turned: true
+    }
+  }
+
+  public makeSubtletyCard(): CardData {
+    return {
+      type: CardType.CREATURE,
+      name: CardName.SUBTLETY,
+      skill: CardSkillType.SUBTLETY,
+      attack: 2,
+      hp: 1,
       link: 1,
       turned: true
     }

@@ -43,6 +43,7 @@ export enum CardSkillType  {
   HYBERNATION,
   ZERO_TURN,
   HYBRID,
+  SUBTLETY,
 }
 
 export type CardData = {

@@ -99,6 +99,21 @@ export class BattleController {
     }
   }
 
+  private applySubtlety(damage: number, data: PlayerBoardData): number {
+    if (damage >= 0) return damage;
+    let board = data == this.board.player ? this.board.player.board : this.board.opponent.board
+
+    for (let card of board) {
+      if (card && card.protected) {
+        if (card.skill == CardSkillType.SUBTLETY) {
+          let result = -Math.floor(Math.abs(damage / 2));
+          return result;
+        }
+      }
+    }
+    return damage;
+  }
+
   //
   // PREPARE
   //
@@ -212,6 +227,7 @@ export class BattleController {
   // HELPER METHODS
   // 
   private modifyCoreHP(data: PlayerBoardData, view: PlayerDisplay, value: number) {
+    value = this.applySubtlety(value, data);
     data.hp += value;
     if (data.hp < 0) data.hp = 0;
     view.populate(data.hp, data.link, data.linkMax);
@@ -378,6 +394,7 @@ export class BattleController {
         card.turned = false;
         this.spots.getSpotForCard(card).repopulate();
       } else if (card.skill == CardSkillType.HYBRID) {
+      } else if (card.skill == CardSkillType.SUBTLETY) {
       } else {
         throw 'unknown card skill';
       }

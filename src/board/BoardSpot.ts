@@ -158,12 +158,12 @@ export class BoardSpot extends Phaser.GameObjects.Container {
   }
 
   public deltaHPAnim(delta: number) {
-    let text = (delta < 0 ? '-' : '+') + Math.abs(delta);
+    let text = (delta < 0 ? '-' : (delta == 0 ? '':'+')) + Math.abs(delta);
     new FloatingText(this.scene, this.x + this.hpTxt.x, this.y + this.hpTxt.y, text, 'hp');
   }
 
   public deltaAtkAnim(delta: number) {
-    let text = (delta < 0 ? '-' : '+') + Math.abs(delta);
+    let text = (delta < 0 ? '-' : (delta == 0 ? '':'+')) + Math.abs(delta);
     new FloatingText(this.scene, this.x + this.atkTxt.x, this.y + this.hpTxt.y, text, 'white');
   }
 }

@@ -84,12 +84,12 @@ export class PlayerDisplay extends Phaser.GameObjects.Container {
   }
 
   public deltaHPAnim(delta: number) {
-    let text = (delta < 0 ? '-' : '+') + Math.abs(delta);
+    let text = (delta < 0 ? '-' : (delta == 0 ? '':'+')) + Math.abs(delta);
     new FloatingText(this.scene, this.x + this.hpTxt.x, this.y + this.hpTxt.y, text, 'hp');
   }
 
   public deltaLinkAnim(delta: number) {
-    let text = (delta < 0 ? '-' : '+') + Math.abs(delta);
+    let text = (delta < 0 ? '-' : (delta == 0 ? '':'+')) + Math.abs(delta);
     new FloatingText(this.scene, this.x + this.linkTxt.x, this.y + this.hpTxt.y, text, 'yellow');
   }
 
