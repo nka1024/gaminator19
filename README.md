@@ -79,3 +79,28 @@ Silence
 
 
 Покахонтас??
+
+карты:  
+destroy random module
+heal lowest module to +2
+fill all empty slots with 3/3 modules
+increase all damage for this turn by +2
+increase all healing by +2
+deal damage to core
+deal damage to module
+PRELOAD: if module is in sleep mode, wake it up
+draw 2 modules
+core is immune to damage
+IGNORE DEFENSE: all your cards attack enemy core next turn
+double attack and health of all cards in your hand
+all damage done to your core is reflected to enemy random card
+life steal
+сила атаки этого модуля складывается из суммы атак всех ваших модулей на поле
+во время гибели наносит 3 урона всем модулям противника
+если этот модуль защищен Скрытием, уменьшает весь получаемый ядром урон вдвое
+наносит модулю 1 урон и дает +2 атаки
+ГИБРИДЖ если этот модуль заменяет другой модуль на поле, то их атаки и сабильность складываются
+первой атакой наносит урон всем модулям противника
+пока на поле, ваши модули наносят 1 дополнительный урон
+пока на поле, ядро восстанавливает 1 стабильность каждый ход
+уменьшает линк противника на 2

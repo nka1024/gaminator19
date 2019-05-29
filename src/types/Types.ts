@@ -40,7 +40,7 @@ export enum CardSkillType  {
   ADD_ATTACK_CREATURE,
   DEAL_DAMAGE_CREATURE,
   DEAL_DAMAGE_CORE,
-  SILENCE_CREATURE,
+  HYBERNATION,
   ZERO_TURN,
 }
 
@@ -56,6 +56,9 @@ export type CardData = {
   protected?: boolean
   turned: boolean
   instant?: boolean
+
+  // effects:
+  hybernate?: number
 }
 
 export enum BoardPhase {

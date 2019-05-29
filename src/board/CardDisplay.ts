@@ -84,7 +84,8 @@ export class CardDisplay extends Phaser.GameObjects.Container {
         this.linkTxt.text = card.link.toString();
         this.hpTxt.text = ''
         this.atkTxt.text = ''
-        this.benefitTxt.text = '+' + card.benefit.toString();
+        if (card.benefit)
+          this.benefitTxt.text = '+' + card.benefit.toString();
         this.creature.setTexture(CardDetailsDisplay.creatureTextureByName(card.name));
         this.hp.visible = false;
         this.sword.visible = false

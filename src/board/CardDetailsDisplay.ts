@@ -66,7 +66,8 @@ export class CardDetailsDisplay extends Phaser.GameObjects.Container {
     } else if (this.card.type == CardType.EFFECT) {
       this.atk.visible = false;
       this.hp.visible = false;
-      this.benefitTxt.text = '+' + this.card.benefit.toString();
+      if (this.card.benefit)
+        this.benefitTxt.text = '+' + this.card.benefit.toString();
       this.hpTxt.text = ''
       this.atkTxt.text = ''
     } else {
@@ -93,6 +94,7 @@ export class CardDetailsDisplay extends Phaser.GameObjects.Container {
       case CardName.ADD_ATK_MODULE: return 'creature_atk';
       case CardName.ADD_HP_MODULE: return 'creature_hp_module';
       case CardName.ADD_HP_CORE: return 'creature_hp_core';
+      case CardName.HYBERNATION: return 'spell_hybernation';
       
       default: return '';
     }
@@ -103,6 +105,7 @@ export class CardDetailsDisplay extends Phaser.GameObjects.Container {
       case CardSkillType.BUFF_ALLIES_1_1: return 'skill_boost_atk_hp';
       case CardSkillType.ZERO_TURN: return 'skill_zero_turn';
       case CardSkillType.ADD_ATTACK_CREATURE: return 'skill_add_attack';
+      case CardSkillType.HYBERNATION: return 'skill_put_to_sleep';
       case CardSkillType.ADD_HP_CORE: return 'skill_add_hp_core';
       case CardSkillType.ADD_HP_CREATURE: return 'skill_add_hp_creature';
       default: return 

@@ -98,7 +98,7 @@ export class BoardSpot extends Phaser.GameObjects.Container {
       this.visible = true;
       this.card = card;
 
-      this.sandclock.visible = card.turned;
+      this.sandclock.visible = card.turned || card.hybernate > 0;
       this.hpTxt.text = card.hp.toString();
       this.atkTxt.text = card.attack.toString();
 

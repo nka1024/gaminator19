@@ -76,6 +76,29 @@ export class BattleController {
     }
   }
 
+  private isCardTurned(card: CardData) {
+    return card.turned || card.hybernate > 0;
+  }
+
+  private unturn(board: CardData[]) {
+    for (let card of board) {
+      if (card && card.turned) {
+        card.turned = false;
+      }
+      this.spots.refresh();
+    }
+  }
+
+  private unhybernate(board: CardData[]) {
+    // reduce hybernate
+    for (let card of board) {
+      if (card && card.hybernate) {
+        card.hybernate--;
+      }
+      this.spots.refresh();
+    }
+  }
+
   //
   // PREPARE
   //
@@ -163,6 +186,13 @@ export class BattleController {
       for (let i = 0; i < 3; i++) {
         if (this.board.player.board[i])
           this.board.player.board[i].turned = false;
+        this.spots.refresh();
+      }
+
+      for (let card of this.board.opponent.board) {
+        if (card && card.hybernate) {
+          card.hybernate--;
+        }
         this.spots.refresh();
       }
 
@@ -321,7 +351,9 @@ export class BattleController {
       this.modifyCoreLink(this.board.player, this.player, -card.link);
       this.removeCardFromHand(card, this.board.player.hand);
       this.tmp.selectedCard = null;
-    } else {
+    }
+
+    else {
       throw ('unknown instant card skill type')
     }
   }
@@ -371,6 +403,10 @@ export class BattleController {
           } else if (card.skill == CardSkillType.ADD_ATTACK_CREATURE) {
             this.modifyCoreLink(this.board.player, this.player, -card.link)
             this.modifyCardAtk(target, card.benefit);
+          } else if (card.skill == CardSkillType.HYBERNATION) {
+            target.hybernate = 1;
+            let spot = this.spots.getSpotForCard(target);
+            spot.repopulate();
           } else {
             throw ('unknow card skill type');
           }
@@ -486,7 +522,6 @@ export class BattleController {
     }
   }
 
-
   private onPlayerAttack(i: number): Phaser.Types.Time.TimerEventConfig {
     return {
       delay: i * 500,
@@ -495,7 +530,7 @@ export class BattleController {
           return;
 
         let card = this.board.player.board[i];
-        if (card && !card.turned) {
+        if (card && !this.isCardTurned(card)) {
           let opponentCard = this.board.opponent.board[i];
           let short = opponentCard != null
           this.spots.attack(1, i, -1, short);
@@ -541,12 +576,8 @@ export class BattleController {
       this.opponent.addLink(this.board.opponent.link, this.board.opponent.linkMax);
       this.events.emit(BattleControllerEvent.LINK_UP);
 
-      // unturn turned cards 
-      for (let i = 0; i < 3; i++) {
-        if (this.board.opponent.board[i])
-          this.board.opponent.board[i].turned = false;
-        this.spots.refresh();
-      }
+      this.unturn(this.board.opponent.board);
+      this.unhybernate(this.board.player.board);
 
       // draw card
       let timerDraw = this.scene.time.addEvent({
@@ -658,7 +689,7 @@ export class BattleController {
           return;
 
         let card = this.board.opponent.board[i];
-        if (card && !card.turned) {
+        if (card && !this.isCardTurned(card)) {
           let playerCard = this.board.player.board[i];
           let short = playerCard != null
           this.spots.attack(0, i, 1, short);

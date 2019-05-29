@@ -20,6 +20,7 @@ export enum CardName {
   ADD_ATK_MODULE = 'Add power',
   ADD_HP_MODULE = 'Add module HP',
   ADD_HP_CORE = 'Add core HP',
+  HYBERNATION = 'Гибернация'
 }
 export class BattleService {
 
@@ -61,6 +62,7 @@ export class BattleService {
   public makePlayerData(): PlayerBoardData {
     if (BattleService.playerDeck.length == 0) {
       BattleService.playerDeck = [
+        this.makeHybernationCard(),
         this.makeCard1(0),
         this.makeZeroTurnCard(1),
         this.makeCardAddHPCore(1),
@@ -141,6 +143,16 @@ export class BattleService {
       link: hp,
       turned: true,
       instant: true
+    }
+  }
+
+  public makeHybernationCard(): CardData {
+    return {
+      type: CardType.EFFECT,
+      name: CardName.HYBERNATION,
+      skill: CardSkillType.HYBERNATION,
+      link: 1,
+      turned: true
     }
   }
 
