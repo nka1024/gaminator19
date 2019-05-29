@@ -45,6 +45,7 @@ export enum CardSkillType  {
   HYBRID,
   SUBTLETY,
   INJECTION,
+  BUFF_ATK_WHILE_ALIVE,
 }
 
 export type CardData = {
@@ -62,6 +63,7 @@ export type CardData = {
 
   // effects:
   hybernate?: number
+  atkBuff?: number
 }
 
 export enum BoardPhase {

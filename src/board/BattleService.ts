@@ -68,8 +68,7 @@ export class BattleService {
     if (BattleService.playerDeck.length == 0) {
       BattleService.playerDeck = [
         this.makeCard1(0),
-        this.makeDamageCoreSpell(1),
-        this.makeDamageCreatureSpell(2),
+        this.makeBuffAtkWhileALiveCard(),
         this.makeZeroTurnCard(1),
         this.makeCardAddHPCore(1),
         this.makeCardAddHPCreature(2),
@@ -78,6 +77,8 @@ export class BattleService {
         this.makeHybridCard(),
         this.makeSubtletyCard(),
         this.makeInjectionCard(),
+        this.makeDamageCoreSpell(1),
+        this.makeDamageCreatureSpell(2),
         this.makeCard1(1),
         this.makeCard1(2),
         this.makeCard1(3),
@@ -180,6 +181,18 @@ export class BattleService {
     }
   }
 
+  public makeBuffAtkWhileALiveCard(): CardData {
+    return {
+      type: CardType.CREATURE,
+      name: CardName.x3A8C30,
+      skill: CardSkillType.BUFF_ATK_WHILE_ALIVE,
+      attack: 2,
+      hp: 1,
+      link: 1,
+      turned: true
+    }
+  }
+
   public makeCardAddHPCore(hp: number): CardData {
     return {
       type: CardType.EFFECT,
@@ -235,6 +248,7 @@ export class BattleService {
       turned: true
     }
   }
+
   public makeCardAddAtk(atk: number): CardData {
     return {
       type: CardType.EFFECT,

@@ -321,7 +321,6 @@ export class BattleController {
   // PLAYER COMMAND
   //
   private phasePlayerCommand() {
-
     if (this.phaseStarted()) {
       this.turn.setPhase(PhaseType.COMMANDS)
       this.hand.setCursorHidden(false)
@@ -395,17 +394,22 @@ export class BattleController {
     }
   }
 
-
-  private applyCreatureEffect(card: CardData, playerData: PlayerBoardData) {
+  private onCardSpawn(card: CardData, playerData: PlayerBoardData) {
     let row = playerData == this.board.player ? 1 : 0;
     if (card.skill) {
       // buff all cards except this one
       if (card.skill == CardSkillType.BUFF_ALLIES_1_1) {
-        for (let i = 0; i < 3; i++) {
-          let target = this.spots.getSpot(row, i).card;
+        for (let target of playerData.board) {
           if (target != card && target != null) {
             this.modifyCardHP(target, 1);
             this.modifyCardAtk(target, 1);
+          }
+        }
+      } else if (card.skill == CardSkillType.BUFF_ATK_WHILE_ALIVE) {
+        // buff all cards except this one
+        for (let target of playerData.board) {
+          if (target != card && target != null) {
+            this.modifyCardAtk(target, 2);
           }
         }
       } else if (card.skill == CardSkillType.ZERO_TURN) {
@@ -413,8 +417,27 @@ export class BattleController {
         this.spots.getSpotForCard(card).repopulate();
       }
     }
+
+    let i = 0;
+    for (let c of playerData.board) {
+      console.log('i: ' + i + ' = ' + c)
+      i++
+      if (c && c.skill ==  CardSkillType.BUFF_ATK_WHILE_ALIVE) {
+        this.modifyCardAtk(card, 2);
+      }
+    }
   }
 
+  private onCardDeath(card: CardData, playerData: PlayerBoardData) {
+    if (card.skill == CardSkillType.BUFF_ATK_WHILE_ALIVE) {
+      for (let c of playerData.board) {
+        if (c) {
+          this.modifyCardAtk(c, -2);
+        }
+      }
+      this.spots.refresh();
+    }
+  }
 
   private commandSelectedPlayerCard() {
     // select spot for card
@@ -443,6 +466,7 @@ export class BattleController {
             this.modifyCardHP(target, -card.benefit);
             if (target.hp <= 0) {
               this.removeCardFromBoard(target);
+              this.onCardDeath(target, this.board.player);
             }
           } else if (card.skill == CardSkillType.HYBERNATION) {
             target.hybernate = 1;
@@ -474,7 +498,7 @@ export class BattleController {
             this.removeCardFromHand(card, this.board.player.hand);
             this.tmp.selectedCard = null;
 
-            this.applyCreatureEffect(card, this.board.player);
+            this.onCardSpawn(card, this.board.player);
           } else {
             this.terminal.setScreen(TerminalScreenID.UNSIFFICIENT_LINK);
             this.events.emit(BattleControllerEvent.ERROR);
@@ -584,6 +608,7 @@ export class BattleController {
             }
             if (opponentCard.hp <= 0) {
               this.removeCardFromBoard(opponentCard);
+              this.onCardDeath(opponentCard, this.board.opponent);
             }
           } else {
             this.modifyCoreHP(this.board.opponent, this.opponent, -card.attack);
@@ -676,7 +701,7 @@ export class BattleController {
               this.putCardToBoard(card, idx, this.board.opponent);
               this.removeCardFromHand(card, this.board.opponent.hand);
               this.modifyCoreLink(this.board.opponent, this.opponent, -card.link);
-              this.applyCreatureEffect(card, this.board.opponent);
+              this.onCardSpawn(card, this.board.opponent);
               break;
             }
           }
@@ -743,8 +768,8 @@ export class BattleController {
               this.modifyCoreHP(this.board.player, this.player, -card.attack)
             }
             if (playerCard.hp <= 0) {
-              this.board.player.board[i] = null
-              this.spots.putCard(1, i, null);
+              this.removeCardFromBoard(playerCard);
+              this.onCardDeath(playerCard, this.board.player);
             }
           } else {
             this.modifyCoreHP(this.board.player, this.player, -card.attack)
@@ -797,6 +822,7 @@ export class BattleController {
     this.tmp = {};
 
     let loserView = won ? this.opponent : this.player;
+    let loserData = won ? this.board.opponent : this.board.player;
     let loserBoard = won ? this.board.opponent.board : this.board.player.board;
     loserView.playDeathAnim();
     for (let i = 0; i < 3; i++) {
@@ -806,6 +832,7 @@ export class BattleController {
           delay: i * 400,
           callback: () => {
             this.removeCardFromBoard(card);
+            this.onCardDeath(card, loserData);
           },
           callbackScope: this,
           loop: false,
