@@ -39,6 +39,7 @@ export enum BattleControllerEvent {
 
 export class BattleController {
   private phase: BoardPhase = BoardPhase.UNDEFINED;
+  private initialHandSize: number = 4;
   private tmp: TMPData = {};
   private result: string = '';
   public events: Phaser.Events.EventEmitter;
@@ -160,7 +161,7 @@ export class BattleController {
       this.turn.setPhase(PhaseType.LOAD);
 
       // draw card
-      for (let i = 0; i < (this.board.turn == 1 ? 3 : 1); i++) {
+      for (let i = 0; i < (this.board.turn == 1 ? this.initialHandSize : 1); i++) {
         let card = this.board.player.deck.shift();
         if (card) {
           this.board.player.hand.push(card);
@@ -179,8 +180,9 @@ export class BattleController {
         }
       }
 
+      // opponent draw
       if (this.board.turn == 1) {
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < this.initialHandSize; i++) {
           let card = this.board.opponent.deck.shift();
           if (card) {
             this.board.opponent.hand.push(card);
@@ -277,8 +279,11 @@ export class BattleController {
     playerData.board[col] = card;
     this.spots.putCard(row, col, card);
     if (card.skill == CardSkillType.HYBRID) {
-      this.modifyCardHP(card, oldCard.hp);
-      this.modifyCardAtk(card, oldCard.attack);
+      if (oldCard) {
+        card.turned = false;
+        this.modifyCardHP(card, oldCard.hp);
+        this.modifyCardAtk(card, oldCard.attack);
+      } 
     } else if (card.skill == CardSkillType.INJECTION) {
       let targetBoard = row == 1 ? this.board.opponent.board : this.board.player.board;
       let target = targetBoard[col];
