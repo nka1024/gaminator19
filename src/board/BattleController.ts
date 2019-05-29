@@ -7,7 +7,8 @@
 import { Keybinds } from "../Keybinds";
 import { BoardSpotsContainer } from "./BoardSpotsContainer";
 import { HandDisplay } from "./HandDisplay";
-import { BoardData, BoardPhase, PhaseType, CardData, CardType, CardSkillType, PlayerBoardData } from "../types/Types";
+import { BoardData, 
+  BoardPhase, PhaseType, CardData, CardType, CardSkillType, PlayerBoardData } from "../types/Types";
 import { CardDetailsDisplay } from "./CardDetailsDisplay";
 import { CardDisplay } from "./CardDisplay";
 import { PlayerDisplay } from "./PlayerDisplay";
@@ -445,7 +446,7 @@ export class BattleController {
       let data = this.board.player == playerData ? this.board.opponent : playerData;
       for (let target of data.board) {
         if (target) {
-          this.doDamageToCard(target, 3)
+          this.doDamageToCard(target, 3, card)
         }
       }
       this.spots.refresh();
@@ -466,7 +467,13 @@ export class BattleController {
     return null;
   }
 
-  private doDamageToCard(card: CardData, dmg: number) {
+  private hybernateCard(card: CardData, cycles: number) {
+    card.hybernate = cycles;
+    let spot = this.spots.getSpotForCard(card);
+    spot.repopulate();
+  }
+
+  private doDamageToCard(card: CardData, dmg: number, source: CardData) {
     let owner = this.getBoardCardOwner(card);
     if (!owner) return;
     if (!card.protected) {
@@ -474,6 +481,10 @@ export class BattleController {
       if (card.hp <= 0) {
         this.removeCardFromBoard(card);
         this.onCardDeath(card, owner);
+      } else {
+        if (card.skill == CardSkillType.SLEEPER_HOLD) {
+          this.hybernateCard(source, 2)
+        }
       }
     } else {
       let view = owner == this.board.player ? this.player : this.opponent;
@@ -508,16 +519,14 @@ export class BattleController {
             this.modifyCardAtk(target, card.benefit);
           } else if (card.skill == CardSkillType.DAMAGE_CREATURE) {
             this.modifyCoreLink(this.board.player, this.player, -card.link)
-            this.doDamageToCard(target, card.benefit);
+            this.doDamageToCard(target, card.benefit, card);
           } else if (card.skill == CardSkillType.HYBERNATION) {
             this.modifyCoreLink(this.board.player, this.player, -card.link)
-            target.hybernate = 1;
-            let spot = this.spots.getSpotForCard(target);
-            spot.repopulate();
+            this.hybernateCard(target, 1);
           } else if (card.skill == CardSkillType.ENRAGE) {
             this.modifyCoreLink(this.board.player, this.player, -card.link)
             this.modifyCardAtk(target, 2);
-            this.doDamageToCard(target, 1);
+            this.doDamageToCard(target, 1, card);
           } else {
             throw ('unknow card skill type');
           }
@@ -647,7 +656,7 @@ export class BattleController {
           this.spots.attack(1, i, -1, short);
           // deal damage
           if (opponentCard) {
-            this.doDamageToCard(opponentCard, card.attack);
+            this.doDamageToCard(opponentCard, card.attack, card);
           } else {
             this.modifyCoreHP(this.board.opponent, this.opponent, -card.attack);
             if (this.board.opponent.hp <= 0) {
@@ -776,7 +785,8 @@ export class BattleController {
         callback: () => {
           this.tmp.compileFinished = true;
           timer.destroy();
-          this.nextPhase();
+          if (!this.isBattleEnded())
+            this.nextPhase();
         },
         callbackScope: this,
         loop: false,
@@ -799,7 +809,7 @@ export class BattleController {
           this.spots.attack(0, i, 1, short);
           // deal damage
           if (playerCard) {
-            this.doDamageToCard(playerCard, card.attack);
+            this.doDamageToCard(playerCard, card.attack, card);
           } else {
             this.modifyCoreHP(this.board.player, this.player, -card.attack)
             if (this.board.player.hp <= 0) {
@@ -835,6 +845,9 @@ export class BattleController {
       this.board.phase = BoardPhase.PLAYER_DRAW
     } else {
       this.board.phase++;
+    }
+    if (this.board.phase >= BoardPhase.BATTLE_END) {
+      this.board.phase = BoardPhase.BATTLE_END;
     }
     this.tmp = {};
   }

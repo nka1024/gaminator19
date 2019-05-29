@@ -122,6 +122,7 @@ export class CardDetailsDisplay extends Phaser.GameObjects.Container {
       case CardSkillType.BUFF_ATK_WHILE_ALIVE: return 'skill_buff_atk_while_alive';
       case CardSkillType.ENRAGE: return 'skill_enrage';
       case CardSkillType.BOMB: return 'skill_bomb';
+      case CardSkillType.SLEEPER_HOLD: return 'skill_sleeper_hold';
       
       default: return 
     }

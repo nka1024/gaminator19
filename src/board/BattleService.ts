@@ -78,6 +78,7 @@ export class BattleService {
     if (BattleService.playerDeck.length == 0) {
       BattleService.playerDeck = [
         this.makeCard1(0),
+        this.makeSleeperHoldCard(),
         this.makeBombCard(),
         this.makeEnrageSpell(),
         this.makeBuffAtkWhileALiveCard(),
@@ -156,7 +157,19 @@ export class BattleService {
       turned: true
     }
   }
-  
+
+  public makeSleeperHoldCard(): CardData {
+    return {
+      type: CardType.CREATURE,
+      name: CardName.xCF3081,
+      skill: CardSkillType.SLEEPER_HOLD,
+      attack: 1,
+      hp: 5,
+      link: 1,
+      turned: true
+    }
+  }
+
   public makeBombCard(): CardData {
     return {
       type: CardType.CREATURE,

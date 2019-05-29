@@ -48,6 +48,7 @@ export enum CardSkillType  {
   BUFF_ATK_WHILE_ALIVE,
   ENRAGE,
   BOMB,
+  SLEEPER_HOLD,
 }
 
 export type CardData = {
