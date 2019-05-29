@@ -165,6 +165,7 @@ export class AssetsLoader {
     scene.load.image("skill_put_to_sleep", "./assets/board/skills/skill_put_to_sleep.png");
     scene.load.image("skill_hybrid", "./assets/board/skills/skill_hybrid.png");
     scene.load.image("skill_subtlety", "./assets/board/skills/skill_subtlety.png");
+    scene.load.image("skill_injection", "./assets/board/skills/skill_injection.png");
     
     
     // Creatures
@@ -182,6 +183,7 @@ export class AssetsLoader {
     scene.load.image("spell_hybernation", "./assets/board/creatures/sleeper.png");
     scene.load.image("creature_hybrid", "./assets/board/creatures/hybrid.png");
     scene.load.image("creature_subtlety", "./assets/board/creatures/subtlety.png");
+    scene.load.image("creature_injection", "./assets/board/creatures/injection.png");
     scene.load.image("creature_atk", "./assets/board/creatures/atk.png");
     scene.load.image("creature_hp_core", "./assets/board/creatures/hp_core.png");
     scene.load.image("creature_hp_module", "./assets/board/creatures/hp_module.png");

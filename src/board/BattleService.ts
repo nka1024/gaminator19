@@ -22,7 +22,8 @@ export enum CardName {
   ADD_HP_CORE = 'Add core HP',
   HYBERNATION = 'Гибернация',
   HYBRID = 'Гибрид',
-  SUBTLETY = 'Кардинал'
+  SUBTLETY = 'Кардинал',
+  INJECTION = 'Инжектор',
 }
 export class BattleService {
 
@@ -65,13 +66,14 @@ export class BattleService {
     if (BattleService.playerDeck.length == 0) {
       BattleService.playerDeck = [
         this.makeCard1(0),
-        this.makeSubtletyCard(),
+        this.makeInjectionCard(),
         this.makeZeroTurnCard(1),
         this.makeCardAddHPCore(1),
         this.makeCardAddHPCreature(2),
         this.makeCardAddAtk(3),
         this.makeHybernationCard(),
         this.makeHybridCard(),
+        this.makeSubtletyCard(),
         this.makeCard1(1),
         this.makeCard1(2),
         this.makeCard1(3),
@@ -147,6 +149,18 @@ export class BattleService {
       hp: 2,
       link: 1,
       turned: true
+    }
+  }
+
+  public makeInjectionCard(): CardData {
+    return {
+      type: CardType.CREATURE,
+      name: CardName.INJECTION,
+      skill: CardSkillType.INJECTION,
+      attack: 2,
+      hp: 2,
+      link: 1,
+      turned: true,
     }
   }
 

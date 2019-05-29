@@ -155,6 +155,14 @@ export class BoardSpotsContainer extends Phaser.GameObjects.Container {
     }
   }
 
+  public swapCards(cardA: CardData, cardB: CardData) {
+    let spotA = this.getSpotForCard(cardA)
+    let spotB = this.getSpotForCard(cardB)
+    spotA.populate(cardB);
+    spotB.populate(cardA);
+    this.events.emit('spot_populated', cardA);
+  }
+
   public refresh() {
     for (let i = 0; i < this.cords.length; i++) {
       for (let j = 0; j < this.cords[i].length; j++) {

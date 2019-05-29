@@ -279,6 +279,16 @@ export class BattleController {
     if (card.skill == CardSkillType.HYBRID) {
       this.modifyCardHP(card, oldCard.hp);
       this.modifyCardAtk(card, oldCard.attack);
+    } else if (card.skill == CardSkillType.INJECTION) {
+      let targetBoard = row == 1 ? this.board.opponent.board : this.board.player.board;
+      let target = targetBoard[col];
+      if (target) {
+        targetBoard[col] = card;
+        playerData.board[col] = target;
+        this.spots.swapCards(card, target)
+      } else {
+        this.spots.putCard(row == 0 ? 1 : 0, col, card);
+      }
     }
   }
 
@@ -393,10 +403,6 @@ export class BattleController {
       } else if (card.skill == CardSkillType.ZERO_TURN) {
         card.turned = false;
         this.spots.getSpotForCard(card).repopulate();
-      } else if (card.skill == CardSkillType.HYBRID) {
-      } else if (card.skill == CardSkillType.SUBTLETY) {
-      } else {
-        throw 'unknown card skill';
       }
     }
   }

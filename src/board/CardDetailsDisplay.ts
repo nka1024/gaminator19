@@ -97,7 +97,7 @@ export class CardDetailsDisplay extends Phaser.GameObjects.Container {
       case CardName.HYBERNATION: return 'spell_hybernation';
       case CardName.HYBRID: return 'creature_hybrid';
       case CardName.SUBTLETY: return 'creature_subtlety';
-      
+      case CardName.INJECTION: return 'creature_injection'
       default: return '';
     }
   }
@@ -112,6 +112,8 @@ export class CardDetailsDisplay extends Phaser.GameObjects.Container {
       case CardSkillType.ADD_HP_CREATURE: return 'skill_add_hp_creature';
       case CardSkillType.HYBRID: return 'skill_hybrid';
       case CardSkillType.SUBTLETY: return 'skill_subtlety';
+      case CardSkillType.INJECTION: return 'skill_injection';
+      
       default: return 
     }
   }

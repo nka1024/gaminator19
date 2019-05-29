@@ -44,6 +44,7 @@ export enum CardSkillType  {
   ZERO_TURN,
   HYBRID,
   SUBTLETY,
+  INJECTION,
 }
 
 export type CardData = {
