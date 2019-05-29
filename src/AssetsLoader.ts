@@ -170,7 +170,8 @@ export class AssetsLoader {
     scene.load.image("skill_dmg_creature", "./assets/board/skills/skill_damage_creature.png");
     scene.load.image("skill_buff_atk_while_alive", "./assets/board/skills/skill_buff_atk_while_alive.png");
     scene.load.image("skill_enrage", "./assets/board/skills/skill_enrage.png");
-
+    scene.load.image("skill_bomb", "./assets/board/skills/skill_bomb.png");
+    
     // Creatures
     scene.load.image("card_mask", "./assets/board/card_mask.png");
     scene.load.image("creature_snakey", "./assets/board/creatures/snakey.png");

@@ -26,7 +26,7 @@ export enum CardName {
   INJECTION = 'Инжектор',
   DAMAGE_CORE = 'Урон ядру',
   DAMAGE_MODULE = 'Урон модулю',
-  ENRAGE = 'Энрейдж,'
+  ENRAGE = 'Энрейдж',
 }
 export class BattleService {
 
@@ -78,6 +78,7 @@ export class BattleService {
     if (BattleService.playerDeck.length == 0) {
       BattleService.playerDeck = [
         this.makeCard1(0),
+        this.makeBombCard(),
         this.makeEnrageSpell(),
         this.makeBuffAtkWhileALiveCard(),
         this.makeZeroTurnCard(1),
@@ -152,6 +153,18 @@ export class BattleService {
       attack: 1 + power,
       hp: 1 + power,
       link: 1 + power,
+      turned: true
+    }
+  }
+  
+  public makeBombCard(): CardData {
+    return {
+      type: CardType.CREATURE,
+      name: CardName.xAF2D10,
+      skill: CardSkillType.BOMB,
+      attack: 0,
+      hp: 3,
+      link: 1,
       turned: true
     }
   }

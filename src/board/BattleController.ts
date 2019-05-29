@@ -283,7 +283,7 @@ export class BattleController {
         card.turned = false;
         this.modifyCardHP(card, oldCard.hp);
         this.modifyCardAtk(card, oldCard.attack);
-      } 
+      }
     } else if (card.skill == CardSkillType.INJECTION) {
       let targetBoard = row == 1 ? this.board.opponent.board : this.board.player.board;
       let target = targetBoard[col];
@@ -427,7 +427,7 @@ export class BattleController {
     for (let c of playerData.board) {
       console.log('i: ' + i + ' = ' + c)
       i++
-      if (c && c.skill ==  CardSkillType.BUFF_ATK_WHILE_ALIVE) {
+      if (c && c.skill == CardSkillType.BUFF_ATK_WHILE_ALIVE) {
         this.modifyCardAtk(card, 2);
       }
     }
@@ -438,6 +438,19 @@ export class BattleController {
       for (let c of playerData.board) {
         if (c) {
           this.modifyCardAtk(c, -2);
+        }
+      }
+      this.spots.refresh();
+    } else if (card.skill == CardSkillType.BOMB) {
+      let data = this.board.player == playerData ? this.board.opponent : playerData;
+      for (let target of data.board) {
+        if (target) {
+          this.modifyCardHP(target, -3)
+          if (target.hp <= 0) {
+            this.removeCardFromBoard(target);
+            let data = this.spots.getCursorRow() == 0 ? this.board.opponent : this.board.player;
+            this.onCardDeath(target, data);
+          }
         }
       }
       this.spots.refresh();

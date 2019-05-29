@@ -121,6 +121,7 @@ export class CardDetailsDisplay extends Phaser.GameObjects.Container {
       case CardSkillType.DAMAGE_CREATURE: return 'skill_dmg_creature';
       case CardSkillType.BUFF_ATK_WHILE_ALIVE: return 'skill_buff_atk_while_alive';
       case CardSkillType.ENRAGE: return 'skill_enrage';
+      case CardSkillType.BOMB: return 'skill_bomb';
       
       default: return 
     }
