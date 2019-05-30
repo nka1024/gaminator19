@@ -167,6 +167,7 @@ export class EditorRootScene extends Phaser.Scene {
     // create grid from config
     this.grid.import(map.grid);
 
+
     // create objects from config      
     for (let item of map.objects) {
       this.createObjectFromConfig(item);

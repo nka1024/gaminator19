@@ -137,7 +137,7 @@ export class DeckScene extends Phaser.Scene {
   private end() {
     BattleService.playerDeck = this.deck.getAllCardData();
     this.scene.sleep();
-    this.scene.run("WorldScene");
+    this.scene.run("WorldScene", {won: true});
   }
 
   private setActiveDeck(deck: DeckDisplay) {

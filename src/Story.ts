@@ -10,8 +10,9 @@ export enum StoryEvent {
   YesSelected = 'yes_selected',
   NoSelected = 'no_selected',
   EndDialog = 'end_dialog',
+  PlatformTravel = 'platform_travel',
 }
-enum DialogActorID {
+export enum DialogActorID {
   Unknown,
   Player,
   Controller,
@@ -25,7 +26,7 @@ type DialogActorData = {
 export type DialogOption = {
   m: string,
   e?: string,
-  next?: string
+  next?: DialogLine[]
 }
 export type DialogLine = {
   a?: DialogActorID
@@ -65,27 +66,7 @@ export class Story {
     }
   ]
 
-  private arrival: DialogLine[] = [
-    { a: DialogActorID.Player, m: '- Святая императрица, ну и вонь здесь. Контроллер, запросить статус эко-станции.'},
-    { a: DialogActorID.Controller, m: '- Ресурс кислородного блока на минимуме. Фотонная подсистема функционирует в авайрийном режиме. Вентиляционные системы требуют ремонта. Насосно-фильтровальная подстанция перегружена.' },
-    { a: DialogActorID.Player, m: '- Хоть что-то в этом секторе работает нормально?' },
-    { a: DialogActorID.Controller, m: '- Прото-реактор функционирует штатно.', o: [
-      { m:'Нет', next: 'afterArrival' },
-      { m:'Да!', e: StoryEvent.BattleStart }
-    ]},
-    // { e: StoryEvent.BattleStart },
-  ];
-
-  private debug_1: DialogLine[] = [
-    { a: DialogActorID.Unknown, m: 'Перед вами старый терминал для тестирования модулей'},
-    { a: DialogActorID.TestTerminal, m: 'Доступна только одна програма', o: [
-      { m:'Ничего не делать' },
-      { m:'Запустить программу тестирования', e: StoryEvent.BattleStart }
-    ]},
-    // { e: StoryEvent.BattleStart },
-  ];
-
-  private afterArrival: DialogLine[] = [
+  private static afterArrival: DialogLine[] = [
     { a: DialogActorID.Player, m: '- Ясно. А откуда ветер?'},
     { a: DialogActorID.Controller, m: '- Сбой датчиков даления в блоках 92J, 93J, 92P, 114B...' },
     { a: DialogActorID.Player, m: '- Стоп. Просто отправь полный отчет мне в память.' },
@@ -95,12 +76,44 @@ export class Story {
     ]}
   ];
 
+
+  public static arrival: DialogLine[] = [
+    { a: DialogActorID.Player, m: '- Святая императрица, ну и вонь здесь. Контроллер, запросить статус эко-станции.'},
+    { a: DialogActorID.Controller, m: '- Ресурс кислородного блока на минимуме. Фотонная подсистема функционирует в авайрийном режиме. Вентиляционные системы требуют ремонта. Насосно-фильтровальная подстанция перегружена.' },
+    { a: DialogActorID.Player, m: '- Хоть что-то в этом секторе работает нормально?' },
+    { a: DialogActorID.Controller, m: '- Прото-реактор функционирует штатно.', o: [
+      { m:'Нет', next: Story.afterArrival },
+      { m:'Да!', e: StoryEvent.BattleStart }
+    ]},
+    // { e: StoryEvent.BattleStart },
+  ];
+
+  public static debug_1: DialogLine[] = [
+    { a: DialogActorID.Unknown, m: 'Перед вами старый терминал для тестирования модулей'},
+    { a: DialogActorID.TestTerminal, m: 'Доступна только одна програма', o: [
+      { m:'Ничего не делать' },
+      { m:'Запустить программу тестирования', e: StoryEvent.BattleStart }
+    ]},
+    // { e: StoryEvent.BattleStart },
+  ];
+
+
+  public static transportPlatform: DialogLine[] = [
+    { a: DialogActorID.Unknown, m: 'Перед вами старый терминал для тестирования модулей'},
+    { a: DialogActorID.TestTerminal, m: 'Доступна только одна програма', o: [
+      { m:'Ничего не делать' },
+      { m:'Запустить программу тестирования', e: StoryEvent.BattleStart }
+    ]},
+    // { e: StoryEvent.BattleStart },
+  ];
+
+
   private dialogs = {
     // 'arrival': this.arrival,
     // 'afterArrival': this.afterArrival
-    'debug_1': this.debug_1
+    // 'debug_1': this.debug_1
   }
-  constructor(scene: Phaser.Scene) {
+  constructor(scene: Phaser.Scene ) {
     this.events = new Phaser.Events.EventEmitter();
     this.enterKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
     this.cursorKeys = scene.input.keyboard.createCursorKeys();
@@ -141,9 +154,8 @@ export class Story {
     this.view = view;
   }
 
-  public startDialog(key: string) {
-    let lines: DialogLine[] = this.dialogs[key];
-    this.currentDialog = lines;
+  public startDialog(dialog: DialogLine[]) {
+    this.currentDialog = dialog;
     this.currentDialogIdx = 0
     this.showLine(this.currentDialog[this.currentDialogIdx]);
   }

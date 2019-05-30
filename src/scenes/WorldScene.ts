@@ -10,7 +10,7 @@ import { WorldPlayer } from "../world/WorldPlayer";
 import { WorldAmbientObject } from "../world/WorldAmbientObject";
 import { Point } from "../types/Types";
 import { TileGrid } from "../TileGrid";
-import { MapImporterModule, MapObjetctData, MapTriggerData } from "../modules/scene/MapImporterModule";
+import { MapImporterModule, MapObjetctData, MapTriggerData, MapTriggerType } from "../modules/scene/MapImporterModule";
 import { FadeTransition } from "../FadeTransition";
 import { DialogView } from "../DialogView";
 import { Triggers } from "../world/Triggers";
@@ -18,6 +18,7 @@ import { BoxShadowOverlay } from "../BoxShadowOverlay";
 import { Events } from "phaser";
 import { Story, StoryEvent } from "../Story";
 import { CONST } from "../const/const";
+import { Encounters } from "../Encounters";
 
 export class WorldScene extends Phaser.Scene {
 
@@ -35,10 +36,11 @@ export class WorldScene extends Phaser.Scene {
   private animationRegistry: AnimationRegistry;
   private dialog: DialogView;
   private story: Story;
+  private encounters: Encounters;
 
   private enterKey: Phaser.Input.Keyboard.Key;
   private interactAnim: Phaser.GameObjects.Sprite;
-  
+
   private transition: FadeTransition;
   private pool: Phaser.GameObjects.Group;
   private terrains = [
@@ -60,7 +62,7 @@ export class WorldScene extends Phaser.Scene {
   }
 
   create(data): void {
-    
+
     this.cameras.main.setBackgroundColor(0x1f1f1f);
 
     this.animationRegistry = new AnimationRegistry(this);
@@ -73,7 +75,8 @@ export class WorldScene extends Phaser.Scene {
     this.loadMap();
 
 
-    this.player = new WorldPlayer(this, 306, 130, this.grid);
+    // this.player = new WorldPlayer(this, 306, 130, this.grid);
+    this.player = new WorldPlayer(this, 3200, 224, this.grid);
     this.pool.add(this.player);
     this.add.existing(this.player);
 
@@ -85,7 +88,7 @@ export class WorldScene extends Phaser.Scene {
     this.interactAnim.play('interact_anim')
     this.interactAnim.visible = false;
     this.add.existing(this.interactAnim);
-    this.interactAnim.depth = Number.MAX_VALUE -1
+    this.interactAnim.depth = Number.MAX_VALUE - 1
 
     this.transition = new FadeTransition(this, 0, 0);
     this.add.existing(this.transition);
@@ -96,38 +99,55 @@ export class WorldScene extends Phaser.Scene {
     this.pool.add(this.dialog);
     this.dialog.visible = false;
     this.player.dialog = this.dialog;
-    
+
     this.story = new Story(this);
     this.story.setDialogView(this.dialog)
     this.story.events.on(StoryEvent.BattleStart, () => {
-       this.startBattle();
+      this.startBattle();
     })
     this.story.events.on(StoryEvent.EndDialog, () => {
       this.story.endDialog();
     })
-     
+    this.story.events.on(StoryEvent.PlatformTravel, () => {
+      this.onStoryPlatformTravel();
+    })
+
+    this.encounters = new Encounters(this.story);
+
     let boxShadow = new BoxShadowOverlay(this);
     this.add.existing(boxShadow)
     this.pool.add(boxShadow)
 
-    this.events.on('wake', () => {
+    this.events.on('wake', (sys, data: object) => {
       this.onEnter();
 
       this.player.stopMovement();
       this.story.eventFinished();
+      if (this.triggers.currentTrigger)
+        this.encounters.endEncounter(this.triggers.currentTrigger.name, data['won']);
     })
     this.mainThemeAudio = this.sound.add('main_theme', { loop: true, volume: 0.5 });
-    
+
     this.onEnter();
-    
+
     this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
     this.enterKey.on('down', (key, event) => {
       // event.stopPropagation() was used
       if (event.cancelled == -1) {
         return;
       }
-      if (this.interactAnim.visible && !this.dialog.visible && !this.transition.playing) {
-        this.story.startDialog('debug_1');
+      if (
+        this.interactAnim.visible &&
+        this.triggers.currentTrigger &&
+        !this.dialog.visible &&
+        !this.transition.playing
+      ) {
+        // if (this.triggers.currentTrigger == 'moving_platform') {
+        //   this.story.startDialog('debug_1');
+        // }
+        if (this.triggers.currentTrigger.type == MapTriggerType.Repeatable) {
+          this.encounters.startEncounter(this.triggers.currentTrigger.name);
+        }
       }
     });
   }
@@ -143,6 +163,10 @@ export class WorldScene extends Phaser.Scene {
       if (trigger.name == 'terminal') {
         this.interactAnim.x = 500;
         this.interactAnim.y = 44;
+        this.interactAnim.visible = true;
+      } if (trigger.name == 'transport_platform') {
+        this.interactAnim.x = 3540;
+        this.interactAnim.y = 157;
         this.interactAnim.visible = true;
       }
     })
@@ -222,7 +246,15 @@ export class WorldScene extends Phaser.Scene {
       this.mainThemeAudio.pause();
     });
   }
-  
+
+  private onStoryPlatformTravel() {
+    this.transition.alphaTransition(0, 1, 0.1, () => {
+      this.player.x = 306;
+      this.player.y = 130;
+      this.transition.alphaTransition(1, 0, 0.025)
+    })
+  }
+
   private onWindowResize(w: number, h: number) {
     if (this.cameras && this.cameras.main) {
       console.log('resize to : 1010, 600')

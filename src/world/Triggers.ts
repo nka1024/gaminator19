@@ -14,6 +14,7 @@ export class Triggers {
 
   private currentTile: Tile;
 
+  public currentTrigger: MapTriggerData;
   public events: Phaser.Events.EventEmitter;
   private isTriggerTile: boolean;
 
@@ -34,6 +35,7 @@ export class Triggers {
             //
           } else {
             this.usedTriggers[trigger.name] = true
+            this.currentTrigger = trigger;
             this.events.emit('enter_trigger', trigger);
             this.isTriggerTile = true;
             return;
@@ -42,6 +44,7 @@ export class Triggers {
       }
       if (this.isTriggerTile) {
         this.isTriggerTile = false;
+        this.currentTrigger = null;
         this.events.emit('no_trigger');
         return
       }

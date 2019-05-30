@@ -7,6 +7,8 @@
 
 export let CONST = {
   DEV: true,
+  INSTANT_WIN: true,
+  INSTANT_LOSE: false
 };
 
 export let UI_DEPTH = {

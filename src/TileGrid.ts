@@ -18,7 +18,7 @@ export declare type GrassData = {
 
 export class TileGrid {
 
-  public gridSize: number = 90;
+  public gridSize: number = 221;
   public tileSize: number = 16;
 
   private grid: Phaser.GameObjects.Image[];
@@ -104,63 +104,6 @@ export class TileGrid {
     }
   }
 
-
-  /// Fog
-
-  public createFog() {
-    let fog: integer[][] = []
-    for (let i = 0; i < this.gridSize; i++) {
-      fog[i] = []
-      for (let j = 0; j < this.gridSize; j++) {
-        fog[i][j] = 0;
-      }
-    }
-
-    let config: Phaser.Types.Tilemaps.TilemapConfig = {
-      data: fog,
-      tileWidth: 32,
-      tileHeight: 32,
-      insertNull: true
-    }
-
-    let tilemap = this.scene.make.tilemap(config);
-    var tileset = tilemap.addTilesetImage('fog_tilemap');
-    this.fogLayer = tilemap.createDynamicLayer(0, tileset, 0, 0);
-    this.fogLayer.depth = UI_DEPTH.EDITOR_GRID_TILE;
-  }
-
-  public updateFog(center: Tile) {
-    let size: number = 4;
-    for (let i = center.i - (size - 1); i < center.i + size; i++) {
-      for (let j = center.j - (size - 1); j < center.j + size; j++) {
-        if (this.legit({ i: i, j: j })) {
-          this.fogLayer.removeTileAt(j, i, true, false);
-        }
-      }
-    }
-
-    for (let i = center.i - (size - 2); i < center.i + (size - 1); i++) {
-      for (let j = center.j - size; j < center.j + (size + 1); j++) {
-        if (this.legit({ i: i, j: j })) {
-          this.fogLayer.removeTileAt(j, i, true, false);
-        }
-      }
-    }
-
-    for (let i = center.i - size; i < center.i + (size + 1); i++) {
-      for (let j = center.j - (size - 2); j < center.j + (size - 1); j++) {
-        if (this.legit({ i: i, j: j })) {
-          this.fogLayer.removeTileAt(j, i, true, false);
-        }
-      }
-    }
-  }
-
-  public isFog(tile: Tile): boolean {
-    return this.fogLayer.hasTileAt(tile.j, tile.i);
-  }
-
-  // Grass
 
   public getTileIJ(p: Point): any {
     try {
@@ -266,8 +209,26 @@ export class TileGrid {
     return this.data;
   }
 
-  public import(grid: any) {
-    this.data = grid;
+  public import(grid: number[][]) {
+    let data = [];
+    for (let i = 0; i < this.gridSize; i++) {
+      data.push([])
+      if (grid.length <= i) {
+        for (let j = 0; j < this.gridSize; j++) {
+          data[i].push(1);
+        }
+      } else {
+        for (let j = 0; j < this.gridSize; j++) {
+          if (grid[i].length <= j) {
+            data[i].push(1)
+          } else {
+            data[i][j] = grid[i][j];
+          }
+        }
+      }
+    }
+
+    this.data = data;
     this.pathfinder.setGrid(this.data);
   }
 

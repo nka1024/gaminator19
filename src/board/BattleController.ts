@@ -144,7 +144,9 @@ export class BattleController {
       this.terminal.setScreen(TerminalScreenID.PRESS_ENTER_TO_START);
       if (this.keybinds.enterPressed) {
         console.log('hand is confirmed');
-        this.nextPhase();
+        if (CONST.INSTANT_WIN) this.endBattle(true);
+        else if (CONST.INSTANT_LOSE) this.endBattle(false);
+        else this.nextPhase();
       }
       // this.nextPhase();
     }

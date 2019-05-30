@@ -212,7 +212,7 @@ export class BoardScene extends Phaser.Scene {
         });
       } else {
         this.scene.sleep();
-        this.scene.run("WorldScene");
+        this.scene.run("WorldScene", {won: false});
         this.combatLoopAudio.pause();
       }
     });
