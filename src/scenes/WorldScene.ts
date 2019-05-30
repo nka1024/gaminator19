@@ -15,10 +15,10 @@ import { FadeTransition } from "../FadeTransition";
 import { DialogView } from "../DialogView";
 import { Triggers } from "../world/Triggers";
 import { BoxShadowOverlay } from "../BoxShadowOverlay";
-import { Events } from "phaser";
 import { Story, StoryEvent } from "../Story";
 import { CONST } from "../const/const";
-import { Encounters } from "../Encounters";
+import { Encounters, EncounterName } from "../Encounters";
+import { BattleService } from "../board/BattleService";
 
 export class WorldScene extends Phaser.Scene {
 
@@ -32,6 +32,7 @@ export class WorldScene extends Phaser.Scene {
   private triggers: Triggers
   private mapImporter: MapImporterModule;
 
+  private battleService: BattleService;
   private player: WorldPlayer;
   private animationRegistry: AnimationRegistry;
   private dialog: DialogView;
@@ -74,8 +75,6 @@ export class WorldScene extends Phaser.Scene {
     this.grid = new TileGrid(this);
     this.loadMap();
 
-
-    // this.player = new WorldPlayer(this, 306, 130, this.grid);
     this.player = new WorldPlayer(this, 3200, 224, this.grid);
     this.pool.add(this.player);
     this.add.existing(this.player);
@@ -100,10 +99,12 @@ export class WorldScene extends Phaser.Scene {
     this.dialog.visible = false;
     this.player.dialog = this.dialog;
 
+    this.battleService = new BattleService();
+
     this.story = new Story(this);
     this.story.setDialogView(this.dialog)
     this.story.events.on(StoryEvent.BattleStart, () => {
-      this.startBattle();
+      this.startBattle(this.encounters.currentEncounter.type);
     })
     this.story.events.on(StoryEvent.EndDialog, () => {
       this.story.endDialog();
@@ -238,11 +239,11 @@ export class WorldScene extends Phaser.Scene {
     this.triggers.checkTrigger(this.grid.worldToGrid({ x: this.player.x, y: this.player.y }));
   }
 
-  private startBattle() {
+  private startBattle(encounter: EncounterName) {
     this.transition.alphaTransition(0, 1, 0.05, () => {
       this.player.stopMovement();
       this.scene.sleep();
-      this.scene.run("BoardScene");
+      this.scene.run("BoardScene", this.battleService.makeBoardData(encounter));
       this.mainThemeAudio.pause();
     });
   }

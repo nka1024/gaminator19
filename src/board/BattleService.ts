@@ -5,6 +5,7 @@
 */
 
 import { PlayerBoardData, BoardData, CardData, CardType, CardSkillType, BoardPhase } from "../types/Types";
+import { EncounterName } from "../Encounters";
 
 export enum CardName {
   Snukchak = 'Snuk-chak',
@@ -64,12 +65,13 @@ export class BattleService {
     return result;
   }
 
-  public makeBoardData(): BoardData {
+  public makeBoardData(encounter: EncounterName): BoardData {
     let result: BoardData = {
-      opponent: this.makeOpponentData(),
+      opponent: this.makeOpponentForEncounter(encounter),
       player: this.makePlayerData(),
       phase: BoardPhase.UNDEFINED,
-      turn: 0
+      turn: 0,
+      loot: this.makeLootCardsForEncounter(encounter)
     }
     return result;
   }
@@ -121,17 +123,50 @@ export class BattleService {
     ]
   }
 
-  public makeOpponentData(): PlayerBoardData {
+  private makeLootCardsForEncounter(encounter: EncounterName): CardData[] {
+    let deck = this.makeOpponentForEncounter(encounter).deck;
+    deck = this.shuffle(deck);;
+    let result = []
+    for (let i = 0; i < 7; i++) {
+      if (deck.length > i) {
+        result.push(deck[i]);
+      }
+    }
+    return result;
+  }
+
+  public makeOpponentForEncounter(encounter: EncounterName): PlayerBoardData {
     let result: PlayerBoardData = {
-      name: CardName.Doogie,
-      deck: this.makeOpponentDeck(),
+      name: '',
+      deck: [],
       hand: [],
       board: [],
       link: 0,
       linkMax: 0,
       hp: 1
     }
+
+    switch(encounter) {
+      case EncounterName.TRANSPORT_PLATFORM: 
+      result.deck = this.makeTransportPlatformDeck(); 
+      result.name = 'Транспортная система'; 
+      result.hp = 15;
+      break;
+      default: throw 'unknown encounter type';
+    }
+
     return result;
+  }
+
+  
+
+  private makeTransportPlatformDeck(): CardData[] {
+    return [this.makeCard2(0),
+      this.makeCard2(0),
+      this.makeCard2(0),
+      this.makeCard2(0),
+      this.makeCard2(0),
+      this.makeCard2(0)]
   }
 
   public makeCard1(power: number = 0): CardData {

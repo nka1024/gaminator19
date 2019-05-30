@@ -20,7 +20,7 @@ import { AnimationRegistry } from "../AnimationRegistry";
 import { FadeTransition } from "../FadeTransition";
 import { ScrollingImage } from "../board/ScrollingImage";
 import { TerminalDisplay } from "../board/TerminalDisplay";
-import { CardData } from "../types/Types";
+import { CardData, BoardData } from "../types/Types";
 import { Animations } from "phaser";
 import { CONST } from "../const/const";
 
@@ -97,7 +97,7 @@ export class BoardScene extends Phaser.Scene {
     }
   }
 
-  create(data): void {
+  create(boardData: BoardData): void {
     this.combatLoopAudio = this.sound.add('combat_loop', { loop: true, volume: 0.35 });
     this.victoryAudio = this.sound.add('victory_audio', { loop: false, volume: 0.5 });
     this.defeatAudio = this.sound.add('defeat_audio', { loop: false, volume: 0.35 });
@@ -128,17 +128,17 @@ export class BoardScene extends Phaser.Scene {
     this.addDisplays()
     this.addKeybinds();
 
-    this.initBattle();
+    this.initBattle(boardData);
     this.game.scale.on('resize', (size: Phaser.GameObjects.Components.Size) => this.onWindowResize(size.width, size.height));
     this.onWindowResize(window.innerWidth, window.innerHeight);
 
     this.transition = new FadeTransition(this, 0, 0);
     this.add.existing(this.transition);
 
-    this.events.on('wake', () => {
+    this.events.on('wake', (sys, boardData: BoardData) => {
       this.hand.cleanup();
       this.spots.cleanup();
-      this.initBattle();
+      this.initBattle(boardData);
       this.onEnter();
     })
 
@@ -198,16 +198,17 @@ export class BoardScene extends Phaser.Scene {
     }
   }
 
-  private initBattle() {
+  private initBattle(boardData: BoardData) {
     this.battleService = new BattleService();
-    this.controller = new BattleController(this, this.keybinds, this.playerDisplay, this.opponentDisplay, this.phaseDisplay, this.terminalDisplay, this.spots, this.hand, this.cardDetails, this.battleService.makeBoardData());
+
+    this.controller = new BattleController(this, this.keybinds, this.playerDisplay, this.opponentDisplay, this.phaseDisplay, this.terminalDisplay, this.spots, this.hand, this.cardDetails, boardData);
     this.controller.start();
     this.controller.events.on(BattleControllerEvent.BATTLE_END, (result: string) => {
       this.time.removeAllEvents();
       if (result == 'win') {
         this.transition.alphaTransition(0, 1, 0.1, () => {
           this.scene.sleep();
-          this.scene.run("DeckScene", this.battleService.makeLootCards());
+          this.scene.run("DeckScene", boardData.loot);
           this.combatLoopAudio.pause();
         });
       } else {

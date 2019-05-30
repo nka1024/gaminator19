@@ -87,6 +87,7 @@ export type BoardData = {
   player: PlayerBoardData
   phase: BoardPhase
   turn: number
+  loot: CardData[]
 }
 
 export type PlayerBoardData = {
