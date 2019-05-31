@@ -67,7 +67,6 @@ export class WorldScene extends Phaser.Scene {
   }
 
   create(data): void {
-
     this.cameras.main.setBackgroundColor(0x1f1f1f);
 
     WindowManager.initialize();
@@ -153,9 +152,6 @@ export class WorldScene extends Phaser.Scene {
         !this.dialog.visible &&
         !this.transition.playing
       ) {
-        // if (this.triggers.currentTrigger == 'moving_platform') {
-        //   this.story.startDialog('debug_1');
-        // }
         if (this.triggers.currentTrigger.type == MapTriggerType.Repeatable) {
           this.encounters.startEncounter(this.triggers.currentTrigger.name);
         }
@@ -218,7 +214,6 @@ export class WorldScene extends Phaser.Scene {
 
       // create water
       if (this.waterShader) {
-        // this.waterShader.destroy()
         this.waterShader.setChannel0(this.terrains[wOffsetY][wOffsetX], { 'magFilter': 'nearest', 'minFilter': 'nearest' });
         this.waterShader.x = x;
         this.waterShader.y = y;
@@ -294,8 +289,6 @@ export class WorldScene extends Phaser.Scene {
   private loadMap() {
     this.mapImporter = new MapImporterModule(this, this.grid);
     this.mapImporter.grassHandler = (o: Phaser.GameObjects.Image, item: any) => {
-      // let tile = this.grid.worldToGrid({ x: o.x, y: o.y - o.height / 2 });
-      // o.depth = o.y - 24;
 
     };
 
@@ -327,11 +320,6 @@ export class WorldScene extends Phaser.Scene {
       }
     };
 
-
-    // this.mapImporter.enemyHandler = (p: Point, type: string) => {
-    //   let tile = this.grid.worldToGrid(p)
-    //   this.createEnemy(tile.i, tile.j, type);
-    // }
     this.mapImporter.importMap(this.cache.json.get('map'));
   }
 }

@@ -71,14 +71,7 @@ export class MapImporterModule {
     }
     // create objects from config      
     for (let item of map.objects) {
-      let o = this.createObjectFromConfig(item);
-
-      // let texture: string = item.texture;
-      // if (texture.startsWith('grass')) {
-      //   if (this.grassHandler) {
-      //     this.grassHandler(o, item);
-      //   }
-      // }
+      this.createObjectFromConfig(item);
     }
   }
 
@@ -122,8 +115,6 @@ export class MapImporterModule {
       obj.originY = 1;
     }
     obj.setTexture(data.texture);
-    // obj.x = data.x;
-    // obj.y = data.y + 32;
     if (data.texture.startsWith('device')) {
       obj.depth = data.depth - 20;
     } else {
