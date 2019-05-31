@@ -258,6 +258,15 @@ export class WorldScene extends Phaser.Scene {
     });
   }
 
+  private gameOver() {
+    this.transition.alphaTransition(0, 1, 0.05, () => {
+      this.player.stopMovement();
+      this.scene.sleep();
+      this.scene.run("IntroScene", {death: true});
+      this.mainThemeAudio.pause();
+    });
+  }
+
   private onStoryPlatformTravel() {
     this.transition.alphaTransition(0, 1, 0.1, () => {
       this.player.x = 20;

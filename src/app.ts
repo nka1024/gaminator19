@@ -6,7 +6,6 @@
 */
 
 /// <reference path="./phaser.d.ts"/>
-/// <reference path="../node_modules/easystarjs/index.d.ts"/>
 import "phaser";
 
 import { BootScene } from "./scenes/bootScene";

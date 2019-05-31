@@ -17,6 +17,8 @@ export class IntroScene extends Phaser.Scene {
   private logo1: Phaser.GameObjects.Image;
   private logo2: Phaser.GameObjects.Image;
 
+  private gameOver1: Phaser.GameObjects.Image;
+
   constructor() {
     super({
       key: "IntroScene"
@@ -27,16 +29,15 @@ export class IntroScene extends Phaser.Scene {
     AssetsLoader.preload(this);
   }
   
-  create(data): void {
+  create(data: object): void {
     this.cameras.main.setBackgroundColor(0x1f1f1f); 
     
-    this.events.on('wake', (sys, data: object) => { this.onWakeup() })
+    this.events.on('wake', (sys, data: object) => { this.onWakeup(data) })
 
     this.transition = new FadeTransition(this, 0, 0);
     this.add.existing(this.transition);
     this.transition.depth = Number.MAX_VALUE;
 
-    this.onWakeup();
 
     this.logo1 = new Phaser.GameObjects.Image(this, 0,0, 'gaminator_logo_1_505x300');
     this.logo1.setOrigin(0, 0);
@@ -47,10 +48,17 @@ export class IntroScene extends Phaser.Scene {
     this.logo2.alpha = 0;
     this.add.existing(this.logo2)
 
+    this.gameOver1 = new Phaser.GameObjects.Image(this, 0,0, 'game_over_1_505x300');
+    this.gameOver1.setOrigin(0, 0);
+    this.gameOver1.visible = true;
+    this.add.existing(this.gameOver1)
+    
     this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
     this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     this.enterKey.on('down', (key, event) => { this.onInput() })
     this.spaceKey.on('down', (key, event) => { this.onInput() })
+
+    this.onWakeup(data);
 
     this.game.scale.on('resize', (size: Phaser.GameObjects.Components.Size) => this.onWindowResize(size.width, size.height));
     
@@ -64,7 +72,7 @@ export class IntroScene extends Phaser.Scene {
     }
   }
 
-  private onWakeup() {
+  private onWakeup(data: object) {
     if (!CONST.DEV) {
       // this.mainThemeAudio.play();
       this.transition.alphaTransition(1, 0, 0.005);
@@ -73,23 +81,30 @@ export class IntroScene extends Phaser.Scene {
     }
 
     this.canSkip = false;
-    this.time.addEvent({
-      delay: 2000,
-      callback: () => { 
-        this.canSkip = true 
-        this.tweens.add({
-          targets: this.logo2,
-          alpha: 1,
-          duration: 1000,
-          ease: 'Elastic',
-          easeParams: [0.5, 0.5],
-          delay: 0
-        });
-      },
-      callbackScope: this,
-      loop: false,
-      paused: false
-    });
+
+    if (data) {
+      this.logo1.visible = false;
+      this.logo2.visible = false;
+      this.gameOver1.visible = true;
+    } else {
+      this.time.addEvent({
+        delay: 2000,
+        callback: () => { 
+          this.canSkip = true 
+          this.tweens.add({
+            targets: this.logo2,
+            alpha: 1,
+            duration: 1000,
+            ease: 'Elastic',
+            easeParams: [0.5, 0.5],
+            delay: 0
+          });
+        },
+        callbackScope: this,
+        loop: false,
+        paused: false
+      });
+  }
   }
 
   update() {

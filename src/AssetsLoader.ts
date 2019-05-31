@@ -199,6 +199,8 @@ export class AssetsLoader {
     
     scene.load.image("gaminator_logo_1_505x300", "./assets/gaminator_logo_1_505x300.png");
     scene.load.image("gaminator_logo_2_505x300", "./assets/gaminator_logo_2_505x300.png");
+    scene.load.image("game_over_1_505x300", "./assets/game_over_1_505x300.png");
+    
     
     scene.load.image("box_shadow_1010x600", "./assets/box_shadow_1010x600.png");
     scene.load.image("grid_128_50", "./assets/grid_128_a50.png");
