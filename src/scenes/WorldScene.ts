@@ -84,8 +84,8 @@ export class WorldScene extends Phaser.Scene {
     this.loadMap();
 
     this.player = new WorldPlayer(this, 3200, 224, this.grid);
-    // this.player.x = 20;
-    // this.player.y = 195;
+    this.player.x = 20;
+    this.player.y = 195;
     this.pool.add(this.player);
     this.add.existing(this.player);
 
@@ -306,8 +306,8 @@ export class WorldScene extends Phaser.Scene {
     this.mapImporter.ambientHandler = (o: MapObjetctData) => {
       if (o.texture == 'ambient_1') {
         let ambient = new WorldAmbientObject(this, o.x, o.y);
-        this.pool.add(ambient);
         this.add.existing(ambient);
+        this.pool.add(ambient);
         ambient.depth = o.depth;
       } else if (o.texture == 'ambient_3') {
         let ambient = new WorldAmbientObject(this, o.x, o.y);
@@ -315,15 +315,15 @@ export class WorldScene extends Phaser.Scene {
         ambient.scaleX = 0.5
         ambient.scaleY = 0.5
         ambient.depth = o.depth + 6;
-        this.pool.add(ambient);
         this.add.existing(ambient);
+        this.pool.add(ambient);
       } else if (o.texture == 'ambient_2') {
         let ambient = new WorldAmbientObject(this, o.x, o.y - 50);
         ambient.playBambooAnim();
         ambient.depth = o.depth;
 
-        this.pool.add(ambient);
         this.add.existing(ambient);
+        this.pool.add(ambient);
       }
     };
 

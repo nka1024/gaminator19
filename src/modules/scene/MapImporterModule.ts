@@ -33,6 +33,7 @@ export type MapTriggerData = {
 export class MapImporterModule {
   private scene: Phaser.Scene;
   private grid: TileGrid;
+  private createdObjects: MapObjetctData[] = [];
 
   public enemyHandler: (p: Point, type: string) => void;
 
@@ -72,16 +73,30 @@ export class MapImporterModule {
     for (let item of map.objects) {
       let o = this.createObjectFromConfig(item);
 
-      let texture: string = item.texture;
-      if (texture.startsWith('grass')) {
-        if (this.grassHandler) {
-          this.grassHandler(o, item);
-        }
-      }
+      // let texture: string = item.texture;
+      // if (texture.startsWith('grass')) {
+      //   if (this.grassHandler) {
+      //     this.grassHandler(o, item);
+      //   }
+      // }
     }
   }
 
+  private createObjectOnce(data: MapObjetctData):boolean {
+    for (let o of this.createdObjects) {
+      if (o.texture == data.texture &&
+        o.x == data.x &&
+        o.y == data.y &&
+        o.depth == data.depth) {
+          return false
+        }
+    }
+    this.createdObjects.push(data);
+    return true;
+  }
+
   private createObjectFromConfig(data: any): GameObjects.Image {
+    if (!this.createObjectOnce(data)) return;
     if (data.texture.startsWith('actor_') && this.enemyHandler) {
       let enemyType = null;
       if (data.texture == 'actor_2') enemyType = 'tower'
