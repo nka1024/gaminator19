@@ -19,11 +19,15 @@ import { Story, StoryEvent } from "../Story";
 import { CONST } from "../const/const";
 import { Encounters, EncounterName } from "../Encounters";
 import { BattleService } from "../board/BattleService";
+import { DebugPanel } from "../windows/DebugPanel";
+import { WindowManager } from "../windows/WindowManager";
 
 export class WorldScene extends Phaser.Scene {
 
   private prevWorldOffset: Point = null;
   private MAP_W: number = 1024;
+
+  private debugPanel: DebugPanel;
 
   private groundImg: Phaser.GameObjects.Image;
   private waterShader: Phaser.GameObjects.Shader;
@@ -65,6 +69,10 @@ export class WorldScene extends Phaser.Scene {
   create(data): void {
 
     this.cameras.main.setBackgroundColor(0x1f1f1f);
+
+    WindowManager.initialize();
+    this.debugPanel = new DebugPanel(this);
+    this.debugPanel.show();
 
     this.animationRegistry = new AnimationRegistry(this);
     this.animationRegistry.initWorldAnimations();

@@ -27,7 +27,11 @@ export class WindowManager {
     ObjectsListPanel.initialize();
     ExportWindow.initialize();
     ToolsPanel.initialize();
-    TriggersPanel.initialize();
+    try {
+      TriggersPanel.initialize();
+    } catch (e) {
+      console.log('missing window')
+    }
     try {
       DebugPanel.initialize();
     } catch (e) {

@@ -7,8 +7,7 @@
 
 import { BaseWindow } from "./BaseWindow";
 import { Scene } from "phaser";
-import { TileGrid } from "../TileGrid";
-import { WorldPlayer } from "../world/WorldPlayer";
+import { CONST } from "../const/const";
 
 export class DebugPanel extends BaseWindow {
   // static
@@ -18,7 +17,10 @@ export class DebugPanel extends BaseWindow {
   public titleText: HTMLElement;
   public volumeText: HTMLElement;
 
-  constructor(private scene: Scene, private grid: TileGrid, private player: WorldPlayer) {
+  private time: number = 0; // sec
+  private maxTime: number = 1140; // sec
+
+  constructor(private scene: Scene) {
     super();
 
     this.titleText = this.element.querySelector(".text_title");
@@ -31,6 +33,7 @@ export class DebugPanel extends BaseWindow {
   private startDataSyncLoop() {
     this.dataSyncIntervalHandler = setInterval(() => {
       this.dataSync()
+      this.time += 0.1
     }, 100);
   }
 
@@ -38,12 +41,19 @@ export class DebugPanel extends BaseWindow {
     clearInterval(this.dataSyncIntervalHandler);
   }
 
+  private getTimerValue(): string {
+    let minutes = Math.floor(this.time/60);
+    let seconds = Math.floor(this.time - minutes * 60);
+    let min = minutes < 10 ? '0' + minutes : minutes.toString();
+    let sec = seconds < 10 ? '0' + seconds : seconds.toString();
+    return min + ':' + sec;
+  }
+
   private dataSync() {
-    this.titleText.innerHTML = (Math.round(this.scene.game.loop.actualFps * 10)/10).toString();
-    
-    
-    let tile = this.grid.worldToGrid({x: this.player.x, y: this.player.y});
-    this.volumeText.innerHTML = tile.j + ' : ' + tile.i;
+    this.titleText.innerHTML = this.getTimerValue();
+    if (CONST.SHOW_FPS) {
+      this.volumeText.innerHTML = (Math.round(this.scene.game.loop.actualFps * 10)/10).toString();
+    }
   }
 
   public destroy() {
