@@ -76,8 +76,8 @@ export class WorldScene extends Phaser.Scene {
     this.loadMap();
 
     this.player = new WorldPlayer(this, 3200, 224, this.grid);
-    this.player.x = 20;
-    this.player.y = 195;
+    // this.player.x = 20;
+    // this.player.y = 195;
     this.pool.add(this.player);
     this.add.existing(this.player);
 
@@ -93,7 +93,7 @@ export class WorldScene extends Phaser.Scene {
 
     this.transition = new FadeTransition(this, 0, 0);
     this.add.existing(this.transition);
-    this.transition.depth = Number.MAX_VALUE
+    this.transition.depth = Number.MAX_VALUE;
 
     this.dialog = new DialogView(this, 0, 0);
     this.add.existing(this.dialog);

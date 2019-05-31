@@ -14,6 +14,7 @@ import { BoardScene } from "./scenes/BoardScene";
 import { WorldScene } from "./scenes/WorldScene";
 import { EditorRootScene } from "./scenes/editorRootScene";
 import { DeckScene } from "./scenes/DeckScene";
+import { IntroScene } from "./scenes/IntroScene";
 
 var game = null;
 
@@ -33,7 +34,7 @@ window.onload = () => {
     type: Phaser.WEBGL,
     // type: Phaser.WEBGL,
     parent: "game",
-    scene: [new BootScene, new BoardScene, new DeckScene, new WorldScene, new EditorRootScene],
+    scene: [new BootScene, new BoardScene, new DeckScene, new WorldScene, new EditorRootScene, new IntroScene],
     input: {
       keyboard: true,
       mouse: true,
@@ -77,7 +78,7 @@ document.ontouchmove = function (event) {
   event.preventDefault();
 }
 
-// handle window resizing
+// handle window resizingwpr
 window.addEventListener('resize', () => {
   resize(window.innerWidth, window.innerHeight);
 }, false);

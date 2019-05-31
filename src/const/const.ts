@@ -6,7 +6,7 @@
  */
 
 export let CONST = {
-  DEV: true,
+  DEV: false,
   INSTANT_WIN: true,
   INSTANT_LOSE: false
 };

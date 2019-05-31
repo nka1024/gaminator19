@@ -5,7 +5,6 @@
 * @license      Apache 2.0
 */
 
-import { js as easystar } from "easystarjs";
 import { UI_DEPTH, CONST } from "./const/const";
 import { GameObjects } from "phaser";
 import { Tile, Point } from "./types/Types";
@@ -49,8 +48,6 @@ export class TileGrid {
       }
     }
 
-    this.initPathfinder();
-    this.pathfinder.setGrid(this.data);
   }
 
   public hideGrid() {
@@ -160,8 +157,6 @@ export class TileGrid {
     this.tiles[tile.i][tile.j] = img;
     this.data[tile.i][tile.j] = color == "red" ? 1 : 0;
 
-    // todo: optimize?
-    this.pathfinder.setGrid(this.data);
   }
 
   private createTriggerTile(tile: Tile, repeat: boolean) {
@@ -229,7 +224,6 @@ export class TileGrid {
     }
 
     this.data = data;
-    this.pathfinder.setGrid(this.data);
   }
 
   public gridToWorld(tile: Tile): Point {
@@ -266,31 +260,11 @@ export class TileGrid {
     else
       return { i: a.i - b.i, j: a.j - b.j };
   }
-
-
-  // Pathfinding with Easystarjs
-
-  private pathfinder: easystar;
-  private initPathfinder() {
-    this.pathfinder = new easystar();
-    this.pathfinder.enableSync();
-    this.pathfinder.enableDiagonals();
-    this.pathfinder.setAcceptableTiles([0]);
-  }
-
+  
   public findPath(from: Tile, to: Tile, callback: (path: Tile[]) => void): number {
-    return this.pathfinder.findPath(from.j, from.i, to.j, to.i, (path: Point[]) => {
-      let result = null;
-      if (path) {
-        result = path.map((v, i, arr) => {
-          return { i: v.y, j: v.x };
-        });
-      }
-      callback(result);
-    });
+    return 1;
   }
 
   public update() {
-    this.pathfinder.calculate();
   }
 }
