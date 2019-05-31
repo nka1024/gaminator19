@@ -100,7 +100,7 @@ export class AssetsLoader {
     scene.load.spritesheet('bubble1_128x128', './assets/gaminator/fx/bubble1_128x128.png', { frameWidth: 128, frameHeight: 128 });
     scene.load.spritesheet('bubble2_128x128', './assets/gaminator/fx/bubble2_128x128.png', { frameWidth: 128, frameHeight: 128 });
     scene.load.spritesheet('bubble3_128x128', './assets/gaminator/fx/bubble3_128x128.png', { frameWidth: 128, frameHeight: 128 });
-    scene.load.spritesheet('fire_128x128', './assets/gaminator/fx/fire_128x128.png', { frameWidth: 128, frameHeight: 128 });
+    scene.load.spritesheet('fire_64x64', './assets/gaminator/fx/fire_64x64.png', { frameWidth: 64, frameHeight: 64 });
 
     scene.load.spritesheet('bamboo1_40x96', './assets/gaminator/fx/bamboo1_40x96.png', { frameWidth: 40, frameHeight: 96 });
     scene.load.spritesheet('bamboo2_31x128', './assets/gaminator/fx/bamboo2_31x128.png', { frameWidth: 31, frameHeight: 128 });

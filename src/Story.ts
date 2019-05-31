@@ -77,6 +77,10 @@ export class Story {
   ];
 
 
+  public static access_location_2_forbidden: DialogLine[] = [
+    { a: DialogActorID.Unknown, m: 'У ва пока нет доступа к этой локации'},
+  ];
+
   public static arrival: DialogLine[] = [
     { a: DialogActorID.Player, m: '- Святая императрица, ну и вонь здесь. Контроллер, запросить статус эко-станции.'},
     { a: DialogActorID.Controller, m: '- Ресурс кислородного блока на минимуме. Фотонная подсистема функционирует в авайрийном режиме. Вентиляционные системы требуют ремонта. Насосно-фильтровальная подстанция перегружена.' },

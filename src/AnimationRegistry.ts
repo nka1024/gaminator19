@@ -55,7 +55,7 @@ export class AnimationRegistry {
     // Fire
     scene.anims.create({
       key: 'fire_anim',
-      frames: scene.anims.generateFrameNumbers('fire_128x128', { start: 0, end: 4 }),
+      frames: scene.anims.generateFrameNumbers('fire_64x64', { start: 0, end: 4 }),
       frameRate: 4,
       repeat: -1,
       repeatDelay: 0,

@@ -21,6 +21,7 @@ import { Encounters, EncounterName } from "../Encounters";
 import { BattleService } from "../board/BattleService";
 import { DebugPanel } from "../windows/DebugPanel";
 import { WindowManager } from "../windows/WindowManager";
+import { PlayerDisplay } from "../board/PlayerDisplay";
 
 export class WorldScene extends Phaser.Scene {
 
@@ -83,8 +84,12 @@ export class WorldScene extends Phaser.Scene {
     this.loadMap();
 
     this.player = new WorldPlayer(this, 3200, 224, this.grid);
-    this.player.x = 20;
-    this.player.y = 195;
+    // this.player.x = 20; // start of first location
+    // this.player.y = 195;
+    // this.player.x = 984; // next to passage to second location
+    // this.player.y = 376;
+    this.player.x = 430; // next to data cache 1
+    this.player.y = 452; 
     this.pool.add(this.player);
     this.add.existing(this.player);
 
@@ -167,14 +172,25 @@ export class WorldScene extends Phaser.Scene {
     this.triggers.events.on('enter_trigger', (trigger: MapTriggerData) => {
       console.log('stepped on trigger: ' + trigger.name);
 
-      if (trigger.name == 'terminal') {
+      if (trigger.name == 'data_cache_1') {
+        this.interactAnim.x = 464;
+        this.interactAnim.y = 450;
+        this.interactAnim.visible = true;
+      } else if (trigger.name == 'exosuit_terminal') {
+        this.interactAnim.x = 168;
+        this.interactAnim.y = 152;
+        this.interactAnim.visible = true;
+      } else if (trigger.name == 'pomp_filter_terminal') {
         this.interactAnim.x = 500;
         this.interactAnim.y = 44;
         this.interactAnim.visible = true;
-      } if (trigger.name == 'transport_platform') {
+      } else if (trigger.name == 'transport_platform') {
         this.interactAnim.x = 3540;
         this.interactAnim.y = 157;
         this.interactAnim.visible = true;
+      } else if (trigger.name == 'access_location_2') {
+        this.player.x -= 16
+        this.story.startDialog(Story.access_location_2_forbidden);
       }
     })
   }
@@ -304,9 +320,10 @@ export class WorldScene extends Phaser.Scene {
         ambient.depth = o.depth;
       } else if (o.texture == 'ambient_3') {
         let ambient = new WorldAmbientObject(this, o.x, o.y);
+        ambient.y -= 6
         ambient.playFireAnim();
-        ambient.scaleX = 0.5
-        ambient.scaleY = 0.5
+        // ambient.scaleX = 0.5
+        // ambient.scaleY = 0.5
         ambient.depth = o.depth + 6;
         this.add.existing(ambient);
         this.pool.add(ambient);
