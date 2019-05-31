@@ -84,12 +84,12 @@ export class WorldScene extends Phaser.Scene {
     this.loadMap();
 
     this.player = new WorldPlayer(this, 3200, 224, this.grid);
-    // this.player.x = 20; // start of first location
-    // this.player.y = 195;
+    this.player.x = 20; // start of first location
+    this.player.y = 195;
     // this.player.x = 984; // next to passage to second location
     // this.player.y = 376;
-    this.player.x = 430; // next to data cache 1
-    this.player.y = 452; 
+    // this.player.x = 430; // next to data cache 1
+    // this.player.y = 452; 
     this.pool.add(this.player);
     this.add.existing(this.player);
 
@@ -118,7 +118,7 @@ export class WorldScene extends Phaser.Scene {
     this.story = new Story(this);
     this.story.setDialogView(this.dialog)
     this.story.events.on(StoryEvent.BattleStart, () => {
-      this.startBattle(this.encounters.currentEncounter.type);
+      this.startBattle(this.encounters.currentEncounter.name);
     })
     this.story.events.on(StoryEvent.EndDialog, () => {
       this.story.endDialog();
@@ -172,23 +172,14 @@ export class WorldScene extends Phaser.Scene {
     this.triggers.events.on('enter_trigger', (trigger: MapTriggerData) => {
       console.log('stepped on trigger: ' + trigger.name);
 
-      if (trigger.name == 'data_cache_1') {
-        this.interactAnim.x = 464;
-        this.interactAnim.y = 450;
+      let interactXY = this.encounters.checkInteractXY(trigger.name);
+      if (interactXY) {
+        this.interactAnim.x = interactXY.x;
+        this.interactAnim.y = interactXY.y;
         this.interactAnim.visible = true;
-      } else if (trigger.name == 'exosuit_terminal') {
-        this.interactAnim.x = 168;
-        this.interactAnim.y = 152;
-        this.interactAnim.visible = true;
-      } else if (trigger.name == 'pomp_filter_terminal') {
-        this.interactAnim.x = 500;
-        this.interactAnim.y = 44;
-        this.interactAnim.visible = true;
-      } else if (trigger.name == 'transport_platform') {
-        this.interactAnim.x = 3540;
-        this.interactAnim.y = 157;
-        this.interactAnim.visible = true;
-      } else if (trigger.name == 'access_location_2') {
+      }
+      
+     if (trigger.name == 'access_location_2') {
         this.player.x -= 16
         this.story.startDialog(Story.access_location_2_forbidden);
       }

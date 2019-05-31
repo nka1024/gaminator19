@@ -6,19 +6,25 @@
 
 import { DialogLine, Story } from "./Story";
 import { Dialogs } from "./Dialogs";
+import { Point } from "./types/Types";
 
 export enum EncounterName {
   UNKNOWN = '',
-  TRANSPORT_PLATFORM = 'transport_platform'
+  TRANSPORT_PLATFORM = 'transport_platform_terminal',
+  POMP_FILTER = 'pomp_filter_terminal',
+  EXOSUIT = 'exosuit_terminal',
+  DATA_CACHE_1 = 'data_cache_1_terminal',
+  
 }
 
 export type Encounter = {
-  type: EncounterName,
+  name: EncounterName,
   damage: number
   start: DialogLine[],
   victory: DialogLine[],
   defeat: DialogLine[],
   repeat: DialogLine[],
+  interact: Point,
 
   defeated?: boolean,
 }
@@ -27,18 +33,56 @@ export class Encounters {
 
   private encounters: Encounter[] = [
     { 
-      type: EncounterName.TRANSPORT_PLATFORM,
+      name: EncounterName.TRANSPORT_PLATFORM,
       damage: 0,
-      start: Dialogs.transportPlatformStart,
+      start:   Dialogs.transportPlatformStart,
+      repeat:  Dialogs.transportPlatformRepeat,
+      defeat:  Dialogs.transportPlatformDefeat,
       victory: Dialogs.transportPlatformVictory,
-      defeat: Dialogs.transportPlatformDefeat,
-      repeat: Dialogs.transportPlatformRepeat,
-    }
+      interact: {x: 3540, y: 157},
+    },
+    { 
+      name: EncounterName.EXOSUIT,
+      damage: 0,
+      start:   Dialogs.transportPlatformStart,
+      repeat:  Dialogs.transportPlatformRepeat,
+      defeat:  Dialogs.transportPlatformDefeat,
+      victory: Dialogs.transportPlatformVictory,
+      interact: {x: 168, y: 152},
+    },
+    { 
+      name: EncounterName.POMP_FILTER,
+      damage: 0,
+      start:   Dialogs.transportPlatformStart,
+      repeat:  Dialogs.transportPlatformRepeat,
+      defeat:  Dialogs.transportPlatformDefeat,
+      victory: Dialogs.transportPlatformVictory,
+      interact: {x: 500, y: 44},
+    },
+    { 
+      name: EncounterName.DATA_CACHE_1,
+      damage: 0,
+      start:   Dialogs.transportPlatformStart,
+      repeat:  Dialogs.transportPlatformRepeat,
+      defeat:  Dialogs.transportPlatformDefeat,
+      victory: Dialogs.transportPlatformVictory,
+      interact: {x: 464, y: 450},
+    },
+
   ]
 
   public currentEncounter: Encounter;
   constructor(private story: Story) {
 
+  }
+
+  public checkInteractXY(name: string): Point {
+    for (let encounter of this.encounters) {
+      if (encounter.name == name) {
+        return encounter.interact;
+      }
+    }
+    return null;
   }
 
   public startEncounter(name: string) {
@@ -70,7 +114,7 @@ export class Encounters {
 
   private encounterByName(name: string) {
     for (let encounter of this.encounters) {
-      if (encounter.type == name) return encounter
+      if (encounter.name == name) return encounter
     }
     return null;
   }
