@@ -11,7 +11,7 @@ export let ASSETS = {
   TERRAIN_MAX: 16,
   GRASS_MAX: 2,
   HOUSE_MAX: 8,
-  DEVICES_MAX: 3,
+  DEVICES_MAX: 14,
   AMBIENT_MAX: 3,
 }
 

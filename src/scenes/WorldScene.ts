@@ -76,6 +76,8 @@ export class WorldScene extends Phaser.Scene {
     this.loadMap();
 
     this.player = new WorldPlayer(this, 3200, 224, this.grid);
+    this.player.x = 20;
+    this.player.y = 195;
     this.pool.add(this.player);
     this.add.existing(this.player);
 
@@ -250,8 +252,8 @@ export class WorldScene extends Phaser.Scene {
 
   private onStoryPlatformTravel() {
     this.transition.alphaTransition(0, 1, 0.1, () => {
-      this.player.x = 306;
-      this.player.y = 130;
+      this.player.x = 20;
+      this.player.y = 195;
       this.transition.alphaTransition(1, 0, 0.025)
     })
   }
