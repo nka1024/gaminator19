@@ -12,7 +12,9 @@ export enum StoryEvent {
   EndDialog = 'end_dialog',
   PlatformTravel = 'platform_travel',
   ConditionalBattleStart = 'conditional_battle_start',
-  CrystalActivation = 'crystal_activation'
+  CrystalActivation = 'crystal_activation',
+  RetreiveProtocols = 'retreive_protocols',
+  GrantAccessToLocation2 = 'grant_access_to_location_2'
 }
 export enum DialogActorID {
   Unknown,
@@ -86,7 +88,7 @@ export class Story {
 
 
   public static access_location_2_forbidden: DialogLine[] = [
-    { a: DialogActorID.Unknown, m: 'У ва пока нет доступа к этой локации'},
+    { a: DialogActorID.Unknown, m: 'Шлюз заблокирован снаружи. Терминал доступа выведен из строя, отладка невозможна.'},
   ];
 
   public static arrival: DialogLine[] = [

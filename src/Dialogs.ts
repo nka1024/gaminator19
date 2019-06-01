@@ -49,6 +49,7 @@ export class Dialogs {
     { a: DialogActorID.Technician, m: '- Там трупы везде. Черт, я никогда столько не видел. Мы явно не первые, кого сюда направили по вызову. Это как-будто конвейер. Если пойдешь туда... Скорее всего уже не вылезешь.'},
     { a: DialogActorID.Player, m: '- Мой нейроинтерфейс хорошо защищен.'},
     { a: DialogActorID.Technician, m: '- Ну, как знаешь. Шлюз я сейчас разблокирую, но внутрь не пойду...'},
+    { a: DialogActorID.Unknown, m: '', e: StoryEvent.GrantAccessToLocation2 },
   ];
 
 
@@ -146,6 +147,35 @@ export class Dialogs {
   ];
 
 
+  
+  //
+  // Data Cache 1
+  // 
+
+  public static dataCache1Start: DialogLine[] = [
+    { a: DialogActorID.Unknown, m: 'Стандартный региональный дата-кэш. Доступ к базе данных заблокирован ' },
+    {
+      a: DialogActorID.Unknown, m: '', o: [
+        { m: 'Ничего не делать' },
+        { m: 'Подключиться к терминалу', e: StoryEvent.BattleStart }
+      ]
+    },
+  ];
+
+  public static dataCache1Defeat: DialogLine[] = [
+    { a: DialogActorID.Unknown, m: 'В доступе к дата-кэшу отказано' },
+  ];
+
+  public static dataCache1Victory: DialogLine[] = [
+    { a: DialogActorID.Unknown, m: 'Вы получили доступ к базе данных регионального дата-кэша. Среди логов и резервных копий контрольных систем оборудования вы нашли базу спецификаций протоколов доступа для этого сектора.' },
+    { a: DialogActorID.Unknown, m: '', e: StoryEvent.RetreiveProtocols },
+  ];
+
+  public static dataCache1Repeat: DialogLine[] = [
+    { a: DialogActorID.Unknown, m: 'Стандартный региональный дата-кэш.' },
+  ];
+
+
 
   //
   // Dead Technician
@@ -162,7 +192,7 @@ export class Dialogs {
   ];
 
   public static technicianDenied: DialogLine[] = [
-    { a: DialogActorID.Unknown, m: 'Вы подсоединили кабель к телу техника, но ваша система не смогла установить связь с его нейроинтерфейсом: не удалось найти протокол соединения. Где-то поблизости должен быть коммутационный блок с набором нужных протоколов.' },
+    { a: DialogActorID.Unknown, m: 'Вы подсоединили кабель к телу техника, но ваша система не смогла установить связь с его нейроинтерфейсом: не удалось найти протокол соединения. Где-то поблизости должен быть кэш данных с набором нужных протоколов.' },
   ];
 
   public static technicianDefeat: DialogLine[] = [

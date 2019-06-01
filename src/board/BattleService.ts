@@ -157,6 +157,11 @@ export class BattleService {
       result.name = 'Нейроинтерфейс'; 
       result.hp = 15;
       break;
+      case EncounterName.DATA_CACHE_1: 
+      result.deck = this.makeTransportPlatformDeck(); 
+      result.name = 'Региональный дата-кэш'; 
+      result.hp = 15;
+      break;
       default: throw 'unknown encounter type';
     }
 

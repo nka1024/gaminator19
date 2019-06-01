@@ -45,6 +45,8 @@ export class WorldScene extends Phaser.Scene {
   private story: Story;
   private encounters: Encounters;
 
+  private location2Opened: boolean = false;
+
   private enterKey: Phaser.Input.Keyboard.Key;
   private interactAnim: Phaser.GameObjects.Sprite;
 
@@ -134,11 +136,16 @@ export class WorldScene extends Phaser.Scene {
         this.encounters.deniedEncounterDialog(this.encounters.currentEncounter.name);
       }
     })
-
+    this.story.events.on(StoryEvent.RetreiveProtocols, () => {
+      this.encounters.encounterByName(EncounterName.DEAD_TECHNICIAN).deny = false;
+    })
     this.story.events.on(StoryEvent.CrystalActivation, () => {
       if (this.encounters.encounterByName(EncounterName.DEAD_TECHNICIAN).defeated) {
         this.story.startDialog(Dialogs.crystaActivation);
       }
+    })
+    this.story.events.on(StoryEvent.GrantAccessToLocation2, () => {
+      this.location2Opened = true;
     })
 
     this.encounters = new Encounters(this.story);
@@ -204,8 +211,10 @@ export class WorldScene extends Phaser.Scene {
       }
 
       if (trigger.name == 'access_location_2') {
-        // this.player.x -= 16
-        this.story.startDialog(Story.access_location_2_forbidden);
+        if (!this.location2Opened) {
+          this.player.x -= 16
+          this.story.startDialog(Story.access_location_2_forbidden);
+        }
       }
     })
   }
