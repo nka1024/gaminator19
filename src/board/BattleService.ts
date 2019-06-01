@@ -97,35 +97,7 @@ export class BattleService {
 
   public makePlayerData(): PlayerBoardData {
     if (BattleService.playerDeck.length == 0) {
-      BattleService.playerDeck = [
-
-      this.makeCreatureCard(1, 1, 1, CardName.DYNAMIC_CONTRACT, CardSkillType.NONE),
-      this.makeCreatureCard(1, 2, 3, CardName.AUTODEBUG, CardSkillType.BUFF_ALLIES_1_1),
-      this.makeCreatureCard(1, 1, 2, CardName.DEBUG_HOOK, CardSkillType.BUFF_ALLIES_1_1),
-      this.makeCreatureCard(2, 1, 3, CardName.ATTACK_PROTOCOL, CardSkillType.ZERO_TURN),
-      this.makeCreatureCard(3, 4, 3, CardName.STANDART_TEST, CardSkillType.NONE),
-      this.makeCreatureCard(1, 1, 1, CardName.DYNAMIC_CONTRACT, CardSkillType.NONE),
-      this.makeSkillCard(3, 3, CardName.DAMAGE_CORE,  CardSkillType.DAMAGE_CORE),
-      this.makeSkillCard(3, 2, CardName.HYBERNATION,  CardSkillType.HYBERNATION),
-      this.makeSkillCard(3, 3, CardName.ADD_HP_CORE,  CardSkillType.ADD_HP_CORE),
-      this.makeSkillCard(1, 0, CardName.ENRAGE,  CardSkillType.ENRAGE),
-      
-        // this.makeCreatureCard(0),
-        // this.makeSleeperHoldCard(),
-        // this.makeBombCard(),
-        // this.makeEnrageSpell(),
-        // this.makeBuffAtkWhileALiveCard(),
-        // this.makeZeroTurnCard(1),
-        // this.makeCardAddHPCore(1),
-        // this.makeCardAddHPCreature(2),
-        // this.makeCardAddAtk(3),
-        // this.makeHybernationCard(),
-        // this.makeHybridCard(),
-        // this.makeSubtletyCard(),
-        // this.makeInjectionCard(),
-        // this.makeDamageCoreSpell(1),
-        // this.makeDamageCreatureSpell(2),
-      ]
+      BattleService.playerDeck = this.makeInitialPlayerDeck();
     }
     let result: PlayerBoardData = {
       name: 'Отладчик 4406',
@@ -172,8 +144,8 @@ export class BattleService {
       result.hp = 15;
       break;
       case EncounterName.EXOSUIT: 
-      result.deck = this.makeTransportPlatformDeck(); 
-      result.loot = this.makeTransportPlatformLoot();
+      result.deck = this.makeExosuitDeck(); 
+      result.loot = this.makeExosuitLoot();
       result.name = 'Система управления экзоскелетом'; 
       result.hp = 15;
       break;
@@ -201,7 +173,42 @@ export class BattleService {
     return result;
   }
 
-  
+
+  private makeInitialPlayerDeck(): CardData[] {
+    return [
+
+      this.makeCreatureCard(1, 1, 1, CardName.DYNAMIC_CONTRACT, CardSkillType.NONE),
+      // this.makeCreatureCard(1, 2, 3, CardName.AUTODEBUG, CardSkillType.BUFF_ALLIES_1_1),
+      // this.makeCreatureCard(1, 1, 2, CardName.DEBUG_HOOK, CardSkillType.BUFF_ALLIES_1_1),
+      // this.makeCreatureCard(2, 1, 3, CardName.ATTACK_PROTOCOL, CardSkillType.ZERO_TURN),
+      // this.makeCreatureCard(3, 4, 3, CardName.STANDART_TEST, CardSkillType.NONE),
+      // this.makeCreatureCard(1, 1, 1, CardName.DYNAMIC_CONTRACT, CardSkillType.NONE),
+      // this.makeSkillCard(3, 3, CardName.DAMAGE_CORE,  CardSkillType.DAMAGE_CORE),
+      // this.makeSkillCard(3, 2, CardName.HYBERNATION,  CardSkillType.HYBERNATION),
+      // this.makeSkillCard(3, 3, CardName.ADD_HP_CORE,  CardSkillType.ADD_HP_CORE),
+      // this.makeSkillCard(1, 0, CardName.ENRAGE,  CardSkillType.ENRAGE),
+      
+        // this.makeCreatureCard(0),
+        // this.makeSleeperHoldCard(),
+        // this.makeBombCard(),
+        // this.makeEnrageSpell(),
+        // this.makeBuffAtkWhileALiveCard(),
+        // this.makeZeroTurnCard(1),
+        // this.makeCardAddHPCore(1),
+        // this.makeCardAddHPCreature(2),
+        // this.makeCardAddAtk(3),
+        // this.makeHybernationCard(),
+        // this.makeHybridCard(),
+        // this.makeSubtletyCard(),
+        // this.makeInjectionCard(),
+        // this.makeDamageCoreSpell(1),
+        // this.makeDamageCreatureSpell(2),
+      ]
+  }
+
+  //
+  //  Transport platform cards
+  //
 
   private makeTransportPlatformDeck(): CardData[] {
     return [
@@ -218,6 +225,36 @@ export class BattleService {
   }
 
   private makeTransportPlatformLoot(): CardData[] {
+    return [
+      this.makeCreatureCard(1, 1, 1, CardName.TRANSPORT_SYSTEM,   CardSkillType.NONE),
+      this.makeCreatureCard(1, 2, 3, CardName.ENGINE_CONTROL,     CardSkillType.BUFF_ALLIES_1_1),
+      this.makeCreatureCard(1, 1, 2, CardName.INSTRUCTIONxA90013, CardSkillType.BUFF_ALLIES_1_1),
+      this.makeCreatureCard(3, 3, 4, CardName.NULLPTR,            CardSkillType.NONE),
+      this.makeCardAddHPCreature(1),
+      this.makeCardAddHPCreature(2),
+      this.makeDamageCreatureSpell(2),
+    ]
+  }
+
+  //
+  //  Transport platform cards
+  //
+
+  private makeExosuitDeck(): CardData[] {
+    return [
+      this.makeCreatureCard(1, 1, 1, CardName.TRANSPORT_SYSTEM,   CardSkillType.NONE),
+      this.makeCreatureCard(1, 2, 3, CardName.ENGINE_CONTROL,     CardSkillType.NONE),
+      this.makeCreatureCard(1, 1, 2, CardName.INSTRUCTIONxA90013, CardSkillType.NONE),
+      this.makeCreatureCard(3, 3, 4, CardName.NULLPTR,            CardSkillType.NONE),
+      this.makeCreatureCard(3, 4, 4, CardName.NULLPTR,            CardSkillType.NONE),
+
+      this.makeCreatureCard(1, 1, 1, CardName.TRANSPORT_SYSTEM,   CardSkillType.NONE),
+      this.makeCreatureCard(1, 2, 3, CardName.ENGINE_CONTROL,     CardSkillType.NONE),
+      this.makeCreatureCard(1, 1, 2, CardName.INSTRUCTIONxA90013, CardSkillType.NONE),
+    ]
+  }
+
+  private makeExosuitLoot(): CardData[] {
     return [
       this.makeCreatureCard(1, 1, 1, CardName.TRANSPORT_SYSTEM,   CardSkillType.NONE),
       this.makeCreatureCard(1, 2, 3, CardName.ENGINE_CONTROL,     CardSkillType.BUFF_ALLIES_1_1),

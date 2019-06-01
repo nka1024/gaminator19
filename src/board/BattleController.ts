@@ -152,6 +152,15 @@ export class BattleController {
     }
   }
 
+  private playerOutOfCards(): boolean {
+    for (let card of this.board.player.board) {
+      if (card != null) {
+        return false;
+      }
+    }
+    return this.board.player.hand.length == 0 && this.board.player.deck.length == 0;
+  }
+
   //
   // PLAYER DRAW
   //
@@ -163,6 +172,10 @@ export class BattleController {
       this.board.turn++;
       this.turn.setPhase(PhaseType.LOAD);
 
+      if (this.playerOutOfCards()) {
+        this.endBattle(false);
+        return;
+      }
       // draw card
       for (let i = 0; i < (this.board.turn == 1 ? this.initialHandSize : 1); i++) {
         let card = this.board.player.deck.shift();

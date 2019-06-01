@@ -109,7 +109,7 @@ export class HandDisplay extends Phaser.GameObjects.Container {
 
 
     if (this.cards.length == 0) {
-      this.setCursorHidden(true);
+      // this.setCursorHidden(true);
       this.events.emit('card_select', null);
     }
     this.shiftRemainingCards();
