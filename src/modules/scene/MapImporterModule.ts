@@ -115,7 +115,7 @@ export class MapImporterModule {
       obj.originY = 1;
     }
     obj.setTexture(data.texture);
-    if (data.texture.startsWith('device')) {
+    if (data.texture.startsWith('object')) {
       obj.depth = data.depth - 20;
     } else {
       obj.depth = data.depth;

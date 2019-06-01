@@ -11,7 +11,7 @@ export let ASSETS = {
   TERRAIN_MAX: 16,
   GRASS_MAX: 2,
   HOUSE_MAX: 8,
-  DEVICES_MAX: 14,
+  DEVICES_MAX: 16,
   AMBIENT_MAX: 3,
 }
 
@@ -57,7 +57,7 @@ export class AssetsLoader {
       scene.load.image("ambient_" + idx, "./assets/gaminator/map_objects/ambient_" + idx + ".png");
     }
     for (let idx = 1; idx <= ASSETS.DEVICES_MAX; idx++) {
-      scene.load.image("device_" + idx, "./assets/gaminator/map_objects/device_" + idx + ".png");
+      scene.load.image("object_" + idx, "./assets/gaminator/map_objects/object_" + idx + ".png");
     }
     
     scene.load.image('stripes_1_endless_bg', './assets/board/stripes_1_endless_bg.png');

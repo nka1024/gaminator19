@@ -50,7 +50,7 @@ export class ObjectsListPanel extends BaseWindow {
             this.repopulate();
         });
         this.devicesButton.addEventListener('click', () => {
-            this.filenamePrefix = 'device';
+            this.filenamePrefix = 'object';
             this.maxIdx = ASSETS.DEVICES_MAX;
             this.repopulate();
         });
