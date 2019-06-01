@@ -7,6 +7,8 @@
 import { AssetsLoader } from "../AssetsLoader";
 import { FadeTransition } from "../FadeTransition";
 import { CONST } from "../const/const";
+import { AnimationRegistry } from "../AnimationRegistry";
+import { WorldAmbientObject } from "../world/WorldAmbientObject";
 
 export class IntroScene extends Phaser.Scene {
   private transition: FadeTransition;
@@ -19,6 +21,9 @@ export class IntroScene extends Phaser.Scene {
 
   private gameOver1: Phaser.GameObjects.Image;
 
+  private animationRegistry: AnimationRegistry;
+  private pool: Phaser.GameObjects.Group;
+
   constructor() {
     super({
       key: "IntroScene"
@@ -30,6 +35,9 @@ export class IntroScene extends Phaser.Scene {
   }
 
   create(data: object): void {
+    this.animationRegistry = new AnimationRegistry(this);
+    this.animationRegistry.initGameOverAnimations();
+
     this.cameras.main.setBackgroundColor(0x1f1f1f);
 
     this.events.on('wake', (sys, data: object) => { this.onWakeup(data) })
@@ -58,6 +66,9 @@ export class IntroScene extends Phaser.Scene {
     this.enterKey.on('down', (key, event) => { this.onInput() })
     this.spaceKey.on('down', (key, event) => { this.onInput() })
 
+    this.pool = this.add.group();
+    this.pool.runChildUpdate = true;
+
     this.onWakeup(data);
 
     this.game.scale.on('resize', (size: Phaser.GameObjects.Components.Size) => this.onWindowResize(size.width, size.height));
@@ -82,10 +93,23 @@ export class IntroScene extends Phaser.Scene {
 
     this.canSkip = false;
 
-    if (data && data['death']) {
+    if (data && data['win']) {
       this.logo1.visible = false;
       this.logo2.visible = false;
       this.gameOver1.visible = true;
+
+
+
+      let ambient = new WorldAmbientObject(this, 300, 150);
+        // ambient.y -= 6
+        ambient.playJellyFishAnim();
+        // ambient.scaleX = 0.5
+        // ambient.scaleY = 0.5
+        ambient.depth = 1000;
+        this.add.existing(ambient);
+        this.pool.add(ambient);
+
+
     } else {
       this.time.addEvent({
         delay: 2000,
@@ -109,6 +133,12 @@ export class IntroScene extends Phaser.Scene {
 
   update() {
     this.transition.update();
+
+    for (let o of this.pool.getChildren()) {
+      let sprite = o as Phaser.GameObjects.Sprite;
+      sprite.x -= 0.1
+      sprite.y -= 0.1
+    }
   }
 
   private onWindowResize(w: number, h: number) {

@@ -14,14 +14,17 @@ export enum StoryEvent {
   ConditionalBattleStart = 'conditional_battle_start',
   CrystalActivation = 'crystal_activation',
   RetreiveProtocols = 'retreive_protocols',
-  GrantAccessToLocation2 = 'grant_access_to_location_2'
+  GrantAccessToLocation2 = 'grant_access_to_location_2',
+  SphereDefeat = 'sphere_defeat',
+  GameOver = 'game_over'
 }
 export enum DialogActorID {
   Unknown,
   Player,
   Controller,
   TestTerminal,
-  Technician
+  Technician,
+  Sphere
 }
 type DialogActorData = {
   id: DialogActorID,
@@ -51,13 +54,13 @@ export class Story {
   private actors: DialogActorData[] = [
     {
       id: DialogActorID.Controller,
-      texture: 'portrait_controller_32x32',
+      texture: null,
       name: 'Контроллер'
     },
     {
       id: DialogActorID.Player,
       texture: 'portrait_player_32x32',
-      name: 'Хиро'
+      name: 'Отладчик 4406'
     },
     {
       id: DialogActorID.TestTerminal,
@@ -68,6 +71,11 @@ export class Story {
       id: DialogActorID.Technician,
       texture: null,
       name: 'Техник'
+    },
+    {
+      id: DialogActorID.Sphere,
+      texture: null,
+      name: 'Сфера'
     },
     {
       id: DialogActorID.Unknown,

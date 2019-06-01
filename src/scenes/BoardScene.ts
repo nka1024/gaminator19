@@ -206,11 +206,17 @@ export class BoardScene extends Phaser.Scene {
     this.controller.events.on(BattleControllerEvent.BATTLE_END, (result: string) => {
       this.time.removeAllEvents();
       if (result == 'win') {
-        this.transition.alphaTransition(0, 1, 0.1, () => {
+        if (boardData.opponent.loot) {
+          this.transition.alphaTransition(0, 1, 0.1, () => {
+            this.scene.sleep();
+            this.scene.run("DeckScene", boardData.opponent.loot);
+            this.combatLoopAudio.pause();
+          });
+        } else{
           this.scene.sleep();
-          this.scene.run("DeckScene", boardData.opponent.loot);
+          this.scene.run("WorldScene", {won: true});
           this.combatLoopAudio.pause();
-        });
+        }
       } else {
         this.scene.sleep();
         this.scene.run("WorldScene", {won: false});
@@ -345,7 +351,6 @@ export class BoardScene extends Phaser.Scene {
         this.cardDetails.visible = false;
       }
     })
-
 
     this.hand.putCursor(0);
 

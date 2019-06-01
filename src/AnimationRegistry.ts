@@ -24,6 +24,21 @@ export class AnimationRegistry {
     this.registerWorldUIAnimations(this.scene);
   }
 
+  public initGameOverAnimations() {
+    this.registerGameOverAnimations(this.scene);
+  }
+
+  private registerGameOverAnimations(scene: Scene) {
+    scene.anims.create({
+      key: 'jellyfish_anim',
+      frames: scene.anims.generateFrameNumbers('jellyfish_64x64', { start: 0, end: 11 }),
+      frameRate: 5,
+      repeat: -1,
+      repeatDelay: 0,
+      hideOnComplete: false
+    });
+  }
+
   private registerAmbientAnimations(scene: Scene) {
     
     // Bubbles

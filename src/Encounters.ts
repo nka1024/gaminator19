@@ -15,7 +15,8 @@ export enum EncounterName {
   EXOSUIT = 'exosuit_terminal',
   DATA_CACHE_1 = 'data_cache_1_terminal',
   DEAD_TECHNICIAN = 'dead_technician',
-  CRYSTAL = 'crystal_interaction'
+  CRYSTAL = 'crystal_interaction',
+  SPHERE = 'sphere'
 }
 
 export type Encounter = {
@@ -82,7 +83,15 @@ export class Encounters {
       victory: Dialogs.technicianVictory,
       interact: {x: 944, y: 318},
     },
-
+    { 
+      name: EncounterName.SPHERE,
+      damage: 0,
+      start:   Dialogs.sphereStart,
+      repeat:  Dialogs.sphereRepeat,
+      defeat:  Dialogs.sphereDefeat,
+      victory: Dialogs.sphereVictory,
+      interact: {x: 1560, y: 492},
+    }
   ]
 
   public currentEncounter: Encounter;

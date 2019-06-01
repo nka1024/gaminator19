@@ -37,4 +37,10 @@ export class WorldAmbientObject extends Phaser.GameObjects.Sprite {
     this.animPlaying = true;
     this.visible = true;
   }
+
+  public playJellyFishAnim() {
+    this.play('jellyfish_anim');
+    this.animPlaying = true;
+    this.visible = true;
+  }
 }

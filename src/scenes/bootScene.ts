@@ -25,6 +25,7 @@ export class BootScene extends Phaser.Scene {
         this.scene.start("IntroScene");
       } 
       else {
+        // this.scene.start("IntroScene", {win: true});
         // this.scene.start("DeckScene");
         this.scene.start("WorldScene");
         // this.scene.start("BoardScene");

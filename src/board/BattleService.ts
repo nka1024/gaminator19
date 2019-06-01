@@ -168,6 +168,12 @@ export class BattleService {
       result.name = 'Нейроинтерфейс'; 
       result.hp = 25;
       break;
+      case EncounterName.SPHERE: 
+      result.deck = this.makeSphereDeck(); 
+      result.loot = null;
+      result.name = 'Сфера'; 
+      result.hp = 30;
+      break;
       default: throw 'unknown encounter type';
     }
 
@@ -179,11 +185,11 @@ export class BattleService {
     return [
 
       this.makeCreatureCard(2, 1, 1, CardName.DYNAMIC_CONTRACT, CardSkillType.NONE),
-      // this.makeCreatureCard(1, 2, 3, CardName.AUTODEBUG, CardSkillType.BUFF_ALLIES_1_1),
-      // this.makeCreatureCard(2, 1, 2, CardName.DEBUG_HOOK, CardSkillType.BUFF_ALLIES_1_1),
-      // this.makeCreatureCard(2, 1, 3, CardName.ATTACK_PROTOCOL, CardSkillType.ZERO_TURN),
-      // this.makeCreatureCard(3, 4, 3, CardName.STANDART_TEST, CardSkillType.NONE),
-      // this.makeCreatureCard(2, 1, 1, CardName.DYNAMIC_CONTRACT, CardSkillType.NONE),
+      this.makeCreatureCard(1, 2, 3, CardName.AUTODEBUG, CardSkillType.BUFF_ALLIES_1_1),
+      this.makeCreatureCard(2, 1, 2, CardName.DEBUG_HOOK, CardSkillType.BUFF_ALLIES_1_1),
+      this.makeCreatureCard(2, 1, 3, CardName.ATTACK_PROTOCOL, CardSkillType.ZERO_TURN),
+      this.makeCreatureCard(3, 4, 3, CardName.STANDART_TEST, CardSkillType.NONE),
+      this.makeCreatureCard(2, 1, 1, CardName.DYNAMIC_CONTRACT, CardSkillType.NONE),
       this.makeSkillCard(3, 3, CardName.DAMAGE_CORE,  CardSkillType.DAMAGE_CORE),
       this.makeSkillCard(3, 2, CardName.HYBERNATION,  CardSkillType.HYBERNATION),
       this.makeSkillCard(0, 0, CardName.ENRAGE,  CardSkillType.ENRAGE),
@@ -408,6 +414,30 @@ export class BattleService {
       this.makeDamageCoreSpell(8),
     ]
   }
+  
+  private makeSphereDeck(): CardData[] {
+    return [
+      this.makeCreatureCard(3, 2, 2, CardName.BATTLE_CHIPSET,     CardSkillType.NONE),
+      this.makeCreatureCard(1, 2, 1, CardName.DEFENSE_BLOCK,      CardSkillType.ZERO_TURN),
+      this.makeCreatureCard(1, 2, 1, CardName.DEFENSE_BLOCK,      CardSkillType.NONE),
+      this.makeCreatureCard(1, 2, 1, CardName.DEFENSE_BLOCK,      CardSkillType.NONE),
+      this.makeCreatureCard(1, 2, 3, CardName.MAYHEM,             CardSkillType.BUFF_ALLIES_1_1),
+      this.makeCreatureCard(3, 3, 4, CardName.ATTACK_PROTOCOL,    CardSkillType.NONE),
+
+      this.makeCreatureCard(3, 2, 2, CardName.MULTIPLE_DISPATCH,  CardSkillType.NONE),
+      this.makeCreatureCard(2, 3, 4, CardName.HIGH_ORDER,         CardSkillType.ZERO_TURN),
+      this.makeCreatureCard(2, 3, 5, CardName.MIXIN,              CardSkillType.BUFF_ATK_WHILE_ALIVE),
+      this.makeCreatureCard(1, 3, 2, CardName.MAYHEM,             CardSkillType.NONE),
+
+      this.makeCreatureCard(3, 2, 2, CardName.BATTLE_CHIPSET,     CardSkillType.NONE),
+      this.makeCreatureCard(5, 3, 7, CardName.ENGINE_CONTROL,     CardSkillType.ZERO_TURN),
+      this.makeCreatureCard(6, 2, 6, CardName.SLICE,              CardSkillType.NONE),
+      this.makeCreatureCard(1, 1, 2, CardName.MAYHEM,             CardSkillType.NONE),
+      this.makeCreatureCard(5, 4, 6, CardName.INTROSPECT,         CardSkillType.NONE),
+      this.makeCreatureCard(4, 2, 5, CardName.CRASH_OVERRIDE,     CardSkillType.BUFF_ATK_WHILE_ALIVE),
+    ]
+  }
+
   
 
   public makeCreatureCard(atk: number, hp: number, link: number, name: CardName, skill: CardSkillType): CardData {

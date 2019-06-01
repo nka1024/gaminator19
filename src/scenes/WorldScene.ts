@@ -92,7 +92,10 @@ export class WorldScene extends Phaser.Scene {
     // this.player.x = 984; // next to passage to second location
     // this.player.y = 376;
     // this.player.x = 430; // next to data cache 1
-    // this.player.y = 452; 
+    // this.player.y = 452;
+    // this.player.x = 1448; // next to sphere
+    // this.player.y = 504;
+    
     this.pool.add(this.player);
     this.add.existing(this.player);
 
@@ -122,6 +125,13 @@ export class WorldScene extends Phaser.Scene {
     this.story.setDialogView(this.dialog)
     this.story.events.on(StoryEvent.BattleStart, () => {
       this.startBattle(this.encounters.currentEncounter.name);
+    })
+    this.story.events.on(StoryEvent.SphereDefeat, () => {
+      this.player.x = 430; 
+      this.player.y = 452;
+    })
+    this.story.events.on(StoryEvent.GameOver, () => {
+      this.gameOver();
     })
     this.story.events.on(StoryEvent.EndDialog, () => {
       this.story.endDialog();
@@ -299,11 +309,11 @@ export class WorldScene extends Phaser.Scene {
   }
 
   private gameOver() {
-    this.transition.alphaTransition(0, 1, 0.05, () => {
+    this.transition.alphaTransition(0, 1, 0.02, () => {
       this.player.stopMovement();
       this.scene.sleep();
-      this.scene.run("IntroScene", { death: true });
-      this.mainThemeAudio.pause();
+      this.scene.run("IntroScene", { win: true });
+      // this.mainThemeAudio.pause();
     });
   }
 
