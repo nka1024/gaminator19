@@ -84,6 +84,11 @@ export class DialogView extends Phaser.GameObjects.Container {
     } else {
       this.portrait.visible = false;
     }
+    // hide all options
+    this.setCursorHidden(true);
+    for (let option of this.options) {
+      option.text = ''
+    }
   }
 
   public addOption(text: string) {

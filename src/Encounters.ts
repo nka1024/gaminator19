@@ -21,11 +21,13 @@ export type Encounter = {
   name: EncounterName,
   damage: number
   start: DialogLine[],
+  denied?: DialogLine[],
   victory: DialogLine[],
   defeat: DialogLine[],
   repeat: DialogLine[],
   interact: Point,
 
+  deny?: boolean,
   defeated?: boolean,
 }
 
@@ -71,10 +73,12 @@ export class Encounters {
     { 
       name: EncounterName.DEAD_TECHNICIAN,
       damage: 0,
-      start:   Dialogs.transportPlatformStart,
-      repeat:  Dialogs.transportPlatformRepeat,
-      defeat:  Dialogs.transportPlatformDefeat,
-      victory: Dialogs.transportPlatformVictory,
+      deny: false,
+      start:   Dialogs.technicianStart,
+      repeat:  Dialogs.technicianRepeat,
+      denied:  Dialogs.technicianDenied,
+      defeat:  Dialogs.technicianDefeat,
+      victory: Dialogs.technicianVictory,
       interact: {x: 944, y: 318},
     },
 
@@ -107,6 +111,11 @@ export class Encounters {
     }
   }
 
+  public deniedEncounterDialog(name: string) {
+    let encounter = this.encounterByName(name);
+    this.story.startDialog(encounter.denied);
+  }
+
   public endEncounter(name: string, won: boolean) {
     let encounter = this.encounterByName(name)
     if (encounter) {
@@ -126,5 +135,12 @@ export class Encounters {
       if (encounter.name == name) return encounter
     }
     return null;
+  }
+
+  public isEncounterAllowed(name: string) {
+    return !this.encounterByName(name).deny;
+  }
+  public setEncounterAllowed(name: string) {
+    this.encounterByName(name).deny = false;
   }
 }

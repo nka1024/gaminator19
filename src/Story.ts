@@ -11,6 +11,7 @@ export enum StoryEvent {
   NoSelected = 'no_selected',
   EndDialog = 'end_dialog',
   PlatformTravel = 'platform_travel',
+  ConditionalBattleStart = 'conditional_battle_start'
 }
 export enum DialogActorID {
   Unknown,

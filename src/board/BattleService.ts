@@ -152,6 +152,11 @@ export class BattleService {
       result.name = 'Транспортная система'; 
       result.hp = 15;
       break;
+      case EncounterName.DEAD_TECHNICIAN: 
+      result.deck = this.makeTransportPlatformDeck(); 
+      result.name = 'Нейроинтерфейс'; 
+      result.hp = 15;
+      break;
       default: throw 'unknown encounter type';
     }
 

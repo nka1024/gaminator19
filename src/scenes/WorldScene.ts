@@ -126,6 +126,13 @@ export class WorldScene extends Phaser.Scene {
     this.story.events.on(StoryEvent.PlatformTravel, () => {
       this.onStoryPlatformTravel();
     })
+    this.story.events.on(StoryEvent.ConditionalBattleStart, () => {
+      if (this.encounters.isEncounterAllowed(this.encounters.currentEncounter.name)) {
+        this.startBattle(this.encounters.currentEncounter.name);
+      } else {
+        this.encounters.deniedEncounterDialog(this.encounters.currentEncounter.name);
+      }
+    })
 
     this.encounters = new Encounters(this.story);
 
@@ -180,7 +187,7 @@ export class WorldScene extends Phaser.Scene {
       }
       
      if (trigger.name == 'access_location_2') {
-        this.player.x -= 16
+        // this.player.x -= 16
         this.story.startDialog(Story.access_location_2_forbidden);
       }
     })
