@@ -183,15 +183,6 @@ fieldset {
 	line-height: 20px
 }
 
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-	.field select {
-		background: #fff url(/src/img/dropdown-arrow.png) no-repeat 98% 50%;
-		-webkit-appearance: none
-	}
-	.field select:focus {
-		background: #fff url(/src/img/dropdown-arrow-focus.png) no-repeat 98% 50%
-	}
-}
 
 .field select:focus {
 	border: 1px solid #5e9ac4;
