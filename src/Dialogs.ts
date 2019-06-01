@@ -14,7 +14,7 @@ export class Dialogs {
 
   public static transportPlatformStart: DialogLine[] = [
     { a: DialogActorID.Unknown, m: 'Транспортная платформа должна доставить вас ко входу в сектор, но система управление платформой деактивирована. Можно попробовать отладить ее, подключившись к терминалу.'},
-    { a: DialogActorID.TestTerminal, m: '', o: [
+    { a: DialogActorID.Unknown, m: '', o: [
       { m:'Ничего не делать' },
       { m:'Подключиться к терминалу', e: StoryEvent.BattleStart }
     ]},
@@ -25,12 +25,16 @@ export class Dialogs {
   ];
 
   public static transportPlatformVictory: DialogLine[] = [
-    { a: DialogActorID.Unknown, m: 'Вам удалось получить контроль над системой управления транспортной платформой'},
+    { a: DialogActorID.Unknown, m: 'Контроль над системой управления транспортной платформой восстановлен. Теперь можно отправиться в сектор назначения.'},
+    { a: DialogActorID.Unknown, m: '', o: [
+      { m:'Ничего не делать' },
+      { m:'Пуск', e: StoryEvent.PlatformTravel }
+    ]},
   ];
 
   public static transportPlatformRepeat: DialogLine[] = [
     { a: DialogActorID.Unknown, m: 'Система управления транспортной платформой активна, теперь можно отправиться в сектор назначения.'},
-    { a: DialogActorID.TestTerminal, m: '', o: [
+    { a: DialogActorID.Unknown, m: '', o: [
       { m:'Ничего не делать' },
       { m:'Пуск', e: StoryEvent.PlatformTravel }
     ]},

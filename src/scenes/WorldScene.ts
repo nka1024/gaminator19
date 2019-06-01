@@ -86,8 +86,8 @@ export class WorldScene extends Phaser.Scene {
     this.player = new WorldPlayer(this, 3200, 224, this.grid);
     // this.player.x = 20; // start of first location
     // this.player.y = 195;
-    // this.player.x = 984; // next to passage to second location
-    // this.player.y = 376;
+    this.player.x = 984; // next to passage to second location
+    this.player.y = 376;
     // this.player.x = 430; // next to data cache 1
     // this.player.y = 452; 
     this.pool.add(this.player);

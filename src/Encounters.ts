@@ -14,7 +14,7 @@ export enum EncounterName {
   POMP_FILTER = 'pomp_filter_terminal',
   EXOSUIT = 'exosuit_terminal',
   DATA_CACHE_1 = 'data_cache_1_terminal',
-  
+  DEAD_TECHNICIAN = 'dead_technician'
 }
 
 export type Encounter = {
@@ -67,6 +67,15 @@ export class Encounters {
       defeat:  Dialogs.transportPlatformDefeat,
       victory: Dialogs.transportPlatformVictory,
       interact: {x: 464, y: 450},
+    },
+    { 
+      name: EncounterName.DEAD_TECHNICIAN,
+      damage: 0,
+      start:   Dialogs.transportPlatformStart,
+      repeat:  Dialogs.transportPlatformRepeat,
+      defeat:  Dialogs.transportPlatformDefeat,
+      victory: Dialogs.transportPlatformVictory,
+      interact: {x: 944, y: 318},
     },
 
   ]
