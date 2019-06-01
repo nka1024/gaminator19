@@ -6,12 +6,12 @@
  */
 
 export let CONST = {
-  DEV: true,
+  DEV: false,
   INSTANT_WIN: false,
   INSTANT_LOSE: false,
   SHOW_FPS: false,
   SHUFFLE: true,
-  INTRO: false
+  INTRO: true
 };
 
 export let UI_DEPTH = {

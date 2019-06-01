@@ -87,8 +87,8 @@ export class WorldScene extends Phaser.Scene {
     this.loadMap();
 
     this.player = new WorldPlayer(this, 3200, 224, this.grid);
-    this.player.x = 20; // start of first location
-    this.player.y = 195;
+    // this.player.x = 20; // start of first location
+    // this.player.y = 195;
     // this.player.x = 984; // next to passage to second location
     // this.player.y = 376;
     // this.player.x = 430; // next to data cache 1
@@ -209,13 +209,15 @@ export class WorldScene extends Phaser.Scene {
         this.interactAnim.y = 548;
         this.interactAnim.visible = true;
       }
-
-      if (trigger.name == 'access_location_2') {
+      else if (trigger.name == 'access_location_2') {
         if (!this.location2Opened) {
           this.player.x -= 16
           this.story.startDialog(Story.access_location_2_forbidden);
         }
+      } else if (trigger.name == 'location2_death')  {
+        this.gameOver();
       }
+
     })
   }
 

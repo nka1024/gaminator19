@@ -126,6 +126,7 @@ export class CardDetailsDisplay extends Phaser.GameObjects.Container {
       case CardName.DATABASE_SHIELD   : return 'creature_8';
       case CardName.BATTLE_CHIPSET    : return 'creature_8';
       case CardName.HIGH_ORDER        : return 'creature_8';
+      case CardName.CRASH_OVERRIDE    : return 'creature_8';
       case CardName.INSTRUCTIONxA90013: return 'creature_8';
       case CardName.SLICE             : return 'creature_8';
       case CardName.NULLPTR           : return 'creature_8';

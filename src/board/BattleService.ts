@@ -33,6 +33,7 @@ export enum CardName {
   DATABASE_SHIELD = 'Щит базы данных',
   BATTLE_CHIPSET = 'Боевой чипсет',
   HIGH_ORDER = 'Метод верхнего порядка',
+  CRASH_OVERRIDE = 'CRASH OVERRIDE',
   INSTRUCTIONxA90013 = 'Инструкция xA90013',
   SLICE = 'Slice',
   NULLPTR = 'Нулевой указатель',
@@ -155,17 +156,17 @@ export class BattleService {
       result.name = 'Насосно-фильтровальная подстанция'; 
       result.hp = 15;
       break;
-      case EncounterName.DEAD_TECHNICIAN: 
-      result.deck = this.makeTransportPlatformDeck(); 
-      result.loot = this.makeTransportPlatformLoot();
-      result.name = 'Нейроинтерфейс'; 
-      result.hp = 20;
-      break;
       case EncounterName.DATA_CACHE_1: 
-      result.deck = this.makeTransportPlatformDeck(); 
-      result.loot = this.makeTransportPlatformLoot();
+      result.deck = this.makeDataCache1Deck(); 
+      result.loot = this.makeDataCache1Loot();
       result.name = 'Региональный дата-кэш'; 
       result.hp = 20;
+      break;
+      case EncounterName.DEAD_TECHNICIAN: 
+      result.deck = this.makeTechnicianDeck(); 
+      result.loot = this.makeTechnicianLoot();
+      result.name = 'Нейроинтерфейс'; 
+      result.hp = 25;
       break;
       default: throw 'unknown encounter type';
     }
@@ -188,21 +189,21 @@ export class BattleService {
       this.makeSkillCard(0, 0, CardName.ENRAGE,  CardSkillType.ENRAGE),
       this.makeCardAddHPCore(3),
 
-      this.makeCreatureCard(1, 2, 1, CardName.TRANSPORT_SYSTEM,   CardSkillType.BUFF_ALLIES_1_1),
-      this.makeCreatureCard(1, 2, 3, CardName.ENGINE_CONTROL,     CardSkillType.BUFF_ALLIES_1_1),
-      this.makeCreatureCard(4, 2, 3, CardName.INSTRUCTIONxA90013, CardSkillType.NONE),
-      this.makeCreatureCard(5, 1, 3, CardName.NULLPTR,            CardSkillType.NONE),
-      this.makeCardAddHPCreature(3),
-      this.makeCardAddHPCreature(3),
-      this.makeCardAddHPCore(4),
-      this.makeCardAddHPCore(5),
-      this.makeCardAddHPCore(5),
-      this.makeDamageCreatureSpell(2),
+      // this.makeCreatureCard(1, 2, 1, CardName.TRANSPORT_SYSTEM,   CardSkillType.BUFF_ALLIES_1_1),
+      // this.makeCreatureCard(1, 2, 3, CardName.ENGINE_CONTROL,     CardSkillType.BUFF_ALLIES_1_1),
+      // this.makeCreatureCard(4, 2, 3, CardName.INSTRUCTIONxA90013, CardSkillType.NONE),
+      // this.makeCreatureCard(5, 1, 3, CardName.NULLPTR,            CardSkillType.NONE),
+      // this.makeCardAddHPCreature(3),
+      // this.makeCardAddHPCreature(3),
+      // this.makeCardAddHPCore(4),
+      // this.makeCardAddHPCore(5),
+      // this.makeCardAddHPCore(5),
+      // this.makeDamageCreatureSpell(2),
       
-      this.makeCreatureCard(4, 2, 3, CardName.CHAOS,              CardSkillType.ZERO_TURN),
-      this.makeCreatureCard(2, 4, 5, CardName.SLICE,              CardSkillType.SUBTLETY),
-      this.makeCreatureCard(2, 2, 4, CardName.HYBRID,             CardSkillType.HYBRID),
-      this.makeCreatureCard(5, 2, 3, CardName.OVERLOAD,             CardSkillType.HYBRID),
+      // this.makeCreatureCard(4, 2, 3, CardName.CHAOS,              CardSkillType.ZERO_TURN),
+      // this.makeCreatureCard(2, 4, 5, CardName.SLICE,              CardSkillType.SUBTLETY),
+      // this.makeCreatureCard(2, 2, 4, CardName.HYBRID,             CardSkillType.HYBRID),
+      // this.makeCreatureCard(5, 2, 3, CardName.OVERLOAD,             CardSkillType.HYBRID),
       
         // this.makeCreatureCard(0),
         // this.makeSleeperHoldCard(),
@@ -221,6 +222,8 @@ export class BattleService {
         // this.makeDamageCreatureSpell(2),
       ]
   }
+
+
 
   //
   //  Transport platform cards
@@ -247,6 +250,7 @@ export class BattleService {
       this.makeCreatureCard(4, 2, 3, CardName.INSTRUCTIONxA90013, CardSkillType.NONE),
       this.makeCreatureCard(5, 1, 3, CardName.NULLPTR,            CardSkillType.NONE),
       this.makeCardAddHPCreature(3),
+      
       this.makeCardAddHPCreature(3),
       this.makeCardAddHPCore(4),
       this.makeCardAddHPCore(5),
@@ -254,6 +258,8 @@ export class BattleService {
       this.makeDamageCreatureSpell(2),
     ]
   }
+
+
 
   //
   //  Exosuit platform cards
@@ -279,7 +285,7 @@ export class BattleService {
       this.makeCreatureCard(4, 2, 3, CardName.CHAOS,              CardSkillType.ZERO_TURN),
       this.makeCreatureCard(2, 4, 5, CardName.SLICE,              CardSkillType.SUBTLETY),
       this.makeCreatureCard(2, 2, 4, CardName.HYBRID,             CardSkillType.HYBRID),
-      this.makeCreatureCard(5, 2, 3, CardName.OVERLOAD,             CardSkillType.HYBRID),
+      this.makeCreatureCard(5, 2, 4, CardName.OVERLOAD,           CardSkillType.NONE),
       
       this.makeCardAddHPCreature(2),
       this.makeCardAddHPCreature(3),
@@ -287,6 +293,7 @@ export class BattleService {
       this.makeDamageCreatureSpell(4),
     ]
   }
+
 
 
   //
@@ -310,25 +317,23 @@ export class BattleService {
 
   private makePompFilterLoot(): CardData[] {
     return [
-      this.makeCreatureCard(2, 4, 3, CardName.CHAOS,              CardSkillType.ZERO_TURN),
-      this.makeCreatureCard(1, 2, 3, CardName.HYBRID,             CardSkillType.INJECTION),
-      this.makeCreatureCard(1, 2, 3, CardName.HYBRID,             CardSkillType.INJECTION),
+      this.makeBombCard(2, 3),
+      this.makeBombCard(2, 3),
+      this.makeCreatureCard(1, 2, 3, CardName.INJECTION,          CardSkillType.INJECTION),
       this.makeCreatureCard(6, 2, 4, CardName.TENKI_CHAGU,        CardSkillType.ZERO_TURN),
-      this.makeCreatureCard(6, 2, 4, CardName.MULTIPLE_DISPATCH,  CardSkillType.NONE),
-      this.makeCreatureCard(2, 5, 3, CardName.SHIELD_CONTROLLER,  CardSkillType.NONE),
       this.makeCreatureCard(2, 5, 3, CardName.SHIELD_CONTROLLER,  CardSkillType.NONE),
       
-      this.makeCardAddHPCreature(2),
-      this.makeCardAddHPCreature(3),
-      this.makeCardAddHPCore(4),
       this.makeDamageCreatureSpell(4),
+      this.makeDamageCreatureSpell(3),
+      this.makeCardAddHPCore(6),
+      this.makeDamageCoreSpell(4),
     ]
   }
 
 
 
   //
-  //  Pump cards
+  //  Data cache cards
   //
 
   private makeDataCache1Deck(): CardData[] {
@@ -343,27 +348,68 @@ export class BattleService {
       this.makeCreatureCard(1, 1, 1, CardName.ENGINE_CONTROL,     CardSkillType.ZERO_TURN),
       this.makeCreatureCard(1, 1, 1, CardName.ENGINE_CONTROL,     CardSkillType.NONE),
       this.makeCreatureCard(1, 1, 2, CardName.MAYHEM,             CardSkillType.NONE),
+
+      this.makeCreatureCard(3, 2, 2, CardName.BATTLE_CHIPSET,     CardSkillType.NONE),
+      this.makeCreatureCard(1, 1, 1, CardName.ENGINE_CONTROL,     CardSkillType.ZERO_TURN),
+      this.makeCreatureCard(1, 1, 1, CardName.ENGINE_CONTROL,     CardSkillType.NONE),
+      this.makeCreatureCard(1, 1, 2, CardName.MAYHEM,             CardSkillType.NONE),
     ]
   }
 
   private makeDataCache1Loot(): CardData[] {
     return [
-      this.makeCreatureCard(2, 4, 3, CardName.CHAOS,              CardSkillType.ZERO_TURN),
-      this.makeCreatureCard(1, 2, 3, CardName.HYBRID,             CardSkillType.INJECTION),
-      this.makeCreatureCard(1, 2, 3, CardName.HYBRID,             CardSkillType.INJECTION),
-      this.makeCreatureCard(6, 2, 4, CardName.TENKI_CHAGU,        CardSkillType.ZERO_TURN),
-      this.makeCreatureCard(6, 2, 4, CardName.MULTIPLE_DISPATCH,  CardSkillType.NONE),
-      this.makeCreatureCard(2, 5, 3, CardName.SHIELD_CONTROLLER,  CardSkillType.NONE),
-      this.makeCreatureCard(2, 5, 3, CardName.SHIELD_CONTROLLER,  CardSkillType.NONE),
+      this.makeCreatureCard(2, 4, 4, CardName.HIDDEN_METHOD,      CardSkillType.BUFF_ATK_WHILE_ALIVE),
+      this.makeCreatureCard(2, 3, 4, CardName.MULTIPLE_DISPATCH,  CardSkillType.SLEEPER_HOLD),
+      this.makeCreatureCard(1, 2, 3, CardName.INTROSPECT,         CardSkillType.INJECTION),
+      this.makeCreatureCard(5, 1, 5, CardName.SLICE,              CardSkillType.SUBTLETY),
       
-      this.makeCardAddHPCreature(2),
-      this.makeCardAddHPCreature(3),
-      this.makeCardAddHPCore(4),
+      this.makeCardAddHPCreature(4),
+      this.makeCardAddHPCreature(5),
+      this.makeCardAddHPCore(8),
       this.makeDamageCreatureSpell(4),
     ]
   }
 
+
+
+  //
+  //  Tecnhician cards
+  //
+
+  private makeTechnicianDeck(): CardData[] {
+    return [
+      this.makeCreatureCard(3, 2, 2, CardName.BATTLE_CHIPSET,     CardSkillType.NONE),
+      this.makeCreatureCard(1, 2, 1, CardName.DEFENSE_BLOCK,     CardSkillType.ZERO_TURN),
+      this.makeCreatureCard(1, 2, 1, CardName.DEFENSE_BLOCK,     CardSkillType.NONE),
+      this.makeCreatureCard(1, 1, 3, CardName.MAYHEM,             CardSkillType.BUFF_ALLIES_1_1),
+      this.makeCreatureCard(3, 3, 4, CardName.ATTACK_PROTOCOL,    CardSkillType.NONE),
+
+      this.makeCreatureCard(3, 2, 2, CardName.MULTIPLE_DISPATCH,  CardSkillType.NONE),
+      this.makeCreatureCard(2, 3, 4, CardName.LARKIN44B,          CardSkillType.ZERO_TURN),
+      this.makeCreatureCard(2, 3, 5, CardName.MIXIN,              CardSkillType.BUFF_ATK_WHILE_ALIVE),
+      this.makeCreatureCard(1, 1, 2, CardName.MAYHEM,             CardSkillType.NONE),
+
+      this.makeCreatureCard(3, 2, 2, CardName.BATTLE_CHIPSET,     CardSkillType.NONE),
+      this.makeCreatureCard(5, 3, 7, CardName.ENGINE_CONTROL,     CardSkillType.ZERO_TURN),
+      this.makeCreatureCard(6, 2, 6, CardName.SLICE,               CardSkillType.NONE),
+      this.makeCreatureCard(1, 1, 2, CardName.MAYHEM,             CardSkillType.NONE),
+    ]
+  }
+
+  private makeTechnicianLoot(): CardData[] {
+    return [
+      this.makeCreatureCard(2, 4, 4, CardName.HIDDEN_METHOD,      CardSkillType.BUFF_ATK_WHILE_ALIVE),
+      this.makeCreatureCard(2, 3, 4, CardName.MULTIPLE_DISPATCH,  CardSkillType.SLEEPER_HOLD),
+      
+      this.makeCardAddHPCreature(5),
+      this.makeCardAddHPCreature(5),
+      this.makeCardAddHPCore(10),
+      this.makeDamageCreatureSpell(6),
+      this.makeDamageCoreSpell(8),
+    ]
+  }
   
+
   public makeCreatureCard(atk: number, hp: number, link: number, name: CardName, skill: CardSkillType): CardData {
     return {
       type: CardType.CREATURE,
@@ -407,14 +453,14 @@ export class BattleService {
     }
   }
 
-  public makeBombCard(): CardData {
+  public makeBombCard(hp: number, link: number): CardData {
     return {
       type: CardType.CREATURE,
-      name: CardName.LARKIN44B,
+      name: CardName.CRASH_OVERRIDE,
       skill: CardSkillType.BOMB,
       attack: 0,
-      hp: 3,
-      link: 1,
+      hp: hp,
+      link: link,
       turned: true
     }
   }
@@ -518,7 +564,7 @@ export class BattleService {
       name: CardName.DAMAGE_MODULE,
       skill: CardSkillType.DAMAGE_CREATURE,
       benefit: benefit,
-      link: benefit,
+      link: Math.round(benefit/2),
       turned: true
     }
   }
