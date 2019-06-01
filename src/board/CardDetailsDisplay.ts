@@ -81,26 +81,65 @@ export class CardDetailsDisplay extends Phaser.GameObjects.Container {
   public static creatureTextureByName(name: string):string {
     console.log
     switch (name) {
-      case CardName.Snukchak: return 'creature_doogie';
-      case CardName.Doogie: return 'creature_snakey';
-      case CardName.x11F0C4: return 'creature_1';
-      case CardName.x0B4211: return 'creature_2';
-      case CardName.x1D4531: return 'creature_3';
-      case CardName.x3A8C30: return 'creature_4';
-      case CardName.xA90013: return 'creature_5';
-      case CardName.xAF2D10: return 'creature_6';
-      case CardName.xCF3081: return 'creature_7';
-      case CardName.xF93A72: return 'creature_8';
-      case CardName.ADD_ATK_MODULE: return 'creature_atk';
-      case CardName.ADD_HP_MODULE: return 'creature_hp_module';
-      case CardName.ADD_HP_CORE: return 'creature_hp_core';
-      case CardName.HYBERNATION: return 'spell_hybernation';
-      case CardName.HYBRID: return 'creature_hybrid';
-      case CardName.SUBTLETY: return 'creature_subtlety';
-      case CardName.INJECTION: return 'creature_injection';
-      case CardName.DAMAGE_CORE: return 'spell_dmg_core';
-      case CardName.DAMAGE_MODULE: return 'spell_dmg_module';
-      case CardName.ENRAGE: return 'spell_enrage';
+      // case CardName.ATTACK_PROTOCOL: return 'creature_doogie';
+      // case CardName.DEBUG_HOOK: return 'creature_snakey';
+      // case CardName.MAYHEM: return 'creature_1';
+      // case CardName.HINNA: return 'creature_2';
+      // case CardName.TENKI_CHAGU: return 'creature_3';
+      // case CardName.MULTIPLE_DISPATCH: return 'creature_4';
+      // case CardName.INSTRUCTIONxA90013: return 'creature_5';
+      // case CardName.LARKIN44B: return 'creature_6';
+      // case CardName.SLICE: return 'creature_7';
+      // case CardName.INTROSPECT: return 'creature_8';
+      // case CardName.ADD_ATK_MODULE: return 'creature_atk';
+      // case CardName.ADD_HP_MODULE: return 'creature_hp_module';
+      // case CardName.ADD_HP_CORE: return 'creature_hp_core';
+      // case CardName.HYBERNATION: return 'spell_hybernation';
+      // case CardName.HYBRID: return 'creature_hybrid';
+      // case CardName.SUBTLETY: return 'creature_subtlety';
+      // case CardName.INJECTION: return 'creature_injection';
+      // case CardName.DAMAGE_CORE: return 'spell_dmg_core';
+      // case CardName.DAMAGE_MODULE: return 'spell_dmg_module';
+      // case CardName.ENRAGE: return 'spell_enrage';
+
+      case CardName.ATTACK_PROTOCOL   : return 'creature_8';
+      case CardName.DEBUG_HOOK        : return 'creature_8';
+      case CardName.HIDDEN_METHOD     : return 'creature_8';
+      case CardName.DYNAMIC_CONTRACT  : return 'creature_8';
+      case CardName.AUTODEBUG         : return 'creature_8';
+      case CardName.STANDART_TEST     : return 'creature_8';
+      case CardName.DEFENSE_BLOCK     : return 'creature_8';
+      case CardName.TRANSPORT_SYSTEM  : return 'creature_8';
+      case CardName.ENGINE_CONTROL    : return 'creature_8';
+      case CardName.PUMP_CONTROLLER   : return 'creature_8';
+      case CardName.MAYHEM            : return 'creature_8';
+      case CardName.LARKIN44B         : return 'creature_8';
+      case CardName.HINNA             : return 'creature_8';
+      case CardName.TENKI_CHAGU       : return 'creature_8';
+      case CardName.MULTIPLE_DISPATCH : return 'creature_8';
+      case CardName.INTROSPECT        : return 'creature_8';
+      case CardName.OVERLOAD          : return 'creature_8';
+      case CardName.LITARAL           : return 'creature_8';
+      case CardName.CHAOS             : return 'creature_8';
+      case CardName.MIXIN             : return 'creature_8';
+      case CardName.SHIELD_CONTROLLER : return 'creature_8';
+      case CardName.DATABASE_SHIELD   : return 'creature_8';
+      case CardName.BATTLE_CHIPSET    : return 'creature_8';
+      case CardName.HIGH_ORDER        : return 'creature_8';
+      case CardName.INSTRUCTIONxA90013: return 'creature_8';
+      case CardName.SLICE             : return 'creature_8';
+      case CardName.NULLPTR           : return 'creature_8';
+      // skill-based
+      case CardName.ADD_ATK_MODULE    : return 'creature_atk';
+      case CardName.ADD_HP_MODULE     : return 'creature_hp_module';
+      case CardName.ADD_HP_CORE       : return 'creature_hp_core';
+      case CardName.HYBERNATION       : return 'spell_hybernation';
+      case CardName.HYBRID            : return 'creature_hybrid';
+      case CardName.SUBTLETY          : return 'creature_subtlety';
+      case CardName.INJECTION         : return 'creature_injection';
+      case CardName.DAMAGE_CORE       : return 'spell_dmg_core';
+      case CardName.DAMAGE_MODULE     : return 'spell_dmg_module';
+      case CardName.ENRAGE            : return 'spell_enrage';
       
       default: return '';
     }

@@ -4,6 +4,8 @@
 * @description  gaminator 19
 */
 
+import { CardName } from "../board/BattleService";
+
 export type Tile = {
   i: number,
   j: number
@@ -55,7 +57,7 @@ export type CardData = {
   type: CardType
   effect?: CardEffectType
   skill?: CardSkillType
-  name: string
+  name: CardName
   attack?: number
   hp?: number
   link: number
