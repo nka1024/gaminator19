@@ -11,13 +11,15 @@ export enum StoryEvent {
   NoSelected = 'no_selected',
   EndDialog = 'end_dialog',
   PlatformTravel = 'platform_travel',
-  ConditionalBattleStart = 'conditional_battle_start'
+  ConditionalBattleStart = 'conditional_battle_start',
+  CrystalActivation = 'crystal_activation'
 }
 export enum DialogActorID {
   Unknown,
   Player,
   Controller,
-  TestTerminal
+  TestTerminal,
+  Technician
 }
 type DialogActorData = {
   id: DialogActorID,
@@ -57,8 +59,13 @@ export class Story {
     },
     {
       id: DialogActorID.TestTerminal,
-      texture: 'test_terminal_32x32',
+      texture: null,
       name: 'Терминал'
+    },
+    {
+      id: DialogActorID.Technician,
+      texture: null,
+      name: 'Техник'
     },
     {
       id: DialogActorID.Unknown,

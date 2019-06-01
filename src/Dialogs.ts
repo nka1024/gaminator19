@@ -8,6 +8,27 @@ import { DialogLine, DialogActorID, StoryEvent } from "./Story";
 
 export class Dialogs {
 
+  public static crystalDefault: DialogLine[] = [
+    { a: DialogActorID.Unknown, m: 'Ваш сканер показывает высокое содержание протоматерии в этих кристаллах. Согласно вашим данным, это вещество было синтезировано в лабораториях Такхона как альтернативный источник энергии, но его использование было признано опасным из-за эффектов, которое протоматерия оказывает на электронику.' },
+    { a: DialogActorID.Unknown, m: 'Видимо, в этом секторе проводились несанкционированные эксперементы по протогенезу, что объясняет аномалии с оборудованием.' },
+    { a: DialogActorID.Unknown, m: 'Рядом с кристаллами вы замечаете дрона со снятым блоком управления.'},
+    { a: DialogActorID.Unknown, m: '', e: StoryEvent.CrystalActivation },
+    
+  ];
+
+  public static crystaActivation: DialogLine[] = [
+    {
+      a: DialogActorID.Unknown, m: '', o: [
+        { m: 'Подключить мозг техника к нейроинтерфейсу дрона' }
+      ]
+    },
+    { a: DialogActorID.Technician, m: 'ЙОБА' },
+  ];
+
+  public static crystalInteraction: DialogLine[] = [
+    { a: DialogActorID.Unknown, m: '' }
+  ];
+
   //
   // Transport platform
   // 
@@ -161,7 +182,6 @@ export class Dialogs {
   public static technicianRepeat: DialogLine[] = [
     { a: DialogActorID.Unknown, m: 'Тело техника лежит в том же положении, в котором вы его оставили' },
   ];
-
 
 
 }

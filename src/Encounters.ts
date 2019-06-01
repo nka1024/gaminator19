@@ -14,7 +14,8 @@ export enum EncounterName {
   POMP_FILTER = 'pomp_filter_terminal',
   EXOSUIT = 'exosuit_terminal',
   DATA_CACHE_1 = 'data_cache_1_terminal',
-  DEAD_TECHNICIAN = 'dead_technician'
+  DEAD_TECHNICIAN = 'dead_technician',
+  CRYSTAL = 'crystal_interaction'
 }
 
 export type Encounter = {
@@ -130,7 +131,7 @@ export class Encounters {
     }
   }
 
-  private encounterByName(name: string) {
+  public encounterByName(name: string) {
     for (let encounter of this.encounters) {
       if (encounter.name == name) return encounter
     }

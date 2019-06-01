@@ -22,6 +22,7 @@ import { BattleService } from "../board/BattleService";
 import { DebugPanel } from "../windows/DebugPanel";
 import { WindowManager } from "../windows/WindowManager";
 import { PlayerDisplay } from "../board/PlayerDisplay";
+import { Dialogs } from "../Dialogs";
 
 export class WorldScene extends Phaser.Scene {
 
@@ -134,6 +135,12 @@ export class WorldScene extends Phaser.Scene {
       }
     })
 
+    this.story.events.on(StoryEvent.CrystalActivation, () => {
+      if (this.encounters.encounterByName(EncounterName.DEAD_TECHNICIAN).defeated) {
+        this.story.startDialog(Dialogs.crystaActivation);
+      }
+    })
+
     this.encounters = new Encounters(this.story);
 
     let boxShadow = new BoxShadowOverlay(this);
@@ -165,7 +172,11 @@ export class WorldScene extends Phaser.Scene {
         !this.transition.playing
       ) {
         if (this.triggers.currentTrigger.type == MapTriggerType.Repeatable) {
-          this.encounters.startEncounter(this.triggers.currentTrigger.name);
+          if (this.triggers.currentTrigger.name == EncounterName.CRYSTAL) {
+            this.story.startDialog(Dialogs.crystalDefault);
+          } else {
+            this.encounters.startEncounter(this.triggers.currentTrigger.name);
+          }
         }
       }
     });
@@ -185,8 +196,14 @@ export class WorldScene extends Phaser.Scene {
         this.interactAnim.y = interactXY.y;
         this.interactAnim.visible = true;
       }
-      
-     if (trigger.name == 'access_location_2') {
+
+      if (trigger.name == EncounterName.CRYSTAL) {
+        this.interactAnim.x = 862;
+        this.interactAnim.y = 548;
+        this.interactAnim.visible = true;
+      }
+
+      if (trigger.name == 'access_location_2') {
         // this.player.x -= 16
         this.story.startDialog(Story.access_location_2_forbidden);
       }
@@ -271,7 +288,7 @@ export class WorldScene extends Phaser.Scene {
     this.transition.alphaTransition(0, 1, 0.05, () => {
       this.player.stopMovement();
       this.scene.sleep();
-      this.scene.run("IntroScene", {death: true});
+      this.scene.run("IntroScene", { death: true });
       this.mainThemeAudio.pause();
     });
   }
