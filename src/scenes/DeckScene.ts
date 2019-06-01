@@ -12,6 +12,7 @@ import { CardDisplay } from "../board/CardDisplay";
 import { PlayerBoardData, CardData } from "../types/Types";
 import { Keybinds } from "../Keybinds";
 import { CardDetailsDisplay } from "../board/CardDetailsDisplay";
+import { CONST } from "../const/const";
 
 export class DeckScene extends Phaser.Scene {
   private deck: DeckDisplay;
@@ -22,6 +23,8 @@ export class DeckScene extends Phaser.Scene {
   private transition: FadeTransition;
   private keybinds: Keybinds;
   private animationRegistry: AnimationRegistry;
+
+  private combatLoopAudio: Phaser.Sound.BaseSound;
 
   // private battleService: BattleService;
   // private player: PlayerBoardData;
@@ -41,6 +44,8 @@ export class DeckScene extends Phaser.Scene {
   }
 
   create(loot: CardData[]) {
+    this.combatLoopAudio = this.sound.add('combat_loop', { loop: true, volume: 0.35 });
+
     this.lootCards = loot;
     this.animationRegistry = new AnimationRegistry(this);
     this.animationRegistry.initBoardAnimations();
@@ -70,12 +75,9 @@ export class DeckScene extends Phaser.Scene {
 
     this.transition = new FadeTransition(this, 0,0);
     this.add.existing(this.transition);
-    this.transition.alphaTransition(1, 0, 0.01);
 
     this.events.on('wake', (sys, lootCards: CardData[]) => {
-      this.lootCards = lootCards;
-      this.transition.alphaTransition(1, 0, 0.1);
-      this.repopulate();
+     this.onAwaken(lootCards);
     })
     this.keybinds = new Keybinds(this);
 
@@ -104,7 +106,16 @@ export class DeckScene extends Phaser.Scene {
     this.imgAddModule.visible = true
     this.imgAddModule.visible = false
 
+    this.onAwaken(loot);
+  }
+
+  private onAwaken(loot: CardData[]) {
+    this.lootCards = loot;
+    this.transition.alphaTransition(1, 0, 0.1);
     this.repopulate();
+    if (!CONST.DEV) {
+      this.combatLoopAudio.play();
+    }
   }
 
   private onCardSelect(card: CardDisplay) {
@@ -136,6 +147,7 @@ export class DeckScene extends Phaser.Scene {
 
   private end() {
     BattleService.playerDeck = this.deck.getAllCardData();
+    this.combatLoopAudio.stop();
     this.scene.sleep();
     this.scene.run("WorldScene", {won: true});
   }

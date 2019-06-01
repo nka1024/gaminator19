@@ -28,10 +28,10 @@ export class IntroScene extends Phaser.Scene {
   preload() {
     AssetsLoader.preload(this);
   }
-  
+
   create(data: object): void {
-    this.cameras.main.setBackgroundColor(0x1f1f1f); 
-    
+    this.cameras.main.setBackgroundColor(0x1f1f1f);
+
     this.events.on('wake', (sys, data: object) => { this.onWakeup(data) })
 
     this.transition = new FadeTransition(this, 0, 0);
@@ -39,20 +39,20 @@ export class IntroScene extends Phaser.Scene {
     this.transition.depth = Number.MAX_VALUE;
 
 
-    this.logo1 = new Phaser.GameObjects.Image(this, 0,0, 'gaminator_logo_1_505x300');
+    this.logo1 = new Phaser.GameObjects.Image(this, 0, 0, 'gaminator_logo_1_505x300');
     this.logo1.setOrigin(0, 0);
     this.add.existing(this.logo1)
 
-    this.logo2 = new Phaser.GameObjects.Image(this, 0,0, 'gaminator_logo_2_505x300');
+    this.logo2 = new Phaser.GameObjects.Image(this, 0, 0, 'gaminator_logo_2_505x300');
     this.logo2.setOrigin(0, 0);
     this.logo2.alpha = 0;
     this.add.existing(this.logo2)
 
-    this.gameOver1 = new Phaser.GameObjects.Image(this, 0,0, 'game_over_1_505x300');
+    this.gameOver1 = new Phaser.GameObjects.Image(this, 0, 0, 'game_over_1_505x300');
     this.gameOver1.setOrigin(0, 0);
-    this.gameOver1.visible = true;
+    this.gameOver1.visible = false;
     this.add.existing(this.gameOver1)
-    
+
     this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
     this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     this.enterKey.on('down', (key, event) => { this.onInput() })
@@ -61,7 +61,7 @@ export class IntroScene extends Phaser.Scene {
     this.onWakeup(data);
 
     this.game.scale.on('resize', (size: Phaser.GameObjects.Components.Size) => this.onWindowResize(size.width, size.height));
-    
+
     this.onWindowResize(window.innerWidth, window.innerHeight);
   }
 
@@ -82,15 +82,15 @@ export class IntroScene extends Phaser.Scene {
 
     this.canSkip = false;
 
-    if (data) {
+    if (data && data['death']) {
       this.logo1.visible = false;
       this.logo2.visible = false;
       this.gameOver1.visible = true;
     } else {
       this.time.addEvent({
         delay: 2000,
-        callback: () => { 
-          this.canSkip = true 
+        callback: () => {
+          this.canSkip = true
           this.tweens.add({
             targets: this.logo2,
             alpha: 1,
@@ -104,7 +104,7 @@ export class IntroScene extends Phaser.Scene {
         loop: false,
         paused: false
       });
-  }
+    }
   }
 
   update() {

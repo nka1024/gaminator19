@@ -11,6 +11,7 @@ export let CONST = {
   INSTANT_LOSE: false,
   SHOW_FPS: false,
   SHUFFLE: true,
+  INTRO: false
 };
 
 export let UI_DEPTH = {

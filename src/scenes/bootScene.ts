@@ -5,6 +5,8 @@
 * @license      Apache 2.0
 */
 
+import { CONST } from "../const/const";
+
 export class BootScene extends Phaser.Scene {
   constructor() {
     super({
@@ -19,10 +21,14 @@ export class BootScene extends Phaser.Scene {
     if (document.baseURI.indexOf("editor.html") != -1) {
       this.scene.start("EditorRootScene");
     } else {
-      // this.scene.start("IntroScene");
-      // this.scene.start("DeckScene");
-      this.scene.start("WorldScene");
-      // this.scene.start("BoardScene");
+      if (CONST.INTRO) {
+        this.scene.start("IntroScene");
+      } 
+      else {
+        // this.scene.start("DeckScene");
+        this.scene.start("WorldScene");
+        // this.scene.start("BoardScene");
+      }
     }
   }
 }

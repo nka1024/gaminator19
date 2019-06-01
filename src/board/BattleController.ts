@@ -503,7 +503,7 @@ export class BattleController {
       }
     } else {
       let view = owner == this.board.player ? this.player : this.opponent;
-      this.modifyCoreHP(owner, view, dmg);
+      this.modifyCoreHP(owner, view, -dmg);
       if (owner.hp <= 0) {
         this.endBattle(owner == this.board.opponent);
       }
