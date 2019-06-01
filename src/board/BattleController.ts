@@ -373,7 +373,12 @@ export class BattleController {
             } else {
               this.tmp.selectedCard = card
               this.terminal.setScreen(TerminalScreenID.SELECT_LANE);
-              this.spots.putCursor(1, 1);
+              if (card.skill == CardSkillType.HYBERNATION ||
+                  card.skill == CardSkillType.DAMAGE_CREATURE) {
+                this.spots.putCursor(0, 1, 'red');
+              } else {
+                this.spots.putCursor(1, 1, 'yellow');
+              }
               this.spots.setCursorHidden(false);
               this.spots.setNextPhaseHidden(true);
             }
@@ -591,7 +596,7 @@ export class BattleController {
     if (this.phaseStarted()) {
       this.turn.setPhase(PhaseType.PROTECT);
       this.terminal.setScreen(TerminalScreenID.HIDE_MODULE);
-      this.spots.putCursor(1, 1);
+      this.spots.putCursor(1, 1, 'yellow');
       this.spots.setNextPhaseHidden(false);
     }
 

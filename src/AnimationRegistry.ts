@@ -292,6 +292,14 @@ export class AnimationRegistry {
       repeatDelay: 0,
       hideOnComplete: false
     });
+    scene.anims.create({
+      key: 'cursor_spot_red_anim',
+      frames: scene.anims.generateFrameNumbers('cursor_spot_red_68x70', { start: 0, end: 22 }),
+      frameRate: 15,
+      repeat: -1,
+      repeatDelay: 0,
+      hideOnComplete: false
+    });
   }
 
   private registerTerminalScreenAnimations(scene: Scene) {

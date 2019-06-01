@@ -81,7 +81,15 @@ export class BoardSpotsContainer extends Phaser.GameObjects.Container {
     }
   }
 
-  public putCursor(row: number, col: number) {
+  public putCursor(row: number, col: number, color: string) {
+    if (color) {
+      if (color == 'red') {
+        this.cursor.play('cursor_spot_red_anim')
+      } else {
+        this.cursor.play('cursor_spot_anim')
+      }
+  }
+
     this.cursorRow = row;
     this.cursorCol = col;
 
@@ -119,7 +127,7 @@ export class BoardSpotsContainer extends Phaser.GameObjects.Container {
     if (this.cursorRow == 1 && y == 11) {
       return
     }
-    this.putCursor(this.cursorRow + y, this.cursorCol + x);
+    this.putCursor(this.cursorRow + y, this.cursorCol + x, null);
   }
   
   public putCardAtCursor(card: CardData) {

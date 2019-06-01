@@ -78,7 +78,8 @@ export class AssetsLoader {
 
     scene.load.spritesheet('enemy_card_anim_13x15', './assets/board/enemy_card_anim_13x15.png', { frameWidth: 13, frameHeight: 15 });
     scene.load.spritesheet("cursor_spot_68x70", "./assets/board/cursor_spot_68x70.png", { frameWidth: 68, frameHeight: 70 });
-
+    scene.load.spritesheet("cursor_spot_red_68x70", "./assets/board/cursor_spot_red_68x70.png", { frameWidth: 68, frameHeight: 70 });
+    
     scene.load.image('remove_module_100x20', './assets/board/deck/remove_module_100x20.png');
     scene.load.image('add_module_100x20', './assets/board/deck/add_module_100x20.png');
     scene.load.image('deck_background_505x300', './assets/board/deck/deck_background_505x300.png');
