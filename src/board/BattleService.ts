@@ -41,7 +41,7 @@ export enum CardName {
   ADD_HP_CORE = 'Стабильность ядра',
   HYBERNATION = 'Гибернация',
   HYBRID = 'Гибрид',
-  SUBTLETY = 'Кардинал',
+  SUBTLETY = 'Сабтлети',
   INJECTION = 'Инжектор',
   DAMAGE_CORE = 'Урон ядру',
   DAMAGE_MODULE = 'Урон модулю',
@@ -91,7 +91,6 @@ export class BattleService {
       player: this.makePlayerData(),
       phase: BoardPhase.UNDEFINED,
       turn: 0,
-      loot: this.makeLootCardsForEncounter(encounter)
     }
     return result;
   }
@@ -103,9 +102,10 @@ export class BattleService {
       this.makeCreatureCard(1, 1, 1, CardName.DYNAMIC_CONTRACT, CardSkillType.NONE),
       this.makeCreatureCard(1, 2, 3, CardName.AUTODEBUG, CardSkillType.BUFF_ALLIES_1_1),
       this.makeCreatureCard(1, 1, 2, CardName.DEBUG_HOOK, CardSkillType.BUFF_ALLIES_1_1),
-      this.makeCreatureCard(1, 3, 1, CardName.ATTACK_PROTOCOL, CardSkillType.ZERO_TURN),
-      this.makeCreatureCard(3, 4, 4, CardName.STANDART_TEST, CardSkillType.NONE),
-      this.makeSkillCard(3, 4, CardName.DAMAGE_CORE,  CardSkillType.DAMAGE_CORE),
+      this.makeCreatureCard(2, 1, 3, CardName.ATTACK_PROTOCOL, CardSkillType.ZERO_TURN),
+      this.makeCreatureCard(3, 4, 3, CardName.STANDART_TEST, CardSkillType.NONE),
+      this.makeCreatureCard(1, 1, 1, CardName.DYNAMIC_CONTRACT, CardSkillType.NONE),
+      this.makeSkillCard(3, 3, CardName.DAMAGE_CORE,  CardSkillType.DAMAGE_CORE),
       this.makeSkillCard(3, 2, CardName.HYBERNATION,  CardSkillType.HYBERNATION),
       this.makeSkillCard(3, 3, CardName.ADD_HP_CORE,  CardSkillType.ADD_HP_CORE),
       this.makeSkillCard(1, 0, CardName.ENRAGE,  CardSkillType.ENRAGE),
@@ -128,10 +128,11 @@ export class BattleService {
       ]
     }
     let result: PlayerBoardData = {
-      name: 'Sora',
+      name: 'Отладчик 4406',
       deck: this.shuffle(this.copyAll(BattleService.playerDeck)),
       hand: [],
       board: [],
+      loot: [],
       link: 0,
       linkMax: 0,
       hp: 15
@@ -157,6 +158,7 @@ export class BattleService {
       deck: [],
       hand: [],
       board: [],
+      loot: [],
       link: 0,
       linkMax: 0,
       hp: 15
@@ -165,18 +167,33 @@ export class BattleService {
     switch(encounter) {
       case EncounterName.TRANSPORT_PLATFORM: 
       result.deck = this.makeTransportPlatformDeck(); 
+      result.loot = this.makeTransportPlatformLoot();
       result.name = 'Транспортная система'; 
+      result.hp = 15;
+      break;
+      case EncounterName.EXOSUIT: 
+      result.deck = this.makeTransportPlatformDeck(); 
+      result.loot = this.makeTransportPlatformLoot();
+      result.name = 'Система управления экзоскелетом'; 
+      result.hp = 15;
+      break;
+      case EncounterName.POMP_FILTER: 
+      result.deck = this.makeTransportPlatformDeck(); 
+      result.loot = this.makeTransportPlatformLoot();
+      result.name = 'Насосно-фильтровальная подстанция'; 
       result.hp = 15;
       break;
       case EncounterName.DEAD_TECHNICIAN: 
       result.deck = this.makeTransportPlatformDeck(); 
+      result.loot = this.makeTransportPlatformLoot();
       result.name = 'Нейроинтерфейс'; 
-      result.hp = 15;
+      result.hp = 20;
       break;
       case EncounterName.DATA_CACHE_1: 
       result.deck = this.makeTransportPlatformDeck(); 
+      result.loot = this.makeTransportPlatformLoot();
       result.name = 'Региональный дата-кэш'; 
-      result.hp = 15;
+      result.hp = 20;
       break;
       default: throw 'unknown encounter type';
     }
@@ -189,19 +206,30 @@ export class BattleService {
   private makeTransportPlatformDeck(): CardData[] {
     return [
       this.makeCreatureCard(1, 1, 1, CardName.TRANSPORT_SYSTEM,   CardSkillType.NONE),
-      this.makeCreatureCard(1, 2, 3, CardName.ENGINE_CONTROL,     CardSkillType.BUFF_ALLIES_1_1),
-      this.makeCreatureCard(1, 1, 2, CardName.INSTRUCTIONxA90013, CardSkillType.BUFF_ALLIES_1_1),
+      this.makeCreatureCard(1, 2, 3, CardName.ENGINE_CONTROL,     CardSkillType.NONE),
+      this.makeCreatureCard(1, 1, 2, CardName.INSTRUCTIONxA90013, CardSkillType.NONE),
       this.makeCreatureCard(3, 3, 4, CardName.NULLPTR,            CardSkillType.NONE),
       this.makeCreatureCard(3, 4, 4, CardName.NULLPTR,            CardSkillType.NONE),
 
       this.makeCreatureCard(1, 1, 1, CardName.TRANSPORT_SYSTEM,   CardSkillType.NONE),
-      this.makeCreatureCard(1, 2, 3, CardName.ENGINE_CONTROL,     CardSkillType.BUFF_ALLIES_1_1),
-      this.makeCreatureCard(1, 1, 2, CardName.INSTRUCTIONxA90013, CardSkillType.BUFF_ALLIES_1_1),
-      this.makeCreatureCard(3, 3, 4, CardName.NULLPTR,            CardSkillType.NONE),
-      this.makeCreatureCard(3, 4, 4, CardName.NULLPTR,            CardSkillType.NONE),
+      this.makeCreatureCard(1, 2, 3, CardName.ENGINE_CONTROL,     CardSkillType.NONE),
+      this.makeCreatureCard(1, 1, 2, CardName.INSTRUCTIONxA90013, CardSkillType.NONE),
     ]
   }
 
+  private makeTransportPlatformLoot(): CardData[] {
+    return [
+      this.makeCreatureCard(1, 1, 1, CardName.TRANSPORT_SYSTEM,   CardSkillType.NONE),
+      this.makeCreatureCard(1, 2, 3, CardName.ENGINE_CONTROL,     CardSkillType.BUFF_ALLIES_1_1),
+      this.makeCreatureCard(1, 1, 2, CardName.INSTRUCTIONxA90013, CardSkillType.BUFF_ALLIES_1_1),
+      this.makeCreatureCard(3, 3, 4, CardName.NULLPTR,            CardSkillType.NONE),
+      this.makeCardAddHPCreature(1),
+      this.makeCardAddHPCreature(2),
+      this.makeDamageCreatureSpell(2),
+    ]
+  }
+
+  
   public makeCreatureCard(atk: number, hp: number, link: number, name: CardName, skill: CardSkillType): CardData {
     return {
       type: CardType.CREATURE,

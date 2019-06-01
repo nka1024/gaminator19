@@ -208,7 +208,7 @@ export class BoardScene extends Phaser.Scene {
       if (result == 'win') {
         this.transition.alphaTransition(0, 1, 0.1, () => {
           this.scene.sleep();
-          this.scene.run("DeckScene", boardData.loot);
+          this.scene.run("DeckScene", boardData.opponent.loot);
           this.combatLoopAudio.pause();
         });
       } else {

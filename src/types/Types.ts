@@ -44,13 +44,13 @@ export enum CardSkillType  {
   DAMAGE_CORE,
   HYBERNATION,
   ZERO_TURN,
-  HYBRID,
-  SUBTLETY,
-  INJECTION,
-  BUFF_ATK_WHILE_ALIVE,
-  ENRAGE,
-  BOMB,
-  SLEEPER_HOLD,
+  HYBRID, // eсли этот модуль заменяет другой модуль на поле, то их атаки и сабильность складываются
+  SUBTLETY,   //  пока этот модуль защищен Скрытием, уменьшает весь получаемый ядром урон вдвое
+  INJECTION, // при выходе на поле меняется местами с модулем противника напротив
+  BUFF_ATK_WHILE_ALIVE, // пока на поле, ваши модули наносят 1 дополнительный урон
+  ENRAGE, // наносит модулю 1 урон и дает +2 атаки
+  BOMB, // во время гибели наносит 3 урона всем модулям противника
+  SLEEPER_HOLD, // sleeper_hold При успешной защите вводит модуль противника в спящий режим на 1 цикл
 }
 
 export type CardData = {
@@ -89,7 +89,6 @@ export type BoardData = {
   player: PlayerBoardData
   phase: BoardPhase
   turn: number
-  loot: CardData[]
 }
 
 export type PlayerBoardData = {
@@ -97,6 +96,7 @@ export type PlayerBoardData = {
   deck: CardData[]
   hand: CardData[]
   board: CardData[]
+  loot: CardData[]
   link: number
   linkMax: number
   hp: number
