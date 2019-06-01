@@ -146,6 +146,7 @@ export class WorldScene extends Phaser.Scene {
     })
     this.story.events.on(StoryEvent.GrantAccessToLocation2, () => {
       this.location2Opened = true;
+      this.interactAnim.visible = false;
     })
 
     this.encounters = new Encounters(this.story);
@@ -205,9 +206,11 @@ export class WorldScene extends Phaser.Scene {
       }
 
       if (trigger.name == EncounterName.CRYSTAL) {
-        this.interactAnim.x = 862;
-        this.interactAnim.y = 548;
-        this.interactAnim.visible = true;
+        if (!this.location2Opened) {
+          this.interactAnim.x = 862;
+          this.interactAnim.y = 548;
+          this.interactAnim.visible = true;
+        }
       }
       else if (trigger.name == 'access_location_2') {
         if (!this.location2Opened) {
