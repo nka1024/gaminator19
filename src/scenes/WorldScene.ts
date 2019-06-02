@@ -225,7 +225,7 @@ export class WorldScene extends Phaser.Scene {
       else if (trigger.name == 'access_location_2') {
         if (!this.location2Opened) {
           this.player.x -= 16
-          this.story.startDialog(Story.access_location_2_forbidden);
+          this.story.startDialog(Dialogs.access_location_2_forbidden);
         }
       } else if (trigger.name == 'location2_death')  {
         this.gameOver();

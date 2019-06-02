@@ -25,7 +25,7 @@ export class DebugPanel extends BaseWindow {
 
     this.titleText = this.element.querySelector(".text_title");
     this.volumeText = this.element.querySelector(".text_volume");
-    
+
     this.startDataSyncLoop();
   }
 
@@ -42,7 +42,7 @@ export class DebugPanel extends BaseWindow {
   }
 
   private getTimerValue(): string {
-    let minutes = Math.floor(this.time/60);
+    let minutes = Math.floor(this.time / 60);
     let seconds = Math.floor(this.time - minutes * 60);
     let min = minutes < 10 ? '0' + minutes : minutes.toString();
     let sec = seconds < 10 ? '0' + seconds : seconds.toString();
@@ -50,12 +50,9 @@ export class DebugPanel extends BaseWindow {
   }
 
   private dataSync() {
-    if (CONST.SHOW_TIMER) {
-      this.titleText.innerHTML = this.getTimerValue();
-    }
-    if (CONST.SHOW_FPS) {
-      this.volumeText.innerHTML = (Math.round(this.scene.game.loop.actualFps * 10)/10).toString();
-    }
+    let fps = (Math.round(this.scene.game.loop.actualFps * 10) / 10).toString();
+    this.titleText.innerHTML  = CONST.SHOW_TIMER ? this.getTimerValue() : ''
+    this.volumeText.innerHTML = CONST.SHOW_FPS ? fps : ''
   }
 
   public destroy() {

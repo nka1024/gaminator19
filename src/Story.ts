@@ -55,27 +55,27 @@ export class Story {
     {
       id: DialogActorID.Controller,
       texture: null,
-      name: 'Контроллер'
+      name: 'Controller'
     },
     {
       id: DialogActorID.Player,
       texture: 'portrait_player_32x32',
-      name: 'Отладчик 4406'
+      name: 'Debugger 4406'
     },
     {
       id: DialogActorID.TestTerminal,
       texture: null,
-      name: 'Терминал'
+      name: 'Terminal'
     },
     {
       id: DialogActorID.Technician,
       texture: null,
-      name: 'Техник'
+      name: 'Technician'
     },
     {
       id: DialogActorID.Sphere,
       texture: null,
-      name: 'Сфера'
+      name: 'Sphere'
     },
     {
       id: DialogActorID.Unknown,
@@ -84,57 +84,6 @@ export class Story {
     }
   ]
 
-  private static afterArrival: DialogLine[] = [
-    { a: DialogActorID.Player, m: '- Ясно. А откуда ветер?'},
-    { a: DialogActorID.Controller, m: '- Сбой датчиков даления в блоках 92J, 93J, 92P, 114B...' },
-    { a: DialogActorID.Player, m: '- Стоп. Просто отправь полный отчет мне в память.' },
-    { a: DialogActorID.Controller, m: '- Отчет отправлен.', o: [
-      { m:'Нет', e: StoryEvent.EndDialog },
-      { m:'Да!', e: StoryEvent.BattleStart }
-    ]}
-  ];
-
-
-  public static access_location_2_forbidden: DialogLine[] = [
-    { a: DialogActorID.Unknown, m: 'Шлюз заблокирован снаружи. Терминал доступа выведен из строя, отладка невозможна.'},
-  ];
-
-  public static arrival: DialogLine[] = [
-    { a: DialogActorID.Player, m: '- Святая императрица, ну и вонь здесь. Контроллер, запросить статус эко-станции.'},
-    { a: DialogActorID.Controller, m: '- Ресурс кислородного блока на минимуме. Фотонная подсистема функционирует в авайрийном режиме. Вентиляционные системы требуют ремонта. Насосно-фильтровальная подстанция перегружена.' },
-    { a: DialogActorID.Player, m: '- Хоть что-то в этом секторе работает нормально?' },
-    { a: DialogActorID.Controller, m: '- Прото-реактор функционирует штатно.', o: [
-      { m:'Нет', next: Story.afterArrival },
-      { m:'Да!', e: StoryEvent.BattleStart }
-    ]},
-    // { e: StoryEvent.BattleStart },
-  ];
-
-  public static debug_1: DialogLine[] = [
-    { a: DialogActorID.Unknown, m: 'Перед вами старый терминал для тестирования модулей'},
-    { a: DialogActorID.TestTerminal, m: 'Доступна только одна програма', o: [
-      { m:'Ничего не делать' },
-      { m:'Запустить программу тестирования', e: StoryEvent.BattleStart }
-    ]},
-    // { e: StoryEvent.BattleStart },
-  ];
-
-
-  public static transportPlatform: DialogLine[] = [
-    { a: DialogActorID.Unknown, m: 'Перед вами старый терминал для тестирования модулей'},
-    { a: DialogActorID.TestTerminal, m: 'Доступна только одна програма', o: [
-      { m:'Ничего не делать' },
-      { m:'Запустить программу тестирования', e: StoryEvent.BattleStart }
-    ]},
-    // { e: StoryEvent.BattleStart },
-  ];
-
-
-  private dialogs = {
-    // 'arrival': this.arrival,
-    // 'afterArrival': this.afterArrival
-    // 'debug_1': this.debug_1
-  }
   constructor(scene: Phaser.Scene ) {
     this.events = new Phaser.Events.EventEmitter();
     this.enterKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);

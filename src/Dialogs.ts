@@ -8,6 +8,12 @@ import { DialogLine, DialogActorID, StoryEvent } from "./Story";
 
 export class Dialogs {
 
+
+  public static access_location_2_forbidden: DialogLine[] = [
+    { a: DialogActorID.Unknown, m: 'Gateway is locked from outside. Terminal panel is destroyed, connection impossible.'},
+  ];
+
+  
   //
   // Sphere
   // 
