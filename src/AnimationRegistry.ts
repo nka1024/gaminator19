@@ -320,7 +320,7 @@ export class AnimationRegistry {
   private registerTerminalScreenAnimations(scene: Scene) {
     scene.anims.create({
       key: TerminalScreenID.PRESS_ENTER_TO_START,
-      frames: scene.anims.generateFrameNumbers('press_enter_to_start_178x60', { frames: [0, 1] }),
+      frames: scene.anims.generateFrameNumbers('press_enter_to_start_178x64', { frames: [0, 1] }),
       frameRate: 2,
       repeat: -1,
       repeatDelay: 0,
@@ -336,7 +336,7 @@ export class AnimationRegistry {
     });
     scene.anims.create({
       key: TerminalScreenID.SELECT_MODULE,
-      frames: scene.anims.generateFrameNumbers('select_module_178x60', { frames: [0, 1] }),
+      frames: scene.anims.generateFrameNumbers('select_module_178x64', { frames: [0, 1] }),
       frameRate: 2,
       repeat: -1,
       repeatDelay: 0,
@@ -344,7 +344,7 @@ export class AnimationRegistry {
     });
     scene.anims.create({
       key: TerminalScreenID.SELECT_LANE,
-      frames: scene.anims.generateFrameNumbers('select_lane_178x60', { frames: [0, 1] }),
+      frames: scene.anims.generateFrameNumbers('select_lane_178x64', { frames: [0, 1] }),
       frameRate: 2,
       repeat: -1,
       repeatDelay: 0,
@@ -352,7 +352,7 @@ export class AnimationRegistry {
     });
     scene.anims.create({
       key: TerminalScreenID.UNABLE_TO_INSTALL,
-      frames: scene.anims.generateFrameNumbers('unable_to_install_178x60', { frames: [0, 1] }),
+      frames: scene.anims.generateFrameNumbers('unable_to_install_178x64', { frames: [0, 1] }),
       frameRate: 2,
       repeat: -1,
       repeatDelay: 0,
@@ -360,7 +360,7 @@ export class AnimationRegistry {
     });
     scene.anims.create({
       key: TerminalScreenID.UNSIFFICIENT_LINK,
-      frames: scene.anims.generateFrameNumbers('unsufficient_link_178x60', { frames: [0, 1] }),
+      frames: scene.anims.generateFrameNumbers('unsufficient_link_178x64', { frames: [0, 1] }),
       frameRate: 2,
       repeat: -1,
       repeatDelay: 0,

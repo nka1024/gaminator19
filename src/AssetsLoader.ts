@@ -68,11 +68,11 @@ export class AssetsLoader {
     
 
     scene.load.spritesheet('hide_module_link_178x64',     './assets/board/terminal/terminal_hide_module_link_178x64.png', { frameWidth: 178, frameHeight: 64 });
-    scene.load.spritesheet('press_enter_to_start_178x60', './assets/board/terminal/terminal_press_enter_to_start_178x60.png', { frameWidth: 178, frameHeight: 60 });
-    scene.load.spritesheet('select_lane_178x60',          './assets/board/terminal/terminal_select_lane_178x60.png', { frameWidth: 178, frameHeight: 60 });
-    scene.load.spritesheet('select_module_178x60',        './assets/board/terminal/terminal_select_module_178x60.png', { frameWidth: 178, frameHeight: 60 });
-    scene.load.spritesheet('unable_to_install_178x60',    './assets/board/terminal/terminal_unable_to_install_178x60.png', { frameWidth: 178, frameHeight: 60 });
-    scene.load.spritesheet('unsufficient_link_178x60',    './assets/board/terminal/terminal_unsufficient_link_178x60.png', { frameWidth: 178, frameHeight: 60 });
+    scene.load.spritesheet('press_enter_to_start_178x64', './assets/board/terminal/terminal_press_enter_to_start_178x64.png', { frameWidth: 178, frameHeight: 64 });
+    scene.load.spritesheet('select_lane_178x64',          './assets/board/terminal/terminal_select_lane_178x64.png', { frameWidth: 178, frameHeight: 64 });
+    scene.load.spritesheet('select_module_178x64',        './assets/board/terminal/terminal_select_module_178x64.png', { frameWidth: 178, frameHeight: 64 });
+    scene.load.spritesheet('unable_to_install_178x64',    './assets/board/terminal/terminal_unable_to_install_178x64.png', { frameWidth: 178, frameHeight: 64 });
+    scene.load.spritesheet('unsufficient_link_178x64',    './assets/board/terminal/terminal_unsufficient_link_178x64.png', { frameWidth: 178, frameHeight: 64 });
     scene.load.spritesheet('battle_won_178x64',           './assets/board/terminal/terminal_battle_won_178x64.png', { frameWidth: 178, frameHeight: 64 });
     scene.load.spritesheet('battle_lost_178x64',          './assets/board/terminal/terminal_battle_lost_178x64.png', { frameWidth: 178, frameHeight: 64 });
 
