@@ -104,7 +104,7 @@ export class CardDetailsDisplay extends Phaser.GameObjects.Container {
 
       case CardName.ATTACK_PROTOCOL   : return 'creature_8';
       case CardName.DEBUG_HOOK        : return 'creature_8';
-      case CardName.HIDDEN_METHOD     : return 'creature_8';
+      case CardName.HIDDEN_METHOD     : return 'creature_6';
       case CardName.DYNAMIC_CONTRACT  : return 'creature_8';
       case CardName.AUTODEBUG         : return 'creature_8';
       case CardName.STANDART_TEST     : return 'creature_8';
@@ -114,21 +114,21 @@ export class CardDetailsDisplay extends Phaser.GameObjects.Container {
       case CardName.PUMP_CONTROLLER   : return 'creature_8';
       case CardName.MAYHEM            : return 'creature_8';
       case CardName.LARKIN44B         : return 'creature_8';
-      case CardName.HINNA             : return 'creature_8';
-      case CardName.TENKI_CHAGU       : return 'creature_8';
-      case CardName.MULTIPLE_DISPATCH : return 'creature_8';
+      case CardName.HINNA             : return 'creature_7';
+      case CardName.TENKI_CHAGU       : return 'creature_7';
+      case CardName.MULTIPLE_DISPATCH : return 'creature_6';
       case CardName.INTROSPECT        : return 'creature_8';
       case CardName.OVERLOAD          : return 'creature_8';
-      case CardName.LITARAL           : return 'creature_8';
-      case CardName.CHAOS             : return 'creature_8';
+      case CardName.LITERAL           : return 'creature_7';
+      case CardName.CHAOS             : return 'creature_7';
       case CardName.MIXIN             : return 'creature_8';
       case CardName.SHIELD_CONTROLLER : return 'creature_8';
-      case CardName.DATABASE_SHIELD   : return 'creature_8';
+      case CardName.DATABASE_SHIELD   : return 'creature_7';
       case CardName.BATTLE_CHIPSET    : return 'creature_8';
       case CardName.HIGH_ORDER        : return 'creature_8';
       case CardName.CRASH_OVERRIDE    : return 'creature_8';
       case CardName.INSTRUCTIONxA90013: return 'creature_8';
-      case CardName.SLICE             : return 'creature_8';
+      case CardName.SLICE             : return 'creature_7';
       case CardName.NULLPTR           : return 'creature_8';
       // skill-based
       case CardName.ADD_ATK_MODULE    : return 'creature_atk';

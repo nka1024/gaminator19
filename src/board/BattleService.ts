@@ -26,7 +26,7 @@ export enum CardName {
   MULTIPLE_DISPATCH = 'Multiple Dispatch',
   INTROSPECT = 'Itrospect',
   OVERLOAD = 'OVERLOAD',
-  LITARAL = 'Literal',
+  LITERAL = 'Literal',
   CHAOS = 'CHAOS 2',
   MIXIN = 'MIX-IN',
   SHIELD_CONTROLLER = 'Shield controller',
@@ -253,8 +253,8 @@ export class BattleService {
     return [
       this.makeCreatureCard(1, 2, 1, CardName.TRANSPORT_SYSTEM,   CardSkillType.BUFF_ALLIES_1_1),
       this.makeCreatureCard(1, 2, 3, CardName.ENGINE_CONTROL,     CardSkillType.BUFF_ALLIES_1_1),
-      this.makeCreatureCard(4, 2, 3, CardName.INSTRUCTIONxA90013, CardSkillType.NONE),
-      this.makeCreatureCard(5, 1, 3, CardName.NULLPTR,            CardSkillType.NONE),
+      this.makeCreatureCard(4, 2, 3, CardName.HINNA,              CardSkillType.NONE),
+      this.makeCreatureCard(5, 1, 3, CardName.LITERAL,            CardSkillType.NONE),
       this.makeCardAddHPCreature(3),
       
       this.makeCardAddHPCreature(3),
