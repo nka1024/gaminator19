@@ -141,37 +141,37 @@ export class BattleService {
       case EncounterName.TRANSPORT_PLATFORM: 
       result.deck = this.makeTransportPlatformDeck(); 
       result.loot = this.makeTransportPlatformLoot();
-      result.name = 'Транспортная система'; 
+      result.name = 'Transport system'; 
       result.hp = 15;
       break;
       case EncounterName.EXOSUIT: 
       result.deck = this.makeExosuitDeck(); 
       result.loot = this.makeExosuitLoot();
-      result.name = 'Система управления экзоскелетом'; 
+      result.name = 'Control system'; 
       result.hp = 15;
       break;
       case EncounterName.POMP_FILTER: 
       result.deck = this.makePompFilterDeck(); 
       result.loot = this.makePompFilterLoot();
-      result.name = 'Насосно-фильтровальная подстанция'; 
+      result.name = 'Filtering station'; 
       result.hp = 15;
       break;
       case EncounterName.DATA_CACHE_1: 
       result.deck = this.makeDataCache1Deck(); 
       result.loot = this.makeDataCache1Loot();
-      result.name = 'Региональный дата-кэш'; 
+      result.name = 'Regional data cache'; 
       result.hp = 20;
       break;
       case EncounterName.DEAD_TECHNICIAN: 
       result.deck = this.makeTechnicianDeck(); 
       result.loot = this.makeTechnicianLoot();
-      result.name = 'Нейроинтерфейс'; 
+      result.name = 'Neurointerface'; 
       result.hp = 25;
       break;
       case EncounterName.SPHERE: 
       result.deck = this.makeSphereDeck(); 
       result.loot = null;
-      result.name = 'Сфера'; 
+      result.name = 'Sphere'; 
       result.hp = 30;
       break;
       default: throw 'unknown encounter type';

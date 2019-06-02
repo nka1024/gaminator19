@@ -10,6 +10,7 @@ export let CONST = {
   INSTANT_WIN: false,
   INSTANT_LOSE: false,
   SHOW_FPS: false,
+  SHOW_TIMER: false,
   SHUFFLE: true,
   INTRO: true
 };

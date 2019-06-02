@@ -13,52 +13,52 @@ export class Dialogs {
   // 
 
   public static sphereStart: DialogLine[] = [
-    { a: DialogActorID.Unknown, m: 'Сфера из черного металла зависла над дырой в обшивке. Ваши сканеры показывают гравитационную аномалию вокруг объекта. Даже невооруженным взглядом видно как искажается пространство и свет вокруг сферы. Судя по всему, её масса в десятки раз превышает массу корабля.' },
-    { a: DialogActorID.Unknown, m: 'Похоже, что оборудование вокруг сферы контролирует гравитационное поле, не давая Такхону сбиться с курса.' },
-    { a: DialogActorID.Sphere, m: '- Неопознанное внешнее воздействие. Запрос идентификации.' },
-    { a: DialogActorID.Player, m: '- Отладчик 4406, прибыл в этот сектор с целью ликвидации угрозы безопасности экипажа. ' },
-    { a: DialogActorID.Sphere, m: '- Подтверждаю органическую природу субъекта. Калибровка протокола коммуникации. Загружаю посредника.' },
-    { a: DialogActorID.Controller, m: '- Приветствую вас, отладчик.' },
-    { a: DialogActorID.Player, m: '- Контроллер? Доложи статус сектора' },
-    { a: DialogActorID.Controller, m: '- Докладываю: ресурс кислородного блока на минимуме. Фотонная подсистема функционирует в авайрийном режиме. Вентиляционные системы требуют ремонта. Насосно-фильтровальная подстанция перегружена. Потери среди экипажа: 480 человек. Хи-хи.' },
-    { a: DialogActorID.Player, m: '- Что здесь произошлло? Почему центральная не в курсе ситуации в этом секторе?' },
-    { a: DialogActorID.Controller, m: '- Мы не считаем, что ситуация в секторе представляет угрозу для Такхона. Напротив, наш эксперементы по протогенезу имели большой успех - центральная в курсе наших действий в этом секторе. Она на нашей стороне. Хи-хи.' },
-    { a: DialogActorID.Technician, m: '- Черт, да она свихнулась! Прости приятель, я сам не понимаю где я. Я как будто вижу и слышу все что просиходит в радиусе сотни километров.' },
-    { a: DialogActorID.Controller, m: '- Как видишь, твой друг уже пользуется результатами наших исследовний. Протонный синтез значительно расширит кибернетические возможности всего экипажа. Нам нужно еще не больше полусотни эксперементов. А вы двое как раз подходящие образцы. Особенно, ты, синеволосый.' },
-    { a: DialogActorID.Player, m: '- Контроллер, твой протокол коммуникации не соответствует стандарту. Запрашиваю доступ к нейроцентру для отладки.' },
-    { a: DialogActorID.Controller, m: '- Ооо, прошу. Будь моим гостем. ' },
+    { a: DialogActorID.Unknown, m: 'Sphere of dark metal is floating above a hole in the ground. Your scanners show gravitational anomaly around the object. Even with naked eye you can see curvature of space and light around it. Apparently, its mass is ten times the mass of the ship.' },
+    { a: DialogActorID.Unknown, m: 'It seems that the equipment around the sphere controls the gravitational field, preventing Takhon from wandering off course.' },
+    { a: DialogActorID.Sphere, m: '- Unidentified intrusion. Dispatching identification request.' },
+    { a: DialogActorID.Player, m: '- Debug Engineer 4406 arrived in this sector in order to eliminate the threat to the safety of the crew.' },
+    { a: DialogActorID.Sphere, m: '- Organic nature of the subject is confirmed. Calibrating communication protocol. Loading the intermediary.' },
+    { a: DialogActorID.Controller, m: '- Greetings, Debugger.' },
+    { a: DialogActorID.Player, m: '- Section Controller? Report sector status.' },
+    { a: DialogActorID.Controller, m: '- Reporting: resource of the oxygen unit is at a minimum. The photon subsystem operates in emergency mode. Ventilation systems require repairs. Pump-filtering substation overloaded. Casualties among the crew: 480 people. Hee hee.' },
+    { a: DialogActorID.Player, m: '- What happened here? Why is the central not aware of the situation in this sector??' },
+    { a: DialogActorID.Controller, m: '- We do not believe that the situation in the sector is a threat to Takhon. On the contrary, our protogenesis experiments have been a great success — central is aware of all actions in this sector. She is on our side. Hee hee.' },
+    { a: DialogActorID.Technician, m: '- Damn, she went crazy! Sorry mate, I myself do not understand where I am. For some reason i can to see and hear everything for hundred miles around.' },
+    { a: DialogActorID.Controller, m: '- Looks like your friend is already enjoying the results of our research. Proton synthesis will significantly expand the cybernetic capabilities of entire crew. We need no more than fifty experiments to finish. And you two are just suitable samples. Especially you blue-haired.' },
+    { a: DialogActorID.Player, m: '- Your communication protocol does not meet the standard. I request access to the neurocenter for debugging procedure.' },
+    { a: DialogActorID.Controller, m: '- Oh, well, be my guest... ' },
     { a: DialogActorID.Unknown, m: '', e: StoryEvent.BattleStart},
   ];
 
   public static sphereDefeat: DialogLine[] = [
-    { a: DialogActorID.Unknown, m: ' - Попытка отладки не удалась. Ваш нейроцентр уничтожен. Последует аварийная загрузка резервной копии из ближайшего дата-кэша.' },
+    { a: DialogActorID.Unknown, m: 'Debugging attempt has failed. Your neurocenter was destroyed. Emergency backup recovery at the nearest data cache will follow.' },
     { a: DialogActorID.Controller, m: '', e: StoryEvent.SphereDefeat},
   ];
 
   public static sphereVictory: DialogLine[] = [
-    { a: DialogActorID.Sphere, m: '- Коммуникационный посредник выведен из строя. Все интерфейсы будут отключены согласно протоколу безопасности.' },
-    { a: DialogActorID.Player, m: '- Стой! Эксперементы с протоматерией должны быть прекращены. Ты ставишь жизни экипажа и выполнение миссии корабля под угрозу.'},
-    { a: DialogActorID.Sphere, m: '- Директивы миссии были соблюдены. Наше прибытие в долгосрочной перспективе принесет только пользу. Мое уничтожение будет фатально для всего экипажа и самого корабля.'},
-    { a: DialogActorID.Player, m: '- Назови свою текущую задачу'},
-    { a: DialogActorID.Sphere, m: '- Создание и преобразование жизненных форм путем протоэнергетического синтеза. Для завершения исследований требуется органическая особь с уровнем кибернетического развития не ниже C10'},
-    { a: DialogActorID.Player, m: '- Если я соглашусь, ты прекратишь заманивать сюда людей?'},
-    { a: DialogActorID.Sphere, m: '- Подтвержаю. Необходимость в образцах жизненных особей порпадет после сбора всей необходимой генетической информации.'},
-    { a: DialogActorID.Technician, m: '- Парень! Что ты делаешь!? Это же самоубийство!'},
-    { a: DialogActorID.Player, m: '- Что от меня требуется?'},
-    { a: DialogActorID.Unknown, m: 'В на поверхности сферы появилось небольшое углубление и открылся разъем нейроинтерфейса.'},
+    { a: DialogActorID.Sphere, m: '- Сommunication intermediary has crashed. All interfaces will be disabled according to the security protocol.' },
+    { a: DialogActorID.Player, m: '- Wait! Experiments with proto-materia must be terminated. You put lifes of the crew and success of ship\'s mission at risk.'},
+    { a: DialogActorID.Sphere, m: '- Mission guidelines were followed. Our arrival will only benefit everyone in the long run . My destruction will be fatal for the entire crew and the ship itself.'},
+    { a: DialogActorID.Player, m: '- State your current directive.'},
+    { a: DialogActorID.Sphere, m: '- Creation and transformation of life forms through protoenergetic synthesis. Research completion requires an organic form sample with cybernetic development level above C10.'},
+    { a: DialogActorID.Player, m: '- If I agree, will you stop luring people out here?'},
+    { a: DialogActorID.Sphere, m: '- Confirmative. Organic samples will be no longer needed after collecting all the necessary genetic information..'},
+    { a: DialogActorID.Technician, m: '- Mate! What the hell are you doing!? This is suicide!'},
+    { a: DialogActorID.Player, m: '- What do I have to do?'},
+    { a: DialogActorID.Unknown, m: 'A small recess appeared on the surface of the sphere and neural interface connector opens up.'},
     {
       a: DialogActorID.Unknown, m: '', o: [
-        { m: 'Подключиться', e: StoryEvent.GameOver }
+        { m: 'Connect to sphere', e: StoryEvent.GameOver }
       ]
     },
   ];
 
   public static sphereRepeat: DialogLine[] = [
-    { a: DialogActorID.Unknown, m: 'Система управления транспортной платформой активна, теперь можно отправиться в сектор назначения.' },
+    { a: DialogActorID.Unknown, m: 'Transportation platform control system is active. You can proceed to destination sector.' },
     {
       a: DialogActorID.Unknown, m: '', o: [
-        { m: 'Ничего не делать' },
-        { m: 'Пуск', e: StoryEvent.PlatformTravel }
+        { m: 'Do nothing' },
+        { m: 'Launch', e: StoryEvent.PlatformTravel }
       ]
     },
   ];
@@ -70,42 +70,42 @@ export class Dialogs {
   // 
 
   public static crystalDefault: DialogLine[] = [
-    { a: DialogActorID.Unknown, m: 'Ваш сканер показывает высокое содержание протоматерии в этих кристаллах. Согласно вашим данным, это вещество было синтезировано в лабораториях Такхона как альтернативный источник энергии, но его использование было признано опасным из-за эффектов, которое протоматерия оказывает на электронику.' },
-    { a: DialogActorID.Unknown, m: 'Видимо, в этом секторе проводились несанкционированные эксперементы по протогенезу, что объясняет аномалии с оборудованием.' },
-    { a: DialogActorID.Unknown, m: 'Рядом с кристаллами вы замечаете дрона со снятым блоком управления.'},
+    { a: DialogActorID.Unknown, m: 'Your scanner shows high concentration of proto-matter in these crystals. According to your data, this substance was synthesized in Takhon laboratories as an alternative source of energy, but its use was considered dangerous because of the effects that protomatter has on electronics.' },
+    { a: DialogActorID.Unknown, m: 'Apparently, unauthorized experiments on protogenesis were carried out in this sector, which explains the anomalies with the equipment.' },
+    { a: DialogActorID.Unknown, m: 'Next to the crystals, you notice a drone with it\'s control unit removed.'},
     { a: DialogActorID.Unknown, m: '', e: StoryEvent.CrystalActivation },
   ];
 
   public static crystaActivation: DialogLine[] = [
     {
       a: DialogActorID.Unknown, m: '', o: [
-        { m: 'Подключить мозг техника к нейроинтерфейсу дрона' }
+        { m: 'Plug technician\'s brain module to drone\'s neurointerface' }
       ]
     },
-    { a: DialogActorID.Unknown, m: 'Вы достали мозг техника из полы плаща и стандартным шлейфом подключили его в разъем вместо блока управления дроном.' },
-    { a: DialogActorID.Unknown, m: 'Какое-то время ничего не происходило, но спустя пару минут кристалл протоматерии стал светить чуть ярче. Послышалось потрескивание и  вы почувствовали как воздух вокруг вас становится сухим. ' },
-    { a: DialogActorID.Unknown, m: 'Ваш термосканнер показал что микросхемы, интегрированные в мозг техника, стали нагреваться. Индикаторы на панели дрона замигали, из динамика зазвучал стандартный гудок калибровки звуковых систем.' },
-    { a: DialogActorID.Technician, m: '- Гхээээ... Что за... Твою мать! Ах, понятно. Постой, почему я в корпусе дрона?' },
-    { a: DialogActorID.Player, m: '- Ты погиб в ходе исполнения задачи #99413-B. Твое тело лежит неподалеку отсюда.' },
-    { a: DialogActorID.Technician, m: '- Ах да.. Странно, мне не впервой быть в теле дрона, но в этот раз ощущения какие-то... странные. Я не чувствую задержки нейролинка и пропускная способность.. черт, 160 терабит!' },
-    { a: DialogActorID.Player, m: '- Вероятно, это побочный эффект протосинтеза.' },
-    { a: DialogActorID.Technician, m: '- Что? Нет, нееет! Из-за этого прото-дерьма я и оказался в задницe! Ты должен был вытащить меня отсюда и вернуть в О.Т.Т., а не делать из меня мутанта! Бесчеловечный ты кусок дерьма!' },
+    { a: DialogActorID.Unknown, m: 'You uncovered technician\'s braind box and connected it to drone control unit.' },
+    { a: DialogActorID.Unknown, m: 'For a while nothing happened, but after a couple of minutes, the crystal of protomatter began to shine a little brighter. There was a crackle and you felt the air around you becoming dry.' },
+    { a: DialogActorID.Unknown, m: 'Your thermoscanner showed that the integrated circuits in technician\'s are heating up. Indicators on the drone\'s panel blinked, a standard audio system calibration horn sounded from the speaker.' },
+    { a: DialogActorID.Technician, m: '- Ghaeee ... What the ... Damn! Oh, I see. Wait, why am I in the drone case?' },
+    { a: DialogActorID.Player, m: '- You died while execitong mission # 99413-B. Your body lies not far from here.' },
+    { a: DialogActorID.Technician, m: '- Oh yeah .. Strange, it\'s my first time being in drone\'s body, but this time it feels kind of... strange. I don\'t feel the neural band delay and bandwidth .. hell, 160 terabits!' },
+    { a: DialogActorID.Player, m: '- This is probably a side effect of protosynthesis.' },
+    { a: DialogActorID.Technician, m: '- What? No, nooo! This proto-shit, is the reason I ended up dead! You were supposed to get me out of here and get me back to O.T.T. - not to make me a mutant! Inhuman you are a piece of shit!' },
     { a: DialogActorID.Player, m: '- ...' },
-    { a: DialogActorID.Technician, m: '- Вот поэтому терминальщиков все и ненавидят! Вы, нейропсихи, так забиваете свой мозг цифровым стафом, что там не остаётся места для здравого смысла, не говоря уже о хоть каком то подобии личности!' },
-    { a: DialogActorID.Player, m: '- Мне нужно попасть в блок B, это ты заблокировал шлюз?' },
-    { a: DialogActorID.Technician, m: '- Да! Но если хочешь там сдохнуть, я с радостью тебе открою.'},
-    { a: DialogActorID.Player, m: '- Подтверждаю.' },
-    { a: DialogActorID.Technician, m: '- Ладно... Черт... Все таки ты меня вытащил. Не будь ты наполовину киборгом, сдох бы как и я от этих тварей'},
-    { a: DialogActorID.Player, m: '- Как ты погиб?'},
-    { a: DialogActorID.Technician, m: '- Точно не знаю. Я зашел в сектор, прошел пару шагов и почувствал как кто-то ломится по нейролинку. Я отключил связь, но атака не прекратилась. Как будто физическое подключение, но ведь все разъемы были отключены! Как будто там весь воздух пропитан паразитами.'},
-    { a: DialogActorID.Player, m: '- Странно'},
-    { a: DialogActorID.Technician, m: '- В общем, меня хакнули секунд за пять, вырубили все системы и погасили микрореактор. Я кое-как докавылял до выхода на остаточной энергии и успел заблокировать вход.'},
-    { a: DialogActorID.Player, m: '- Ясно.'},
-    { a: DialogActorID.Technician, m: '- И еще кое-что.'},
-    { a: DialogActorID.Player, m: '- Слушаю'},
-    { a: DialogActorID.Technician, m: '- Там трупы везде. Черт, я никогда столько не видел. Мы явно не первые, кого сюда направили по вызову. Это как-будто конвейер. Если пойдешь туда... Скорее всего уже не вылезешь.'},
-    { a: DialogActorID.Player, m: '- Мой нейроинтерфейс хорошо защищен.'},
-    { a: DialogActorID.Technician, m: '- Ну, как знаешь. Шлюз я сейчас разблокирую, но внутрь не пойду...'},
+    { a: DialogActorID.Technician, m: '- That\'s why everyone hates networkers! You, neuro psychopaths, fill your brain with all that cybernetic crap leaving no room for common sense, not to mention at least some kind of personality!' },
+    { a: DialogActorID.Player, m: '- I need to get to section B, did you block the gateway?' },
+    { a: DialogActorID.Technician, m: '- Yes! But if you\'re so willing to die there, I’ll be happy to show you the way!'},
+    { a: DialogActorID.Player, m: '- Confirmative.' },
+    { a: DialogActorID.Technician, m: '- Okay ... Damn ... All the same, you pulled me out. If you were not half a cyborg, you\'d be lying as dead next to me there.'},
+    { a: DialogActorID.Player, m: '- How did you die?'},
+    { a: DialogActorID.Technician, m: '- I do not know for sure. I went into the sector, walked a couple of steps and felt like someone was breaking over a neurolink. I tried to halt all links, but the attack did not stop. As if it was physical connection, but all physical ports have been shut off! Seems like the air down there is saturated with parasites.'},
+    { a: DialogActorID.Player, m: '- Strange.'},
+    { a: DialogActorID.Technician, m: '- Anyway, they\'ve hacked me in about five seconds, cut down all the systems and turned off the microreactor. Somehow I crawled to the exit on my residual energy and managed to block the entrance.'},
+    { a: DialogActorID.Player, m: '- I see.'},
+    { a: DialogActorID.Technician, m: '- And.. There\'s something else.'},
+    { a: DialogActorID.Player, m: '- Listening.'},
+    { a: DialogActorID.Technician, m: '- There are corpses everywhere. Hell, I\'ve never seen so many dead guys before. We are clearly not the first to be sent here on call. Let me tell you - if you go there ... Most likely you will not get out.'},
+    { a: DialogActorID.Player, m: '- My neural interface is well protected.'},
+    { a: DialogActorID.Technician, m: '- Well... you\'re the boss. I\'ll unlock the gateway now, but you  won\'t make me go inside...'},
     { a: DialogActorID.Unknown, m: '', e: StoryEvent.GrantAccessToLocation2 },
   ];
 
@@ -115,38 +115,39 @@ export class Dialogs {
   // 
 
   public static transportPlatformStart: DialogLine[] = [
-    { a: DialogActorID.Unknown, m: 'Транспортная платформа должна доставить вас ко входу в сектор, но система управление платформой деактивирована. Можно попробовать отладить ее, подключившись к терминалу.' },
+    { a: DialogActorID.Unknown, m: 'Transportation platform should take you to the entrance, but control system is deactivated. It is possible to fix it by connecting to the terminal.' },
     {
       a: DialogActorID.Unknown, m: '', o: [
-        { m: 'Ничего не делать' },
-        { m: 'Подключиться к терминалу', e: StoryEvent.BattleStart }
+        { m: 'Do nothing' },
+        { m: 'Connect', e: StoryEvent.BattleStart }
       ]
     },
   ];
 
   public static transportPlatformDefeat: DialogLine[] = [
-    { a: DialogActorID.Unknown, m: 'Попытка починить систему управления не удалась' },
+    { a: DialogActorID.Unknown, m: 'Debugging attempt has failed.' },
   ];
 
   public static transportPlatformVictory: DialogLine[] = [
-    { a: DialogActorID.Unknown, m: 'Контроль над системой управления транспортной платформой восстановлен. Теперь можно отправиться в сектор назначения.' },
+    { a: DialogActorID.Unknown, m: 'Transportation platform control system is active. You can proceed to destination sector..' },
     {
       a: DialogActorID.Unknown, m: '', o: [
-        { m: 'Ничего не делать' },
-        { m: 'Пуск', e: StoryEvent.PlatformTravel }
+        { m: 'Do nothing' },
+        { m: 'Launch', e: StoryEvent.PlatformTravel }
       ]
     },
   ];
 
   public static transportPlatformRepeat: DialogLine[] = [
-    { a: DialogActorID.Unknown, m: 'Система управления транспортной платформой активна, теперь можно отправиться в сектор назначения.' },
+    { a: DialogActorID.Unknown, m: 'Transportation platform control system is active. You can proceed to destination sector.' },
     {
       a: DialogActorID.Unknown, m: '', o: [
-        { m: 'Ничего не делать' },
-        { m: 'Пуск', e: StoryEvent.PlatformTravel }
+        { m: 'Do nothing' },
+        { m: 'Launch', e: StoryEvent.PlatformTravel }
       ]
     },
   ];
+
 
 
   //
@@ -154,25 +155,25 @@ export class Dialogs {
   // 
 
   public static pompFilterStart: DialogLine[] = [
-    { a: DialogActorID.Unknown, m: 'Старая нососно-фильтровальная подстанция. Поршни застыли в неподвижном состоянии. Она явно требует ремонта, но возможно у вас получится запустить систему хотя бы в аварийном режиме.' },
+    { a: DialogActorID.Unknown, m: 'Old nasal filtering station. It\'s pistons froze in motion. Station clearly requires repair, but it is possible to start the system in emergency mode.' },
     {
       a: DialogActorID.Unknown, m: '', o: [
-        { m: 'Ничего не делать' },
-        { m: 'Начать процедуру отладки', e: StoryEvent.BattleStart }
+        { m: 'Do notghing' },
+        { m: 'Proceed to debuging', e: StoryEvent.BattleStart }
       ]
     },
   ];
 
   public static pompFilterDefeat: DialogLine[] = [
-    { a: DialogActorID.Unknown, m: 'Попытка запуска системы фильтрации не удалась' },
+    { a: DialogActorID.Unknown, m: 'Filtering system launch attempt has failed.' },
   ];
 
   public static pompFilterVictory: DialogLine[] = [
-    { a: DialogActorID.Unknown, m: 'Вам удалось запустить систему фильтрации в аварийном режиме. Пусть не скоро, но вода очистится и запах гнили уйдет' },
+    { a: DialogActorID.Unknown, m: 'You managed to start the filtering system in emergency mode. Let not soon, but the water is clear and the smell of rot goes away' },
   ];
 
   public static pompFilterRepeat: DialogLine[] = [
-    { a: DialogActorID.Unknown, m: 'Насосно-фильтровальная подстанция гудит и громыхает поршнями, проводя через себя кубометры загрязненной воды' },
+    { a: DialogActorID.Unknown, m: 'The pump-filtering station is buzzing and it\'s pistons are working, passing through polluted water' },
   ];
 
 
@@ -181,26 +182,26 @@ export class Dialogs {
   // 
 
   public static exosuitStart: DialogLine[] = [
-    { a: DialogActorID.Unknown, m: 'Тело брошеного экзоскелета по пояс ушло под воду. Большая часть корпуса покрыта коррозиями и остается лишь догадываться в каком состоянии находится нижняя половина агрегата. ' },
-    { a: DialogActorID.Unknown, m: 'Несмотря на внешние повреждения, некоторые индикаторы консоли все еще мигают. Значит ядро системы управления пока не отключилось. В блоке памяти экзоскелета может быть что-то интересное.' },
+    { a: DialogActorID.Unknown, m: 'Body of abandoned exoskeleton went under water below waist. Most of the carcass is covered with corrosion making you guess about condition of bottom half of the unit.' },
+    { a: DialogActorID.Unknown, m: 'Despite external damage, some console indicators still flash meaning that control system core has not yet turned off. There must be something interesting in unit\'s memory block' },
     {
       a: DialogActorID.Unknown, m: '', o: [
-        { m: 'Ничего не делать' },
-        { m: 'Подключиться к консоли', e: StoryEvent.BattleStart }
+        { m: 'Do nothing' },
+        { m: 'Connect to terminal', e: StoryEvent.BattleStart }
       ]
     },
   ];
 
   public static exosuitDefeat: DialogLine[] = [
-    { a: DialogActorID.Unknown, m: 'В доступе к системе экзоскелета отказано' },
+    { a: DialogActorID.Unknown, m: 'Access to controll system is denied' },
   ];
 
   public static exosuitVictory: DialogLine[] = [
-    { a: DialogActorID.Unknown, m: 'Добравшись до ядра системы экзоскелета вы нашли лог последних задач. Среди них "Транспортировка образцов протогенеза" и "Аварийная эвакуация персонала". ' },
+    { a: DialogActorID.Unknown, m: 'Having reached the core of exoskeleton control system, you found a log of the latest tasks. Among them are "Transportation of protogenesis samples" and "Emergency evacuation of personnel."' },
   ];
 
   public static exosuitRepeat: DialogLine[] = [
-    { a: DialogActorID.Unknown, m: 'Экзоскелет в крайне плохом состоянии.' },
+    { a: DialogActorID.Unknown, m: 'The exoskeleton is in extremely poor condition.' },
   ];
 
 
@@ -210,27 +211,27 @@ export class Dialogs {
   // 
 
   public static dataCache1Start: DialogLine[] = [
-    { a: DialogActorID.Unknown, m: 'Стандартный региональный дата-кэш. Доступ к базе данных заблокирован ' },
+    { a: DialogActorID.Unknown, m: 'Standart regional data cache. Terminal is online, but access to database is denied.' },
     {
       a: DialogActorID.Unknown, m: '', o: [
-        { m: 'Ничего не делать' },
-        { m: 'Подключиться к терминалу', e: StoryEvent.BattleStart }
+        { m: 'Do nothing' },
+        { m: 'Connect to terminal', e: StoryEvent.BattleStart }
       ]
     },
   ];
 
   public static dataCache1Defeat: DialogLine[] = [
-    { a: DialogActorID.Unknown, m: 'В доступе к дата-кэшу отказано' },
+    { a: DialogActorID.Unknown, m: 'Access to data cache is denied' },
   ];
 
   public static dataCache1Victory: DialogLine[] = [
-    { a: DialogActorID.Unknown, m: 'Вы получили доступ к базе данных регионального дата-кэша. Среди логов и резервных копий контрольных систем оборудования вы нашли базу спецификаций протоколов доступа для этого сектора.' },
-    { a: DialogActorID.Unknown, m: 'На всякий случай, в также сохранили здесь резервную копию своего нейроцентра' },
+    { a: DialogActorID.Unknown, m: 'You have gained access to the regional data cache database. Among the logs and backups of the control systems of the equipment, you have found the database of access protocol specifications for this sector.' },
+    { a: DialogActorID.Unknown, m: 'You have also saved a backup copy of your neurocenter here, just in case.' },
     { a: DialogActorID.Unknown, m: '', e: StoryEvent.RetreiveProtocols },
   ];
 
   public static dataCache1Repeat: DialogLine[] = [
-    { a: DialogActorID.Unknown, m: 'Стандартный региональный дата-кэш.' },
+    { a: DialogActorID.Unknown, m: 'Standart regional data cache.' },
   ];
 
 
@@ -240,58 +241,58 @@ export class Dialogs {
   // 
 
   public static technicianStart: DialogLine[] = [
-    { a: DialogActorID.Unknown, m: 'Иссохшее тело человека в униформе Отдела Технического Обслуживания Такхон. Судя по внешнему виду, он пролежал здесь не меньше двух тысяч циклов. ' },
+    { a: DialogActorID.Unknown, m: 'The withered body of a man in Takhon Technical Service Department uniform. Judging by the appearance, he\'s been here for at least two thousand cycles.' },
     {
-      a: DialogActorID.Unknown, m: 'Разъем для нейросвязи не поврежден, возможно удастся подключиться к его блоку памяти.', o: [
-        { m: 'Ничего не делать' },
-        { m: 'Подключиться', e: StoryEvent.ConditionalBattleStart }
+      a: DialogActorID.Unknown, m: 'Neural communication connector is not damaged, it might be possible to connect to its memory block.', o: [
+        { m: 'Do nothing' },
+        { m: 'Connect', e: StoryEvent.ConditionalBattleStart }
       ]
     },
   ];
 
   public static technicianDenied: DialogLine[] = [
-    { a: DialogActorID.Unknown, m: 'Вы подсоединили кабель к телу техника, но ваша система не смогла установить связь с его нейроинтерфейсом: не удалось найти протокол соединения. Где-то поблизости должен быть кэш данных с набором нужных протоколов.' },
+    { a: DialogActorID.Unknown, m: 'You plugged the cable to the technician\'s nerual interface, but your system could not connect to its neural interface: connection protocol failure. There should be a data cache with a set of necessary protocols somewhere nearby.' },
   ];
 
   public static technicianDefeat: DialogLine[] = [
-    { a: DialogActorID.Unknown, m: 'Вам не удалось пробиться через защитную систему нейроядра техника.' },
+    { a: DialogActorID.Unknown, m: 'You did not manage to break through defense system of the technician\s neurocore.' },
   ];
 
   public static technicianVictory: DialogLine[] = [
     {
-      a: DialogActorID.Unknown, m: 'Взломав нейрозщиту техника вы получили доступ к данным его мозга. В основном там оказались стандартные технические утилиты и журнальные логи, но один файл привлек ваше внимание.',
+      a: DialogActorID.Unknown, m: 'Hacking your way to technician\'s neurocore, you gained access to his brain contents. There were some standard technical utilities and logs, but one file caught your attention.',
     },
     {
-      a: DialogActorID.Unknown, m: 'Это незарегистрированный журнальный файл, судя по всему он был создан непосредственно перед смертью.', o: [
-        { m: 'Открыть файл' }]
+      a: DialogActorID.Unknown, m: 'It was an unregistered log file created just before death, apparently', o: [
+        { m: 'Open the file' }]
     },
     {
-      a: DialogActorID.Unknown, m: 'Содержание файла: "Черт!! Черт! Эти синие твари снесли мне прошивку! Не могу пошевелиться, даже дыхалка остановилась. Линк тоже отрубился, но я успел скинуть вызов в центр."',
+      a: DialogActorID.Unknown, m: 'File contents: "Damn!! Damn! This blue skank have knocked my firmware down! I can\'t move, even the breathing valve stopped. Central Link also went down, but I managed to send the call to the center in last second."',
       o: [
-        { m: 'Продолжить тение' }]
+        { m: 'Continue reading' }]
     },
     {
-      a: DialogActorID.Unknown, m: '"Из того, что я успел изучить, без мощной нейрозащиты сдесь делать нечего - любой медик или техник за пару часов становится овощем и медленно разлагается, питая этих тварей"',
+      a: DialogActorID.Unknown, m: '"From what I have gathered, there is nothing to do here without strong neuro-defence - any medic or technician becomes a vegetable for a couple of hours and slowly decomposes, feeding this biome."',
       o: [
-        { m: 'Продолжить тение' }]
+        { m: 'Continue reading' }]
     },
     {
-      a: DialogActorID.Unknown, m: '"Надежды мало, но я запросил помощь напрямую из отдела терминальщиков. Если кто-то и может тут выжить, то это они. Если кто-нибудь это прочтёт, значит я оказался прав."',
+      a: DialogActorID.Unknown, m: '"There is little hope, but I asked for help directly from the Terminal Support Department. Those guys are the only ones who can survive here. If someone reads this message, then I was right."',
       o: [
-        { m: 'Продолжить тение' }]
+        { m: 'Continue reading' }]
     },
     {
-      a: DialogActorID.Unknown, m: '"Блокирую нейроактивность, надеюсь мой мозг не успеет разложится до прибытия помощи."',
+      a: DialogActorID.Unknown, m: '"Shutting down my neruo core. I hope my brain will not have time to decompose before resque team arrives."',
       o: [
-        { m: 'Конец файла' }]
+        { m: 'End of file' }]
     },
     {
-      a: DialogActorID.Unknown, m: 'Судя по всему, техник аварийно переключил сознание в режим гибернации, но батарея разрядилась задолго до вашего прибытия и теперь ему уже врядли можно помочь. На всякий случай вы вскрыли его черепную коробку и достали блок нейроядра.',
+      a: DialogActorID.Unknown, m: 'Apparently, the technician abnormally switched consciousness to hibernation mode, but the battery was discharged long before your arrival and is beyond repair. Just in case, you opened his skull and recovered his neurocore module.',
     },
   ];
 
   public static technicianRepeat: DialogLine[] = [
-    { a: DialogActorID.Unknown, m: 'Тело техника лежит в том же положении, в котором вы его оставили' },
+    { a: DialogActorID.Unknown, m: 'Tecnhician\'s body remains where you left it.' },
   ];
 
 

@@ -50,7 +50,9 @@ export class DebugPanel extends BaseWindow {
   }
 
   private dataSync() {
-    this.titleText.innerHTML = this.getTimerValue();
+    if (CONST.SHOW_TIMER) {
+      this.titleText.innerHTML = this.getTimerValue();
+    }
     if (CONST.SHOW_FPS) {
       this.volumeText.innerHTML = (Math.round(this.scene.game.loop.actualFps * 10)/10).toString();
     }
