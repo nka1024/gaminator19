@@ -124,7 +124,7 @@ export class BoardSpotsContainer extends Phaser.GameObjects.Container {
     if (this.cursorRow == 0 && y == -1) {
       return
     }
-    if (this.cursorRow == 1 && y == 11) {
+    if (this.cursorRow == 1 && y == 1) {
       return
     }
     this.putCursor(this.cursorRow + y, this.cursorCol + x, null);
